@@ -1,10 +1,23 @@
+import { products } from "@/data/products";
+import ProductCard from "@/app/components/ProductCard";
 
 export default function Home() {
   return (
-    <main className="min-h-screen bg-gray-100 flex items-center justify-center">
-      <h1 className="text-4xl font-bold text-blue-600">
-        Mi Ecommerce 🚀
-      </h1>
+    <main style={{ padding: "20px" }}>
+      <h1>Mi Ecommerce</h1>
+
+      <div
+        style={{
+          display: "grid",
+          gridTemplateColumns: "repeat(auto-fill, minmax(200px, 1fr))",
+          gap: "20px",
+          marginTop: "20px",
+        }}
+      >
+        {products.map((product) => (
+          <ProductCard key={product.id} product={product} />
+        ))}
+      </div>
     </main>
   );
 }

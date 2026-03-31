@@ -1,6 +1,9 @@
 import Image from "next/image";
+import { useContext } from "react";
+import { CartContext } from "@/context/CartContext";
 
 export default function CartItem({ product }) {
+  const { removeFromCart } = useContext(CartContext);
   return (
     <div
       style={{
@@ -19,8 +22,24 @@ export default function CartItem({ product }) {
       />
 
       <h3>{product.title}</h3>
-
+      <button
+        onClick={() => {
+          removeFromCart(product.id);
+        }}
+        style={{
+          width: "100%",
+          padding: "8px",
+          background: "black",
+          color: "white",
+          border: "none",
+          borderRadius: "5px",
+          cursor: "pointer",
+        }}
+      >
+        Eliminar
+      </button>
       <p style={{ fontWeight: "bold" }}>${product.price}</p>
+      <p>Cantidad: {product.quantity}</p>
     </div>
   );
 }

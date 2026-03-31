@@ -3,6 +3,7 @@ import { useContext } from "react";
 import { CartContext } from "@/context/CartContext";
 
 export default function CartItem({ product }) {
+  const { increaseQuantity, decreaseQuantity } = useContext(CartContext);
   const { removeFromCart } = useContext(CartContext);
   return (
     <div
@@ -39,7 +40,11 @@ export default function CartItem({ product }) {
         Eliminar
       </button>
       <p style={{ fontWeight: "bold" }}>${product.price}</p>
-      <p>Cantidad: {product.quantity}</p>
+      <button onClick={() => decreaseQuantity(product.id)}>-</button>
+
+      <span>{product.quantity}</span>
+
+      <button onClick={() => increaseQuantity(product.id)}>+</button>
     </div>
   );
 }

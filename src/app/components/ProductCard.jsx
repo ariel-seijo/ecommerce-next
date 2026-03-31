@@ -1,6 +1,11 @@
+"use client";
+
 import Image from "next/image";
+import { useContext } from "react";
+import { CartContext } from "@/context/CartContext";
 
 export default function ProductCard({ product }) {
+  const { addToCart } = useContext(CartContext);
   return (
     <div
       style={{
@@ -23,6 +28,7 @@ export default function ProductCard({ product }) {
       <p style={{ fontWeight: "bold" }}>${product.price}</p>
 
       <button
+        onClick={() => addToCart(product)}
         style={{
           width: "100%",
           padding: "8px",

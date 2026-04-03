@@ -18,10 +18,6 @@ export default function Cart() {
         return acc + product.price * product.quantity;
     }, 0);
 
-    const total = cart.reduce((acc, product) => {
-        return acc + product.price * product.quantity;
-    }, 0);
-
     if (cart.length > 0) {
         return (
             <div
@@ -36,10 +32,7 @@ export default function Cart() {
                     <CartItem key={product.id} product={product} />
                 ))}
                 <h2>Total: ${total.toFixed(2)}</h2>
-<<<<<<< HEAD
                 <button onClick={clearCart}>Vaciar carrito</button>
-=======
->>>>>>> 54f4b45bbeddc54ceadcbdae0e6a1cc6d355dc0f
             </div>
 
         )

@@ -1,11 +1,27 @@
 "use client";
 
+import { useEffect } from "react";
+
 import { createContext, useState } from "react";
 
 export const CartContext = createContext();
 
 export function CartProvider({ children }) {
-  const [cart, setCart] = useState([]);
+  const [cart, setCart] = useState(() => {
+    if (typeof window !== "undefined") {
+      const storedCart = localStorage.getItem("cart");
+      return storedCart ? JSON.parse(storedCart) : [];
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    localStorage.setItem("cart", JSON.stringify(cart));
+  }, [cart]);
+
+  function clearCart() {
+    setCart([]);
+  }
 
   function increaseQuantity(id) {
     setCart(
@@ -54,6 +70,7 @@ export function CartProvider({ children }) {
         removeFromCart,
         increaseQuantity,
         decreaseQuantity,
+        clearCart,
       }}
     >
       {children}

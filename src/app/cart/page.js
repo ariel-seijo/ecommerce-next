@@ -32,7 +32,16 @@ export default function Cart() {
                     <CartItem key={product.id} product={product} />
                 ))}
                 <h2>Total: ${total.toFixed(2)}</h2>
-                <button onClick={clearCart}>Vaciar carrito</button>
+                <button
+                    style={{
+                        width: "100%",
+                        padding: "8px",
+                        background: "black",
+                        color: "white",
+                        border: "none",
+                        borderRadius: "5px",
+                        cursor: "pointer",
+                    }} onClick={clearCart}>Vaciar carrito</button>
             </div>
 
         )

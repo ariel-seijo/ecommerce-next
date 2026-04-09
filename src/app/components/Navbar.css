@@ -1,0 +1,108 @@
+/* CONTENEDOR GENERAL */
+.navbar {
+  width: 100%;
+  border-bottom: 1px solid #ddd;
+  font-family: sans-serif;
+}
+
+/* 🔝 NAVBAR SUPERIOR */
+.navbar-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 15px 30px;
+  border-bottom: 1px solid #eee;
+}
+
+/* LOGO */
+.navbar-logo {
+  font-size: 20px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* BUSCADOR */
+.navbar-search {
+  display: flex;
+  align-items: center;
+  background: #f5f5f5;
+  padding: 8px 12px;
+  border-radius: 8px;
+  width: 40%;
+  transition: 0.2s;
+}
+
+.navbar-search:focus-within {
+  background: #eaeaea;
+}
+
+.navbar-search input {
+  border: none;
+  outline: none;
+  background: transparent;
+  margin-left: 8px;
+  width: 100%;
+  font-size: 14px;
+}
+
+/* ICONOS */
+.navbar-icons {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+.navbar-icon {
+  cursor: pointer;
+  transition:
+    transform 0.2s,
+    opacity 0.2s;
+}
+
+.navbar-icon:hover {
+  transform: scale(1.1);
+  opacity: 0.8;
+}
+
+/* CARRITO CONTADOR */
+.cart-badge {
+  position: absolute;
+  top: -8px;
+  right: -10px;
+  background: red;
+  color: white;
+  border-radius: 50%;
+  font-size: 12px;
+  padding: 2px 6px;
+}
+
+/* 🔽 NAVBAR INFERIOR */
+.navbar-bottom {
+  padding: 12px 30px;
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+
+/* LINKS */
+.navbar-link {
+  cursor: pointer;
+  font-weight: 500;
+  position: relative;
+}
+
+/* EFECTO HOVER PRO */
+.navbar-link::after {
+  content: "";
+  position: absolute;
+  width: 0%;
+  height: 2px;
+  bottom: -4px;
+  left: 0;
+  background: black;
+  transition: 0.3s;
+}
+
+.navbar-link:hover::after {
+  width: 100%;
+}

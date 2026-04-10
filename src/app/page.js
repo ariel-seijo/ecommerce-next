@@ -26,7 +26,7 @@ export default function Home() {
 
   return (
     <>
-      <Header />  
+      <Header changeFilters={setFilters} />
       <Products products={filteredProducts} />
     </>
   );

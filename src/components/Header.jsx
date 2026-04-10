@@ -1,10 +1,10 @@
 import Filters from "./Filters";
 
-export default function Header() {
+export default function Header({ changeFilters }) {
   return (
     <header>
       <h1>Shopping Cart</h1>
-      <Filters />
+      <Filters onChange={changeFilters} />
     </header>
   );
 }

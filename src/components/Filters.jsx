@@ -1,12 +1,10 @@
 import "./Filters.css";
-import { useState, useId } from "react";
-import { FiltersContext } from "../context/FiltersContext";
-import { useContext } from "react";
+import { useId } from "react";
+import { useFilters } from "../hooks/useFilters";
 export default function Filters() {
-  const [minPrice, setMinPrice] = useState(0);
   const [priceFilterId] = useId();
   const [categoryFilterId] = useId();
-  const { setFilters } = useContext(FiltersContext);
+  const { filters, setFilters } = useFilters();
   /*************  ✨ Windsurf Command ⭐  *************/
   /**
    * Handles changes to the minimum price filter.
@@ -16,13 +14,13 @@ export default function Filters() {
    */
   /*******  35ad29f7-0e07-45cd-8053-ba5f031a918d  *******/
   const handleMinPriceChange = (e) => {
-    setMinPrice(e.target.value);
     setFilters((prev) => ({ ...prev, minPrice: e.target.value }));
   };
 
   const handleCategoryChange = (e) => {
     setFilters((prev) => ({ ...prev, category: e.target.value }));
   };
+
   return (
     <section className="filters">
       <div>
@@ -44,12 +42,12 @@ export default function Filters() {
           type="range"
           name="price"
           id={priceFilterId}
-          value={minPrice}
+          value={filters.minPrice}
           min="0"
           max="100"
           onChange={handleMinPriceChange}
         />
-        <span>${minPrice}</span>
+        <span>${filters.minPrice}</span>
       </div>
     </section>
   );

@@ -49,6 +49,7 @@
   border-radius: 10px;
   overflow: hidden;
   background: #fff;
+  object-fit: cover;
 }
 
 /* info */

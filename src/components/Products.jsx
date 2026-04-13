@@ -7,7 +7,13 @@ export default function Products({ products }) {
         {products.slice(0, 10).map((product) => (
           <li key={product.id} className="card">
             <div className="img-container">
-              <Image src={product.thumbnail} alt={product.title} fill />
+              <Image
+                src={product.thumbnail}
+                alt={product.title}
+                fill
+                sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1200px) 25vw, 200px"
+                priority={product.id <= 2}
+              />
             </div>
 
             <div className="info">

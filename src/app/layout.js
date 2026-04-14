@@ -1,3 +1,4 @@
+import "./globals.css";
 import { FiltersProvider } from "@/context/FiltersContext";
 
 export default function RootLayout({ children }) {

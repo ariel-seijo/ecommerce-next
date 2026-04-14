@@ -1,3 +1,4 @@
+import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 
 export default function Products({ products }) {
@@ -21,7 +22,9 @@ export default function Products({ products }) {
               <span className="price">${product.price}</span>
             </div>
 
-            <button className="buy-btn">Comprar</button>
+            <button className="buy-btn">
+              <ShoppingCart />
+            </button>
           </li>
         ))}
       </ul>

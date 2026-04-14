@@ -5,6 +5,7 @@ import Products from '../components/Products';
 import Header from '../components/Header';
 import { products as initialProducts } from '../mocks/products';
 import { useFilters } from '../hooks/useFilters';
+import { Cart } from '../components/Cart';
 
 
 export default function Home() {
@@ -13,6 +14,7 @@ export default function Home() {
   return (
     <>
       <Header />
+      <Cart />
       <Products products={filteredProducts} />
     </>
   );

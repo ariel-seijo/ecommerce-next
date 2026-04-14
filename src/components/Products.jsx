@@ -1,7 +1,10 @@
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
+import { useCart } from "@/hooks/useCart";
 
 export default function Products({ products }) {
+  const { addToCart, cart } = useCart();
+  console.log(cart);
   return (
     <main className="products">
       <ul>
@@ -22,7 +25,7 @@ export default function Products({ products }) {
               <span className="price">${product.price}</span>
             </div>
 
-            <button className="buy-btn">
+            <button className="buy-btn" onClick={() => addToCart(product)}>
               <ShoppingCart />
             </button>
           </li>

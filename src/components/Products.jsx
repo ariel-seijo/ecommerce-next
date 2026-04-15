@@ -3,8 +3,7 @@ import Image from "next/image";
 import { useCart } from "@/hooks/useCart";
 
 export default function Products({ products }) {
-  const { addToCart, cart } = useCart();
-  console.log(cart);
+  const { addToCart } = useCart();
   return (
     <main className="products">
       <ul>

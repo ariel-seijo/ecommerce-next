@@ -6,7 +6,10 @@ import { Trash2 } from "lucide-react";
 import { useCart } from "@/hooks/useCart";
 export function Cart() {
   const cartCheckboxId = useId();
-  const { cart, clearCart } = useCart();
+  const { cart, clearCart, increaseQuantity, decreaseQuantity } = useCart();
+  const total = cart
+    .reduce((acc, product) => acc + product.price * product.quantity, 0)
+    .toFixed(2);
   return (
     <>
       <label className="cart-button" htmlFor={cartCheckboxId}>
@@ -28,7 +31,8 @@ export function Cart() {
               </div>
               <footer>
                 <small>Qty: {product.quantity}</small>
-                <button>+</button>
+                <button onClick={() => increaseQuantity(product.id)}>+</button>
+                <button onClick={() => decreaseQuantity(product.id)}>-</button>
               </footer>
             </li>
           ))}
@@ -36,6 +40,7 @@ export function Cart() {
         <button onClick={() => clearCart()}>
           <Trash2 />
         </button>
+        <p>Total: ${total}</p>
       </aside>
     </>
   );

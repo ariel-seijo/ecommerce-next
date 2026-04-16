@@ -1,3 +1,5 @@
+"use client";
+
 import "./Filters.css";
 import { useId } from "react";
 import { useFilters } from "../hooks/useFilters";
@@ -31,8 +33,10 @@ export default function Filters() {
           onChange={handleCategoryChange}
         >
           <option value="all">Todas</option>
-          <option value="groceries">Comestibles</option>
-          <option value="beauty">Belleza</option>
+          <option value="GPU">GPU</option>
+          <option value="CPU">CPU</option>
+          <option value="RAM">RAM</option>
+          <option value="Storage">Storage</option>
         </select>
       </div>
 
@@ -44,7 +48,7 @@ export default function Filters() {
           id={priceFilterId}
           value={filters.minPrice}
           min="0"
-          max="100"
+          max="1000"
           onChange={handleMinPriceChange}
         />
         <span>${filters.minPrice}</span>

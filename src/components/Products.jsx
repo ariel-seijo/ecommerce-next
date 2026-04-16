@@ -1,3 +1,6 @@
+"use client";
+
+import "./Products.css";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
 import { useCart } from "@/hooks/useCart";
@@ -7,7 +10,7 @@ export default function Products({ products }) {
   return (
     <main className="products">
       <ul>
-        {products.slice(0, 10).map((product) => (
+        {products.map((product) => (
           <li key={product.id} className="card">
             <div className="img-container">
               <Image
@@ -16,6 +19,7 @@ export default function Products({ products }) {
                 fill
                 sizes="(max-width: 480px) 100vw, (max-width: 768px) 50vw, (max-width: 1024px) 33vw, (max-width: 1200px) 25vw, 200px"
                 priority={product.id <= 2}
+                loading="eager"
               />
             </div>
 

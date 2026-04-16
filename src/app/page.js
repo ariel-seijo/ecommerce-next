@@ -1,21 +1,22 @@
-"use client";
+import { prisma } from "@/lib/prisma";
+import ProductsWrapper from "@/components/ProductsWrapper";
+import Header from "@/components/Header";
+import { Cart } from "@/components/Cart";
+import { CartProvider } from "@/context/CartContext";
+import { FiltersProvider } from "@/context/FiltersContext";
 
-import '../components/Products.css'
-import Products from '../components/Products';
-import Header from '../components/Header';
-import { products as initialProducts } from '../mocks/products';
-import { useFilters } from '../hooks/useFilters';
-import { Cart } from '../components/Cart';
-import { CartProvider } from '@/context/CartContext';
+export default async function Home() {
+  const products = await prisma.product.findMany({
+    include: { category: true },
+  });
 
-export default function Home() {
-  const { filterProducts } = useFilters();
-  const filteredProducts = filterProducts(initialProducts)
   return (
     <CartProvider>
-      <Header />
-      <Cart />
-      <Products products={filteredProducts} />
+      <FiltersProvider>
+        <Header />
+        <Cart />
+        <ProductsWrapper products={products} />
+      </FiltersProvider>
     </CartProvider>
   );
 }

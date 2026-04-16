@@ -1,3 +1,5 @@
+"use client";
+
 import "./Cart.css";
 import { useId } from "react";
 import Image from "next/image";

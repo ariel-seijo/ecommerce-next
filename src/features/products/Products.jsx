@@ -3,7 +3,7 @@
 import "./Products.css";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { useCart } from "@/hooks/useCart";
+import { useCart } from "../cart/useCart";
 
 export default function Products({ products }) {
   const { addToCart } = useCart();

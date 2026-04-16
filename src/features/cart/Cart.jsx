@@ -5,7 +5,7 @@ import { useId } from "react";
 import Image from "next/image";
 import { ShoppingCart } from "lucide-react";
 import { Trash2 } from "lucide-react";
-import { useCart } from "@/hooks/useCart";
+import { useCart } from "./useCart";
 export function Cart() {
   const cartCheckboxId = useId();
   const { cart, clearCart, increaseQuantity, decreaseQuantity } = useCart();

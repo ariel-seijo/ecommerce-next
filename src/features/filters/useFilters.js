@@ -1,7 +1,7 @@
 "use client"
 
 import { useContext } from "react";
-import { FiltersContext } from "@/context/FiltersContext";
+import { FiltersContext } from "./FiltersContext";
 
 export function useFilters() {
     const { filters, setFilters } = useContext(FiltersContext);

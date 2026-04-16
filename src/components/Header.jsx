@@ -1,4 +1,4 @@
-import Filters from "./Filters";
+import Filters from "../features/filters/Filters";
 
 export default function Header() {
   return (

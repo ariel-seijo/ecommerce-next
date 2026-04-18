@@ -1,9 +1,13 @@
 "use client";
 
 import "./Navbar.css";
+import Container from "@/components/Container";
 import { useState } from "react";
 import { useCart } from "@/features/cart/useCart";
 import Image from "next/image";
+import Link from "next/link";
+import { ShoppingCartIcon, UserRound } from "lucide-react";
+import { Cart } from "@/features/cart/Cart";
 
 export default function Navbar() {
   const [search, setSearch] = useState("");
@@ -14,32 +18,77 @@ export default function Navbar() {
 
   return (
     <>
-      <nav className="navbar">
-        <div className="logo">
-          <Image
-            src="/logo-eshop.png"
-            alt="Eshop Logo"
-            width={377}
-            height={69}
-            priority
-          />
-        </div>
-        <input
-          type="text"
-          placeholder="Buscar productos..."
-          value={search}
-          onChange={(e) => setSearch(e.target.value)}
-          className="search"
-        />
-        <div className="actions">
-          <button className="icon-btn">👤</button>
-          <button className="icon-btn cart-btn" onClick={toggleCart}>
-            🛒
-            {totalItems > 0 && <span className="badge">{totalItems}</span>}
-          </button>
-        </div>
+      <div className="navbarSticky">
+        <nav className="navbarPrimario">
+          <Container>
+            <div className="logo">
+              <Image
+                src="/logo-eshop.png"
+                alt="Eshop Logo"
+                width={377}
+                height={69}
+                priority
+              />
+            </div>
+            <input
+              type="text"
+              placeholder="Buscar productos..."
+              value={search}
+              onChange={(e) => setSearch(e.target.value)}
+              className="search"
+            />
+            <div className="actions">
+              <button className="icon-btn">
+                <UserRound size={30} />
+              </button>
+
+              <div className="cartWrapper">
+                <button className="icon-btn cart-btn" onClick={toggleCart}>
+                  <ShoppingCartIcon size={30} />
+
+                  {totalItems > 0 && (
+                    <span className="badge">{totalItems}</span>
+                  )}
+                </button>
+
+                <Cart />
+              </div>
+            </div>
+          </Container>
+        </nav>
+        <div className="rgbbar"></div>
+      </div>
+      <nav className="navbarSecundario">
+        <Container className="">
+          <ul className="navbarLinks">
+            <li>
+              <Link className="navbarLinkText" href="/">
+                Inicio
+              </Link>
+            </li>
+            <li>
+              <Link className="navbarLinkText" href="/">
+                GPU
+              </Link>
+            </li>
+            <li>
+              <Link className="navbarLinkText" href="/">
+                CPU
+              </Link>
+            </li>
+            <li className="navbarItem">
+              <Link className="navbarLinkText" href="/">
+                RAM
+              </Link>
+            </li>
+            <li>
+              <Link className="navbarLinkText" href="/">
+                Almacenamiento
+              </Link>
+            </li>
+          </ul>
+        </Container>
       </nav>
-      <div className="rgbbar"></div>
     </>
   );
 }

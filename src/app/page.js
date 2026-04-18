@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import ProductsWrapper from "../features/products/ProductsWrapper";
-import Header from "../components/Header";
+import Slider from "@/components/Slider";
+import SectionTitle from "@/components/SectionTitle";
 
 export default async function Home() {
   const products = await prisma.product.findMany({
@@ -9,8 +10,13 @@ export default async function Home() {
 
   return (
     <>
-      <Header />
-      <ProductsWrapper products={products} />
+      <main>
+        <Slider />
+        <section className="offers">
+          <SectionTitle>Ofertas destacadas</SectionTitle>
+          <ProductsWrapper products={products} />
+        </section>
+      </main>
     </>
   );
 }

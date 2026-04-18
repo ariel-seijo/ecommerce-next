@@ -1,29 +1,39 @@
+:root {
+  --color-1: #edf9ff;
+  --color-2: #d6f1ff;
+  --color-3: #b5e7ff;
+  --color-4: #83dbff;
+  --color-5: #59c5ff;
+  --color-6: #1ea9ff;
+  --color-7: #068fff;
+  --color-8: #007fff;
+  --color-9: #0861c5;
+  --color-10: #0d539b;
+  --color-11: #0e335d;
+}
+
 *,
 *::before,
 *::after {
   box-sizing: border-box;
 }
 
-.navbar {
-  width: 100%;
-  min-height: 60px;
-
-  background: #0a0f1c;
-  color: white;
-
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-
-  padding: 0 1rem;
-  gap: 1rem;
-  flex-wrap: wrap;
-
-  border-bottom: 1px solid #1a2333;
+.cartWrapper {
+  position: relative;
 }
 
-.navbar > * {
-  min-width: 0;
+.navbarSticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbarPrimario {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  background-color: var(--color-11);
 }
 
 .logo {
@@ -42,52 +52,27 @@
   width: 100%;
   max-width: 400px;
   min-width: 0;
-
   padding: 0.5rem 0.7rem;
-  border-radius: 8px;
-  border: 1px solid #1a2333;
-
-  background: #121826;
+  background: linear-gradient(to left, #0e335d, #0d539b);
   color: white;
-
+  border: none;
   outline: none;
-  transition: 0.2s;
 }
 
 .search::placeholder {
-  color: #6b7a99;
-}
-
-.search:focus {
-  border-color: #007fff;
-  box-shadow: 0 0 10px rgba(0, 127, 255, 0.4);
-}
-
-.actions {
-  display: flex;
-  gap: 0.5rem;
-  flex-shrink: 0;
+  color: var(--color-6);
 }
 
 .icon-btn {
-  background: #121826;
-  border: 1px solid #1a2333;
-  color: #00cfff;
-
-  font-size: 1.1rem;
-  padding: 6px 10px;
-  border-radius: 8px;
-
+  font-size: 1.5rem;
   cursor: pointer;
   position: relative;
-
-  transition: 0.2s;
-}
-
-.icon-btn:hover {
-  border-color: #007fff;
-  box-shadow: 0 0 10px rgba(0, 127, 255, 0.4);
-  transform: translateY(-1px);
+  border: none;
+  background-color: transparent;
+  color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 .cart-btn .badge {
@@ -103,7 +88,13 @@
   padding: 2px 6px;
 }
 
-/* barra eléctrica */
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
 .rgbbar {
   width: 100%;
   height: 4px;
@@ -123,38 +114,28 @@
   }
 }
 
-/* mobile */
-@media (max-width: 768px) {
-  .navbar {
-    flex-direction: row;
-    align-items: center;
-  }
-
-  .search {
-    order: 3;
-    max-width: 100%;
-  }
-
-  .actions {
-    order: 2;
-  }
-
-  .logo {
-    order: 1;
-  }
-
-  .logo img {
-    height: 32px;
-  }
+.navbarSecundario {
+  width: 100%;
+  height: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: black;
 }
 
-@media (max-width: 480px) {
-  .search {
-    font-size: 0.9rem;
-    padding: 0.4rem;
-  }
+.navbarLinks {
+  padding: 0;
+  list-style: none;
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
 
-  .icon-btn {
-    font-size: 1rem;
-  }
+.navbarLinkText {
+  font-family: var(--font-cosmic);
+  font-size: 1.6rem;
+  font-weight: 100;
+  color: white;
+  text-decoration: none;
 }

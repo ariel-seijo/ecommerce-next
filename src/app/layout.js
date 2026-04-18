@@ -1,18 +1,25 @@
 import "./globals.css";
+
+import localFont from "next/font/local";
+
+const fuenteGamer = localFont({
+  src: "./fonts/cosmic-lager-regular.otf",
+  variable: "--font-cosmic",
+  display: "swap",
+});
+
 import Navbar from "@/components/Navbar";
 
 import { FiltersProvider } from "@/features/filters/FiltersContext";
 import { CartProvider } from "@/features/cart/CartContext";
-import { Cart } from "@/features/cart/Cart";
 
 export default function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body className={fuenteGamer.variable}>
         <CartProvider>
           <FiltersProvider>
             <Navbar />
-            <Cart />
             {children}
           </FiltersProvider>
         </CartProvider>

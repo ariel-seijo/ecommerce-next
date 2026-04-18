@@ -1,3 +1,17 @@
+:root {
+  --color-1: #edf9ff;
+  --color-2: #d6f1ff;
+  --color-3: #b5e7ff;
+  --color-4: #83dbff;
+  --color-5: #59c5ff;
+  --color-6: #1ea9ff;
+  --color-7: #068fff;
+  --color-8: #007fff;
+  --color-9: #0861c5;
+  --color-10: #0d539b;
+  --color-11: #0e335d;
+}
+
 * {
   font-family: "Inter", sans-serif;
 }
@@ -16,7 +30,9 @@
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
   gap: 1.2rem;
-  padding: 1rem;
+
+  padding: 0;
+  margin: 0;
 }
 
 /* card */
@@ -25,11 +41,11 @@
   flex-direction: column;
   gap: 0.8rem;
 
-  background: #0a0f1c;
-  border-radius: 12px;
-  padding: 0.8rem;
+  background: white;
+  border-radius: 5px;
+  padding: 1.5rem;
 
-  border: 1px solid #1a2333;
+  border: none;
 
   transition:
     transform 0.25s ease,
@@ -40,17 +56,25 @@
 .card:hover {
   transform: translateY(-6px);
   border-color: #007fff;
-  box-shadow: 0 12px 25px rgba(0, 127, 255, 0.25);
+  box-shadow: 0 12px 25px rgba(0, 127, 255, 0.35);
 }
 
 /* imagen */
 .img-container {
   position: relative;
   width: 100%;
-  height: 150px;
-  border-radius: 10px;
+  aspect-ratio: 1/1;
   overflow: hidden;
-  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 /* info */
@@ -62,9 +86,8 @@
 
 .info h3 {
   font-size: 0.95rem;
-  font-weight: 500;
-  color: white;
-
+  font-weight: 900;
+  color: black;
   display: -webkit-box;
   -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;

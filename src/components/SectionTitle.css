@@ -1,0 +1,14 @@
+.titleContainer {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.sectionTitle {
+  font-family: var(--font-cosmic);
+  font-size: 2.5rem;
+  color: black;
+  text-align: center;
+  font-weight: 100;
+}

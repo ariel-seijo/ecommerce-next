@@ -1,0 +1,40 @@
+.slider {
+  width: 100%;
+  overflow: hidden;
+  position: relative;
+}
+
+.slider-track {
+  display: flex;
+  transition: transform 0.7s ease-in-out;
+}
+
+.slide {
+  min-width: 100%;
+  position: relative;
+  aspect-ratio: 1920 / 511;
+}
+
+.slide img {
+  object-fit: cover;
+  display: block;
+}
+
+/* tablet */
+@media (max-width: 768px) {
+  .slide {
+    aspect-ratio: 1920 / 650;
+  }
+}
+
+/* mobile */
+@media (max-width: 480px) {
+  .slide {
+    aspect-ratio: 1920 / 850;
+  }
+
+  .slide img {
+    object-fit: cover;
+    object-position: center;
+  }
+}

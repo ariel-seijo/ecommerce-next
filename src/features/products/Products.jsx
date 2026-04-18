@@ -25,7 +25,7 @@ export default function Products({ products }) {
 
             <div className="info">
               <h3>{product.title}</h3>
-              <span className="price">${product.price}</span>
+              <span className="price">Precio: ${product.price}</span>
             </div>
 
             <button

@@ -3,7 +3,7 @@
 import "./Products.css";
 import { ShoppingCart } from "lucide-react";
 import Image from "next/image";
-import { useCart } from "../cart/useCart";
+import { useCart } from "@/features/cart/useCart";
 
 export default function Products({ products }) {
   const { addToCart } = useCart();
@@ -28,7 +28,13 @@ export default function Products({ products }) {
               <span className="price">${product.price}</span>
             </div>
 
-            <button className="buy-btn" onClick={() => addToCart(product)}>
+            <button
+              className="buy-btn"
+              onClick={() => {
+                console.log("adding", product);
+                addToCart(product);
+              }}
+            >
               <ShoppingCart />
             </button>
           </li>

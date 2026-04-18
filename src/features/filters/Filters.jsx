@@ -2,7 +2,7 @@
 
 import "./Filters.css";
 import { useId } from "react";
-import { useFilters } from "./useFilters";
+import { useFilters } from "@/features/filters/useFilters";
 export default function Filters() {
   const [priceFilterId] = useId();
   const [categoryFilterId] = useId();

@@ -1,7 +1,7 @@
 "use client";
 
-import { createContext, useReducer, useEffect } from "react";
-import { cartReducer, initialState } from "./CartReducer";
+import { createContext, useReducer, useEffect, useState } from "react";
+import { cartReducer, initialState } from "@/features/cart/CartReducer";
 
 export const CartContext = createContext();
 
@@ -9,6 +9,7 @@ const CART_STORAGE_KEY = "cart";
 
 export function CartProvider({ children }) {
   const [cart, dispatch] = useReducer(cartReducer, initialState);
+  const [isCartOpen, setIsCartOpen] = useState(false);
 
   // Cargar carrito desde localStorage
   useEffect(() => {
@@ -34,7 +35,7 @@ export function CartProvider({ children }) {
     }
   }, [cart]);
 
-  // acciones
+  // acciones carrito
   const addToCart = (product) => {
     dispatch({ type: "ADD_TO_CART", payload: product });
   };
@@ -51,6 +52,11 @@ export function CartProvider({ children }) {
     dispatch({ type: "CLEAR_CART" });
   };
 
+  // acciones UI carrito
+  const openCart = () => setIsCartOpen(true);
+  const closeCart = () => setIsCartOpen(false);
+  const toggleCart = () => setIsCartOpen((prev) => !prev);
+
   return (
     <CartContext.Provider
       value={{
@@ -59,6 +65,10 @@ export function CartProvider({ children }) {
         increaseQuantity,
         decreaseQuantity,
         clearCart,
+        isCartOpen,
+        openCart,
+        closeCart,
+        toggleCart,
       }}
     >
       {children}

@@ -1,7 +1,7 @@
 "use client";
 
-import { useFilters } from "../filters/useFilters";
-import Products from "./Products";
+import { useFilters } from "@/features/filters/useFilters";
+import Products from "@/features/products/Products";
 
 export default function ProductsWrapper({ products }) {
   const { filterProducts } = useFilters();

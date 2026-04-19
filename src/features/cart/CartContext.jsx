@@ -48,6 +48,10 @@ export function CartProvider({ children }) {
     dispatch({ type: "DECREASE_QUANTITY", payload: id });
   };
 
+  const removeFromCart = (id) => {
+    dispatch({ type: "REMOVE_FROM_CART", payload: id });
+  };
+
   const clearCart = () => {
     dispatch({ type: "CLEAR_CART" });
   };
@@ -64,6 +68,7 @@ export function CartProvider({ children }) {
         addToCart,
         increaseQuantity,
         decreaseQuantity,
+        removeFromCart,
         clearCart,
         isCartOpen,
         openCart,

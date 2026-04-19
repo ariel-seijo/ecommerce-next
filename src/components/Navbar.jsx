@@ -67,22 +67,22 @@ export default function Navbar() {
               </Link>
             </li>
             <li>
-              <Link className="navbarLinkText" href="/">
+              <Link className="navbarLinkText" href="/category/gpu">
                 GPU
               </Link>
             </li>
             <li>
-              <Link className="navbarLinkText" href="/">
+              <Link className="navbarLinkText" href="/category/cpu">
                 CPU
               </Link>
             </li>
             <li className="navbarItem">
-              <Link className="navbarLinkText" href="/">
+              <Link className="navbarLinkText" href="/category/ram">
                 RAM
               </Link>
             </li>
             <li>
-              <Link className="navbarLinkText" href="/">
+              <Link className="navbarLinkText" href="/category/storage">
                 Almacenamiento
               </Link>
             </li>

@@ -5,8 +5,14 @@ import SectionTitle from "@/components/SectionTitle";
 
 export default async function Home() {
   const products = await prisma.product.findMany({
-    include: { category: true },
-  });
+    where: {
+      featured: true
+    },
+    take: 5,
+    include: {
+      category: true
+    }
+  })
 
   return (
     <>

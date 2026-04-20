@@ -1,0 +1,62 @@
+.brandsContainer {
+  max-width: 1200px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1rem;
+}
+
+.brandBox {
+  position: relative;
+  aspect-ratio: 1 / 1;
+  width: 100%;
+  cursor: pointer;
+  color: white;
+  font-weight: 900;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+
+  background-color: rgb(34, 34, 34);
+  padding: 0.5rem;
+  position: relative;
+  overflow: hidden;
+  transition: all 0.5s ease;
+}
+
+.brandBox h2 {
+  color: rgb(187, 187, 187);
+  font-size: 1rem;
+  position: relative;
+  z-index: 2;
+}
+
+.brandBox::before {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(0deg, transparent, transparent 30%, #24abf3);
+  transform: rotate(-45deg);
+  transition: all 0.5s ease;
+  opacity: 0;
+}
+
+.brandBox:hover {
+  transform: scale(1.05);
+  box-shadow: 0 0 20px #24abf3;
+}
+
+.brandBox:hover h2 {
+  color: #24abf3;
+  transition: color 0.3s ease;
+}
+
+.brandBox:hover::before {
+  opacity: 1;
+  transform: rotate(-45deg) translateY(100%);
+}

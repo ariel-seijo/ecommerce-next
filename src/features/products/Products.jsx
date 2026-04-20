@@ -22,21 +22,19 @@ export default function Products({ products }) {
                 loading="eager"
               />
             </div>
-
+            <h3 className="title">{product.title}</h3>
             <div className="info">
-              <h3>{product.title}</h3>
-              <span className="price">Precio: ${product.price}</span>
+              <span className="price">${product.price.toFixed(2)}</span>
+              <button
+                className="buy-btn"
+                onClick={() => {
+                  console.log("adding", product);
+                  addToCart(product);
+                }}
+              >
+                <ShoppingCart size={20} />
+              </button>
             </div>
-
-            <button
-              className="buy-btn"
-              onClick={() => {
-                console.log("adding", product);
-                addToCart(product);
-              }}
-            >
-              <ShoppingCart />
-            </button>
           </li>
         ))}
       </ul>

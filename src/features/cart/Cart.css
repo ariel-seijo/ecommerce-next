@@ -140,9 +140,10 @@
   cursor: pointer;
 }
 
-.cart > button:last-child {
+.checkoutBtn {
   margin-top: 16px;
   width: 100%;
+  font-size: 1.2rem;
   padding: 10px;
   border-radius: 8px;
   border: none;

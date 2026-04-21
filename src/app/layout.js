@@ -9,9 +9,10 @@ const fuenteGamer = localFont({
 });
 
 import Navbar from "@/components/Navbar";
-
+import Footer from "@/components/Footer";
 import { FiltersProvider } from "@/features/filters/FiltersContext";
 import { CartProvider } from "@/features/cart/CartContext";
+
 
 export default function RootLayout({ children }) {
   return (
@@ -23,6 +24,7 @@ export default function RootLayout({ children }) {
             {children}
           </FiltersProvider>
         </CartProvider>
+        <Footer />
       </body>
     </html>
   );

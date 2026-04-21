@@ -76,7 +76,7 @@ export function Cart() {
 
           <p className="totalPrice">Total: ${total}</p>
 
-          <button className="checkoutBtn">Finalizar Compra</button>
+          <button className="checkoutBtn">COMPRAR</button>
         </>
       )}
     </aside>

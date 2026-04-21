@@ -1,3 +1,4 @@
+/* desktop */
 .brandsContainer {
   max-width: 1200px;
   margin: 0 auto;
@@ -7,13 +8,13 @@
   gap: 1rem;
 }
 
+/* card */
 .brandBox {
   position: relative;
   aspect-ratio: 1 / 1;
   width: 100%;
   cursor: pointer;
-  color: white;
-  font-weight: 900;
+
   display: flex;
   align-items: center;
   justify-content: center;
@@ -21,7 +22,6 @@
 
   background-color: rgb(34, 34, 34);
   padding: 0.5rem;
-  position: relative;
   overflow: hidden;
   transition: all 0.5s ease;
 }
@@ -31,6 +31,7 @@
   font-size: 1rem;
   position: relative;
   z-index: 2;
+  line-height: 1.1;
 }
 
 .brandBox::before {
@@ -53,10 +54,68 @@
 
 .brandBox:hover h2 {
   color: #24abf3;
-  transition: color 0.3s ease;
 }
 
 .brandBox:hover::before {
   opacity: 1;
   transform: rotate(-45deg) translateY(100%);
+}
+
+/* responsive desktop/tablet */
+@media (max-width: 1200px) {
+  .brandsContainer {
+    padding: 1rem;
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .brandsContainer {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+/* MOBILE = carrusel horizontal */
+@media (max-width: 768px) {
+  .brandsContainer {
+    display: flex;
+    gap: 0.8rem;
+
+    padding: 1rem;
+    overflow-x: auto;
+    overflow-y: hidden;
+
+    scroll-snap-type: x mandatory;
+    -webkit-overflow-scrolling: touch;
+
+    scrollbar-width: none;
+  }
+
+  .brandsContainer::-webkit-scrollbar {
+    display: none;
+  }
+
+  .brandBox {
+    flex: 0 0 140px;
+    min-width: 140px;
+    aspect-ratio: 1 / 1;
+
+    scroll-snap-align: start;
+  }
+
+  .brandBox h2 {
+    font-size: 0.9rem;
+  }
+}
+
+/* small mobile */
+@media (max-width: 480px) {
+  .brandBox {
+    flex: 0 0 120px;
+    min-width: 120px;
+  }
+
+  .brandBox h2 {
+    font-size: 0.8rem;
+  }
 }

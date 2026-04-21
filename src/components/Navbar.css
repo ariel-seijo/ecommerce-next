@@ -180,3 +180,100 @@
 .navbarLinkText.active::after {
   transform: scaleX(1);
 }
+
+@media (max-width: 1024px) {
+  .navbarPrimario {
+    padding: 0 1rem;
+    gap: 1rem;
+  }
+  .navbarLinks {
+    gap: 30px;
+  }
+  .logo {
+    font-size: 2rem;
+  }
+  .search {
+    max-width: 300px;
+  }
+} /* ========================= MOBILE ========================= */
+@media (max-width: 768px) {
+  /* mantenemos navbar superior tal como está */
+  .navbarPrimario {
+    height: auto;
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: space-between;
+  }
+
+  .search {
+    order: 3;
+    flex: 100%;
+    max-width: 100%;
+    width: 100%;
+  }
+
+  /* SOLO fijamos navbar 2 abajo */
+  .navbarSecundario {
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+
+    height: 60px;
+    padding: 0 1rem;
+
+    z-index: 2000;
+    background-color: #121212;
+    border-top: 1px solid #1f1f1f;
+  }
+
+  .navbarLinks {
+    margin: 0;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-around;
+    gap: 0;
+    row-gap: 0;
+    flex-wrap: nowrap;
+  }
+
+  .navbarLinkText {
+    font-size: 0.8rem;
+    padding-bottom: 0;
+  }
+
+  .navbarLinkText::after {
+    bottom: -6px;
+  }
+
+  /* espacio para que no tape contenido */
+  body {
+    padding-bottom: 60px;
+  }
+}
+
+/* ========================= SMALL MOBILE ========================= */
+@media (max-width: 480px) {
+  .navbarSecundario {
+    height: 56px;
+    padding: 0 0.5rem;
+  }
+
+  .navbarLinks {
+    gap: 0;
+  }
+
+  .navbarLinkText {
+    font-size: 0.68rem;
+  }
+
+  .navbarLinkText::after {
+    bottom: -5px;
+  }
+
+  body {
+    padding-bottom: 56px;
+  }
+}

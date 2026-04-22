@@ -7,23 +7,46 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
-model Product {
-  id          Int      @id @default(autoincrement())
-  title       String   @db.VarChar(120)
-  price       Float
-  thumbnail   String   @db.VarChar(500)
-  stock       Int
-  categoryId  Int
-  featured    Boolean  @default(false)
-
-  category    Category @relation(fields: [categoryId], references: [id])
-
-  @@index([categoryId])
-}
-
 model Category {
   id       Int       @id @default(autoincrement())
   name     String    @unique @db.VarChar(50)
 
   products Product[]
+}
+
+model Product {
+  id          Int      @id @default(autoincrement())
+
+  title       String   @db.VarChar(120)
+  slug        String   @unique @db.VarChar(140)
+  description String   @default("")
+
+  price       Float
+  oldPrice    Float?
+
+  thumbnail   String   @db.VarChar(500)
+  images      String[]
+
+  stock       Int
+
+  brand       String   @default("Generic") @db.VarChar(80)
+  sku         String   @unique @db.VarChar(80)
+
+  rating      Float    @default(0)
+  sold        Int      @default(0)
+
+  featured    Boolean  @default(false)
+  active      Boolean  @default(true)
+
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+
+  categoryId  Int
+  category    Category @relation(fields: [categoryId], references: [id])
+
+  @@index([categoryId])
+  @@index([price])
+  @@index([brand])
+  @@index([featured])
+  @@index([createdAt])
 }

@@ -1,41 +1,60 @@
-import { prisma } from "@/lib/prisma";
+import "./category.css";
+
 import ProductsWrapper from "@/features/products/ProductsWrapper";
-import SectionTitle from "@/components/SectionTitle";
-import Link from "next/link";
+
+import { getCategoryProducts } from "@/features/category/getCategoryProducts";
+
+import FiltersSidebar from "@/features/category/FiltersSidebar";
+import CategoryHeader from "@/features/category/CategoryHeader";
+import ActiveFilters from "@/features/category/ActiveFilters";
+import EmptyProducts from "@/features/category/EmptyProducts";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { name } = await params;
-  const { sort } = await searchParams;
+  const query = await searchParams;
 
   const categoryName = name.toUpperCase();
 
-  const order = sort === "desc" ? { price: "desc" } : { price: "asc" };
+  const sort = query.sort || "recent";
+  const brand = query.brand || "";
+  const price = query.price || "";
 
-  const products = await prisma.product.findMany({
-    where: {
-      category: {
-        name: categoryName,
-      },
-    },
-    orderBy: order,
-    include: {
-      category: true,
-    },
+  const { products, brands } = await getCategoryProducts({
+    categoryName,
+    sort,
+    brand,
+    price,
   });
 
   return (
-    <main>
-      <section className="offers">
-        <SectionTitle>{categoryName}</SectionTitle>
+    <main className="categoryPage">
+      <div className="categoryContainer">
+        <CategoryHeader
+          name={name}
+          categoryName={categoryName}
+          totalProducts={products.length}
+        />
 
-        <div className="sort-buttons">
-          <Link href={`/category/${name}?sort=asc`}>Menor precio</Link>
+        <ActiveFilters name={name} sort={sort} brand={brand} price={price} />
 
-          <Link href={`/category/${name}?sort=desc`}>Mayor precio</Link>
+        <div className="categoryContent">
+          <FiltersSidebar
+            name={name}
+            brands={brands}
+            sort={sort}
+            brand={brand}
+            price={price}
+          />
+
+          <section className="productsArea">
+            {products.length > 0 ? (
+              <ProductsWrapper products={products} />
+            ) : (
+              <EmptyProducts name={name} />
+            )}
+          </section>
         </div>
-
-        <ProductsWrapper products={products} />
-      </section>
+      </div>
     </main>
   );
 }

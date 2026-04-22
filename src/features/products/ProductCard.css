@@ -1,0 +1,166 @@
+.card {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  gap: 0.8rem;
+
+  background: rgb(34, 34, 34);
+  padding: 1.2rem;
+  border: none;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+.card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 12px 25px rgba(0, 0, 0, 0.45);
+}
+
+.cardLink {
+  text-decoration: none;
+  color: inherit;
+}
+
+.img-container {
+  position: relative;
+  width: 100%;
+  aspect-ratio: 1 / 1;
+
+  overflow: hidden;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.img-container img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+}
+
+.meta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.45rem;
+}
+
+.topMeta {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.category,
+.brand {
+  font-size: 0.72rem;
+  font-weight: 800;
+  color: rgb(140, 140, 140);
+  text-transform: uppercase;
+}
+
+.category {
+  color: rgb(170, 170, 170);
+}
+
+.title {
+  font-size: 0.95rem;
+  font-weight: 900;
+  color: rgb(214, 214, 214);
+
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+
+  min-height: 2.5em;
+}
+
+.ratingRow {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+
+  font-size: 0.82rem;
+  color: rgb(190, 190, 190);
+}
+
+.ratingRow small {
+  color: rgb(130, 130, 130);
+}
+
+.priceBlock {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+}
+
+.oldPrice {
+  font-size: 0.78rem;
+  color: rgb(130, 130, 130);
+  text-decoration: line-through;
+}
+
+.price {
+  font-size: 1.1rem;
+  font-weight: bold;
+  color: rgb(214, 214, 214);
+}
+
+.buy-btn {
+  margin-top: 0.4rem;
+
+  padding: 0.55rem;
+  border: none;
+
+  background: rgb(84, 84, 84);
+  color: rgb(210, 210, 210);
+
+  font-weight: bold;
+  cursor: pointer;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.4rem;
+}
+
+.buy-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+@media (max-width: 768px) {
+  .card {
+    padding: 0.7rem;
+  }
+
+  .title {
+    font-size: 0.9rem;
+  }
+
+  .price {
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 0.6rem;
+  }
+
+  .buy-btn {
+    font-size: 0.85rem;
+    padding: 0.45rem;
+  }
+
+  .topMeta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.15rem;
+  }
+}

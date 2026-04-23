@@ -1,0 +1,308 @@
+:root {
+  --pp-bg: rgb(10, 10, 10);
+  --pp-panel: rgb(34, 34, 34);
+  --pp-panel-2: rgb(24, 24, 24);
+  --pp-text: rgb(214, 214, 214);
+  --pp-muted: rgb(140, 140, 140);
+  --pp-line: rgb(52, 52, 52);
+
+  --pp-primary: rgb(0, 127, 255);
+  --pp-primary-soft: rgba(0, 127, 255, 0.14);
+}
+
+/* =========================
+   PAGE
+========================= */
+
+.product-page {
+  max-width: 1200px;
+  width: 100%;
+  margin: 0 auto;
+  padding: 2rem 1rem 4rem;
+  color: var(--pp-text);
+}
+
+/* =========================
+   BREADCRUMB
+========================= */
+
+.pp-breadcrumb {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+  align-items: center;
+
+  font-size: 0.78rem;
+  font-weight: 700;
+  color: var(--pp-muted);
+
+  margin-bottom: 1.5rem;
+}
+
+/* =========================
+   HERO
+========================= */
+
+.pp-hero {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 2rem;
+
+  margin-bottom: 3rem;
+}
+
+/* =========================
+   GALLERY
+========================= */
+
+.pp-gallery {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+}
+
+.pp-main-image {
+  background: var(--pp-panel);
+  padding: 1rem;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+.pp-main-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+.pp-thumbs {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 0.7rem;
+}
+
+.pp-thumb {
+  background: var(--pp-panel);
+  border: 1px solid transparent;
+  padding: 0.35rem;
+  cursor: pointer;
+  transition: border 0.2s ease;
+}
+
+.pp-thumb.active {
+  border-color: var(--pp-primary);
+}
+
+.pp-thumb img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+}
+
+/* =========================
+   INFO
+========================= */
+
+.pp-info {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+}
+
+.pp-tags {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.pp-stock,
+.pp-brand {
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  padding: 0.38rem 0.65rem;
+}
+
+.pp-stock {
+  background: var(--pp-primary-soft);
+  color: var(--pp-primary);
+}
+
+.pp-brand {
+  background: var(--pp-panel);
+  color: var(--pp-muted);
+}
+
+.pp-title {
+  font-size: 2.2rem;
+  line-height: 1.05;
+  font-weight: 900;
+}
+
+.pp-price-box {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 0.7rem;
+}
+
+.pp-price {
+  font-size: 2rem;
+  font-weight: 900;
+}
+
+.pp-old-price {
+  font-size: 1rem;
+  color: var(--pp-muted);
+  text-decoration: line-through;
+}
+
+.pp-discount {
+  font-size: 0.72rem;
+  font-weight: 900;
+  padding: 0.3rem 0.55rem;
+
+  background: var(--pp-primary-soft);
+  color: var(--pp-primary);
+}
+
+.pp-description {
+  color: rgb(190, 190, 190);
+  line-height: 1.65;
+}
+
+/* =========================
+   META
+========================= */
+
+.pp-meta {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 0.8rem;
+}
+
+.pp-meta-box {
+  background: var(--pp-panel);
+  padding: 1rem;
+}
+
+.pp-meta-label {
+  display: block;
+  margin-bottom: 0.4rem;
+
+  font-size: 0.72rem;
+  font-weight: 900;
+  text-transform: uppercase;
+  color: var(--pp-muted);
+}
+
+.pp-meta-value {
+  font-size: 1rem;
+  font-weight: 900;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.pp-add-btn {
+  margin-top: 0.4rem;
+
+  padding: 0.95rem;
+  border: none;
+
+  background: var(--pp-primary);
+  color: white;
+
+  font-size: 0.95rem;
+  font-weight: 900;
+  cursor: pointer;
+
+  transition:
+    transform 0.25s ease,
+    box-shadow 0.25s ease,
+    opacity 0.25s ease;
+}
+
+.pp-add-btn:hover:not(:disabled) {
+  transform: translateY(-4px);
+  box-shadow: 0 12px 22px rgba(0, 127, 255, 0.22);
+}
+
+.pp-add-btn:disabled {
+  opacity: 0.45;
+  cursor: not-allowed;
+}
+
+/* =========================
+   RELATED
+========================= */
+
+.pp-related {
+  margin-top: 1rem;
+}
+
+.pp-related-title {
+  font-size: 1.45rem;
+  font-weight: 900;
+  margin-bottom: 1rem;
+}
+
+.pp-related-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 1rem;
+}
+
+/* ProductCard maneja sus propios estilos */
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 1050px) {
+  .pp-hero {
+    grid-template-columns: 1fr;
+  }
+
+  .pp-related-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .product-page {
+    padding: 1rem 0.8rem 3rem;
+  }
+
+  .pp-title {
+    font-size: 1.65rem;
+  }
+
+  .pp-price {
+    font-size: 1.55rem;
+  }
+
+  .pp-meta {
+    grid-template-columns: 1fr;
+  }
+
+  .pp-related-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 480px) {
+  .pp-thumbs {
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0.45rem;
+  }
+
+  .pp-breadcrumb {
+    font-size: 0.72rem;
+  }
+
+  .pp-stock,
+  .pp-brand {
+    font-size: 0.68rem;
+  }
+}

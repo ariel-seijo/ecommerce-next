@@ -58,3 +58,154 @@ body::before {
   color: white;
   border-radius: 8px;
 }
+
+/* PEGAR AL FINAL DE globals.css */
+
+/* =========================
+   HOME LOADING
+========================= */
+
+.homeWrap {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 1.2rem 1rem;
+}
+
+.sk {
+  background: linear-gradient(
+    90deg,
+    rgb(30, 30, 30) 20%,
+    rgb(52, 52, 52) 50%,
+    rgb(30, 30, 30) 80%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.15s linear infinite;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 220% 0;
+  }
+
+  100% {
+    background-position: -220% 0;
+  }
+}
+
+/* slider */
+
+.sk-slider {
+  width: 100%;
+  height: 420px;
+  border-radius: 14px;
+}
+
+/* titles */
+
+.sk-section-title {
+  width: 320px;
+  height: 34px;
+  margin-bottom: 1.2rem;
+}
+
+/* products */
+
+.sk-products-grid {
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 1rem;
+}
+
+.sk-card {
+  display: flex;
+  flex-direction: column;
+  gap: 0.8rem;
+
+  background: rgb(34, 34, 34);
+  padding: 1.2rem;
+}
+
+.sk-card-img {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+.sk-line {
+  height: 16px;
+}
+
+.sk-line.sm {
+  width: 42%;
+}
+
+.sk-line.md {
+  width: 88%;
+  height: 18px;
+}
+
+.sk-line.xs {
+  width: 36%;
+  height: 22px;
+}
+
+.sk-buy {
+  width: 100%;
+  height: 42px;
+}
+
+/* brands */
+
+.sk-brands-grid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1rem;
+}
+
+.sk-brand {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 12px;
+}
+
+/* responsive */
+
+@media (max-width: 1100px) {
+  .sk-products-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .sk-brands-grid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 700px) {
+  .sk-slider {
+    height: 280px;
+  }
+
+  .sk-products-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .sk-section-title {
+    width: 220px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 520px) {
+  .homeWrap {
+    padding: 1rem 0.75rem;
+  }
+
+  .sk-slider {
+    height: 220px;
+    border-radius: 12px;
+  }
+
+  .sk-products-grid,
+  .sk-brands-grid {
+    grid-template-columns: 1fr;
+  }
+}

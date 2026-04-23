@@ -48,12 +48,18 @@
   color: #24abf3;
 }
 
-.search {
+/* ================= SEARCH ================= */
+
+.searchWrapper {
+  position: relative;
   flex: 1;
-  width: 100%;
-  height: 45px;
   max-width: 400px;
   min-width: 0;
+}
+
+.search {
+  width: 100%;
+  height: 45px;
   padding: 0.5rem 0.7rem;
   background: #121212;
   color: white;
@@ -66,6 +72,75 @@
   font-weight: 900;
 }
 
+.searchDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+
+  z-index: 3000;
+  overflow: hidden;
+}
+
+.searchItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+
+  padding: 0.75rem;
+  text-decoration: none;
+  color: white;
+
+  transition: background 0.2s ease;
+}
+
+.searchItem:hover {
+  background: #242424;
+}
+
+.searchThumb {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  background: #111;
+  padding: 0.3rem;
+}
+
+.searchInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.searchTitle {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #e8e8e8;
+
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.searchPrice {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #24abf3;
+}
+
+.searchEmpty {
+  padding: 1rem;
+  color: #9a9a9a;
+  font-size: 0.88rem;
+}
+
+/* ================= ACTIONS ================= */
+
 .icon-btn {
   font-size: 1.5rem;
   cursor: pointer;
@@ -73,6 +148,7 @@
   border: none;
   background-color: transparent;
   color: rgb(199, 198, 198);
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -98,13 +174,15 @@
   gap: 0.5rem;
 }
 
+/* ================= RGB ================= */
+
 .rgbbar {
   width: 100%;
   height: 4px;
 
   background: linear-gradient(90deg, #007fff, #00cfff, #007fff);
-
   background-size: 200% 100%;
+
   animation: electric 2s linear infinite;
 }
 
@@ -117,53 +195,62 @@
   }
 }
 
+/* ================= NAV 2 ================= */
+
 .navbarSecundario {
   width: 100%;
   height: 50px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   background-color: #121212;
 }
 
 .navbarLinks {
   padding: 0;
+  margin: 0;
+
   list-style: none;
   width: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
   gap: 60px;
 }
 
-/* link base */
 .navbarLinkText {
   font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   font-weight: 900;
+
   position: relative;
   display: inline-block;
+
   color: rgb(163, 163, 163);
   text-decoration: none;
+
   transition: color 0.25s ease;
   padding-bottom: 6px;
 }
 
-/* línea oculta */
 .navbarLinkText::after {
   content: "";
   position: absolute;
   left: 0;
   bottom: 0;
+
   width: 100%;
   height: 2px;
+
   background: #24abf3;
   transform: scaleX(0);
   transform-origin: center;
   transition: transform 0.25s ease;
 }
 
-/* hover */
 .navbarLinkText:hover {
   color: #24abf3;
 }
@@ -172,7 +259,6 @@
   transform: scaleX(1);
 }
 
-/* página activa */
 .navbarLinkText.active {
   color: #24abf3;
 }
@@ -181,23 +267,30 @@
   transform: scaleX(1);
 }
 
+/* ================= TABLET ================= */
+
 @media (max-width: 1024px) {
   .navbarPrimario {
     padding: 0 1rem;
     gap: 1rem;
   }
+
   .navbarLinks {
     gap: 30px;
   }
+
   .logo {
     font-size: 2rem;
   }
-  .search {
+
+  .searchWrapper {
     max-width: 300px;
   }
-} /* ========================= MOBILE ========================= */
+}
+
+/* ================= MOBILE ================= */
+
 @media (max-width: 768px) {
-  /* mantenemos navbar superior tal como está */
   .navbarPrimario {
     height: auto;
     padding: 1rem;
@@ -206,14 +299,13 @@
     justify-content: space-between;
   }
 
-  .search {
+  .searchWrapper {
     order: 3;
     flex: 100%;
     max-width: 100%;
     width: 100%;
   }
 
-  /* SOLO fijamos navbar 2 abajo */
   .navbarSecundario {
     position: fixed;
     left: 0;
@@ -229,13 +321,9 @@
   }
 
   .navbarLinks {
-    margin: 0;
     height: 100%;
-    display: flex;
-    align-items: center;
     justify-content: space-around;
     gap: 0;
-    row-gap: 0;
     flex-wrap: nowrap;
   }
 
@@ -248,21 +336,22 @@
     bottom: -6px;
   }
 
-  /* espacio para que no tape contenido */
+  .searchDropdown {
+    max-height: 340px;
+    overflow-y: auto;
+  }
+
   body {
     padding-bottom: 60px;
   }
 }
 
-/* ========================= SMALL MOBILE ========================= */
+/* ================= SMALL MOBILE ================= */
+
 @media (max-width: 480px) {
   .navbarSecundario {
     height: 56px;
     padding: 0 0.5rem;
-  }
-
-  .navbarLinks {
-    gap: 0;
   }
 
   .navbarLinkText {
@@ -271,6 +360,19 @@
 
   .navbarLinkText::after {
     bottom: -5px;
+  }
+
+  .searchItem {
+    padding: 0.65rem;
+  }
+
+  .searchThumb {
+    width: 46px;
+    height: 46px;
+  }
+
+  .searchTitle {
+    font-size: 0.8rem;
   }
 
   body {

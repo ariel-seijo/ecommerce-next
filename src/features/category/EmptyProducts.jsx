@@ -5,10 +5,10 @@ export default function EmptyProducts({ name }) {
     <div className="emptyState">
       <h3>No encontramos productos</h3>
 
-      <p>Probá cambiando los filtros o limpiando la búsqueda actual.</p>
+      <p>Probá cambiar los filtros seleccionados.</p>
 
       <Link href={`/category/${name}`} className="emptyBtn">
-        Ver todos los productos
+        Ver todos
       </Link>
     </div>
   );

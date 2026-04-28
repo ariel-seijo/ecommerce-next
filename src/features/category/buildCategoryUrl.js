@@ -1,24 +1,33 @@
-export function buildCategoryUrl(name, currentFilters = {}, newValues = {}) {
-    const params = new URLSearchParams();
+export function buildCategoryUrl(
+    name,
+    current,
+    changes = {}
+) {
+    const params =
+        new URLSearchParams();
 
-    const finalSort =
-        newValues.sort !== undefined
-            ? newValues.sort
-            : currentFilters.sort || "recent";
+    const next = {
+        ...current,
+        ...changes,
+    };
 
-    const finalBrand =
-        newValues.brand !== undefined
-            ? newValues.brand
-            : currentFilters.brand || "";
+    Object.entries(next).forEach(
+        ([key, value]) => {
+            if (
+                value !== undefined &&
+                value !== null &&
+                value !== "" &&
+                value !== "recent"
+            ) {
+                params.set(key, value);
+            }
+        }
+    );
 
-    const finalPrice =
-        newValues.price !== undefined
-            ? newValues.price
-            : currentFilters.price || "";
+    const query =
+        params.toString();
 
-    if (finalSort) params.set("sort", finalSort);
-    if (finalBrand) params.set("brand", finalBrand);
-    if (finalPrice) params.set("price", finalPrice);
-
-    return `/category/${name}?${params.toString()}`;
+    return query
+        ? `/category/${name}?${query}`
+        : `/category/${name}`;
 }

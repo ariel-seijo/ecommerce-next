@@ -1,82 +1,106 @@
+"use client";
+
+import { useState } from "react";
 import Link from "next/link";
 import { buildCategoryUrl } from "./buildCategoryUrl";
 
-export default function FiltersSidebar({ name, brands, sort, brand, price }) {
-  const current = { sort, brand, price };
+export default function FiltersSidebar({
+  name,
+  brands,
+  sort,
+  brand,
+  min,
+  max,
+  minPrice,
+  maxPrice,
+}) {
+  const current = {
+    sort,
+    brand,
+    min,
+    max,
+  };
 
-  const isSort = (value) => sort === value;
-  const isBrand = (value) => brand === value;
-  const isPrice = (value) => price === value;
+  const [rangeValue, setRangeValue] = useState(Number(max || maxPrice));
+
+  const sortLabels = {
+    asc: "Menor precio",
+    desc: "Mayor precio",
+    popular: "Más vendidos",
+    rating: "Mejor valorados",
+  };
 
   return (
     <aside className="filters">
-      {/* ORDENAR */}
       <div className="filterGroup">
-        <span className="filterTitle">Ordenar</span>
+        <span className="filterTitle">Seleccionados</span>
 
-        <Link
-          href={buildCategoryUrl(name, current, { sort: "recent" })}
-          className={isSort("recent") ? "active" : ""}
-        >
-          Más recientes
-        </Link>
+        <div className="selectedArea">
+          {sort !== "recent" && (
+            <Link
+              href={buildCategoryUrl(name, current, { sort: "recent" })}
+              className="selectedTag"
+            >
+              {sortLabels[sort]} ✕
+            </Link>
+          )}
 
-        <Link
-          href={buildCategoryUrl(name, current, { sort: "popular" })}
-          className={isSort("popular") ? "active" : ""}
-        >
-          Más vendidos
-        </Link>
+          {brand && (
+            <Link
+              href={buildCategoryUrl(name, current, { brand: "" })}
+              className="selectedTag"
+            >
+              {brand} ✕
+            </Link>
+          )}
 
-        <Link
-          href={buildCategoryUrl(name, current, { sort: "rating" })}
-          className={isSort("rating") ? "active" : ""}
-        >
-          Mejor valorados
-        </Link>
+          {(min || max) && (
+            <Link
+              href={buildCategoryUrl(name, current, {
+                min: "",
+                max: "",
+              })}
+              className="selectedTag"
+            >
+              ${min || minPrice} - ${max || maxPrice} ✕
+            </Link>
+          )}
 
-        <Link
-          href={buildCategoryUrl(name, current, { sort: "asc" })}
-          className={isSort("asc") ? "active" : ""}
-        >
-          Menor precio
-        </Link>
-
-        <Link
-          href={buildCategoryUrl(name, current, { sort: "desc" })}
-          className={isSort("desc") ? "active" : ""}
-        >
-          Mayor precio
-        </Link>
+          {!brand && sort === "recent" && !min && !max && (
+            <span className="noneSelected">Sin filtros</span>
+          )}
+        </div>
       </div>
 
-      {/* PRECIO */}
       <div className="filterGroup">
         <span className="filterTitle">Precio</span>
 
-        <Link
-          href={buildCategoryUrl(name, current, { price: "1" })}
-          className={isPrice("1") ? "active" : ""}
-        >
-          Hasta $100
-        </Link>
+        <form action={`/category/${name}`} method="GET" className="priceForm">
+          <input type="hidden" name="sort" value={sort} />
 
-        <Link
-          href={buildCategoryUrl(name, current, { price: "2" })}
-          className={isPrice("2") ? "active" : ""}
-        >
-          $100 - $300
-        </Link>
+          <input type="hidden" name="brand" value={brand} />
 
-        <Link
-          href={buildCategoryUrl(name, current, { price: "3" })}
-          className={isPrice("3") ? "active" : ""}
-        >
-          $300+
-        </Link>
+          <input type="hidden" name="min" value={minPrice} />
+
+          <div className="rangeInfo">
+            <small>Mín: ${minPrice}</small>
+            <small>Max: ${rangeValue}</small>
+          </div>
+
+          <input
+            type="range"
+            min={minPrice}
+            max={maxPrice}
+            value={rangeValue}
+            name="max"
+            className="rangeBar"
+            onChange={(e) => setRangeValue(Number(e.target.value))}
+          />
+
+          <button type="submit">Aplicar</button>
+        </form>
       </div>
 
-      {/* MARCA */}
       <div className="filterGroup">
         <span className="filterTitle">Marca</span>
 
@@ -86,7 +110,7 @@ export default function FiltersSidebar({ name, brands, sort, brand, price }) {
             href={buildCategoryUrl(name, current, {
               brand: item.brand,
             })}
-            className={isBrand(item.brand) ? "active" : ""}
+            className={brand === item.brand ? "active" : ""}
           >
             {item.brand}
           </Link>

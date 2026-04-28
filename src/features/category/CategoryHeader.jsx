@@ -1,30 +1,13 @@
 import Link from "next/link";
-import SectionTitle from "@/components/SectionTitle";
 
-export default function CategoryHeader({ name, categoryName, totalProducts }) {
+export default function CategoryHeader({ categoryName }) {
   return (
-    <>
-      {/* breadcrumbs */}
-      <nav className="breadcrumbs">
-        <Link href="/">Inicio</Link>
-        <span>/</span>
-        <span>{categoryName}</span>
-      </nav>
+    <nav className="breadcrumbs">
+      <Link href="/">Inicio</Link>
 
-      {/* title */}
-      <SectionTitle>{categoryName}</SectionTitle>
+      <span>/</span>
 
-      {/* topbar */}
-      <div className="categoryTopbar">
-        <p>
-          {totalProducts} producto
-          {totalProducts !== 1 ? "s" : ""} encontrados
-        </p>
-
-        <Link href={`/category/${name}`} className="clearFilter">
-          Limpiar filtros
-        </Link>
-      </div>
-    </>
+      <span>{categoryName}</span>
+    </nav>
   );
 }

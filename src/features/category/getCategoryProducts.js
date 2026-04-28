@@ -2,74 +2,110 @@ import { prisma } from "@/lib/prisma";
 
 export async function getCategoryProducts({
     categoryName,
-    sort = "recent",
-    brand = "",
-    price = "",
+    sort,
+    brand,
+    min,
+    max,
 }) {
-    let orderBy = { createdAt: "desc" };
-
-    if (sort === "asc") orderBy = { price: "asc" };
-    if (sort === "desc") orderBy = { price: "desc" };
-    if (sort === "popular") orderBy = { sold: "desc" };
-    if (sort === "rating") orderBy = { rating: "desc" };
-
-    let priceFilter = {};
-
-    if (price === "1") {
-        priceFilter = {
-            price: { lte: 100 },
-        };
-    }
-
-    if (price === "2") {
-        priceFilter = {
-            price: { gt: 100, lte: 300 },
-        };
-    }
-
-    if (price === "3") {
-        priceFilter = {
-            price: { gt: 300 },
-        };
-    }
-
     const where = {
-        active: true,
         category: {
             name: categoryName,
         },
-        ...(brand && { brand }),
-        ...priceFilter,
+        active: true,
     };
 
-    const [products, brands] = await Promise.all([
-        prisma.product.findMany({
+    if (brand) {
+        where.brand = brand;
+    }
+
+    if (min || max) {
+        where.price = {};
+
+        if (min) {
+            where.price.gte =
+                Number(min);
+        }
+
+        if (max) {
+            where.price.lte =
+                Number(max);
+        }
+    }
+
+    let orderBy = {
+        createdAt: "desc",
+    };
+
+    if (sort === "popular") {
+        orderBy = { sold: "desc" };
+    }
+
+    if (sort === "rating") {
+        orderBy = { rating: "desc" };
+    }
+
+    if (sort === "asc") {
+        orderBy = { price: "asc" };
+    }
+
+    if (sort === "desc") {
+        orderBy = { price: "desc" };
+    }
+
+    const products =
+        await prisma.product.findMany({
             where,
             include: {
                 category: true,
             },
             orderBy,
-        }),
+        });
 
-        prisma.product.findMany({
+    const brands =
+        await prisma.product.groupBy({
+            by: ["brand"],
             where: {
-                active: true,
                 category: {
                     name: categoryName,
                 },
+                active: true,
             },
-            select: {
-                brand: true,
-            },
-            distinct: ["brand"],
+            _count: true,
             orderBy: {
                 brand: "asc",
             },
-        }),
-    ]);
+        });
+
+    const rangeWhere = {
+        category: {
+            name: categoryName,
+        },
+        active: true,
+    };
+
+    if (brand) {
+        rangeWhere.brand = brand;
+    }
+
+    const priceData =
+        await prisma.product.aggregate({
+            where: rangeWhere,
+            _min: {
+                price: true,
+            },
+            _max: {
+                price: true,
+            },
+        });
 
     return {
         products,
         brands,
+        minPrice: Math.floor(
+            priceData._min.price || 0
+        ),
+        maxPrice: Math.ceil(
+            priceData._max.price || 0
+        ),
     };
 }

@@ -7,7 +7,9 @@ import { ShoppingCart, Star } from "lucide-react";
 import { useCart } from "@/features/cart/useCart";
 
 export default function ProductCard({ product }) {
-  const { addToCart } = useCart();
+  const { addToCart, cart } = useCart();
+  const isOutOfStock = product.stock <= 0;
+  const isInCart = !isOutOfStock && cart.some((item) => item.id === product.id);
 
   return (
     <li className="card">
@@ -49,9 +51,26 @@ export default function ProductCard({ product }) {
         </div>
       </Link>
 
-      <button className="buy-btn" onClick={() => addToCart(product)}>
-        <ShoppingCart size={18} />
-        Agregar
+      <button
+        className={`buy-btn ${isInCart ? "in-cart" : ""} ${
+          isOutOfStock ? "out-stock" : ""
+        }`}
+        onClick={() => addToCart(product)}
+        disabled={isInCart || isOutOfStock}
+      >
+        <span className="content">
+          {!isOutOfStock && isInCart && (
+            <ShoppingCart size={18} className="cart-icon" />
+          )}
+
+          <span className="text">
+            {isOutOfStock
+              ? "Sin stock"
+              : isInCart
+                ? "Añadido"
+                : "Añadir al carrito"}
+          </span>
+        </span>
       </button>
     </li>
   );

@@ -113,24 +113,57 @@
 
 .buy-btn {
   margin-top: 0.4rem;
-
-  padding: 0.55rem;
+  padding: 0.8rem;
   border: none;
-
-  background: rgb(84, 84, 84);
-  color: rgb(210, 210, 210);
-
+  background: black;
+  color: white;
   font-weight: bold;
   cursor: pointer;
 
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 0.4rem;
+
+  overflow: hidden;
+  position: relative;
 }
 
+.buy-btn .content {
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  transition: all 0.25s ease;
+}
+
+/* ICONO */
+.cart-icon {
+  transform: scale(0);
+  opacity: 0;
+  transition: all 0.25s ease;
+}
+
+/* CUANDO ESTÁ EN CARRITO */
+.buy-btn.in-cart .cart-icon {
+  transform: scale(1);
+  opacity: 1;
+}
+
+/* TEXTO */
+.text {
+  font-size: 0.85rem;
+  transition:
+    transform 0.25s ease,
+    opacity 0.25s ease;
+}
+
+/* pequeño shift al cambiar */
+.buy-btn.in-cart .text {
+  transform: translateX(2px);
+}
+
+/* estado disabled */
 .buy-btn:disabled {
-  opacity: 0.45;
+  opacity: 0.6;
   cursor: not-allowed;
 }
 

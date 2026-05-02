@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 
 import { FiltersProvider } from "@/features/filters/FiltersContext";
 import { CartProvider } from "@/features/cart/CartContext";
+import { AuthProvider } from "@/features/auth/AuthProvider";
 
 import { prisma } from "@/lib/prisma";
 
@@ -37,12 +38,14 @@ export default async function RootLayout({ children }) {
   return (
     <html lang="en">
       <body className={fuenteGamer.variable}>
-        <CartProvider>
-          <FiltersProvider>
-            <Navbar products={products} />
-            {children}
-          </FiltersProvider>
-        </CartProvider>
+        <AuthProvider>
+          <CartProvider>
+            <FiltersProvider>
+              <Navbar products={products} />
+              {children}
+            </FiltersProvider>
+          </CartProvider>
+        </AuthProvider>
 
         <Footer />
       </body>

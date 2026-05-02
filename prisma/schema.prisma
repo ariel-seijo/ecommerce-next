@@ -7,6 +7,15 @@ datasource db {
   url      = env("DATABASE_URL")
 }
 
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique @db.VarChar(255)
+  password  String   @db.VarChar(255)
+  createdAt DateTime @default(now())
+
+  @@index([email])
+}
+
 model Category {
   id       Int       @id @default(autoincrement())
   name     String    @unique @db.VarChar(50)

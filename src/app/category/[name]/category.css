@@ -162,8 +162,7 @@
   list-style: none;
   cursor: pointer;
 
-  background: #11151c;
-  border: 1px solid #1e2430;
+  background: #0d0d0d;
 
   color: white;
   padding: 0.7rem 0.9rem;
@@ -175,8 +174,7 @@
   top: calc(100% + 8px);
 
   min-width: 220px;
-  background: #11151c;
-  border: 1px solid #1e2430;
+  background: #0d0d0d;
 
   display: flex;
   flex-direction: column;
@@ -190,7 +188,7 @@
 }
 
 .sortMenu a:hover {
-  background: #171c24;
+  background: #242424;
 }
 
 /* chips */

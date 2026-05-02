@@ -2,18 +2,24 @@
 
 import "./Navbar.css";
 import Container from "@/components/Container";
-import { useMemo, useState } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { useCart } from "@/features/cart/useCart";
+import { useAuthStore } from "@/features/auth/useAuthStore";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
-import { ShoppingCartIcon, UserRound } from "lucide-react";
+import { usePathname, useRouter } from "next/navigation";
+import { ShoppingCartIcon, UserRound, LogOut } from "lucide-react";
 import { Cart } from "@/features/cart/Cart";
 
 export default function Navbar({ products = [] }) {
   const [search, setSearch] = useState("");
+  const [showUserMenu, setShowUserMenu] = useState(false);
   const pathname = usePathname();
+  const router = useRouter();
 
   const { cart, toggleCart } = useCart();
+  const { user, logout } = useAuthStore();
+
+  const menuRef = useRef(null);
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
@@ -28,6 +34,22 @@ export default function Navbar({ products = [] }) {
       .filter((product) => product.title.toLowerCase().includes(term))
       .slice(0, 6);
   }, [search, products]);
+
+  useEffect(() => {
+    function handleClickOutside(event) {
+      if (menuRef.current && !menuRef.current.contains(event.target)) {
+        setShowUserMenu(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
+
+  const handleLogout = async () => {
+    await logout();
+    setShowUserMenu(false);
+    router.push("/");
+  };
 
   return (
     <>
@@ -82,9 +104,60 @@ export default function Navbar({ products = [] }) {
             </div>
 
             <div className="actions">
-              <button className="icon-btn">
-                <UserRound size={30} />
-              </button>
+              <div className="userWrapper" ref={menuRef}>
+                <button
+                  className="icon-btn"
+                  onClick={() => setShowUserMenu(!showUserMenu)}
+                >
+                  <UserRound size={30} />
+                </button>
+
+                {showUserMenu && (
+                  <div className={`userDropdown ${showUserMenu ? "open" : ""}`}>
+                    {user ? (
+                      <>
+                        <div className="userDropdownHeader">
+                          <span className="userDropdownEmailLabel">
+                            Signed in as
+                          </span>
+                          <span className="userDropdownEmail">{user.email}</span>
+                        </div>
+                        <Link
+                          href="/account"
+                          className="userDropdownLink"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          My Account
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className="userDropdownBtn"
+                        >
+                          <LogOut size={16} />
+                          Logout
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <Link
+                          href="/login"
+                          className="userDropdownLink"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          Login
+                        </Link>
+                        <Link
+                          href="/register"
+                          className="userDropdownLink"
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          Register
+                        </Link>
+                      </>
+                    )}
+                  </div>
+                )}
+              </div>
 
               <div className="cartWrapper">
                 <button className="icon-btn cart-btn" onClick={toggleCart}>

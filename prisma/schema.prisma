@@ -11,6 +11,7 @@ model User {
   id        String   @id @default(cuid())
   email     String   @unique @db.VarChar(255)
   password  String   @db.VarChar(255)
+  role      String   @default("customer") @db.VarChar(20)
   createdAt DateTime @default(now())
 
   @@index([email])

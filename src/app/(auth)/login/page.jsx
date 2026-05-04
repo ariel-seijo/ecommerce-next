@@ -5,12 +5,14 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth/useAuthStore";
+import { Eye, EyeOff, LogIn } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, loading, error, clearError } = useAuthStore();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showPassword, setShowPassword] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -25,17 +27,22 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-card">
-        <h1 className="auth-title">LOGIN</h1>
+        <div className="auth-logo">
+          <span>ELECTROSHOP</span>
+        </div>
+
+        <h1 className="auth-title">INICIAR SESIÓN</h1>
 
         {error && (
           <div className="auth-error">
-            {error.includes("incorrectos") && (
-              <span>
+            {error.includes("incorrectos") ? (
+              <>
                 <strong>Email o contraseña incorrectos.</strong> Verificá tus
                 datos e intentá de nuevo.
-              </span>
+              </>
+            ) : (
+              error
             )}
-            {!error.includes("incorrectos") && <span>{error}</span>}
           </div>
         )}
 
@@ -55,6 +62,7 @@ export default function LoginPage() {
               className="auth-input"
               placeholder="tu@email.com"
               required
+              autoComplete="email"
             />
           </div>
 
@@ -62,22 +70,43 @@ export default function LoginPage() {
             <label htmlFor="password" className="auth-label">
               Contraseña
             </label>
-            <input
-              id="password"
-              type="password"
-              value={password}
-              onChange={(e) => {
-                setPassword(e.target.value);
-                clearError();
-              }}
-              className="auth-input"
-              placeholder="••••••••"
-              required
-            />
+            <div className="auth-input-wrapper">
+              <input
+                id="password"
+                type={showPassword ? "text" : "password"}
+                value={password}
+                onChange={(e) => {
+                  setPassword(e.target.value);
+                  clearError();
+                }}
+                className="auth-input"
+                placeholder="••••••••"
+                required
+                autoComplete="current-password"
+              />
+              <button
+                type="button"
+                className="auth-reveal-btn"
+                onClick={() => setShowPassword(!showPassword)}
+                tabIndex={-1}
+              >
+                {showPassword ? <EyeOff size={18} /> : <Eye size={18} />}
+              </button>
+            </div>
           </div>
 
           <button type="submit" disabled={loading} className="auth-btn">
-            {loading ? "INGRESANDO..." : "INGRESAR"}
+            {loading ? (
+              <span className="loading-text">
+                <span className="spinner" />
+                INGRESANDO...
+              </span>
+            ) : (
+              <>
+                <LogIn size={18} style={{ marginRight: "0.5rem", verticalAlign: "middle" }} />
+                INGRESAR
+              </>
+            )}
           </button>
         </form>
 

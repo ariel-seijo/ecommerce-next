@@ -12,9 +12,14 @@
   --color-11: #0e335d;
 }
 
+html {
+  scroll-behavior: smooth;
+}
+
 body {
   margin: 0;
   min-height: 100vh;
+  overflow-x: hidden;
 
   background:
     radial-gradient(circle at 20% 10%, #1a1a1a 0%, transparent 40%),
@@ -46,6 +51,93 @@ body::before {
   font-family: "Inter", sans-serif;
 }
 
+/* =========================
+   ACCESSIBILITY HELPERS
+   ========================= */
+
+.visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
+/* =========================
+   SKIP LINK
+   ========================= */
+
+.skip-link {
+  position: fixed;
+  top: 8px;
+  left: 8px;
+  z-index: 10000;
+  padding: 0.65rem 1.2rem;
+  background: #24abf3;
+  color: #111;
+  font-size: 0.88rem;
+  font-weight: 900;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  border-radius: 6px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.5);
+  transform: translateY(-120%);
+  transition: transform 0.2s ease;
+}
+
+.skip-link:focus {
+  transform: translateY(0);
+  outline: 2px solid #fff;
+  outline-offset: 2px;
+}
+
+/* =========================
+   FOCUS VISIBLE
+   ========================= */
+
+:focus-visible {
+  outline: 2px solid #24abf3;
+  outline-offset: 2px;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+}
+
+/* Ensure focused items are not hidden by sticky navbar */
+:target {
+  scroll-margin-top: 90px;
+}
+
+:focus {
+  scroll-margin-top: 90px;
+  scroll-margin-bottom: 70px;
+}
+
+/* =========================
+   REDUCED MOTION
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* =========================
+   SORT BUTTONS
+   ========================= */
+
 .sort-buttons {
   display: flex;
   gap: 1rem;
@@ -59,11 +151,9 @@ body::before {
   border-radius: 8px;
 }
 
-/* PEGAR AL FINAL DE globals.css */
-
 /* =========================
-   HOME LOADING
-========================= */
+    HOME LOADING SKELETONS
+    ========================= */
 
 .homeWrap {
   max-width: 1200px;
@@ -86,7 +176,6 @@ body::before {
   0% {
     background-position: 220% 0;
   }
-
   100% {
     background-position: -220% 0;
   }
@@ -105,29 +194,31 @@ body::before {
 .sk-section-title {
   width: 320px;
   height: 34px;
-  margin-bottom: 1.2rem;
+  margin: 0 auto 1.5rem;
 }
 
-/* products */
+/* featured carousel skeleton */
 
-.sk-products-grid {
-  display: grid;
-  grid-template-columns: repeat(5, 1fr);
+.sk-fc {
+  display: flex;
   gap: 1rem;
+  padding: 0 1rem;
 }
 
-.sk-card {
+.sk-fc-card {
+  flex: 0 0 calc(25% - 0.75rem);
   display: flex;
   flex-direction: column;
   gap: 0.8rem;
-
-  background: rgb(34, 34, 34);
-  padding: 1.2rem;
+  background: rgb(28, 28, 28);
+  border-radius: 8px;
+  padding: 1rem;
 }
 
-.sk-card-img {
+.sk-fc-img {
   width: 100%;
   aspect-ratio: 1 / 1;
+  border-radius: 6px;
 }
 
 .sk-line {
@@ -158,34 +249,40 @@ body::before {
 .sk-brands-grid {
   display: grid;
   grid-template-columns: repeat(8, 1fr);
-  gap: 1rem;
+  gap: 0.8rem;
 }
 
 .sk-brand {
   width: 100%;
   aspect-ratio: 1 / 1;
-  border-radius: 12px;
+  border-radius: 8px;
 }
 
-/* responsive */
+/* =========================
+   SKELETON RESPONSIVE
+   ========================= */
+
+@media (max-width: 1199px) {
+  .sk-fc-card {
+    flex: 0 0 calc(33.333% - 0.67rem);
+  }
+}
 
 @media (max-width: 1100px) {
-  .sk-products-grid {
-    grid-template-columns: repeat(3, 1fr);
-  }
-
   .sk-brands-grid {
     grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 767px) {
+  .sk-fc-card {
+    flex: 0 0 calc(50% - 0.5rem);
   }
 }
 
 @media (max-width: 700px) {
   .sk-slider {
     height: 280px;
-  }
-
-  .sk-products-grid {
-    grid-template-columns: repeat(2, 1fr);
   }
 
   .sk-section-title {
@@ -204,7 +301,10 @@ body::before {
     border-radius: 12px;
   }
 
-  .sk-products-grid,
+  .sk-fc-card {
+    flex: 0 0 100%;
+  }
+
   .sk-brands-grid {
     grid-template-columns: 1fr;
   }

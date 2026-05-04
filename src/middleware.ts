@@ -5,7 +5,21 @@ import { sessionOptions } from "@/lib/session";
 export async function middleware(request: NextRequest) {
   const session = await getIronSession(request, new NextResponse(), sessionOptions);
 
-  if (!(session as any).userId) {
+  const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
+
+  if (isAdminRoute) {
+    if (!session.userId) {
+      const loginUrl = new URL("/login", request.url);
+      return NextResponse.redirect(loginUrl);
+    }
+
+    if (session.role !== "admin") {
+      const homeUrl = new URL("/", request.url);
+      return NextResponse.redirect(homeUrl);
+    }
+  }
+
+  if (!isAdminRoute && !(session as any).userId) {
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
   }
@@ -14,5 +28,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/checkout/:path*", "/account/:path*"],
+  matcher: ["/checkout/:path*", "/account/:path*", "/admin/:path*", "/dashboard"],
 };

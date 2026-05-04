@@ -16,15 +16,15 @@ async function main() {
     const hashedPassword = await hash("123456", 12);
 
     const testUsers = [
-        { email: "admin@electroshop.com", password: hashedPassword },
-        { email: "user@test.com", password: hashedPassword },
+        { email: "admin@electroshop.com", password: hashedPassword, role: "admin" },
+        { email: "user@test.com", password: hashedPassword, role: "customer" },
     ];
 
     for (const u of testUsers) {
         await prisma.user.upsert({
             where: { email: u.email },
-            update: { password: u.password },
-            create: { email: u.email, password: u.password },
+            update: { password: u.password, role: u.role },
+            create: { email: u.email, password: u.password, role: u.role },
         });
     }
 

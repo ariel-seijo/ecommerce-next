@@ -90,6 +90,19 @@
   background: #242424;
 }
 
+.userDropdownAdminLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #24abf3;
+  font-weight: 700;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.userDropdownAdminLink:hover {
+  background: rgba(36, 171, 243, 0.1);
+}
+
 .userDropdownBtn {
   display: flex;
   align-items: center;

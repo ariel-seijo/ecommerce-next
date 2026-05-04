@@ -36,13 +36,19 @@ export default async function RootLayout({ children }) {
   });
 
   return (
-    <html lang="en">
+    <html lang="es">
       <body className={fuenteGamer.variable}>
+        <a href="#main-content" className="skip-link">
+          Saltar al contenido principal
+        </a>
+
         <AuthProvider>
           <CartProvider>
             <FiltersProvider>
               <Navbar products={products} />
-              {children}
+              <main id="main-content" tabIndex={-1}>
+                {children}
+              </main>
             </FiltersProvider>
           </CartProvider>
         </AuthProvider>

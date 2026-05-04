@@ -34,13 +34,14 @@ export async function POST(request) {
     }
 
     const res = new NextResponse(
-      JSON.stringify({ user: { id: user.id, email: user.email } }),
+      JSON.stringify({ user: { id: user.id, email: user.email, role: user.role } }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
 
     const session = await getIronSession(request, res, sessionOptions);
     session.userId = user.id;
     session.email = user.email;
+    session.role = user.role;
     await session.save();
 
     return res;

@@ -1,0 +1,106 @@
+/* =====================================================
+   FEATURED CAROUSEL — INFINITE SCROLL CSS
+   ===================================================== */
+
+.fc {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 2.5rem;
+}
+
+.fc-empty {
+  text-align: center;
+  color: rgb(140, 140, 140);
+  padding: 3rem 1rem;
+}
+
+/* VIEWPORT */
+.fc-viewport {
+  overflow: hidden;
+}
+
+/* FADES */
+.fc-fade {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 1rem;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.fc-fade-left {
+  left: 0;
+  background: linear-gradient(to right, #0a0a0a, transparent);
+}
+
+.fc-fade-right {
+  right: 0;
+  background: linear-gradient(to left, #0a0a0a, transparent);
+}
+
+/* SCROLL */
+.fc-scroll {
+  display: flex;
+  flex-wrap: nowrap;
+  width: max-content;
+  gap: 0.5rem;
+  animation: scroll 30s linear infinite;
+}
+
+.fc-scroll:hover {
+  animation-play-state: paused;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+/* CARD SIZES */
+.fc-card {
+  flex-shrink: 0;
+  width: 65%;
+  max-width: 220px;
+}
+
+@media (min-width: 480px) {
+  .fc-card {
+    width: 45%;
+  }
+}
+
+@media (min-width: 768px) {
+  .fc-card {
+    width: 30%;
+    max-width: 240px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fc-card {
+    width: 26%;
+    max-width: 260px;
+  }
+}
+
+/* REDUCED MOTION */
+@media (prefers-reduced-motion: reduce) {
+  .fc-scroll {
+    animation: none;
+  }
+
+  .fc-viewport {
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+  }
+
+  .fc-card {
+    scroll-snap-align: center;
+  }
+}

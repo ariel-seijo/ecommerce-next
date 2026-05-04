@@ -2,8 +2,9 @@
 
 import "./Cart.css";
 import Image from "next/image";
-import { Trash2 } from "lucide-react";
+import { ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "@/features/cart/useCart";
+import { useRouter } from "next/navigation";
 
 export function Cart() {
   const {
@@ -16,20 +17,28 @@ export function Cart() {
     closeCart,
   } = useCart();
 
+  const router = useRouter();
+
   const total = cart
     .reduce((acc, product) => acc + product.price * product.quantity, 0)
     .toFixed(2);
 
+  const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const isEmpty = cart.length === 0;
 
   return (
     <aside className={`cart ${isCartOpen ? "open" : ""}`}>
-      <button className="close-btn" onClick={closeCart}>
-        ✕
-      </button>
+      <div className="cart-header">
+        <h4>Carrito</h4>
+        <span>{totalItems} {totalItems === 1 ? "ítem" : "ítems"}</span>
+        <button className="close-btn" onClick={closeCart}>
+          ✕
+        </button>
+      </div>
 
       {isEmpty ? (
         <div className="emptyCart">
+          <ShoppingBag size={40} strokeWidth={1.5} />
           <p>El carrito está vacío.</p>
         </div>
       ) : (
@@ -40,8 +49,8 @@ export function Cart() {
                 <Image
                   src={product.thumbnail}
                   alt={product.title}
-                  width={100}
-                  height={100}
+                  width={64}
+                  height={64}
                 />
 
                 <div className="cartInfoContainer">
@@ -66,7 +75,7 @@ export function Cart() {
                     </div>
 
                     <button onClick={() => removeFromCart(product.id)}>
-                      Eliminar
+                      <Trash2 size={14} />
                     </button>
                   </footer>
                 </div>
@@ -74,9 +83,26 @@ export function Cart() {
             ))}
           </ul>
 
-          <p className="totalPrice">Total: ${total}</p>
+          <div className="cart-footer">
+            <div className="totalPrice">
+              <span>Total</span>
+              <strong>${total}</strong>
+            </div>
 
-          <button className="checkoutBtn">COMPRAR</button>
+            <button
+              className="checkoutBtn"
+              onClick={() => {
+                closeCart();
+                router.push("/checkout");
+              }}
+            >
+              COMPRAR
+            </button>
+
+            <button className="clear-btn" onClick={clearCart}>
+              Vaciar carrito
+            </button>
+          </div>
         </>
       )}
     </aside>

@@ -7,7 +7,7 @@ import { useCart } from "@/features/cart/useCart";
 import { useAuthStore } from "@/features/auth/useAuthStore";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ShoppingCartIcon, UserRound, LogOut } from "lucide-react";
+import { ShoppingCartIcon, UserRound, LogOut, Shield } from "lucide-react";
 import { Cart } from "@/features/cart/Cart";
 
 export default function Navbar({ products = [] }) {
@@ -122,6 +122,16 @@ export default function Navbar({ products = [] }) {
                           </span>
                           <span className="userDropdownEmail">{user.email}</span>
                         </div>
+                        {user.role === "admin" && (
+                          <Link
+                            href="/admin"
+                            className="userDropdownLink userDropdownAdminLink"
+                            onClick={() => setShowUserMenu(false)}
+                          >
+                            <Shield size={16} />
+                            Admin Dashboard
+                          </Link>
+                        )}
                         <Link
                           href="/account"
                           className="userDropdownLink"

@@ -1,11 +1,7 @@
 // src/app/product/[slug]/page.jsx
 
 import { notFound } from "next/navigation";
-import ProductPage from "@/components/product/ProductPage";
-import {
-    getProductBySlug,
-    getRelatedProducts,
-} from "@/features/products/product.service";
+import { ProductPage, getProductBySlug, getRelatedProducts } from "@/features/products";
 
 export const dynamic = "force-dynamic";
 

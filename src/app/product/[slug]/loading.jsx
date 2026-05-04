@@ -1,17 +1,15 @@
 // src/app/product/[slug]/loading.jsx
 
-import "@/components/product/ProductPage.css";
+import styles from "@/features/products/styles/ProductPage.module.css";
 
 export default function Loading() {
   return (
-    <main className="product-page">
-      {/* hero */}
-      <section className="pp-hero">
-        {/* izquierda imagen */}
-        <div className="pp-gallery">
+    <main className={styles["product-page"]}>
+      <section className={styles["pp-hero"]}>
+        <div className={styles["pp-gallery"]}>
           <div className="sk sk-image"></div>
 
-          <div className="pp-thumbs">
+          <div className={styles["pp-thumbs"]}>
             <div className="sk sk-thumb"></div>
             <div className="sk sk-thumb"></div>
             <div className="sk sk-thumb"></div>
@@ -19,7 +17,6 @@ export default function Loading() {
           </div>
         </div>
 
-        {/* derecha info */}
         <div className="sk-wrap">
           <div className="sk sk-pill"></div>
 
@@ -32,7 +29,7 @@ export default function Loading() {
           <div className="sk sk-line md"></div>
           <div className="sk sk-line sm"></div>
 
-          <div className="pp-meta">
+          <div className={styles["pp-meta"]}>
             <div className="sk sk-box"></div>
             <div className="sk sk-box"></div>
           </div>
@@ -41,11 +38,10 @@ export default function Loading() {
         </div>
       </section>
 
-      {/* similares */}
-      <section className="pp-related">
+      <section className={styles["pp-related"]}>
         <div className="sk sk-title"></div>
 
-        <div className="pp-related-grid">
+        <div className={styles["pp-related-grid"]}>
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className="sk-card">
               <div className="sk sk-card-img"></div>

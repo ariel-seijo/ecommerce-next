@@ -1,12 +1,13 @@
 import "./category.css";
 
-import ProductsWrapper from "@/features/products/ProductsWrapper";
-import { getCategoryProducts } from "@/features/category/getCategoryProducts";
-
-import FiltersSidebar from "@/features/category/FiltersSidebar";
-import CategoryHeader from "@/features/category/CategoryHeader";
-import EmptyProducts from "@/features/category/EmptyProducts";
-import SortDropdown from "@/features/category/SortDropdown";
+import { Products } from "@/features/products";
+import {
+  getCategoryProducts,
+  FiltersSidebar,
+  CategoryHeader,
+  EmptyProducts,
+  SortDropdown,
+} from "@/features/category";
 
 export default async function CategoryPage({ params, searchParams }) {
   const { name } = await params;
@@ -59,7 +60,7 @@ export default async function CategoryPage({ params, searchParams }) {
             </div>
 
             {products.length > 0 ? (
-              <ProductsWrapper products={products} />
+              <Products products={products} />
             ) : (
               <EmptyProducts name={name} />
             )}

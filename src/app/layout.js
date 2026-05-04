@@ -11,9 +11,8 @@ const fuenteGamer = localFont({
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
-import { FiltersProvider } from "@/features/filters/FiltersContext";
-import { CartProvider } from "@/features/cart/CartContext";
-import { AuthProvider } from "@/features/auth/AuthProvider";
+import { CartProvider } from "@/features/cart";
+import { AuthProvider } from "@/features/auth";
 
 import { prisma } from "@/lib/prisma";
 
@@ -44,12 +43,10 @@ export default async function RootLayout({ children }) {
 
         <AuthProvider>
           <CartProvider>
-            <FiltersProvider>
-              <Navbar products={products} />
-              <main id="main-content" tabIndex={-1}>
-                {children}
-              </main>
-            </FiltersProvider>
+            <Navbar products={products} />
+            <main id="main-content" tabIndex={-1}>
+              {children}
+            </main>
           </CartProvider>
         </AuthProvider>
 

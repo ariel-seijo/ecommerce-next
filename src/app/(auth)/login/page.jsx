@@ -1,10 +1,10 @@
 "use client";
 
-import "@/features/auth/Auth.css";
+import "@/features/auth/styles/auth.css";
 import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import { useAuthStore } from "@/features/auth/useAuthStore";
+import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 
 export default function LoginPage() {

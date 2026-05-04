@@ -2,7 +2,7 @@
 
 import { useRouter, usePathname } from 'next/navigation';
 import { LogOut } from 'lucide-react';
-import { useAuthStore } from '@/features/auth/useAuthStore';
+import { useAuthStore } from '@/features/auth';
 
 const pageTitles = {
   '/admin': 'Panel',

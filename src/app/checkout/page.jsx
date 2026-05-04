@@ -2,7 +2,7 @@
 
 import "./Checkout.css";
 import { useState } from "react";
-import { useCart } from "@/features/cart/useCart";
+import { useCart } from "@/features/cart";
 import { useRouter } from "next/navigation";
 import Image from "next/image";
 import {

@@ -1,8 +1,8 @@
 import Sidebar from '@/components/admin/Sidebar';
 import Header from '@/components/admin/Header';
-import '@/styles/admin/dashboard.css';
-import '@/styles/admin/forms.css';
-import '@/styles/admin/table.css';
+import '@/features/admin/styles/dashboard.css';
+import '@/features/admin/styles/forms.css';
+import '@/features/admin/styles/table.css';
 
 export const metadata = {
   title: 'Admin Dashboard | E-Commerce',

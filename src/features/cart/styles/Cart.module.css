@@ -2,14 +2,6 @@
    CART PANEL — Cyberpunk Dark Theme
    ===================================================== */
 
-:root {
-  --primary: #007fff;
-  --secondary: #00cfff;
-  --bg-main: #0a0f1c;
-  --bg-soft: #121826;
-  --border: #1a2333;
-}
-
 /* panel carrito */
 .cart {
   position: absolute;

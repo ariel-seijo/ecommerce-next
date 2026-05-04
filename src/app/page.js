@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import FeaturedCarousel from "@/features/products/FeaturedCarousel";
+import { FeaturedCarousel } from "@/features/products";
 import Slider from "@/components/Slider";
 import SectionTitle from "@/components/SectionTitle";
 import Brands from "@/components/Brands";

@@ -1,10 +1,10 @@
 "use client";
 
-import "./ProductPage.css";
+import styles from "../styles/ProductPage.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
-import { useCart } from "@/features/cart/useCart";
-import ProductCard from "@/features/products/ProductCard";
+import { useCart } from "@/features/cart";
+import ProductCard from "./ProductCard";
 import Link from "next/link";
 import {
   ShoppingCart,
@@ -53,8 +53,8 @@ export default function ProductPage({ product, relatedProducts }) {
   };
 
   return (
-    <main className="product-page">
-      <nav className="pp-breadcrumb">
+    <main className={styles["product-page"]}>
+      <nav className={styles["pp-breadcrumb"]}>
         <Link href="/">Inicio</Link>
         <ChevronRight size={14} />
         <Link href={`/category/${product.category.name.toLowerCase()}`}>
@@ -64,10 +64,10 @@ export default function ProductPage({ product, relatedProducts }) {
         <span>{product.title}</span>
       </nav>
 
-      <section className="pp-hero">
-        <div className="pp-gallery">
+      <section className={styles["pp-hero"]}>
+        <div className={styles["pp-gallery"]}>
           <div
-            className={`pp-main-image ${isZoomed ? "zoomed" : ""}`}
+            className={`${styles["pp-main-image"]} ${isZoomed ? styles.zoomed : ""}`}
             onMouseEnter={() => setIsZoomed(true)}
             onMouseLeave={() => setIsZoomed(false)}
             onMouseMove={handleMouseMove}
@@ -87,11 +87,11 @@ export default function ProductPage({ product, relatedProducts }) {
           </div>
 
           {images.length > 1 && (
-            <div className="pp-thumbs">
+            <div className={styles["pp-thumbs"]}>
               {images.map((img, i) => (
                 <button
                   key={i}
-                  className={`pp-thumb ${selectedImage === img ? "active" : ""}`}
+                  className={`${styles["pp-thumb"]} ${selectedImage === img ? styles.active : ""}`}
                   onClick={() => setSelectedImage(img)}
                 >
                   <Image
@@ -106,32 +106,32 @@ export default function ProductPage({ product, relatedProducts }) {
           )}
         </div>
 
-        <div className="pp-info">
-          <div className="pp-tags">
+        <div className={styles["pp-info"]}>
+          <div className={styles["pp-tags"]}>
             {isOutOfStock ? (
-              <span className="pp-tag pp-tag-out">Agotado</span>
+              <span className={`${styles["pp-tag"]} ${styles["pp-tag-out"]}`}>Agotado</span>
             ) : isLowStock ? (
-              <span className="pp-tag pp-tag-low">
+              <span className={`${styles["pp-tag"]} ${styles["pp-tag-low"]}`}>
                 Últimas {product.stock} unidades
               </span>
             ) : (
-              <span className="pp-tag pp-tag-stock">
+              <span className={`${styles["pp-tag"]} ${styles["pp-tag-stock"]}`}>
                 <Check size={14} />
                 En stock
               </span>
             )}
 
-            <span className="pp-tag pp-tag-brand">{product.brand}</span>
+            <span className={`${styles["pp-tag"]} ${styles["pp-tag-brand"]}`}>{product.brand}</span>
 
             {product.featured && (
-              <span className="pp-tag pp-tag-featured">Destacado</span>
+              <span className={`${styles["pp-tag"]} ${styles["pp-tag-featured"]}`}>Destacado</span>
             )}
           </div>
 
-          <h1 className="pp-title">{product.title}</h1>
+          <h1 className={styles["pp-title"]}>{product.title}</h1>
 
-          <div className="pp-rating">
-            <div className="pp-stars">
+          <div className={styles["pp-rating"]}>
+            <div className={styles["pp-stars"]}>
               {[...Array(5)].map((_, i) => (
                 <Star
                   key={i}
@@ -141,69 +141,69 @@ export default function ProductPage({ product, relatedProducts }) {
                 />
               ))}
             </div>
-            <span className="pp-rating-value">{product.rating.toFixed(1)}</span>
-            <span className="pp-rating-sep">|</span>
-            <span className="pp-rating-sold">{product.sold} vendidos</span>
+            <span className={styles["pp-rating-value"]}>{product.rating.toFixed(1)}</span>
+            <span className={styles["pp-rating-sep"]}>|</span>
+            <span className={styles["pp-rating-sold"]}>{product.sold} vendidos</span>
           </div>
 
-          <div className="pp-price-box">
-            <div className="pp-price-main">
-              <span className="pp-price">
+          <div className={styles["pp-price-box"]}>
+            <div className={styles["pp-price-main"]}>
+              <span className={styles["pp-price"]}>
                 ${product.price.toLocaleString("es-AR")}
               </span>
               {hasDiscount && (
                 <>
-                  <span className="pp-old-price">
+                  <span className={styles["pp-old-price"]}>
                     ${product.oldPrice.toLocaleString("es-AR")}
                   </span>
-                  <span className="pp-discount">-{discount}%</span>
+                  <span className={styles["pp-discount"]}>-{discount}%</span>
                 </>
               )}
             </div>
             {hasDiscount && (
-              <p className="pp-savings">
+              <p className={styles["pp-savings"]}>
                 Ahorrás ${(product.oldPrice - product.price).toLocaleString("es-AR")} ({discount}% OFF)
               </p>
             )}
           </div>
 
-          <p className="pp-description">{product.description}</p>
+          <p className={styles["pp-description"]}>{product.description}</p>
 
-          <div className="pp-meta">
-            <div className="pp-meta-box">
+          <div className={styles["pp-meta"]}>
+            <div className={styles["pp-meta-box"]}>
               <PackageOpen size={18} />
               <div>
-                <span className="pp-meta-label">SKU</span>
-                <strong className="pp-meta-value">{product.sku}</strong>
+                <span className={styles["pp-meta-label"]}>SKU</span>
+                <strong className={styles["pp-meta-value"]}>{product.sku}</strong>
               </div>
             </div>
-            <div className="pp-meta-box">
+            <div className={styles["pp-meta-box"]}>
               <ShieldCheck size={18} />
               <div>
-                <span className="pp-meta-label">Garantía</span>
-                <strong className="pp-meta-value">12 meses</strong>
+                <span className={styles["pp-meta-label"]}>Garantía</span>
+                <strong className={styles["pp-meta-value"]}>12 meses</strong>
               </div>
             </div>
-            <div className="pp-meta-box">
+            <div className={styles["pp-meta-box"]}>
               <Truck size={18} />
               <div>
-                <span className="pp-meta-label">Stock</span>
-                <strong className="pp-meta-value">
+                <span className={styles["pp-meta-label"]}>Stock</span>
+                <strong className={styles["pp-meta-value"]}>
                   {product.stock > 0 ? `${product.stock} unidades` : "Sin stock"}
                 </strong>
               </div>
             </div>
-            <div className="pp-meta-box">
+            <div className={styles["pp-meta-box"]}>
               <RotateCcw size={18} />
               <div>
-                <span className="pp-meta-label">Devolución</span>
-                <strong className="pp-meta-value">30 días</strong>
+                <span className={styles["pp-meta-label"]}>Devolución</span>
+                <strong className={styles["pp-meta-value"]}>30 días</strong>
               </div>
             </div>
           </div>
 
-          <div className="pp-actions">
-            <div className="pp-qty">
+          <div className={styles["pp-actions"]}>
+            <div className={styles["pp-qty"]}>
               <button
                 onClick={() => setQuantity(Math.max(1, quantity - 1))}
                 disabled={quantity <= 1}
@@ -222,7 +222,7 @@ export default function ProductPage({ product, relatedProducts }) {
             </div>
 
             <button
-              className={`pp-add-btn ${added ? "added" : ""} ${isInCart ? "in-cart" : ""}`}
+              className={`${styles["pp-add-btn"]} ${added ? styles.added : ""} ${isInCart ? styles["in-cart"] : ""}`}
               onClick={handleAdd}
               disabled={isOutOfStock}
             >
@@ -242,14 +242,14 @@ export default function ProductPage({ product, relatedProducts }) {
             </button>
           </div>
 
-          <div className="pp-features">
-            <div className="pp-feature-item">
+          <div className={styles["pp-features"]}>
+            <div className={styles["pp-feature-item"]}>
               <Truck size={16} />
               <span>
                 Envío gratis en compras superiores a $50.000
               </span>
             </div>
-            <div className="pp-feature-item">
+            <div className={styles["pp-feature-item"]}>
               <ShieldCheck size={16} />
               <span>Garantía oficial del fabricante</span>
             </div>
@@ -258,19 +258,19 @@ export default function ProductPage({ product, relatedProducts }) {
       </section>
 
       {relatedProducts.length > 0 && (
-        <section className="pp-related">
-          <div className="pp-related-header">
-            <h2 className="pp-related-title">Productos similares</h2>
+        <section className={styles["pp-related"]}>
+          <div className={styles["pp-related-header"]}>
+            <h2 className={styles["pp-related-title"]}>Productos similares</h2>
             <Link
               href={`/category/${product.category.name.toLowerCase()}`}
-              className="pp-related-link"
+              className={styles["pp-related-link"]}
             >
               Ver todos
               <ChevronRight size={16} />
             </Link>
           </div>
 
-          <div className="pp-related-grid">
+          <div className={styles["pp-related-grid"]}>
             {relatedProducts.map((item) => (
               <ProductCard key={item.id} product={item} />
             ))}

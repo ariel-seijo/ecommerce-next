@@ -47,6 +47,7 @@
   width: max-content;
   gap: 0.5rem;
   animation: scroll 30s linear infinite;
+  margin-bottom: 2rem;
 }
 
 .fc-scroll:hover {

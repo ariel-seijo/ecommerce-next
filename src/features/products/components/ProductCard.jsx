@@ -87,14 +87,14 @@ export default function ProductCard({ product }) {
           </div>
 
           <div className={styles.priceBlock}>
+            <span className={styles.price} aria-label={`Precio actual ${product.price} pesos`}>
+              ${product.price.toLocaleString("es-AR")}
+            </span>
             {product.oldPrice > product.price && (
               <span className={styles.oldPrice} aria-label={`Precio anterior ${product.oldPrice} pesos`}>
                 ${product.oldPrice.toLocaleString("es-AR")}
               </span>
             )}
-            <span className={styles.price} aria-label={`Precio actual ${product.price} pesos`}>
-              ${product.price.toLocaleString("es-AR")}
-            </span>
           </div>
         </div>
       </Link>

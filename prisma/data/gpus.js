@@ -16,7 +16,7 @@ export const gpus = [
         stock: 8,
     },
     {
-        title: "RTX 3080",
+        title: "NVIDIA GeForce RTX 3080 Ti Founders Edition 12GB GDDR6X",
         price: 700,
         thumbnail:
             "https://dlcdnwebimgs.asus.com/gain/95f0e9a2-aa85-473e-b5a6-b1e3bb3341a6/w692",

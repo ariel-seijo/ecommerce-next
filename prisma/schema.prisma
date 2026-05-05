@@ -14,7 +14,25 @@ model User {
   role      String   @default("customer") @db.VarChar(20)
   createdAt DateTime @default(now())
 
+  cartItems CartItem[]
+
   @@index([email])
+}
+
+model CartItem {
+  id        Int      @id @default(autoincrement())
+  quantity  Int      @default(1)
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  userId    String
+  productId Int
+
+  user      User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+  product   Product @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@unique([userId, productId])
+  @@index([userId])
 }
 
 model Category {
@@ -53,6 +71,8 @@ model Product {
 
   categoryId  Int
   category    Category @relation(fields: [categoryId], references: [id])
+
+  cartItems   CartItem[]
 
   @@index([categoryId])
   @@index([price])

@@ -5,11 +5,13 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
+import { useCart } from "@/features/cart";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, loading, error, clearError } = useAuthStore();
+  const { syncGuestCart } = useCart();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -18,6 +20,7 @@ export default function LoginPage() {
     e.preventDefault();
     try {
       await login(email, password);
+      await syncGuestCart();
       router.push("/");
     } catch {
       // Error handled in store

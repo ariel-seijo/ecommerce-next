@@ -1,0 +1,8 @@
+* text=auto
+
+# Force LF for Prisma files (cross-platform consistency)
+*.prisma text eol=lf
+
+# Mark generated directories
+node_modules/ -text
+.next/ -text

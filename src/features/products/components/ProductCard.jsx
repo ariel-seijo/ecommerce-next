@@ -6,7 +6,7 @@ import Image from "next/image";
 import { ShoppingCart, Star, Check, Flame } from "lucide-react";
 import { useCart } from "@/features/cart";
 
-export default function ProductCard({ product }) {
+export default function ProductCard({ product, view = "grid" }) {
   const { addToCart, cart } = useCart();
   const isOutOfStock = product.stock <= 0;
   const isInCart = !isOutOfStock && cart.some((item) => item.id === product.id);
@@ -23,7 +23,7 @@ export default function ProductCard({ product }) {
       : `Añadir ${product.title} al carrito`;
 
   return (
-    <li className={styles.card}>
+    <li className={`${styles.card} ${view === "list" ? styles.list : ""}`}>
       <Link
         href={`/product/${product.slug}`}
         className={styles.cardLink}

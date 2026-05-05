@@ -678,3 +678,132 @@
     gap: 0.4rem;
   }
 }
+
+/* ==============================================
+   LIST MODE — horizontal card layout
+   ============================================== */
+
+.list {
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  padding: 0.75rem 1rem;
+}
+
+.list::before {
+  border-radius: 7px;
+}
+
+.list:hover {
+  transform: translateX(4px);
+}
+
+.list .cardLink {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 1rem;
+  flex: 1;
+  min-width: 0;
+}
+
+.list .img-container {
+  width: 100px;
+  min-width: 100px;
+  aspect-ratio: 1 / 1;
+}
+
+.list .meta {
+  padding-top: 0;
+  flex: 1;
+  min-width: 0;
+}
+
+.list .buy-btn {
+  width: auto;
+  min-width: 130px;
+  margin-top: 0;
+  flex-shrink: 0;
+}
+
+.list .title {
+  -webkit-line-clamp: 1;
+  min-height: unset;
+}
+
+/* -- LIST: Tablet — wider image -- */
+
+@media (min-width: 768px) {
+  .list {
+    padding: 1rem;
+    gap: 1.2rem;
+  }
+
+  .list .img-container {
+    width: 140px;
+    min-width: 140px;
+  }
+
+  .list .buy-btn {
+    min-width: 150px;
+  }
+}
+
+/* -- LIST: Desktop -- */
+
+@media (min-width: 1024px) {
+  .list {
+    padding: 1.2rem;
+    gap: 1.5rem;
+  }
+
+  .list .img-container {
+    width: 160px;
+    min-width: 160px;
+  }
+
+  .list .buy-btn {
+    min-width: 170px;
+  }
+}
+
+/* -- LIST: Force vertical layout on mobile -- */
+
+@media (max-width: 699px) {
+  .list {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    padding: 0.55rem;
+  }
+
+  .list:hover {
+    transform: translateY(-5px);
+  }
+
+  .list .cardLink {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+  }
+
+  .list .img-container {
+    width: 100%;
+    min-width: unset;
+  }
+
+  .list .meta {
+    padding-top: 0.5rem;
+  }
+
+  .list .buy-btn {
+    width: 100%;
+    min-width: unset;
+    margin-top: 0.4rem;
+  }
+
+  .list .title {
+    -webkit-line-clamp: 2;
+    min-height: calc(1.35em * 2);
+  }
+}

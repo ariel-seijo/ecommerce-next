@@ -1,12 +1,13 @@
 import Link from "next/link";
 import { buildCategoryUrl } from "../utils/buildCategoryUrl";
 
-export default function SortDropdown({ name, sort, brand, min, max }) {
+export default function SortDropdown({ name, sort, brand, min, max, view = "grid" }) {
   const current = {
     sort,
     brand,
     min,
     max,
+    view,
   };
 
   const options = [

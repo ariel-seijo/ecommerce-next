@@ -4,6 +4,7 @@ export function buildCategoryUrl(category, current, override) {
         brand: "",
         min: "",
         max: "",
+        view: "",
         ...current,
         ...override,
     };
@@ -24,6 +25,10 @@ export function buildCategoryUrl(category, current, override) {
 
     if (final.max) {
         searchParams.set("max", final.max);
+    }
+
+    if (final.view && final.view !== "grid") {
+        searchParams.set("view", final.view);
     }
 
     return `/category/${category}?${searchParams.toString()}`;

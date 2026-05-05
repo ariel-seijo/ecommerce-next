@@ -46,3 +46,26 @@
     gap: 1.2rem;
   }
 }
+
+/* ==============================================
+   LIST MODE — single column, horizontal cards
+   ============================================== */
+
+.list ul {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+  max-width: 100%;
+  padding: 0;
+}
+
+/* === Force grid on mobile regardless of view preference === */
+
+@media (max-width: 699px) {
+  .list ul {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.5rem;
+    padding: 0.5rem;
+  }
+}

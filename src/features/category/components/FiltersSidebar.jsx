@@ -13,12 +13,14 @@ export default function FiltersSidebar({
   max,
   minPrice,
   maxPrice,
+  view = "grid",
 }) {
   const current = {
     sort,
     brand,
     min,
     max,
+    view,
   };
 
   const [rangeValue, setRangeValue] = useState(Number(max || maxPrice));
@@ -79,6 +81,8 @@ export default function FiltersSidebar({
           <input type="hidden" name="sort" value={sort} />
 
           <input type="hidden" name="brand" value={brand} />
+
+          {view !== "grid" && <input type="hidden" name="view" value={view} />}
 
           <input type="hidden" name="min" value={minPrice} />
 

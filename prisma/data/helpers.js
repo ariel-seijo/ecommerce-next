@@ -31,7 +31,7 @@ export function buildProduct(product, categoryId, categoryName) {
     return {
         title: product.title,
         slug,
-        description: `${product.title} ideal para gaming y alto rendimiento.`,
+        description: product.description || `${product.title} ideal para gaming y alto rendimiento.`,
         price: product.price,
         oldPrice: Math.round(product.price * 1.12),
         thumbnail: product.thumbnail,

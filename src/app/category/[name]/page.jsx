@@ -7,6 +7,8 @@ import {
   CategoryHeader,
   EmptyProducts,
   SortDropdown,
+  ViewSwitcher,
+  ViewHydrator,
 } from "@/features/category";
 
 export default async function CategoryPage({ params, searchParams }) {
@@ -31,8 +33,11 @@ export default async function CategoryPage({ params, searchParams }) {
     max,
   });
 
+  const view = query.view || "grid";
+
   return (
     <main className="categoryPage">
+      <ViewHydrator />
       <div className="categoryContainer">
         <div className="categoryContent">
           <FiltersSidebar
@@ -44,23 +49,28 @@ export default async function CategoryPage({ params, searchParams }) {
             max={max}
             minPrice={minPrice}
             maxPrice={maxPrice}
+            view={view}
           />
 
           <section className="productsArea">
             <div className="resultsTopbar">
               <CategoryHeader categoryName={categoryName} />
 
-              <SortDropdown
-                name={name}
-                sort={sort}
-                brand={brand}
-                min={min}
-                max={max}
-              />
+              <div className="toolbarRight">
+                <ViewSwitcher />
+                <SortDropdown
+                  name={name}
+                  sort={sort}
+                  brand={brand}
+                  min={min}
+                  max={max}
+                  view={view}
+                />
+              </div>
             </div>
 
             {products.length > 0 ? (
-              <Products products={products} />
+              <Products products={products} view={view} />
             ) : (
               <EmptyProducts name={name} />
             )}

@@ -206,6 +206,19 @@
   color: #24abf3;
 }
 
+.cartQuantityContainer button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+  border-color: rgb(80, 80, 80);
+  color: rgb(100, 100, 100);
+}
+
+.cartQuantityContainer button:disabled:hover {
+  background: rgb(34, 34, 34);
+  border-color: rgb(80, 80, 80);
+  color: rgb(100, 100, 100);
+}
+
 .cart footer button {
   padding: 4px 10px;
   border: none;

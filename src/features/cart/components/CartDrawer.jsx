@@ -63,7 +63,10 @@ export function Cart() {
 
                   <footer>
                     <div className={styles.cartQuantityContainer}>
-                      <button onClick={() => decreaseQuantity(product.id)}>
+                      <button 
+                        onClick={() => decreaseQuantity(product.id)}
+                        disabled={product.quantity <= 1}
+                      >
                         -
                       </button>
 

@@ -3,13 +3,16 @@
   border: 1px solid rgb(38, 38, 38);
   border-radius: 6px;
   overflow: hidden;
+  flex-shrink: 0;
 }
 
 .btn {
   display: flex;
   align-items: center;
   justify-content: center;
-  padding: 0.5rem 0.65rem;
+  padding: 0.45rem 0.55rem;
+  min-width: 36px;
+  min-height: 36px;
   background: rgb(18, 18, 18);
   color: rgb(120, 120, 120);
   border: none;
@@ -19,6 +22,12 @@
     background 0.25s ease,
     color 0.25s ease,
     box-shadow 0.25s ease;
+}
+
+.btn svg {
+  width: 15px;
+  height: 15px;
+  flex-shrink: 0;
 }
 
 .btn:first-child {
@@ -46,4 +55,41 @@
 .active:hover {
   background: rgba(36, 171, 243, 0.14);
   color: #24abf3;
+}
+
+/* === Tablet (480px+) — larger touch targets === */
+
+@media (min-width: 480px) {
+  .btn {
+    padding: 0.5rem 0.65rem;
+    min-width: 40px;
+    min-height: 40px;
+  }
+
+  .btn svg {
+    width: 16px;
+    height: 16px;
+  }
+}
+
+/* === Desktop (768px+) === */
+
+@media (min-width: 768px) {
+  .btn {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .btn svg {
+    width: 18px;
+    height: 18px;
+  }
+}
+
+/* === Hide switcher on mobile (list mode unavailable) === */
+
+@media (max-width: 699px) {
+  .switcher {
+    display: none;
+  }
 }

@@ -15,6 +15,8 @@ export default function ViewHydrator() {
     if (ran.current) return;
     ran.current = true;
 
+    if (window.innerWidth < 700) return;
+
     const urlView = searchParams.get("view");
     if (urlView) return;
 

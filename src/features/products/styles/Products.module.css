@@ -4,14 +4,14 @@
   justify-content: center;
 }
 
-/* === BASE: Mobile — 2 columns, tight === */
+/* === BASE: Mobile — single column === */
 
 .products ul {
   width: 100%;
   max-width: 1200px;
 
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
+  grid-template-columns: 1fr;
   gap: 0.5rem;
   padding: 0.5rem;
 
@@ -19,10 +19,11 @@
   margin: 0;
 }
 
-/* === TABLET (480px+) — 2 cols, slightly more room === */
+/* === TABLET (480px+) — 2 columns === */
 
 @media (min-width: 480px) {
   .products ul {
+    grid-template-columns: repeat(2, 1fr);
     gap: 0.7rem;
     padding: 0.7rem;
   }
@@ -49,23 +50,29 @@
 
 /* ==============================================
    LIST MODE — single column, horizontal cards
+   Only available on tablet and above (700px+)
    ============================================== */
 
-.list ul {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-  max-width: 100%;
-  padding: 0;
+@media (min-width: 700px) {
+  .list ul {
+    display: flex;
+    flex-direction: column;
+    gap: 0.6rem;
+    max-width: 100%;
+    padding: 0;
+  }
 }
 
-/* === Force grid on mobile regardless of view preference === */
+/* -- LIST: Desktop — wider gap -- */
 
-@media (max-width: 699px) {
+@media (min-width: 768px) {
   .list ul {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    gap: 0.5rem;
-    padding: 0.5rem;
+    gap: 0.8rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .list ul {
+    gap: 1rem;
   }
 }

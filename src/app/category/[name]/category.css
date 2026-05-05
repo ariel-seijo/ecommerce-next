@@ -409,3 +409,12 @@
     width: 100%;
   }
 }
+
+/* -- Extra small (< 400px) — stack toolbar controls -- */
+
+@media (max-width: 399px) {
+  .toolbarRight {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

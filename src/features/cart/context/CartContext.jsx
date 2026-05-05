@@ -195,6 +195,9 @@ export function CartProvider({ children }) {
   const cartRef = useRef(cart);
   cartRef.current = cart;
 
+  // Prevents double sync from React Strict Mode double-mount in development
+  const syncAttemptedRef = useRef(false);
+
   // -------------------------------------------------------
   // Handle login / logout transitions
   // -------------------------------------------------------
@@ -204,13 +207,16 @@ export function CartProvider({ children }) {
     const wasLoggedIn = !!prevUser.current;
     const isLoggedIn = !!user;
 
-    // User just logged in — restore DB cart automatically
-    if (!wasLoggedIn && isLoggedIn) {
+    // User just logged in — restore DB cart automatically (guard against Strict Mode double-mount)
+    if (!wasLoggedIn && isLoggedIn && !syncAttemptedRef.current) {
+      syncAttemptedRef.current = true;
       performSyncRef.current();
     }
 
     // User just logged out — flush cart to DB, then reset state
     if (wasLoggedIn && !isLoggedIn) {
+      syncAttemptedRef.current = false;
+
       // Clear any pending auto-save timer and flush immediately
       if (saveTimerRef.current) {
         clearTimeout(saveTimerRef.current);

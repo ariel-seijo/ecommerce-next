@@ -45,7 +45,9 @@ export async function syncCart(items) {
       existing.map((e) => [e.productId, e.quantity])
     );
 
-    // Step 3 — Merge: sum guest quantity + existing DB quantity, cap at stock
+    // Step 3 — Merge: take the higher of guest vs existing DB quantity
+    // Using Math.max ensures idempotency: calling sync twice yields the same result.
+    // Capped at product.stock. Skips inactive products and zero-stock items.
     for (const item of items) {
       const product = stockMap.get(item.productId);
 
@@ -58,7 +60,7 @@ export async function syncCart(items) {
       }
 
       const existingQty = existingMap.get(item.productId) ?? 0;
-      const requestedTotal = existingQty + item.quantity;
+      const requestedTotal = Math.max(item.quantity, existingQty);
       const finalQty = Math.min(requestedTotal, product.stock);
 
       if (finalQty <= 0) {

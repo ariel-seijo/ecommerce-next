@@ -1,0 +1,392 @@
+/* =====================================================
+   HOME SKELETON — 1:1 mirror of real home page structure
+   HeroSlider → FeaturedCarousel → PromoBanner → BrandSection
+   ===================================================== */
+
+/* === SHIMMER BASE === */
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgb(30, 30, 30) 20%,
+    rgb(52, 52, 52) 50%,
+    rgb(30, 30, 30) 80%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.15s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 220% 0; }
+  100% { background-position: -220% 0; }
+}
+
+/* === SLIDER — matches HeroSlider.slide aspect-ratio === */
+
+.slider {
+  width: 100%;
+  aspect-ratio: 1920 / 511;
+}
+
+/* === SECTION CONTAINER (max-width 1200px) === */
+
+.section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 1rem;
+}
+
+/* === SECTION TITLE — matches SectionTitle (font-size: 2rem) === */
+
+.sectionTitle {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  margin-block: 1.5rem;
+}
+
+.sectionTitleBar {
+  width: 320px;
+  height: 34px;
+  margin: 0 auto;
+}
+
+/* === FEATURED CAROUSEL — matches FeaturedCarousel horizontal scroll === */
+
+.featuredScroll {
+  display: flex;
+  flex-wrap: nowrap;
+  gap: 0.5rem;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.fcCard {
+  flex-shrink: 0;
+  width: 65%;
+  max-width: 220px;
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+
+  background: linear-gradient(160deg, rgb(24, 24, 24) 0%, rgb(18, 18, 18) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0.4rem;
+}
+
+.fcCardImg {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+}
+
+.fcCardMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.4rem;
+}
+
+/* text lines (matching ProductCard typography) */
+
+.line {
+  height: 15px;              /* title 0.7rem * 1.35 line-height ≈ 15px */
+}
+
+.lineSm { width: 42%; }      /* brand / category */
+.lineMd { width: 88%; }      /* title wide */
+.lineXs { height: 17px; width: 52%; }  /* price 0.82rem ≈ 13px but bold → ~17px */
+
+/* Add-to-cart button — matches buy-btn: min-height 34px, border-radius 5px mobile */
+
+.cardBtn {
+  margin-top: 0.35rem;
+  width: 100%;
+  height: 34px;
+  border-radius: 5px;
+}
+
+/* === PROMO BANNER — matches PromoBanner structure === */
+
+.promo {
+  padding: 0 1rem;
+  margin-bottom: 2.5rem;
+}
+
+.promoContainer {
+  max-width: 1200px;
+  margin-inline: auto;
+  margin-top: 2.5rem;
+}
+
+.promoFeatures {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 1px;
+  background: rgb(34, 34, 34);
+  border: 1px solid rgb(34, 34, 34);
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.promoFeature {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.6rem 1.8rem;
+  background: rgb(20, 20, 20);
+}
+
+.promoIcon {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  flex-shrink: 0;
+}
+
+.promoText {
+  display: flex;
+  flex-direction: column;
+  gap: 0.15rem;
+  flex: 1;
+}
+
+.ptitle {
+  height: 14px;  /* 0.88rem */
+  width: 72%;
+}
+
+.psub {
+  height: 12px;  /* 0.78rem */
+  width: 90%;
+}
+
+.promoCta {
+  margin-top: 1px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 2rem;
+  padding: 2.2rem 2.5rem;
+  background: rgb(20, 20, 20);
+  border: 1px solid rgb(34, 34, 34);
+  border-radius: 0 0 8px 8px;
+}
+
+.promoCtaContent {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+  flex: 1;
+}
+
+.ctaTitle {
+  height: 22px;  /* 1.35rem */
+  width: 70%;
+}
+
+.ctaSub {
+  height: 15px;  /* 0.92rem */
+  width: 85%;
+}
+
+.promoCtaBtn {
+  height: 48px;           /* padding 0.9rem * 2 + font ≈ 48px */
+  width: 200px;
+  border-radius: 6px;
+  flex-shrink: 0;
+}
+
+/* === BRANDS GRID — matches BrandSection.brandsContainer === */
+
+.brandsGrid {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 1rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.brandBox {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+/* Slider breakpoints matching HeroSlider */
+
+@media (max-width: 1024px) {
+  .slider {
+    aspect-ratio: 1920 / 550;
+  }
+}
+
+@media (max-width: 768px) {
+  .slider {
+    aspect-ratio: 1920 / 650;
+  }
+}
+
+@media (max-width: 480px) {
+  .slider {
+    aspect-ratio: 1920 / 850;
+  }
+}
+
+/* Featured cards — matching FeaturedCarousel breakpoints */
+
+@media (min-width: 480px) {
+  .fcCard {
+    width: 45%;
+    padding: 0.75rem;
+    border-radius: 6px;
+  }
+
+  .fcCardImg {
+    border-radius: 5px;
+  }
+
+  .fcCardMeta {
+    padding-top: 0.6rem;
+    gap: 0.35rem;
+  }
+
+  .cardBtn {
+    height: 40px;
+    border-radius: 6px;
+    margin-top: 0.45rem;
+  }
+}
+
+@media (min-width: 768px) {
+  .fcCard {
+    width: 30%;
+    max-width: 240px;
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .fcCardImg {
+    border-radius: 6px;
+  }
+
+  .fcCardMeta {
+    padding-top: 0.7rem;
+    gap: 0.42rem;
+  }
+
+  .cardBtn {
+    height: 42px;
+    margin-top: 0.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fcCard {
+    width: 26%;
+    max-width: 260px;
+    padding: 1.2rem;
+  }
+
+  .fcCardMeta {
+    padding-top: 0.85rem;
+    gap: 0.5rem;
+  }
+
+  .cardBtn {
+    height: 44px;
+    margin-top: 0.6rem;
+  }
+}
+
+/* Brands grid breakpoints matching BrandSection */
+
+@media (max-width: 1200px) {
+  .brandsGrid {
+    padding: 1rem;
+    grid-template-columns: repeat(6, 1fr);
+  }
+}
+
+@media (max-width: 900px) {
+  .brandsGrid {
+    grid-template-columns: repeat(4, 1fr);
+  }
+}
+
+@media (max-width: 768px) {
+  .brandsGrid {
+    display: flex;
+    gap: 0.8rem;
+    padding: 1rem;
+    overflow: hidden;
+  }
+
+  .brandBox {
+    flex: 0 0 140px;
+    min-width: 140px;
+  }
+}
+
+@media (max-width: 480px) {
+  .brandBox {
+    flex: 0 0 120px;
+    min-width: 120px;
+  }
+}
+
+/* Promo banner breakpoints matching PromoBanner */
+
+@media (max-width: 900px) {
+  .promoFeatures {
+    grid-template-columns: 1fr;
+  }
+
+  .promoCta {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1.2rem;
+  }
+
+  .promoCtaBtn {
+    width: 100%;
+  }
+}
+
+@media (max-width: 600px) {
+  .promoFeature {
+    padding: 1.2rem 1rem;
+  }
+
+  .promoIcon {
+    width: 44px;
+    height: 44px;
+  }
+
+  .promoCta {
+    padding: 1.5rem 1.2rem;
+  }
+
+  .promoCtaBtn {
+    height: 42px;
+  }
+}
+
+/* Section title responsive */
+
+@media (max-width: 700px) {
+  .sectionTitleBar {
+    width: 220px;
+    height: 28px;
+  }
+}
+
+@media (max-width: 520px) {
+  .section {
+    padding: 0 0.75rem;
+  }
+}

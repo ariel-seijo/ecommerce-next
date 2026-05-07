@@ -1,0 +1,392 @@
+/* =====================================================
+   CATEGORY PAGE SKELETON — 1:1 mirror of real category
+   Breadcrumb → Topbar → Chips → Sidebar + ProductGrid
+   All dimensions / border-radius / gaps match real CSS
+   ===================================================== */
+
+/* === SHIMMER BASE === */
+
+.shimmer {
+  background: linear-gradient(
+    90deg,
+    rgb(30, 30, 30) 20%,
+    rgb(52, 52, 52) 50%,
+    rgb(30, 30, 30) 80%
+  );
+  background-size: 220% 100%;
+  animation: shimmer 1.15s linear infinite;
+}
+
+@keyframes shimmer {
+  0%   { background-position: 220% 0; }
+  100% { background-position: -220% 0; }
+}
+
+/* === PAGE — matches .categoryPage === */
+
+.page {
+  width: 100%;
+  padding: 2rem 1rem 4rem;
+}
+
+.container {
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+/* === BREADCRUMB — matches .breadcrumbs === */
+
+.breadcrumbRow {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;               /* 0.45rem gap + 0.35rem chevron width */
+  margin-bottom: 1rem;
+}
+
+.breadItem {
+  height: 14px;              /* 0.85rem */
+}
+
+.breadXs { width: 45px; }    /* Inicio */
+.breadSm { width: 80px; }    /* Categoría */
+.breadMd { width: 110px; }   /* Producto */
+
+/* === TOPBAR — matches .resultsTopbar === */
+
+.topbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1.2rem;
+  padding-bottom: 1rem;
+  border-bottom: 1px solid rgb(38, 38, 38);
+}
+
+/* Breadcrumb in topbar — matches CategoryHeader */
+.topbarBread {
+  display: flex;
+  align-items: center;
+  gap: 0.8rem;
+}
+
+.topbarTitle {
+  height: 14px;              /* 0.85rem breadcrumb text */
+  width: 130px;
+}
+
+/* Toolbar right — matches .toolbarRight */
+.toolbarRight {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+/* View switcher toggle — matches ViewSwitcher (border-radius: 6px) */
+.viewToggle {
+  display: flex;
+  flex-shrink: 0;
+  border-radius: 6px;
+  border: 1px solid rgb(38, 38, 38);
+  overflow: hidden;
+}
+
+.toggleBtn {
+  width: 36px;               /* min-width */
+  height: 36px;              /* min-height */
+  background: rgb(18, 18, 18);
+}
+
+.toggleBtn + .toggleBtn {
+  border-left: 1px solid rgb(38, 38, 38);
+}
+
+/* Sort dropdown */
+.sortBtn {
+  width: 160px;
+  height: 34px;
+  background: rgb(18, 18, 18);
+  border: 1px solid rgb(44, 44, 44);
+}
+
+/* === ACTIVE FILTER CHIPS — matches .activeFilters === */
+
+.chips {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+  margin-bottom: 1rem;
+}
+
+.chip {
+  height: 40px;
+  width: 110px;
+  background: rgb(30, 30, 30);
+  border: 1px solid rgb(44, 44, 44);
+}
+
+/* === CONTENT LAYOUT — matches .categoryContent === */
+
+.content {
+  display: grid;
+  grid-template-columns: 260px 1fr;
+  gap: 1.2rem;
+  align-items: start;
+}
+
+/* === SIDEBAR — matches .filters === */
+
+.sidebar {
+  background: rgb(22, 22, 22);
+  border: 1px solid rgb(34, 34, 34);
+  padding: 1.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.filterGroup {
+  display: flex;
+  flex-direction: column;
+  gap: 0.7rem;
+}
+
+.filterGroup + .filterGroup {
+  padding-top: 1.2rem;
+  border-top: 1px solid rgb(38, 38, 38);
+}
+
+.filterTitle {
+  height: 12px;              /* 0.72rem */
+  width: 45%;
+}
+
+.filterOption {
+  height: 34px;              /* padding 0.65rem * 2 + 0.88rem font ≈ 34px */
+  background: transparent;
+  border: 1px solid transparent;
+}
+
+/* Selected tag chip */
+.selectedChip {
+  height: 28px;
+  width: 105px;
+  background: rgba(36, 171, 243, 0.1);
+  border: 1px solid rgba(36, 171, 243, 0.3);
+}
+
+/* Price range */
+.rangeRow {
+  display: flex;
+  justify-content: space-between;
+}
+
+.rangeLabel {
+  height: 12px;
+  width: 60px;
+}
+
+.rangeBar {
+  width: 100%;
+  height: 4px;
+  border-radius: 2px;
+  margin-block: 0.3rem;
+}
+
+.rangeBtn {
+  height: 36px;
+}
+
+/* === PRODUCTS AREA — matches .productsArea === */
+
+.productsArea {
+  background: rgb(22, 22, 22);
+  border: 1px solid rgb(34, 34, 34);
+  padding: 1.5rem;
+  min-width: 0;
+}
+
+/* Product grid — matches Products responsive grid */
+.productsGrid {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 0.5rem;
+  padding: 0.5rem;
+}
+
+/* Product card skeleton */
+.productCard {
+  display: flex;
+  flex-direction: column;
+  border-radius: 6px;
+  background: linear-gradient(160deg, rgb(24, 24, 24) 0%, rgb(18, 18, 18) 100%);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  padding: 0.4rem;
+}
+
+.pcImg {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  border-radius: 4px;
+}
+
+.pcMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 0.25rem;
+  padding-top: 0.4rem;
+}
+
+.pcBtn {
+  margin-top: 0.35rem;
+  width: 100%;
+  height: 34px;
+  border-radius: 5px;
+}
+
+/* text lines */
+.line {
+  height: 15px;
+}
+
+.lineSm { width: 42%; }
+.lineMd { width: 88%; }
+.lineXs { height: 17px; width: 52%; }
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+/* Tablet+ product grid — matches Products.module.css */
+@media (min-width: 480px) {
+  .productsGrid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 0.7rem;
+    padding: 0.7rem;
+  }
+
+  .productCard {
+    padding: 0.75rem;
+  }
+
+  .pcImg {
+    border-radius: 5px;
+  }
+
+  .pcMeta {
+    padding-top: 0.6rem;
+    gap: 0.35rem;
+  }
+
+  .pcBtn {
+    height: 40px;
+    border-radius: 6px;
+    margin-top: 0.45rem;
+  }
+
+  .toggleBtn {
+    width: 40px;
+    height: 40px;
+  }
+}
+
+@media (min-width: 768px) {
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 0.9rem;
+    padding: 0;
+  }
+
+  .productCard {
+    padding: 1rem;
+    border-radius: 8px;
+  }
+
+  .pcImg {
+    border-radius: 6px;
+  }
+
+  .pcMeta {
+    padding-top: 0.7rem;
+    gap: 0.42rem;
+  }
+
+  .pcBtn {
+    height: 42px;
+    margin-top: 0.5rem;
+    border-radius: 6px;
+  }
+
+  .toggleBtn {
+    width: 44px;
+    height: 44px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .productsGrid {
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 1.2rem;
+  }
+
+  .productCard {
+    padding: 1.2rem;
+  }
+
+  .pcMeta {
+    padding-top: 0.85rem;
+    gap: 0.5rem;
+  }
+
+  .pcBtn {
+    height: 44px;
+    margin-top: 0.6rem;
+  }
+}
+
+/* Sidebar collapses on narrow screens */
+@media (max-width: 950px) {
+  .content {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 700px) {
+  .page {
+    padding: 1rem 0.75rem 3rem;
+  }
+
+  .topbar {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 0.75rem;
+  }
+
+  .toolbarRight {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .sortBtn {
+    flex: 1;
+  }
+
+  .sidebar,
+  .productsArea {
+    padding: 1rem;
+  }
+}
+
+/* Hide grid/list toggle on mobile — matching ViewSwitcher */
+@media (max-width: 699px) {
+  .viewToggle {
+    display: none;
+  }
+}
+
+@media (max-width: 399px) {
+  .toolbarRight {
+    flex-wrap: wrap;
+    gap: 0.5rem;
+  }
+}

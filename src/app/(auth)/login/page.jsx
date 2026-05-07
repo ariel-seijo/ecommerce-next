@@ -118,6 +118,13 @@ export default function LoginPage() {
         </form>
 
         <p className="auth-footer">
+          ¿Olvidaste tu contraseña?{" "}
+          <Link href="/forgot-password" className="auth-link">
+            Recuperala
+          </Link>
+        </p>
+
+        <p className="auth-footer" style={{ marginTop: "0.5rem" }}>
           ¿No tenés cuenta?{" "}
           <Link href="/register" className="auth-link">
             Registrate

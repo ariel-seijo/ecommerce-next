@@ -1,3 +1,238 @@
+/* =========================
+   NAVBAR — Primary
+   ========================= */
+
+.navbarSticky {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+
+.navbarPrimario {
+  width: 100%;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  background-color: #2b2b2b;
+}
+
+.logo {
+  font-size: 2.4rem;
+  margin: 0;
+}
+
+.logoLink {
+  text-decoration: none;
+  font-family: var(--font-cosmic);
+  font-weight: 100;
+  letter-spacing: 3px;
+  color: #24abf3;
+}
+
+/* =========================
+   NAV LEFT (hamburger + logo on mobile)
+   ========================= */
+
+.navLeft {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.hamburgerBtn {
+  display: none;
+  background: none;
+  border: none;
+  color: rgb(199, 198, 198);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  transition: background 0.15s ease, color 0.15s ease;
+  min-width: 44px;
+  min-height: 44px;
+  align-items: center;
+  justify-content: center;
+}
+
+.hamburgerBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+/* =========================
+   SEARCH
+   ========================= */
+
+.searchWrapper {
+  position: relative;
+  flex: 1;
+  max-width: 440px;
+  min-width: 0;
+}
+
+.searchInputWrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.searchIcon {
+  position: absolute;
+  right: 12px;
+  color: #24abf3;
+  pointer-events: none;
+  flex-shrink: 0;
+}
+
+.search {
+  width: 100%;
+  height: 45px;
+  padding: 0.5rem 2.5rem 0.5rem 0.7rem;
+  background: #121212;
+  color: white;
+  border: 1px solid transparent;
+  outline: none;
+  font-size: 0.9rem;
+  transition: border-color 0.2s ease;
+}
+
+.search:focus {
+  border-color: #24abf3;
+}
+
+.search::placeholder {
+  color: rgb(72, 72, 72);
+  font-weight: 900;
+}
+
+.searchDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  left: 0;
+  width: 100%;
+  background: #1a1a1a;
+  border: 1px solid #2e2e2e;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  z-index: 3000;
+  overflow: hidden;
+}
+
+.searchItem {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.75rem;
+  text-decoration: none;
+  color: white;
+  transition: background 0.2s ease;
+}
+
+.searchItem:hover {
+  background: #242424;
+}
+
+.searchThumb {
+  width: 52px;
+  height: 52px;
+  object-fit: contain;
+  background: #111;
+  padding: 0.3rem;
+  flex-shrink: 0;
+}
+
+.searchInfo {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  min-width: 0;
+}
+
+.searchTitle {
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #e8e8e8;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.searchPrice {
+  font-size: 0.8rem;
+  font-weight: 800;
+  color: #24abf3;
+}
+
+.searchEmpty {
+  padding: 1rem;
+  color: #9a9a9a;
+  font-size: 0.88rem;
+  text-align: center;
+}
+
+.searchLoading {
+  padding: 1rem;
+  color: #24abf3;
+  font-size: 0.85rem;
+  text-align: center;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 0.4; }
+  50% { opacity: 1; }
+}
+
+/* =========================
+   ACTIONS (user + cart)
+   ========================= */
+
+.actions {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.icon-btn {
+  font-size: 1.5rem;
+  cursor: pointer;
+  position: relative;
+  border: none;
+  background-color: transparent;
+  color: rgb(199, 198, 198);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 4px;
+  border-radius: 6px;
+  transition: color 0.15s ease, background 0.15s ease;
+}
+
+.icon-btn:hover {
+  color: #fff;
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.cart-btn .badge {
+  position: absolute;
+  top: -5px;
+  right: -8px;
+  background: linear-gradient(135deg, #007fff, #00cfff);
+  color: white;
+  font-size: 0.7rem;
+  border-radius: 50%;
+  padding: 2px 6px;
+  pointer-events: none;
+}
+
+.mobileSearchBtn {
+  display: none;
+}
+
+/* =========================
+   USER DROPDOWN
+   ========================= */
+
 .cartWrapper {
   position: relative;
 }
@@ -11,15 +246,12 @@
   top: calc(100% + 10px);
   right: 0;
   width: 250px;
-
   background: rgb(20, 20, 20);
   border: 1px solid rgb(38, 38, 38);
   box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
   border-radius: 12px;
-
   z-index: 3000;
   overflow: hidden;
-
   opacity: 0;
   visibility: hidden;
   transform: translateY(-8px) scale(0.97);
@@ -95,23 +327,6 @@
   text-overflow: ellipsis;
 }
 
-.userDropdownGreeting {
-  display: block;
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #24abf3;
-  margin-bottom: 0.15rem;
-}
-
-.userDropdownEmailLabel {
-  display: block;
-  font-size: 0.72rem;
-  font-weight: 700;
-  color: rgb(140, 140, 140);
-  text-transform: uppercase;
-  margin-bottom: 0.2rem;
-}
-
 .userDropdownLink {
   display: flex;
   align-items: center;
@@ -139,19 +354,6 @@
 .userDropdownAccent:hover {
   background: rgba(36, 171, 243, 0.08);
   border-left-color: #24abf3;
-}
-
-.userDropdownAdminLink {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  color: #24abf3;
-  font-weight: 700;
-  border-bottom: 1px solid #2e2e2e;
-}
-
-.userDropdownAdminLink:hover {
-  background: rgba(36, 171, 243, 0.1);
 }
 
 .userDropdownDivider {
@@ -197,199 +399,41 @@
   white-space: nowrap;
 }
 
-.navbarSticky {
-  position: sticky;
-  top: 0;
-  z-index: 1000;
-}
-
-.navbarPrimario {
-  width: 100%;
-  height: 80px;
-  display: flex;
-  align-items: center;
-  background-color: #2b2b2b;
-}
-
-.logo {
-  font-size: 2.4rem;
-}
-
-.logoLink {
-  text-decoration: none;
-  font-family: var(--font-cosmic);
-  font-weight: 100;
-  letter-spacing: 3px;
-  color: #24abf3;
-}
-
-/* ================= SEARCH ================= */
-
-.searchWrapper {
-  position: relative;
-  flex: 1;
-  max-width: 400px;
-  min-width: 0;
-}
-
-.search {
-  width: 100%;
-  height: 45px;
-  padding: 0.5rem 0.7rem;
-  background: #121212;
-  color: white;
-  border: none;
-  outline: none;
-}
-
-.search::placeholder {
-  color: rgb(72, 72, 72);
-  font-weight: 900;
-}
-
-.searchDropdown {
-  position: absolute;
-  top: calc(100% + 8px);
-  left: 0;
-  width: 100%;
-
-  background: #1a1a1a;
-  border: 1px solid #2e2e2e;
-  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
-
-  z-index: 3000;
-  overflow: hidden;
-}
-
-.searchItem {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-
-  padding: 0.75rem;
-  text-decoration: none;
-  color: white;
-
-  transition: background 0.2s ease;
-}
-
-.searchItem:hover {
-  background: #242424;
-}
-
-.searchThumb {
-  width: 52px;
-  height: 52px;
-  object-fit: contain;
-  background: #111;
-  padding: 0.3rem;
-}
-
-.searchInfo {
-  display: flex;
-  flex-direction: column;
-  gap: 0.2rem;
-  min-width: 0;
-}
-
-.searchTitle {
-  font-size: 0.88rem;
-  font-weight: 700;
-  color: #e8e8e8;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.searchPrice {
-  font-size: 0.8rem;
-  font-weight: 800;
-  color: #24abf3;
-}
-
-.searchEmpty {
-  padding: 1rem;
-  color: #9a9a9a;
-  font-size: 0.88rem;
-}
-
-/* ================= ACTIONS ================= */
-
-.icon-btn {
-  font-size: 1.5rem;
-  cursor: pointer;
-  position: relative;
-  border: none;
-  background-color: transparent;
-  color: rgb(199, 198, 198);
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
-}
-
-.cart-btn .badge {
-  position: absolute;
-  top: -5px;
-  right: -8px;
-
-  background: linear-gradient(135deg, #007fff, #00cfff);
-  color: white;
-  font-size: 0.7rem;
-
-  border-radius: 50%;
-  padding: 2px 6px;
-}
-
-.actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
-
-/* ================= RGB ================= */
+/* =========================
+   RGB BAR
+   ========================= */
 
 .rgbbar {
   width: 100%;
   height: 4px;
-
   background: linear-gradient(90deg, #007fff, #00cfff, #007fff);
   background-size: 200% 100%;
-
   animation: electric 2s linear infinite;
 }
 
 @keyframes electric {
-  0% {
-    background-position: 0%;
-  }
-  100% {
-    background-position: 200%;
-  }
+  0% { background-position: 0%; }
+  100% { background-position: 200%; }
 }
 
-/* ================= NAV 2 ================= */
+/* =========================
+   SECONDARY NAV
+   ========================= */
 
 .navbarSecundario {
   width: 100%;
   height: 50px;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
   background-color: #121212;
 }
 
 .navbarLinks {
   padding: 0;
   margin: 0;
-
   list-style: none;
   width: 100%;
-
   display: flex;
   justify-content: center;
   align-items: center;
@@ -400,13 +444,10 @@
   font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   font-weight: 900;
-
   position: relative;
   display: inline-block;
-
   color: rgb(163, 163, 163);
   text-decoration: none;
-
   transition: color 0.25s ease;
   padding-bottom: 6px;
 }
@@ -416,10 +457,8 @@
   position: absolute;
   left: 0;
   bottom: 0;
-
   width: 100%;
   height: 2px;
-
   background: #24abf3;
   transform: scaleX(0);
   transform-origin: center;
@@ -442,7 +481,292 @@
   transform: scaleX(1);
 }
 
-/* ================= TABLET ================= */
+/* =========================
+   MOBILE DRAWER
+   ========================= */
+
+.drawerBackdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 4000;
+  opacity: 0;
+  visibility: hidden;
+  transition: opacity 0.3s ease, visibility 0.3s ease;
+}
+
+.drawerBackdrop.backdropOpen {
+  opacity: 1;
+  visibility: visible;
+}
+
+.mobileDrawer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: 320px;
+  max-width: 85vw;
+  background: #1a1a1a;
+  z-index: 5000;
+  overflow-y: auto;
+  transform: translateX(-100%);
+  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
+  display: flex;
+  flex-direction: column;
+}
+
+.mobileDrawer.drawerOpen {
+  transform: translateX(0);
+}
+
+.drawerHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.2rem 1.25rem;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.drawerLogo {
+  font-family: var(--font-cosmic);
+  font-size: 1.4rem;
+  font-weight: 100;
+  letter-spacing: 2px;
+  color: #24abf3;
+  text-decoration: none;
+}
+
+.drawerCloseBtn {
+  background: none;
+  border: none;
+  color: rgb(180, 180, 180);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  transition: background 0.15s ease, color 0.15s ease;
+}
+
+.drawerCloseBtn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #fff;
+}
+
+.drawerLinks {
+  list-style: none;
+  padding: 0.5rem 0;
+  margin: 0;
+}
+
+.drawerLink {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.9rem 1.5rem;
+  font-size: 0.95rem;
+  font-weight: 700;
+  color: rgb(180, 180, 180);
+  text-decoration: none;
+  transition: background 0.15s ease, color 0.15s ease;
+  border-left: 3px solid transparent;
+}
+
+.drawerLink:hover {
+  background: rgb(30, 30, 30);
+  color: #fff;
+  border-left-color: #24abf3;
+}
+
+.drawerLinkActive {
+  color: #24abf3;
+  border-left-color: #24abf3;
+}
+
+.drawerDivider {
+  height: 1px;
+  background: #2e2e2e;
+  margin: 0.5rem 1.25rem;
+}
+
+.drawerUserSection {
+  padding: 0.75rem 1.25rem 1.5rem;
+  margin-top: auto;
+}
+
+.drawerUserInfo {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0 0.75rem;
+}
+
+.drawerUserName {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #e8e8e8;
+}
+
+.drawerAdminTag {
+  display: inline-block;
+  margin-left: 0.5rem;
+  padding: 1px 5px;
+  font-size: 0.55rem;
+  font-weight: 900;
+  background: #ef4444;
+  color: #fff;
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+.drawerUserEmail {
+  display: block;
+  font-size: 0.75rem;
+  color: rgb(130, 130, 130);
+  margin-top: 2px;
+}
+
+.drawerLogoutBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  margin-top: 0.5rem;
+  font-size: 0.9rem;
+  font-weight: 600;
+  color: rgb(248, 113, 113);
+  background: none;
+  border: 1px solid #3a1f1f;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background 0.15s ease;
+}
+
+.drawerLogoutBtn:hover {
+  background: rgba(239, 68, 68, 0.08);
+}
+
+.drawerAuthLinks {
+  display: flex;
+  flex-direction: column;
+  gap: 0.6rem;
+}
+
+.drawerAuthBtn {
+  display: block;
+  width: 100%;
+  padding: 0.8rem;
+  font-size: 0.9rem;
+  font-weight: 700;
+  text-align: center;
+  text-decoration: none;
+  color: #fff;
+  background: #24abf3;
+  border-radius: 8px;
+  transition: background 0.15s ease;
+}
+
+.drawerAuthBtn:hover {
+  background: #1e93d9;
+}
+
+.drawerAuthBtnOutline {
+  background: transparent;
+  border: 1px solid #3a3a3a;
+  color: rgb(180, 180, 180);
+}
+
+.drawerAuthBtnOutline:hover {
+  background: rgba(255, 255, 255, 0.04);
+  border-color: #555;
+}
+
+/* =========================
+   MOBILE SEARCH OVERLAY
+   ========================= */
+
+.mobileSearchOverlay {
+  position: fixed;
+  inset: 0;
+  background: #121212;
+  z-index: 6000;
+  display: flex;
+  flex-direction: column;
+  overflow-y: auto;
+}
+
+.mobileSearchBar {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid #2e2e2e;
+  background: #1a1a1a;
+}
+
+.mobileSearchBackBtn {
+  background: none;
+  border: none;
+  color: rgb(180, 180, 180);
+  cursor: pointer;
+  padding: 6px;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  flex-shrink: 0;
+  transition: color 0.15s ease;
+}
+
+.mobileSearchBackBtn:hover {
+  color: #fff;
+}
+
+.mobileSearchInputWrap {
+  position: relative;
+  flex: 1;
+  display: flex;
+  align-items: center;
+}
+
+.mobileSearchInput {
+  width: 100%;
+  height: 44px;
+  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
+  background: #0f0f0f;
+  color: #fff;
+  border: 1px solid #2e2e2e;
+  outline: none;
+  font-size: 1rem;
+  border-radius: 6px;
+}
+
+.mobileSearchInput:focus {
+  border-color: #24abf3;
+}
+
+.mobileSearchInput::placeholder {
+  color: rgb(80, 80, 80);
+  font-weight: 700;
+}
+
+.mobileSearchResults {
+  flex: 1;
+  overflow-y: auto;
+  padding: 0.5rem 0;
+}
+
+/* =========================
+   TABLET (max-width: 1024px)
+   ========================= */
 
 @media (max-width: 1024px) {
   .navbarPrimario {
@@ -463,22 +787,33 @@
   }
 }
 
-/* ================= MOBILE ================= */
+/* =========================
+   MOBILE (max-width: 768px)
+   ========================= */
 
 @media (max-width: 768px) {
   .navbarPrimario {
-    height: auto;
-    padding: 1rem;
-    flex-wrap: wrap;
-    gap: 1rem;
+    height: 64px;
+    padding: 0 1rem;
+    flex-wrap: nowrap;
+    gap: 0;
     justify-content: space-between;
   }
 
+  .hamburgerBtn {
+    display: flex;
+  }
+
+  .logo {
+    font-size: 1.5rem;
+  }
+
   .searchWrapper {
-    order: 3;
-    flex: 100%;
-    max-width: 100%;
-    width: 100%;
+    display: none;
+  }
+
+  .mobileSearchBtn {
+    display: flex;
   }
 
   .navbarSecundario {
@@ -486,10 +821,8 @@
     left: 0;
     bottom: 0;
     width: 100%;
-
     height: 60px;
     padding: 0 1rem;
-
     z-index: 2000;
     background-color: #121212;
     border-top: 1px solid #1f1f1f;
@@ -521,7 +854,9 @@
   }
 }
 
-/* ================= SMALL MOBILE ================= */
+/* =========================
+   SMALL MOBILE (max-width: 480px)
+   ========================= */
 
 @media (max-width: 480px) {
   .navbarSecundario {
@@ -550,7 +885,42 @@
     font-size: 0.8rem;
   }
 
+  .mobileDrawer {
+    width: 280px;
+    max-width: 85vw;
+  }
+
   body {
     padding-bottom: 56px;
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .rgbbar {
+    animation: none;
+  }
+
+  .mobileDrawer {
+    transition: none;
+  }
+
+  .drawerBackdrop {
+    transition: none;
+  }
+
+  .userDropdown {
+    transition: none;
+  }
+
+  .searchLoading {
+    animation: none;
+  }
+
+  .navbarLinkText::after {
+    transition: none;
   }
 }

@@ -15,26 +15,7 @@ import { CartProvider } from "@/features/cart";
 import { AuthProvider } from "@/features/auth";
 import { ToastContainer } from "@/features/toast";
 
-import { prisma } from "@/lib/prisma";
-
-export default async function RootLayout({ children }) {
-  const products = await prisma.product.findMany({
-    where: {
-      active: true,
-    },
-    select: {
-      id: true,
-      title: true,
-      slug: true,
-      thumbnail: true,
-      price: true,
-    },
-    take: 100,
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
-
+export default function RootLayout({ children }) {
   return (
     <html lang="es">
       <body className={fuenteGamer.variable}>
@@ -44,7 +25,7 @@ export default async function RootLayout({ children }) {
 
         <AuthProvider>
           <CartProvider>
-            <Navbar products={products} />
+            <Navbar />
             <main id="main-content" tabIndex={-1}>
               {children}
             </main>

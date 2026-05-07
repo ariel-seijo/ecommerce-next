@@ -85,4 +85,5 @@ model Product {
   @@index([brand])
   @@index([featured])
   @@index([createdAt])
+  @@index([title])
 }

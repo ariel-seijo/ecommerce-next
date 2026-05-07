@@ -27,7 +27,13 @@ export function Cart() {
   const isEmpty = cart.length === 0;
 
   return (
-    <aside className={`${styles.cart} ${isCartOpen ? styles.open : ""}`}>
+    <>
+      <div
+        className={`${styles.backdrop} ${isCartOpen ? styles.open : ""}`}
+        onClick={closeCart}
+        aria-hidden="true"
+      />
+      <aside className={`${styles.cart} ${isCartOpen ? styles.open : ""}`}>
       <div className={styles["cart-header"]}>
         <h4>Carrito</h4>
         <span>{totalItems} {totalItems === 1 ? "ítem" : "ítems"}</span>
@@ -109,5 +115,6 @@ export function Cart() {
         </>
       )}
     </aside>
+    </>
   );
 }

@@ -6,7 +6,7 @@ import { prisma } from "@/lib/prisma";
 async function isAdmin(request) {
   const response = new NextResponse();
   const session = await getIronSession(request, response, sessionOptions);
-  return session.role === "admin";
+  return session.role === "ADMIN";
 }
 
 export async function GET(request) {
@@ -18,6 +18,7 @@ export async function GET(request) {
     const users = await prisma.user.findMany({
       select: {
         id: true,
+        name: true,
         email: true,
         role: true,
         createdAt: true,
@@ -37,7 +38,7 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { email, role } = body;
+    const { name, email, role } = body;
 
     if (!email || !role) {
       return NextResponse.json({ error: "Email and role are required" }, { status: 400 });
@@ -50,12 +51,14 @@ export async function POST(request) {
 
     const user = await prisma.user.create({
       data: {
+        name: name?.trim() || null,
         email: email.toLowerCase().trim(),
         password: "changeme123",
         role,
       },
       select: {
         id: true,
+        name: true,
         email: true,
         role: true,
         createdAt: true,

@@ -6,10 +6,12 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, LogIn } from "lucide-react";
+import { useToastStore } from "@/features/toast";
 
 export default function LoginPage() {
   const router = useRouter();
   const { login, loading, error, clearError } = useAuthStore();
+  const toast = useToastStore((s) => s.toast);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
@@ -17,8 +19,13 @@ export default function LoginPage() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await login(email, password);
-      router.push("/");
+      const user = await login(email, password);
+      toast(`¡Bienvenido de nuevo, ${user.name || user.email}!`, "success");
+      if (user.role === "ADMIN") {
+        router.push("/dashboard");
+      } else {
+        router.push("/");
+      }
     } catch {
       // Error handled in store
     }

@@ -5,9 +5,10 @@ import Container from "@/components/Container";
 import { useMemo, useState, useRef, useEffect } from "react";
 import { useCart } from "@/features/cart";
 import { useAuthStore } from "@/features/auth";
+import { useToastStore } from "@/features/toast";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import { ShoppingCartIcon, UserRound, LogOut, Shield } from "lucide-react";
+import { ShoppingCartIcon, UserRound, LogOut, Shield, LayoutDashboard, User, Package } from "lucide-react";
 import { Cart } from "@/features/cart";
 
 export default function Navbar({ products = [] }) {
@@ -18,10 +19,14 @@ export default function Navbar({ products = [] }) {
 
   const { cart, toggleCart } = useCart();
   const { user, logout } = useAuthStore();
+  const toast = useToastStore((s) => s.toast);
 
   const menuRef = useRef(null);
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
+
+  const isAdmin = user?.role === "ADMIN";
+  const displayName = user?.name || user?.email?.split("@")[0];
 
   const isActive = (href) => pathname === href;
 
@@ -48,6 +53,7 @@ export default function Navbar({ products = [] }) {
   const handleLogout = async () => {
     await logout();
     setShowUserMenu(false);
+    toast("Sesión cerrada exitosamente", "success");
     router.push("/");
   };
 
@@ -110,6 +116,7 @@ export default function Navbar({ products = [] }) {
                   onClick={() => setShowUserMenu(!showUserMenu)}
                 >
                   <UserRound size={30} />
+                  {isAdmin && <span className={styles.adminBadge}>ADMIN</span>}
                 </button>
 
                 {showUserMenu && (
@@ -117,34 +124,66 @@ export default function Navbar({ products = [] }) {
                     {user ? (
                       <>
                         <div className={styles.userDropdownHeader}>
-                          <span className={styles.userDropdownEmailLabel}>
-                            Signed in as
-                          </span>
-                          <span className={styles.userDropdownEmail}>{user.email}</span>
+                          <div className={styles.avatarCircle}>
+                            {isAdmin ? <Shield size={18} /> : <User size={18} />}
+                          </div>
+                          <div className={styles.headerInfo}>
+                            {isAdmin ? (
+                              <span className={styles.adminLabel}>ADMIN</span>
+                            ) : (
+                              <span className={styles.customerLabel}>
+                                cliente <span className={styles.customerName}>{displayName}</span>
+                              </span>
+                            )}
+                            <span className={styles.userDropdownEmail}>{user.email}</span>
+                          </div>
                         </div>
-                        {user.role === "admin" && (
-                          <Link
-                            href="/admin"
-                            className={`${styles.userDropdownLink} ${styles.userDropdownAdminLink}`}
-                            onClick={() => setShowUserMenu(false)}
-                          >
-                            <Shield size={16} />
-                            Admin Dashboard
-                          </Link>
+                        {isAdmin ? (
+                          <>
+                            <Link
+                              href="/dashboard"
+                              className={`${styles.userDropdownLink} ${styles.userDropdownAccent}`}
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <LayoutDashboard size={15} />
+                              Dashboard
+                            </Link>
+                            <Link
+                              href="/admin"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <Shield size={15} />
+                              Panel admin
+                            </Link>
+                          </>
+                        ) : (
+                          <>
+                            <Link
+                              href="/profile"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <User size={15} />
+                              Mi perfil
+                            </Link>
+                            <Link
+                              href="/orders"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <Package size={15} />
+                              Mis pedidos
+                            </Link>
+                          </>
                         )}
-                        <Link
-                          href="/account"
-                          className={styles.userDropdownLink}
-                          onClick={() => setShowUserMenu(false)}
-                        >
-                          My Account
-                        </Link>
+                        <div className={styles.userDropdownDivider} />
                         <button
                           onClick={handleLogout}
                           className={styles.userDropdownBtn}
                         >
-                          <LogOut size={16} />
-                          Logout
+                          <LogOut size={15} />
+                          Salir
                         </button>
                       </>
                     ) : (
@@ -154,14 +193,15 @@ export default function Navbar({ products = [] }) {
                           className={styles.userDropdownLink}
                           onClick={() => setShowUserMenu(false)}
                         >
-                          Login
+                          Iniciar Sesión
                         </Link>
+                        <div className={styles.userDropdownDivider} />
                         <Link
                           href="/register"
                           className={styles.userDropdownLink}
                           onClick={() => setShowUserMenu(false)}
                         >
-                          Register
+                          Registrarse
                         </Link>
                       </>
                     )}

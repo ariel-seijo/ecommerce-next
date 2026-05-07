@@ -13,6 +13,7 @@ import Footer from "@/components/Footer";
 
 import { CartProvider } from "@/features/cart";
 import { AuthProvider } from "@/features/auth";
+import { ToastContainer } from "@/features/toast";
 
 import { prisma } from "@/lib/prisma";
 
@@ -47,6 +48,7 @@ export default async function RootLayout({ children }) {
             <main id="main-content" tabIndex={-1}>
               {children}
             </main>
+            <ToastContainer />
           </CartProvider>
         </AuthProvider>
 

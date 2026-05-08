@@ -4,7 +4,8 @@ import styles from "./Profile.module.css";
 import { useAuthStore } from "@/features/auth";
 import { useToastStore } from "@/features/toast";
 import { useRouter } from "next/navigation";
-import { LogOut, User } from "lucide-react";
+import { LogOut, User, Package } from "lucide-react";
+import Link from "next/link";
 
 export default function ProfilePage() {
   const { user, logout } = useAuthStore();
@@ -50,6 +51,11 @@ export default function ProfilePage() {
             </span>
           </div>
         </div>
+
+        <Link href="/orders" className={styles.ordersBtn}>
+          <Package size={18} />
+          MIS PEDIDOS
+        </Link>
 
         <button onClick={handleLogout} className={styles.logoutBtn}>
           <LogOut size={18} />

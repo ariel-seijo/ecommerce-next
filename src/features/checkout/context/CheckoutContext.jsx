@@ -34,6 +34,7 @@ const initialState = {
   },
   isProcessing: false,
   isConfirmed: false,
+  orderData: null,
   orderError: null,
 };
 
@@ -79,7 +80,13 @@ function checkoutReducer(state, action) {
       return { ...state, isProcessing: true, orderError: null };
 
     case "PLACE_ORDER_SUCCESS":
-      return { ...state, isProcessing: false, isConfirmed: true };
+      return {
+        ...state,
+        isProcessing: false,
+        isConfirmed: true,
+        orderData: action.payload,
+        orderError: null,
+      };
 
     case "PLACE_ORDER_ERROR":
       return { ...state, isProcessing: false, orderError: action.error };
@@ -135,7 +142,7 @@ const CheckoutContext = createContext();
 export function CheckoutProvider({ children }) {
   const [state, dispatch] = useReducer(checkoutReducer, initialState);
   const initialized = useRef(false);
-  const { clearCart } = useCart();
+  const { clearCart, cart } = useCart();
 
   useEffect(() => {
     if (!isClient() || initialized.current) return;
@@ -185,25 +192,36 @@ export function CheckoutProvider({ children }) {
     dispatch({ type: "SET_STEP", step: Math.max(0, state.step - 1) });
   }, [state.step]);
 
-  const placeOrder = useCallback(() => {
+  const placeOrder = useCallback(async () => {
     dispatch({ type: "PLACE_ORDER_START" });
 
-    return new Promise((resolve, reject) => {
-      setTimeout(() => {
-        // Simulate ~10% error rate to demo error path
-        if (Math.random() < 0.1) {
-          const error = "Error al procesar el pago. Verificá tus datos e intentá nuevamente.";
-          dispatch({ type: "PLACE_ORDER_ERROR", error });
-          reject(new Error(error));
-        } else {
-          dispatch({ type: "PLACE_ORDER_SUCCESS" });
-          clearCart();
-          clearStorage();
-          resolve();
-        }
-      }, 2000);
-    });
-  }, [clearCart]);
+    try {
+      const res = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          items: cart,
+          shipping: state.shipping,
+          paymentMethod: state.paymentMethod,
+          cardDetails: state.cardDetails,
+          notes: state.shipping.notes,
+        }),
+      });
+
+      const data = await res.json();
+
+      if (!res.ok) {
+        throw new Error(data.error || "Error al procesar el pedido");
+      }
+
+      dispatch({ type: "PLACE_ORDER_SUCCESS", payload: data.order });
+      clearCart();
+      clearStorage();
+    } catch (err) {
+      dispatch({ type: "PLACE_ORDER_ERROR", error: err.message });
+      throw err;
+    }
+  }, [cart, state.shipping, state.paymentMethod, state.cardDetails, clearCart]);
 
   const resetCheckout = useCallback(() => {
     dispatch({ type: "RESET" });

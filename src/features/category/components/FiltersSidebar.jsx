@@ -19,7 +19,8 @@ export default function FiltersSidebar({
   view = "grid",
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const [rangeValue, setRangeValue] = useState(Number(max || maxPrice));
+  const [minInput, setMinInput] = useState(min || "");
+  const [maxInput, setMaxInput] = useState(max || "");
   const drawerRef = useRef(null);
 
   const current = { sort, brand, min, max, view };
@@ -110,22 +111,49 @@ export default function FiltersSidebar({
           <input type="hidden" name="sort" value={sort} />
           <input type="hidden" name="brand" value={brand} />
           {view !== "grid" && <input type="hidden" name="view" value={view} />}
-          <input type="hidden" name="min" value={minPrice} />
 
-          <div className={styles.rangeInfo}>
-            <small>Mín: ${minPrice}</small>
-            <small>Max: ${rangeValue}</small>
+          <div className={styles.priceInputGroup}>
+            <label className={styles.priceInputLabel}>
+              <span className={styles.priceInputTag}>Mín</span>
+              <input
+                type="number"
+                name="min"
+                min="0"
+                max={maxPrice}
+                step="1"
+                placeholder="0"
+                value={minInput}
+                onChange={(e) => setMinInput(e.target.value)}
+                onBlur={() => {
+                  if (minInput === "") return;
+                  const val = Number(minInput);
+                  if (val < 0) setMinInput("0");
+                }}
+                className={styles.priceInput}
+              />
+            </label>
+            <span className={styles.priceInputSep}>—</span>
+            <label className={styles.priceInputLabel}>
+              <span className={styles.priceInputTag}>Máx</span>
+              <input
+                type="number"
+                name="max"
+                min="0"
+                max={maxPrice}
+                step="1"
+                placeholder={maxPrice}
+                value={maxInput}
+                onChange={(e) => setMaxInput(e.target.value)}
+                onBlur={() => {
+                  if (maxInput === "") return;
+                  const val = Number(maxInput);
+                  if (val > maxPrice) setMaxInput(String(maxPrice));
+                  if (val < 0) setMaxInput("0");
+                }}
+                className={styles.priceInput}
+              />
+            </label>
           </div>
-
-          <input
-            type="range"
-            min={minPrice}
-            max={maxPrice}
-            value={rangeValue}
-            name="max"
-            className={styles.rangeBar}
-            onChange={(e) => setRangeValue(Number(e.target.value))}
-          />
 
           <button type="submit" className={styles.priceBtn}>Aplicar</button>
         </form>

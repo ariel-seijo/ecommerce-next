@@ -17,7 +17,10 @@ export async function POST(request) {
       );
     }
 
-    const user = await prisma.user.findUnique({ where: { email } });
+    const user = await prisma.user.findUnique({
+      where: { email },
+      select: { id: true, name: true, email: true, password: true, role: true },
+    });
     if (!user) {
       return NextResponse.json(
         { error: "Email o contraseña incorrectos" },
@@ -34,7 +37,7 @@ export async function POST(request) {
     }
 
     const res = new NextResponse(
-      JSON.stringify({ user: { id: user.id, email: user.email, role: user.role } }),
+      JSON.stringify({ user: { id: user.id, name: user.name, email: user.email, role: user.role } }),
       { status: 200, headers: { "Content-Type": "application/json" } }
     );
 

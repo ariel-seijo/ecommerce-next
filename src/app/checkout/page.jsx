@@ -16,14 +16,14 @@ import layout from "@/features/checkout/styles/CheckoutLayout.module.css";
 import emptyStyles from "@/features/checkout/styles/Success.module.css";
 
 function CheckoutFlow() {
-  const { step, shipping, isConfirmed, goToStep } = useCheckout();
+  const { step, shipping, isConfirmed, orderData, goToStep } = useCheckout();
   const { cart } = useCart();
   const isEmpty = cart.length === 0;
 
   if (isConfirmed) {
     return (
       <div className={layout.page}>
-        <SuccessMessage email={shipping.email} />
+        <SuccessMessage email={shipping.email} order={orderData} />
       </div>
     );
   }

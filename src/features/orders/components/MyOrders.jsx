@@ -31,7 +31,7 @@ function formatCurrency(amount) {
   return `$${amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
-export default function MyOrders() {
+export default function MyOrders({ embedded = false }) {
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -52,13 +52,81 @@ export default function MyOrders() {
     fetchOrders();
   }, []);
 
-  if (loading) {
-    return (
-      <div className={styles.page}>
-        <div className={styles.loading}>
-          <div className={styles.spinner} />
-          Cargando pedidos...
+  const header = (
+    <div className={styles.header}>
+      <h1>Mis Pedidos</h1>
+      {!embedded && (
+        <Link href="/profile" className={styles.backLink}>
+          <ArrowLeft size={16} />
+          Volver al perfil
+        </Link>
+      )}
+    </div>
+  );
+
+  const content = (
+    <>
+      {error && (
+        <div className={styles.errorMsg}>
+          <AlertCircle size={16} style={{ marginRight: 8, display: "inline", verticalAlign: "middle" }} />
+          {error}
         </div>
+      )}
+
+      {!error && orders.length === 0 && (
+        <div className={styles.empty}>
+          <ShoppingBag size={48} strokeWidth={1} />
+          <h2>No tenés pedidos</h2>
+          <p>Todavía no realizaste ninguna compra.</p>
+          <Link href="/" className={styles.shopLink}>
+            Ir a la tienda
+          </Link>
+        </div>
+      )}
+
+      {orders.length > 0 && (
+        <div className={styles.list}>
+          {orders.map((order) => (
+            <Link
+              key={order.id}
+              href={`/orders/${order.id}`}
+              className={styles.orderCard}
+            >
+              <div className={styles.orderHeader}>
+                <span className={styles.orderNumber}>{order.orderNumber}</span>
+                <span className={`${styles.statusBadge} ${STATUS_CLASSES[order.status] || ""}`}>
+                  {STATUS_LABELS[order.status] || order.status}
+                </span>
+              </div>
+              <div className={styles.orderMeta}>
+                <span className={styles.itemCount}>
+                  {order.items.length} {order.items.length === 1 ? "producto" : "productos"}
+                </span>
+                <span className={styles.orderDate}>{formatDate(order.createdAt)}</span>
+                <span className={styles.orderTotal}>{formatCurrency(order.total)}</span>
+              </div>
+            </Link>
+          ))}
+        </div>
+      )}
+    </>
+  );
+
+  if (loading) {
+    const spinner = (
+      <div className={styles.loading}>
+        <div className={styles.spinner} />
+        Cargando pedidos...
+      </div>
+    );
+    return embedded ? spinner : <div className={styles.page}>{spinner}</div>;
+  }
+
+  if (embedded) {
+    return (
+      <div>
+        {header}
+        {content}
       </div>
     );
   }
@@ -66,57 +134,8 @@ export default function MyOrders() {
   return (
     <div className={styles.page}>
       <div className={styles.container}>
-        <div className={styles.header}>
-          <h1>Mis Pedidos</h1>
-          <Link href="/profile" className={styles.backLink}>
-            <ArrowLeft size={16} />
-            Volver al perfil
-          </Link>
-        </div>
-
-        {error && (
-          <div className={styles.errorMsg}>
-            <AlertCircle size={16} style={{ marginRight: 8, display: "inline", verticalAlign: "middle" }} />
-            {error}
-          </div>
-        )}
-
-        {!error && orders.length === 0 && (
-          <div className={styles.empty}>
-            <ShoppingBag size={48} strokeWidth={1} />
-            <h2>No tenés pedidos</h2>
-            <p>Todavía no realizaste ninguna compra.</p>
-            <Link href="/" className={styles.shopLink}>
-              Ir a la tienda
-            </Link>
-          </div>
-        )}
-
-        {orders.length > 0 && (
-          <div className={styles.list}>
-            {orders.map((order) => (
-              <Link
-                key={order.id}
-                href={`/orders/${order.id}`}
-                className={styles.orderCard}
-              >
-                <div className={styles.orderHeader}>
-                  <span className={styles.orderNumber}>{order.orderNumber}</span>
-                  <span className={`${styles.statusBadge} ${STATUS_CLASSES[order.status] || ""}`}>
-                    {STATUS_LABELS[order.status] || order.status}
-                  </span>
-                </div>
-                <div className={styles.orderMeta}>
-                  <span className={styles.itemCount}>
-                    {order.items.length} {order.items.length === 1 ? "producto" : "productos"}
-                  </span>
-                  <span className={styles.orderDate}>{formatDate(order.createdAt)}</span>
-                  <span className={styles.orderTotal}>{formatCurrency(order.total)}</span>
-                </div>
-              </Link>
-            ))}
-          </div>
-        )}
+        {header}
+        {content}
       </div>
     </div>
   );

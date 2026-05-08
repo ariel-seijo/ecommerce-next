@@ -47,3 +47,5 @@ next-env.d.ts
 # ai / agents
 .agents/
 *.ai.*
+
+.vercel

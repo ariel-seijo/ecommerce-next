@@ -1,6 +1,106 @@
-/* =========================
-   NAVBAR — Primary
-   ========================= */
+.cartWrapper {
+  position: relative;
+}
+
+.userWrapper {
+  position: relative;
+}
+
+.userDropdown {
+  position: absolute;
+  top: calc(100% + 8px);
+  right: 0;
+  width: 220px;
+
+  background: rgb(17, 17, 17);
+  border: 1px solid #2e2e2e;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+  border-radius: 10px;
+
+  z-index: 3000;
+  overflow: hidden;
+
+  opacity: 0;
+  visibility: hidden;
+  transform: translateY(-6px);
+  transition: all 0.2s ease;
+}
+
+.userDropdown.open {
+  opacity: 1;
+  visibility: visible;
+  transform: translateY(0);
+}
+
+.userDropdownHeader {
+  padding: 0.85rem 1rem;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.userDropdownEmailLabel {
+  display: block;
+  font-size: 0.72rem;
+  font-weight: 700;
+  color: rgb(140, 140, 140);
+  text-transform: uppercase;
+  margin-bottom: 0.2rem;
+}
+
+.userDropdownEmail {
+  display: block;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: #e6e6e6;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.userDropdownLink {
+  display: block;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgb(214, 214, 214);
+  text-decoration: none;
+  transition: background 0.2s ease;
+}
+
+.userDropdownLink:hover {
+  background: #242424;
+}
+
+.userDropdownAdminLink {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: #24abf3;
+  font-weight: 700;
+  border-bottom: 1px solid #2e2e2e;
+}
+
+.userDropdownAdminLink:hover {
+  background: rgba(36, 171, 243, 0.1);
+}
+
+.userDropdownBtn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  width: 100%;
+  padding: 0.75rem 1rem;
+  font-size: 0.88rem;
+  font-weight: 700;
+  color: rgb(248, 113, 113);
+  background: none;
+  border: none;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.userDropdownBtn:hover {
+  background: #242424;
+}
 
 .navbarSticky {
   position: sticky;
@@ -18,7 +118,6 @@
 
 .logo {
   font-size: 2.4rem;
-  margin: 0;
 }
 
 .logoLink {
@@ -29,75 +128,23 @@
   color: #24abf3;
 }
 
-/* =========================
-   NAV LEFT (hamburger + logo on mobile)
-   ========================= */
-
-.navLeft {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-}
-
-.hamburgerBtn {
-  display: none;
-  background: none;
-  border: none;
-  color: rgb(199, 198, 198);
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  transition: background 0.15s ease, color 0.15s ease;
-  min-width: 44px;
-  min-height: 44px;
-  align-items: center;
-  justify-content: center;
-}
-
-.hamburgerBtn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-}
-
-/* =========================
-   SEARCH
-   ========================= */
+/* ================= SEARCH ================= */
 
 .searchWrapper {
   position: relative;
   flex: 1;
-  max-width: 440px;
+  max-width: 400px;
   min-width: 0;
-}
-
-.searchInputWrapper {
-  position: relative;
-  display: flex;
-  align-items: center;
-}
-
-.searchIcon {
-  position: absolute;
-  right: 12px;
-  color: #24abf3;
-  pointer-events: none;
-  flex-shrink: 0;
 }
 
 .search {
   width: 100%;
   height: 45px;
-  padding: 0.5rem 2.5rem 0.5rem 0.7rem;
+  padding: 0.5rem 0.7rem;
   background: #121212;
   color: white;
-  border: 1px solid transparent;
+  border: none;
   outline: none;
-  font-size: 0.9rem;
-  transition: border-color 0.2s ease;
-}
-
-.search:focus {
-  border-color: #24abf3;
 }
 
 .search::placeholder {
@@ -110,9 +157,11 @@
   top: calc(100% + 8px);
   left: 0;
   width: 100%;
+
   background: #1a1a1a;
   border: 1px solid #2e2e2e;
   box-shadow: 0 10px 25px rgba(0, 0, 0, 0.45);
+
   z-index: 3000;
   overflow: hidden;
 }
@@ -121,9 +170,11 @@
   display: flex;
   align-items: center;
   gap: 0.75rem;
+
   padding: 0.75rem;
   text-decoration: none;
   color: white;
+
   transition: background 0.2s ease;
 }
 
@@ -137,7 +188,6 @@
   object-fit: contain;
   background: #111;
   padding: 0.3rem;
-  flex-shrink: 0;
 }
 
 .searchInfo {
@@ -151,6 +201,7 @@
   font-size: 0.88rem;
   font-weight: 700;
   color: #e8e8e8;
+
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -166,32 +217,9 @@
   padding: 1rem;
   color: #9a9a9a;
   font-size: 0.88rem;
-  text-align: center;
 }
 
-.searchLoading {
-  padding: 1rem;
-  color: #24abf3;
-  font-size: 0.85rem;
-  text-align: center;
-  animation: pulse 1.4s ease-in-out infinite;
-}
-
-@keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
-}
-
-/* =========================
-   ACTIONS (user + cart)
-   ========================= */
-
-.actions {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 0.5rem;
-}
+/* ================= ACTIONS ================= */
 
 .icon-btn {
   font-size: 1.5rem;
@@ -200,240 +228,73 @@
   border: none;
   background-color: transparent;
   color: rgb(199, 198, 198);
+
   display: flex;
   justify-content: center;
   align-items: center;
-  padding: 4px;
-  border-radius: 6px;
-  transition: color 0.15s ease, background 0.15s ease;
-}
-
-.icon-btn:hover {
-  color: #fff;
-  background: rgba(255, 255, 255, 0.04);
 }
 
 .cart-btn .badge {
   position: absolute;
   top: -5px;
   right: -8px;
+
   background: linear-gradient(135deg, #007fff, #00cfff);
   color: white;
   font-size: 0.7rem;
+
   border-radius: 50%;
   padding: 2px 6px;
-  pointer-events: none;
 }
 
-.mobileSearchBtn {
-  display: none;
-}
-
-/* =========================
-   USER DROPDOWN
-   ========================= */
-
-.cartWrapper {
-  position: relative;
-}
-
-.userWrapper {
-  position: relative;
-}
-
-.userDropdown {
-  position: absolute;
-  top: calc(100% + 10px);
-  right: 0;
-  width: 250px;
-  background: rgb(20, 20, 20);
-  border: 1px solid rgb(38, 38, 38);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
-  border-radius: 12px;
-  z-index: 3000;
-  overflow: hidden;
-  opacity: 0;
-  visibility: hidden;
-  transform: translateY(-8px) scale(0.97);
-  transition: all 0.22s cubic-bezier(0.16, 1, 0.3, 1);
-}
-
-.userDropdown.open {
-  opacity: 1;
-  visibility: visible;
-  transform: translateY(0) scale(1);
-}
-
-.userDropdownHeader {
+.actions {
   display: flex;
-  align-items: center;
-  gap: 0.9rem;
-  padding: 1rem 1.2rem;
-  background: rgb(26, 26, 26);
-  border-bottom: 1px solid rgb(38, 38, 38);
-}
-
-.avatarCircle {
-  flex-shrink: 0;
-  width: 36px;
-  height: 36px;
-  border-radius: 50%;
-  background: rgb(32, 32, 32);
-  border: 1px solid rgb(50, 50, 50);
-  display: flex;
-  align-items: center;
   justify-content: center;
-  color: rgb(160, 160, 160);
-}
-
-.headerInfo {
-  min-width: 0;
-}
-
-.adminLabel {
-  display: block;
-  font-size: 0.65rem;
-  font-weight: 900;
-  color: #ef4444;
-  letter-spacing: 1.2px;
-  margin-bottom: 2px;
-}
-
-.customerLabel {
-  display: block;
-  font-size: 0.65rem;
-  font-weight: 800;
-  color: rgb(140, 140, 140);
-  text-transform: uppercase;
-  letter-spacing: 1.2px;
-  margin-bottom: 2px;
-}
-
-.customerName {
-  text-transform: none;
-  letter-spacing: 0;
-  color: #e6e6e6;
-  font-size: 0.82rem;
-  font-weight: 700;
-}
-
-.userDropdownEmail {
-  display: block;
-  font-size: 0.75rem;
-  font-weight: 600;
-  color: rgb(120, 120, 120);
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-}
-
-.userDropdownLink {
-  display: flex;
   align-items: center;
-  gap: 0.8rem;
-  padding: 0.75rem 1.2rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: rgb(200, 200, 200);
-  text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease;
-  border-left: 2px solid transparent;
+  gap: 0.5rem;
 }
 
-.userDropdownLink:hover {
-  background: rgb(30, 30, 30);
-  color: #fff;
-  border-left-color: #24abf3;
-}
-
-.userDropdownAccent {
-  color: #24abf3;
-  font-weight: 700;
-}
-
-.userDropdownAccent:hover {
-  background: rgba(36, 171, 243, 0.08);
-  border-left-color: #24abf3;
-}
-
-.userDropdownDivider {
-  height: 1px;
-  background: rgb(38, 38, 38);
-  margin: 0.25rem 1rem;
-}
-
-.userDropdownBtn {
-  display: flex;
-  align-items: center;
-  gap: 0.8rem;
-  width: 100%;
-  padding: 0.75rem 1.2rem;
-  font-size: 0.85rem;
-  font-weight: 600;
-  color: rgb(248, 113, 113);
-  background: none;
-  border: none;
-  border-left: 2px solid transparent;
-  cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
-}
-
-.userDropdownBtn:hover {
-  background: rgba(239, 68, 68, 0.08);
-  border-left-color: #ef4444;
-}
-
-.adminBadge {
-  position: absolute;
-  bottom: -4px;
-  left: 50%;
-  transform: translateX(-50%);
-  background: linear-gradient(135deg, #dc2626, #ef4444);
-  color: #fff;
-  font-size: 0.52rem;
-  font-weight: 900;
-  letter-spacing: 0.5px;
-  padding: 1px 5px;
-  border-radius: 3px;
-  pointer-events: none;
-  white-space: nowrap;
-}
-
-/* =========================
-   RGB BAR
-   ========================= */
+/* ================= RGB ================= */
 
 .rgbbar {
   width: 100%;
   height: 4px;
+
   background: linear-gradient(90deg, #007fff, #00cfff, #007fff);
   background-size: 200% 100%;
+
   animation: electric 2s linear infinite;
 }
 
 @keyframes electric {
-  0% { background-position: 0%; }
-  100% { background-position: 200%; }
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
 }
 
-/* =========================
-   SECONDARY NAV
-   ========================= */
+/* ================= NAV 2 ================= */
 
 .navbarSecundario {
   width: 100%;
   height: 50px;
+
   display: flex;
   align-items: center;
   justify-content: center;
+
   background-color: #121212;
 }
 
 .navbarLinks {
   padding: 0;
   margin: 0;
+
   list-style: none;
   width: 100%;
+
   display: flex;
   justify-content: center;
   align-items: center;
@@ -444,10 +305,13 @@
   font-family: "Inter", sans-serif;
   font-size: 0.9rem;
   font-weight: 900;
+
   position: relative;
   display: inline-block;
+
   color: rgb(163, 163, 163);
   text-decoration: none;
+
   transition: color 0.25s ease;
   padding-bottom: 6px;
 }
@@ -457,8 +321,10 @@
   position: absolute;
   left: 0;
   bottom: 0;
+
   width: 100%;
   height: 2px;
+
   background: #24abf3;
   transform: scaleX(0);
   transform-origin: center;
@@ -481,292 +347,7 @@
   transform: scaleX(1);
 }
 
-/* =========================
-   MOBILE DRAWER
-   ========================= */
-
-.drawerBackdrop {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.55);
-  z-index: 4000;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
-}
-
-.drawerBackdrop.backdropOpen {
-  opacity: 1;
-  visibility: visible;
-}
-
-.mobileDrawer {
-  position: fixed;
-  top: 0;
-  left: 0;
-  bottom: 0;
-  width: 320px;
-  max-width: 85vw;
-  background: #1a1a1a;
-  z-index: 5000;
-  overflow-y: auto;
-  transform: translateX(-100%);
-  transition: transform 0.32s cubic-bezier(0.16, 1, 0.3, 1);
-  display: flex;
-  flex-direction: column;
-}
-
-.mobileDrawer.drawerOpen {
-  transform: translateX(0);
-}
-
-.drawerHeader {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding: 1.2rem 1.25rem;
-  border-bottom: 1px solid #2e2e2e;
-}
-
-.drawerLogo {
-  font-family: var(--font-cosmic);
-  font-size: 1.4rem;
-  font-weight: 100;
-  letter-spacing: 2px;
-  color: #24abf3;
-  text-decoration: none;
-}
-
-.drawerCloseBtn {
-  background: none;
-  border: none;
-  color: rgb(180, 180, 180);
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  transition: background 0.15s ease, color 0.15s ease;
-}
-
-.drawerCloseBtn:hover {
-  background: rgba(255, 255, 255, 0.06);
-  color: #fff;
-}
-
-.drawerLinks {
-  list-style: none;
-  padding: 0.5rem 0;
-  margin: 0;
-}
-
-.drawerLink {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.9rem 1.5rem;
-  font-size: 0.95rem;
-  font-weight: 700;
-  color: rgb(180, 180, 180);
-  text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease;
-  border-left: 3px solid transparent;
-}
-
-.drawerLink:hover {
-  background: rgb(30, 30, 30);
-  color: #fff;
-  border-left-color: #24abf3;
-}
-
-.drawerLinkActive {
-  color: #24abf3;
-  border-left-color: #24abf3;
-}
-
-.drawerDivider {
-  height: 1px;
-  background: #2e2e2e;
-  margin: 0.5rem 1.25rem;
-}
-
-.drawerUserSection {
-  padding: 0.75rem 1.25rem 1.5rem;
-  margin-top: auto;
-}
-
-.drawerUserInfo {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  padding: 0.5rem 0 0.75rem;
-}
-
-.drawerUserName {
-  display: block;
-  font-size: 0.9rem;
-  font-weight: 700;
-  color: #e8e8e8;
-}
-
-.drawerAdminTag {
-  display: inline-block;
-  margin-left: 0.5rem;
-  padding: 1px 5px;
-  font-size: 0.55rem;
-  font-weight: 900;
-  background: #ef4444;
-  color: #fff;
-  border-radius: 3px;
-  vertical-align: middle;
-}
-
-.drawerUserEmail {
-  display: block;
-  font-size: 0.75rem;
-  color: rgb(130, 130, 130);
-  margin-top: 2px;
-}
-
-.drawerLogoutBtn {
-  display: flex;
-  align-items: center;
-  gap: 0.75rem;
-  width: 100%;
-  padding: 0.75rem 1rem;
-  margin-top: 0.5rem;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: rgb(248, 113, 113);
-  background: none;
-  border: 1px solid #3a1f1f;
-  border-radius: 8px;
-  cursor: pointer;
-  transition: background 0.15s ease;
-}
-
-.drawerLogoutBtn:hover {
-  background: rgba(239, 68, 68, 0.08);
-}
-
-.drawerAuthLinks {
-  display: flex;
-  flex-direction: column;
-  gap: 0.6rem;
-}
-
-.drawerAuthBtn {
-  display: block;
-  width: 100%;
-  padding: 0.8rem;
-  font-size: 0.9rem;
-  font-weight: 700;
-  text-align: center;
-  text-decoration: none;
-  color: #fff;
-  background: #24abf3;
-  border-radius: 8px;
-  transition: background 0.15s ease;
-}
-
-.drawerAuthBtn:hover {
-  background: #1e93d9;
-}
-
-.drawerAuthBtnOutline {
-  background: transparent;
-  border: 1px solid #3a3a3a;
-  color: rgb(180, 180, 180);
-}
-
-.drawerAuthBtnOutline:hover {
-  background: rgba(255, 255, 255, 0.04);
-  border-color: #555;
-}
-
-/* =========================
-   MOBILE SEARCH OVERLAY
-   ========================= */
-
-.mobileSearchOverlay {
-  position: fixed;
-  inset: 0;
-  background: #121212;
-  z-index: 6000;
-  display: flex;
-  flex-direction: column;
-  overflow-y: auto;
-}
-
-.mobileSearchBar {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
-  padding: 0.75rem 1rem;
-  border-bottom: 1px solid #2e2e2e;
-  background: #1a1a1a;
-}
-
-.mobileSearchBackBtn {
-  background: none;
-  border: none;
-  color: rgb(180, 180, 180);
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-width: 44px;
-  min-height: 44px;
-  flex-shrink: 0;
-  transition: color 0.15s ease;
-}
-
-.mobileSearchBackBtn:hover {
-  color: #fff;
-}
-
-.mobileSearchInputWrap {
-  position: relative;
-  flex: 1;
-  display: flex;
-  align-items: center;
-}
-
-.mobileSearchInput {
-  width: 100%;
-  height: 44px;
-  padding: 0.5rem 2.5rem 0.5rem 0.75rem;
-  background: #0f0f0f;
-  color: #fff;
-  border: 1px solid #2e2e2e;
-  outline: none;
-  font-size: 1rem;
-  border-radius: 6px;
-}
-
-.mobileSearchInput:focus {
-  border-color: #24abf3;
-}
-
-.mobileSearchInput::placeholder {
-  color: rgb(80, 80, 80);
-  font-weight: 700;
-}
-
-.mobileSearchResults {
-  flex: 1;
-  overflow-y: auto;
-  padding: 0.5rem 0;
-}
-
-/* =========================
-   TABLET (max-width: 1024px)
-   ========================= */
+/* ================= TABLET ================= */
 
 @media (max-width: 1024px) {
   .navbarPrimario {
@@ -787,33 +368,22 @@
   }
 }
 
-/* =========================
-   MOBILE (max-width: 768px)
-   ========================= */
+/* ================= MOBILE ================= */
 
 @media (max-width: 768px) {
   .navbarPrimario {
-    height: 64px;
-    padding: 0 1rem;
-    flex-wrap: nowrap;
-    gap: 0;
+    height: auto;
+    padding: 1rem;
+    flex-wrap: wrap;
+    gap: 1rem;
     justify-content: space-between;
   }
 
-  .hamburgerBtn {
-    display: flex;
-  }
-
-  .logo {
-    font-size: 1.5rem;
-  }
-
   .searchWrapper {
-    display: none;
-  }
-
-  .mobileSearchBtn {
-    display: flex;
+    order: 3;
+    flex: 100%;
+    max-width: 100%;
+    width: 100%;
   }
 
   .navbarSecundario {
@@ -821,8 +391,10 @@
     left: 0;
     bottom: 0;
     width: 100%;
+
     height: 60px;
     padding: 0 1rem;
+
     z-index: 2000;
     background-color: #121212;
     border-top: 1px solid #1f1f1f;
@@ -854,9 +426,7 @@
   }
 }
 
-/* =========================
-   SMALL MOBILE (max-width: 480px)
-   ========================= */
+/* ================= SMALL MOBILE ================= */
 
 @media (max-width: 480px) {
   .navbarSecundario {
@@ -885,42 +455,7 @@
     font-size: 0.8rem;
   }
 
-  .mobileDrawer {
-    width: 280px;
-    max-width: 85vw;
-  }
-
   body {
     padding-bottom: 56px;
-  }
-}
-
-/* =========================
-   REDUCED MOTION
-   ========================= */
-
-@media (prefers-reduced-motion: reduce) {
-  .rgbbar {
-    animation: none;
-  }
-
-  .mobileDrawer {
-    transition: none;
-  }
-
-  .drawerBackdrop {
-    transition: none;
-  }
-
-  .userDropdown {
-    transition: none;
-  }
-
-  .searchLoading {
-    animation: none;
-  }
-
-  .navbarLinkText::after {
-    transition: none;
   }
 }

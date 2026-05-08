@@ -26,7 +26,6 @@ export default function UserTable({ users, onDelete, onEdit, isDeleting }) {
         <caption className="visually-hidden">Tabla de usuarios con {users.length} registros</caption>
         <thead>
           <tr>
-            <th scope="col">Nombre</th>
             <th scope="col">Email</th>
             <th scope="col">Rol</th>
             <th scope="col">Creado</th>
@@ -38,14 +37,13 @@ export default function UserTable({ users, onDelete, onEdit, isDeleting }) {
             <tr key={user.id}>
               <td>
                 <span style={{ fontWeight: 700, color: 'var(--admin-text)' }}>
-                  {user.name || '—'}
+                  {user.email}
                 </span>
               </td>
-              <td>{user.email}</td>
               <td>
                 <span
                   className={`table-badge ${
-                    user.role === 'ADMIN'
+                    user.role === 'admin'
                       ? 'table-badge-success'
                       : 'table-badge-warning'
                   }`}

@@ -2,217 +2,101 @@
 
 import styles from "../styles/Navbar.module.css";
 import Container from "@/components/Container";
-import { useState, useRef, useEffect, useCallback } from "react";
+import { useMemo, useState, useRef, useEffect } from "react";
 import { useCart } from "@/features/cart";
 import { useAuthStore } from "@/features/auth";
-import { useToastStore } from "@/features/toast";
-import { useDebounce } from "@/lib/hooks/useDebounce";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
-import {
-  ShoppingCartIcon,
-  UserRound,
-  LogOut,
-  Shield,
-  LayoutDashboard,
-  User,
-  Package,
-  Search,
-  Menu,
-  X,
-} from "lucide-react";
+import { ShoppingCartIcon, UserRound, LogOut, Shield } from "lucide-react";
 import { Cart } from "@/features/cart";
 
-export default function Navbar() {
+export default function Navbar({ products = [] }) {
   const [search, setSearch] = useState("");
-  const [results, setResults] = useState([]);
-  const [loading, setLoading] = useState(false);
-  const [hasSearched, setHasSearched] = useState(false);
-  const [showDropdown, setShowDropdown] = useState(false);
   const [showUserMenu, setShowUserMenu] = useState(false);
-  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
-  const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
-
   const pathname = usePathname();
   const router = useRouter();
 
   const { cart, toggleCart } = useCart();
   const { user, logout } = useAuthStore();
-  const toast = useToastStore((s) => s.toast);
 
   const menuRef = useRef(null);
-  const searchRef = useRef(null);
-  const mobileSearchInputRef = useRef(null);
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
 
-  const isAdmin = user?.role === "ADMIN";
-  const displayName = user?.name || user?.email?.split("@")[0];
-
   const isActive = (href) => pathname === href;
 
-  const debouncedSearch = useDebounce(search, 300);
+  const results = useMemo(() => {
+    const term = search.trim().toLowerCase();
 
-  const fetchResults = useCallback(async (term) => {
-    if (!term.trim()) {
-      setResults([]);
-      setHasSearched(false);
-      return;
-    }
-    setLoading(true);
-    setHasSearched(false);
-    try {
-      const res = await fetch(`/api/search?q=${encodeURIComponent(term.trim())}`);
-      if (res.ok) {
-        const data = await res.json();
-        setResults(data.results || []);
-      } else {
-        setResults([]);
-      }
-    } catch {
-      setResults([]);
-    } finally {
-      setLoading(false);
-      setHasSearched(true);
-    }
-  }, []);
+    if (!term) return [];
 
-  useEffect(() => {
-    fetchResults(debouncedSearch);
-  }, [debouncedSearch, fetchResults]);
+    return products
+      .filter((product) => product.title.toLowerCase().includes(term))
+      .slice(0, 6);
+  }, [search, products]);
 
   useEffect(() => {
     function handleClickOutside(event) {
       if (menuRef.current && !menuRef.current.contains(event.target)) {
         setShowUserMenu(false);
       }
-      if (searchRef.current && !searchRef.current.contains(event.target)) {
-        setShowDropdown(false);
-      }
     }
     document.addEventListener("mousedown", handleClickOutside);
     return () => document.removeEventListener("mousedown", handleClickOutside);
   }, []);
 
-  useEffect(() => {
-    function handleEscape(e) {
-      if (e.key === "Escape") {
-        setMobileMenuOpen(false);
-        setMobileSearchOpen(false);
-        setShowUserMenu(false);
-        setShowDropdown(false);
-      }
-    }
-    document.addEventListener("keydown", handleEscape);
-    return () => document.removeEventListener("keydown", handleEscape);
-  }, []);
-
-  useEffect(() => {
-    if (mobileMenuOpen) {
-      document.body.style.overflow = "hidden";
-    } else {
-      document.body.style.overflow = "";
-    }
-    return () => {
-      document.body.style.overflow = "";
-    };
-  }, [mobileMenuOpen]);
-
-  useEffect(() => {
-    if (mobileSearchOpen && mobileSearchInputRef.current) {
-      mobileSearchInputRef.current.focus();
-    }
-  }, [mobileSearchOpen]);
-
   const handleLogout = async () => {
     await logout();
     setShowUserMenu(false);
-    setMobileMenuOpen(false);
-    toast("Sesión cerrada exitosamente", "success");
     router.push("/");
   };
-
-  const closeMobileMenu = () => setMobileMenuOpen(false);
-
-  const handleResultClick = () => {
-    setSearch("");
-    setResults([]);
-    setShowDropdown(false);
-  };
-
-  const categories = [
-    { href: "/", label: "INICIO" },
-    { href: "/category/gpu", label: "GPU" },
-    { href: "/category/cpu", label: "CPU" },
-    { href: "/category/ram", label: "RAM" },
-    { href: "/category/storage", label: "ALMACENAMIENTO" },
-  ];
 
   return (
     <>
       <div className={styles.navbarSticky}>
-        <nav className={styles.navbarPrimario} role="navigation" aria-label="Navegación principal">
+        <nav className={styles.navbarPrimario}>
           <Container>
-            <div className={styles.navLeft}>
-              <button
-                className={styles.hamburgerBtn}
-                onClick={() => setMobileMenuOpen(true)}
-                aria-label="Abrir menú"
-                aria-expanded={mobileMenuOpen}
-              >
-                <Menu size={28} />
-              </button>
+            <h1 className={styles.logo}>
+              <Link className={styles.logoLink} href="/">
+                ELECTROSHOP
+              </Link>
+            </h1>
 
-              <h1 className={styles.logo}>
-                <Link className={styles.logoLink} href="/" onClick={closeMobileMenu}>
-                  ELECTROSHOP
-                </Link>
-              </h1>
-            </div>
+            <div className={styles.searchWrapper}>
+              <input
+                type="text"
+                placeholder="BUSCAR PRODUCTOS..."
+                value={search}
+                onChange={(e) => setSearch(e.target.value)}
+                className={styles.search}
+              />
 
-            <div className={styles.searchWrapper} ref={searchRef}>
-              <div className={styles.searchInputWrapper}>
-                <Search className={styles.searchIcon} size={18} />
-                <input
-                  type="text"
-                  placeholder="BUSCAR PRODUCTOS..."
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  onFocus={() => setShowDropdown(true)}
-                  className={styles.search}
-                  aria-label="Buscar productos"
-                  autoComplete="off"
-                />
-              </div>
-
-              {search.trim() && showDropdown && (
-                <div className={styles.searchDropdown} role="listbox" aria-label="Resultados de búsqueda">
-                  {loading && (
-                    <div className={styles.searchLoading}>Buscando...</div>
-                  )}
-                  {!loading && results.length > 0 &&
+              {search.trim() && (
+                <div className={styles.searchDropdown}>
+                  {results.length > 0 ? (
                     results.map((product) => (
                       <Link
                         key={product.id}
                         href={`/product/${product.slug}`}
                         className={styles.searchItem}
-                        onClick={handleResultClick}
-                        role="option"
+                        onClick={() => setSearch("")}
                       >
                         <img
                           src={product.thumbnail}
                           alt={product.title}
                           className={styles.searchThumb}
                         />
+
                         <div className={styles.searchInfo}>
                           <span className={styles.searchTitle}>{product.title}</span>
+
                           <span className={styles.searchPrice}>
                             ${product.price.toLocaleString("es-AR")}
                           </span>
                         </div>
                       </Link>
-                    ))}
-                  {!loading && hasSearched && results.length === 0 && (
+                    ))
+                  ) : (
                     <div className={styles.searchEmpty}>Sin resultados</div>
                   )}
                 </div>
@@ -220,27 +104,12 @@ export default function Navbar() {
             </div>
 
             <div className={styles.actions}>
-              <button
-                className={`${styles["icon-btn"]} ${styles.mobileSearchBtn}`}
-                onClick={() => {
-                  setMobileSearchOpen(!mobileSearchOpen);
-                  setMobileMenuOpen(false);
-                }}
-                aria-label="Buscar"
-                aria-expanded={mobileSearchOpen}
-              >
-                <Search size={28} />
-              </button>
-
               <div className={styles.userWrapper} ref={menuRef}>
                 <button
                   className={styles["icon-btn"]}
                   onClick={() => setShowUserMenu(!showUserMenu)}
-                  aria-label="Menú de usuario"
-                  aria-expanded={showUserMenu}
                 >
                   <UserRound size={30} />
-                  {isAdmin && <span className={styles.adminBadge}>ADMIN</span>}
                 </button>
 
                 {showUserMenu && (
@@ -248,63 +117,34 @@ export default function Navbar() {
                     {user ? (
                       <>
                         <div className={styles.userDropdownHeader}>
-                          <div className={styles.avatarCircle}>
-                            {isAdmin ? <Shield size={18} /> : <User size={18} />}
-                          </div>
-                          <div className={styles.headerInfo}>
-                            {isAdmin ? (
-                              <span className={styles.adminLabel}>ADMIN</span>
-                            ) : (
-                              <span className={styles.customerLabel}>
-                                cliente <span className={styles.customerName}>{displayName}</span>
-                              </span>
-                            )}
-                            <span className={styles.userDropdownEmail}>{user.email}</span>
-                          </div>
+                          <span className={styles.userDropdownEmailLabel}>
+                            Signed in as
+                          </span>
+                          <span className={styles.userDropdownEmail}>{user.email}</span>
                         </div>
-                        {isAdmin ? (
-                          <>
-                            <Link
-                              href="/dashboard"
-                              className={`${styles.userDropdownLink} ${styles.userDropdownAccent}`}
-                              onClick={() => setShowUserMenu(false)}
-                            >
-                              <LayoutDashboard size={15} />
-                              Dashboard
-                            </Link>
-                            <Link
-                              href="/admin"
-                              className={styles.userDropdownLink}
-                              onClick={() => setShowUserMenu(false)}
-                            >
-                              <Shield size={15} />
-                              Panel admin
-                            </Link>
-                          </>
-                        ) : (
-                          <>
-                            <Link
-                              href="/profile"
-                              className={styles.userDropdownLink}
-                              onClick={() => setShowUserMenu(false)}
-                            >
-                              <User size={15} />
-                              Mi perfil
-                            </Link>
-                            <Link
-                              href="/orders"
-                              className={styles.userDropdownLink}
-                              onClick={() => setShowUserMenu(false)}
-                            >
-                              <Package size={15} />
-                              Mis pedidos
-                            </Link>
-                          </>
+                        {user.role === "admin" && (
+                          <Link
+                            href="/admin"
+                            className={`${styles.userDropdownLink} ${styles.userDropdownAdminLink}`}
+                            onClick={() => setShowUserMenu(false)}
+                          >
+                            <Shield size={16} />
+                            Admin Dashboard
+                          </Link>
                         )}
-                        <div className={styles.userDropdownDivider} />
-                        <button onClick={handleLogout} className={styles.userDropdownBtn}>
-                          <LogOut size={15} />
-                          Salir
+                        <Link
+                          href="/account"
+                          className={styles.userDropdownLink}
+                          onClick={() => setShowUserMenu(false)}
+                        >
+                          My Account
+                        </Link>
+                        <button
+                          onClick={handleLogout}
+                          className={styles.userDropdownBtn}
+                        >
+                          <LogOut size={16} />
+                          Logout
                         </button>
                       </>
                     ) : (
@@ -314,15 +154,14 @@ export default function Navbar() {
                           className={styles.userDropdownLink}
                           onClick={() => setShowUserMenu(false)}
                         >
-                          Iniciar Sesión
+                          Login
                         </Link>
-                        <div className={styles.userDropdownDivider} />
                         <Link
                           href="/register"
                           className={styles.userDropdownLink}
                           onClick={() => setShowUserMenu(false)}
                         >
-                          Registrarse
+                          Register
                         </Link>
                       </>
                     )}
@@ -331,16 +170,14 @@ export default function Navbar() {
               </div>
 
               <div className={styles.cartWrapper}>
-                <button
-                  className={`${styles["icon-btn"]} ${styles["cart-btn"]}`}
-                  onClick={toggleCart}
-                  aria-label={`Carrito, ${totalItems} items`}
-                >
+                <button className={`${styles["icon-btn"]} ${styles["cart-btn"]}`} onClick={toggleCart}>
                   <ShoppingCartIcon size={30} />
+
                   {totalItems > 0 && (
                     <span className={styles.badge}>{totalItems}</span>
                   )}
                 </button>
+
                 <Cart />
               </div>
             </div>
@@ -350,200 +187,64 @@ export default function Navbar() {
         <div className={styles.rgbbar}></div>
       </div>
 
-      <nav className={styles.navbarSecundario} role="navigation" aria-label="Categorías">
+      <nav className={styles.navbarSecundario}>
         <Container>
           <ul className={styles.navbarLinks}>
-            {categories.map((cat) => (
-              <li key={cat.href}>
-                <Link
-                  href={cat.href}
-                  className={`${styles.navbarLinkText} ${isActive(cat.href) ? styles.active : ""}`}
-                >
-                  {cat.label}
-                </Link>
-              </li>
-            ))}
+            <li>
+              <Link
+                href="/"
+                className={`${styles.navbarLinkText} ${isActive("/") ? styles.active : ""}`}
+              >
+                INICIO
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/category/gpu"
+                className={`${styles.navbarLinkText} ${
+                  isActive("/category/gpu") ? styles.active : ""
+                }`}
+              >
+                GPU
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/category/cpu"
+                className={`${styles.navbarLinkText} ${
+                  isActive("/category/cpu") ? styles.active : ""
+                }`}
+              >
+                CPU
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/category/ram"
+                className={`${styles.navbarLinkText} ${
+                  isActive("/category/ram") ? styles.active : ""
+                }`}
+              >
+                RAM
+              </Link>
+            </li>
+
+            <li>
+              <Link
+                href="/category/storage"
+                className={`${styles.navbarLinkText} ${
+                  isActive("/category/storage") ? styles.active : ""
+                }`}
+              >
+                ALMACENAMIENTO
+              </Link>
+            </li>
           </ul>
         </Container>
       </nav>
-
-      <div
-        className={`${styles.drawerBackdrop} ${mobileMenuOpen ? styles.backdropOpen : ""}`}
-        onClick={closeMobileMenu}
-        aria-hidden="true"
-      />
-
-      <aside
-        className={`${styles.mobileDrawer} ${mobileMenuOpen ? styles.drawerOpen : ""}`}
-        role="dialog"
-        aria-modal="true"
-        aria-label="Menú de navegación"
-      >
-        <div className={styles.drawerHeader}>
-          <Link className={styles.drawerLogo} href="/" onClick={closeMobileMenu}>
-            ELECTROSHOP
-          </Link>
-          <button
-            className={styles.drawerCloseBtn}
-            onClick={closeMobileMenu}
-            aria-label="Cerrar menú"
-          >
-            <X size={24} />
-          </button>
-        </div>
-
-        <ul className={styles.drawerLinks}>
-          {categories.map((cat) => (
-            <li key={cat.href}>
-              <Link
-                href={cat.href}
-                className={`${styles.drawerLink} ${isActive(cat.href) ? styles.drawerLinkActive : ""}`}
-                onClick={closeMobileMenu}
-              >
-                {cat.label}
-              </Link>
-            </li>
-          ))}
-        </ul>
-
-        <div className={styles.drawerDivider} />
-
-        <div className={styles.drawerUserSection}>
-          {user ? (
-            <>
-              <div className={styles.drawerUserInfo}>
-                <div className={styles.avatarCircle}>
-                  {isAdmin ? <Shield size={18} /> : <User size={18} />}
-                </div>
-                <div>
-                  <span className={styles.drawerUserName}>
-                    {displayName}
-                    {isAdmin && <span className={styles.drawerAdminTag}>ADMIN</span>}
-                  </span>
-                  <span className={styles.drawerUserEmail}>{user.email}</span>
-                </div>
-              </div>
-              <ul className={styles.drawerLinks}>
-                {isAdmin ? (
-                  <>
-                    <li>
-                      <Link href="/dashboard" className={styles.drawerLink} onClick={closeMobileMenu}>
-                        <LayoutDashboard size={15} />
-                        Dashboard
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/admin" className={styles.drawerLink} onClick={closeMobileMenu}>
-                        <Shield size={15} />
-                        Panel admin
-                      </Link>
-                    </li>
-                  </>
-                ) : (
-                  <>
-                    <li>
-                      <Link href="/profile" className={styles.drawerLink} onClick={closeMobileMenu}>
-                        <User size={15} />
-                        Mi perfil
-                      </Link>
-                    </li>
-                    <li>
-                      <Link href="/orders" className={styles.drawerLink} onClick={closeMobileMenu}>
-                        <Package size={15} />
-                        Mis pedidos
-                      </Link>
-                    </li>
-                  </>
-                )}
-              </ul>
-              <button onClick={handleLogout} className={styles.drawerLogoutBtn}>
-                <LogOut size={15} />
-                Salir
-              </button>
-            </>
-          ) : (
-            <div className={styles.drawerAuthLinks}>
-              <Link href="/login" className={styles.drawerAuthBtn} onClick={closeMobileMenu}>
-                Iniciar Sesión
-              </Link>
-              <Link
-                href="/register"
-                className={`${styles.drawerAuthBtn} ${styles.drawerAuthBtnOutline}`}
-                onClick={closeMobileMenu}
-              >
-                Registrarse
-              </Link>
-            </div>
-          )}
-        </div>
-      </aside>
-
-      {mobileSearchOpen && (
-        <div className={styles.mobileSearchOverlay}>
-          <div className={styles.mobileSearchBar}>
-            <button
-              className={styles.mobileSearchBackBtn}
-              onClick={() => {
-                setMobileSearchOpen(false);
-                setSearch("");
-                setResults([]);
-              }}
-              aria-label="Cerrar búsqueda"
-            >
-              <X size={22} />
-            </button>
-            <div className={styles.mobileSearchInputWrap}>
-              <Search size={18} className={styles.searchIcon} />
-              <input
-                ref={mobileSearchInputRef}
-                type="text"
-                placeholder="BUSCAR PRODUCTOS..."
-                value={search}
-                onChange={(e) => setSearch(e.target.value)}
-                onFocus={() => setShowDropdown(true)}
-                className={styles.mobileSearchInput}
-                aria-label="Buscar productos"
-                autoComplete="off"
-              />
-            </div>
-          </div>
-
-          {search.trim() && (
-            <div className={styles.mobileSearchResults}>
-              {loading && (
-                <div className={styles.searchLoading}>Buscando...</div>
-              )}
-              {!loading && results.length > 0 &&
-                results.map((product) => (
-                  <Link
-                    key={product.id}
-                    href={`/product/${product.slug}`}
-                    className={styles.searchItem}
-                    onClick={() => {
-                      handleResultClick();
-                      setMobileSearchOpen(false);
-                    }}
-                  >
-                    <img
-                      src={product.thumbnail}
-                      alt={product.title}
-                      className={styles.searchThumb}
-                    />
-                    <div className={styles.searchInfo}>
-                      <span className={styles.searchTitle}>{product.title}</span>
-                      <span className={styles.searchPrice}>
-                        ${product.price.toLocaleString("es-AR")}
-                      </span>
-                    </div>
-                  </Link>
-                ))}
-              {!loading && hasSearched && results.length === 0 && (
-                <div className={styles.searchEmpty}>Sin resultados</div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
     </>
   );
 }

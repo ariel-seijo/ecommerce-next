@@ -5,9 +5,8 @@ import { X } from 'lucide-react';
 
 export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
   const [formData, setFormData] = useState({
-    name: '',
     email: '',
-    role: 'CUSTOMER',
+    role: 'customer',
     password: '',
   });
   const [errors, setErrors] = useState({});
@@ -17,16 +16,14 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
   useEffect(() => {
     if (user) {
       setFormData({
-        name: user.name || '',
         email: user.email || '',
-        role: user.role || 'CUSTOMER',
+        role: user.role || 'customer',
         password: '',
       });
     } else {
       setFormData({
-        name: '',
         email: '',
-        role: 'CUSTOMER',
+        role: 'customer',
         password: '',
       });
     }
@@ -131,24 +128,6 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
 
         <form onSubmit={handleSubmit} className="modal-form" noValidate>
           <div className="form-group">
-            <label htmlFor="user-name" className="form-label">
-              Nombre
-            </label>
-            <input
-              type="text"
-              id="user-name"
-              name="name"
-              value={formData.name}
-              onChange={handleChange}
-              className="form-input"
-              placeholder="Nombre del usuario"
-              disabled={isSubmitting}
-              ref={firstInputRef}
-              autoComplete="name"
-            />
-          </div>
-
-          <div className="form-group">
             <label htmlFor="user-email" className="form-label">
               Email
             </label>
@@ -161,6 +140,7 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
               className={`form-input ${errors.email ? 'form-input-error' : ''}`}
               placeholder="usuario@ejemplo.com"
               disabled={isSubmitting}
+              ref={firstInputRef}
               aria-invalid={!!errors.email}
               aria-describedby={errorId('email')}
               autoComplete="email"
@@ -182,8 +162,8 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
               aria-invalid={!!errors.role}
               aria-describedby={errorId('role')}
             >
-              <option value="CUSTOMER">Cliente</option>
-              <option value="ADMIN">Administrador</option>
+              <option value="customer">Cliente</option>
+              <option value="admin">Administrador</option>
             </select>
             {errors.role && <span className="form-error" id="role-error" role="alert">{errors.role}</span>}
           </div>

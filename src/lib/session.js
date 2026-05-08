@@ -1,5 +1,14 @@
+const SESSION_SECRET = process.env.SESSION_SECRET;
+
+if (!SESSION_SECRET) {
+  throw new Error(
+    "SESSION_SECRET environment variable is not set. " +
+    "Generate one with: openssl rand -base64 32"
+  );
+}
+
 export const sessionOptions = {
-  password: process.env.SESSION_SECRET || "fallback-secret-change-in-production",
+  password: SESSION_SECRET,
   cookieName: "ecommerce-session",
   cookieOptions: {
     httpOnly: true,

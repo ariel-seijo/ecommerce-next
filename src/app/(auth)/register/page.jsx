@@ -6,10 +6,13 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, UserPlus, Check } from "lucide-react";
+import { useToastStore } from "@/features/toast";
 
 export default function RegisterPage() {
   const router = useRouter();
   const { register, loading, error, clearError } = useAuthStore();
+  const toast = useToastStore((s) => s.toast);
+  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
@@ -36,7 +39,8 @@ export default function RegisterPage() {
     e.preventDefault();
     if (passwordsMismatch) return;
     try {
-      await register(email, password);
+      const user = await register(name, email, password, confirmPassword);
+      toast(`¡Bienvenido, ${user.name || user.email}!`, "success");
       router.push("/");
     } catch {
       // Error handled in store
@@ -55,6 +59,21 @@ export default function RegisterPage() {
         {error && <div className="auth-error">{error}</div>}
 
         <form onSubmit={handleSubmit} className="auth-form">
+          <div className="auth-field">
+            <label htmlFor="name" className="auth-label">
+              Nombre
+            </label>
+            <input
+              id="name"
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              className="auth-input"
+              placeholder="Tu nombre"
+              autoComplete="name"
+            />
+          </div>
+
           <div className="auth-field">
             <label htmlFor="email" className="auth-label">
               Email

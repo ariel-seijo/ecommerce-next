@@ -1,12 +1,16 @@
 import { NextResponse } from "next/server";
-import { hash, verify } from "@node-rs/bcrypt";
+import { hash } from "@node-rs/bcrypt";
+import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
+import { sessionOptions } from "@/lib/session";
 
 export async function POST(request) {
   try {
     const body = await request.json();
+    const name = body?.name?.trim() || null;
     const email = body?.email?.trim().toLowerCase();
     const password = body?.password;
+    const confirmPassword = body?.confirmPassword;
 
     if (!email) {
       return NextResponse.json(
@@ -18,6 +22,13 @@ export async function POST(request) {
     if (!password) {
       return NextResponse.json(
         { error: "La contraseña es obligatoria" },
+        { status: 400 }
+      );
+    }
+
+    if (password !== confirmPassword) {
+      return NextResponse.json(
+        { error: "Las contraseñas no coinciden" },
         { status: 400 }
       );
     }
@@ -48,11 +59,22 @@ export async function POST(request) {
     const hashedPassword = await hash(password, 12);
 
     const user = await prisma.user.create({
-      data: { email, password: hashedPassword },
-      select: { id: true, email: true, createdAt: true },
+      data: { name, email, password: hashedPassword, role: "CUSTOMER" },
+      select: { id: true, name: true, email: true, role: true },
     });
 
-    return NextResponse.json({ user }, { status: 201 });
+    const res = new NextResponse(
+      JSON.stringify({ user }),
+      { status: 201, headers: { "Content-Type": "application/json" } }
+    );
+
+    const session = await getIronSession(request, res, sessionOptions);
+    session.userId = user.id;
+    session.email = user.email;
+    session.role = user.role;
+    await session.save();
+
+    return res;
   } catch (error) {
     console.error("[REGISTER ERROR]", error);
     return NextResponse.json(

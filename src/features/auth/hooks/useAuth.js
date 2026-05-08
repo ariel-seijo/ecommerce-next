@@ -25,13 +25,13 @@ export const useAuthStore = create((set) => ({
     }
   },
 
-  register: async (name, email, password, confirmPassword) => {
+  register: async (email, password) => {
     set({ loading: true, error: null });
     try {
       const res = await fetch("/api/auth/register", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ name, email, password, confirmPassword }),
+        body: JSON.stringify({ email, password }),
       });
       const data = await res.json();
       if (!res.ok) throw new Error(data.error || "No se pudo crear la cuenta");

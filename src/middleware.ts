@@ -5,14 +5,7 @@ import { sessionOptions } from "@/lib/session";
 export async function middleware(request: NextRequest) {
   const session = await getIronSession(request, new NextResponse(), sessionOptions);
 
-  const pathname = request.nextUrl.pathname;
-  const isAdminRoute = pathname.startsWith("/admin");
-  const isAuthPage = pathname === "/login" || pathname === "/register";
-
-  if (isAuthPage && session.userId) {
-    const destination = session.role === "ADMIN" ? "/dashboard" : "/";
-    return NextResponse.redirect(new URL(destination, request.url));
-  }
+  const isAdminRoute = request.nextUrl.pathname.startsWith("/admin");
 
   if (isAdminRoute) {
     if (!session.userId) {
@@ -20,17 +13,13 @@ export async function middleware(request: NextRequest) {
       return NextResponse.redirect(loginUrl);
     }
 
-    if (session.role !== "ADMIN") {
+    if (session.role !== "admin") {
       const homeUrl = new URL("/", request.url);
       return NextResponse.redirect(homeUrl);
     }
   }
 
-  if (isAuthPage) {
-    return NextResponse.next();
-  }
-
-  if (!session.userId) {
+  if (!isAdminRoute && !(session as any).userId) {
     const loginUrl = new URL("/login", request.url);
     return NextResponse.redirect(loginUrl);
   }
@@ -39,5 +28,5 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/register", "/checkout/:path*", "/account/:path*", "/profile", "/orders/:path*", "/admin/:path*", "/dashboard"],
+  matcher: ["/checkout/:path*", "/account/:path*", "/admin/:path*", "/dashboard"],
 };

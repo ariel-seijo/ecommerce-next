@@ -67,68 +67,6 @@
 }
 
 /* sort dropdown */
-.sortDropdown {
-  display: flex;
-  align-items: center;
-  gap: 0.6rem;
-}
-
-.sortLabel {
-  color: rgb(140, 140, 140);
-  font-size: 0.82rem;
-  font-weight: 700;
-  white-space: nowrap;
-}
-
-.sortDropdown details {
-  position: relative;
-}
-
-.sortDropdown summary {
-  list-style: none;
-  cursor: pointer;
-  background: rgb(18, 18, 18);
-  border: 1px solid rgb(44, 44, 44);
-  color: rgb(200, 200, 200);
-  padding: 0.6rem 1rem;
-  font-size: 0.82rem;
-  font-weight: 700;
-  font-family: inherit;
-  transition: border-color 0.2s ease;
-  min-width: 160px;
-}
-
-.sortDropdown summary:hover,
-.sortDropdown details[open] summary {
-  border-color: #24abf3;
-}
-
-.sortMenu {
-  position: absolute;
-  right: 0;
-  top: calc(100% + 8px);
-  min-width: 200px;
-  background: rgb(18, 18, 18);
-  border: 1px solid rgb(44, 44, 44);
-  display: flex;
-  flex-direction: column;
-  z-index: 20;
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.5);
-}
-
-.sortMenu a {
-  color: rgb(190, 190, 190);
-  text-decoration: none;
-  padding: 0.75rem 1rem;
-  font-size: 0.85rem;
-  font-weight: 700;
-  transition: all 0.2s ease;
-}
-
-.sortMenu a:hover {
-  background: rgb(30, 30, 30);
-  color: #24abf3;
-}
 
 /* active filter chips */
 .activeFilters {
@@ -227,25 +165,6 @@
 
   .productsArea {
     padding: 1rem;
-  }
-
-  .sortDropdown {
-    width: 100%;
-    justify-content: space-between;
-  }
-
-  .sortDropdown details {
-    flex: 1;
-  }
-
-  .sortDropdown summary {
-    width: 100%;
-  }
-
-  .sortMenu {
-    left: 0;
-    right: auto;
-    width: 100%;
   }
 }
 

@@ -7,7 +7,7 @@ import { hash } from "@node-rs/bcrypt";
 async function isAdmin(request) {
   const response = new NextResponse();
   const session = await getIronSession(request, response, sessionOptions);
-  return session.role === "ADMIN";
+  return session.role === "admin";
 }
 
 export async function GET(request, { params }) {
@@ -21,7 +21,6 @@ export async function GET(request, { params }) {
       where: { id },
       select: {
         id: true,
-        name: true,
         email: true,
         role: true,
         createdAt: true,
@@ -46,7 +45,7 @@ export async function PUT(request, { params }) {
 
     const { id } = params;
     const body = await request.json();
-    const { name, email, role, password } = body;
+    const { email, role, password } = body;
 
     const existingUser = await prisma.user.findUnique({ where: { id } });
     if (!existingUser) {
@@ -54,7 +53,6 @@ export async function PUT(request, { params }) {
     }
 
     const updateData = {};
-    if (name !== undefined) updateData.name = name?.trim() || null;
     if (email) updateData.email = email.toLowerCase().trim();
     if (role) updateData.role = role;
     if (password) updateData.password = await hash(password, 12);
@@ -64,7 +62,6 @@ export async function PUT(request, { params }) {
       data: updateData,
       select: {
         id: true,
-        name: true,
         email: true,
         role: true,
         createdAt: true,

@@ -13,9 +13,27 @@ import Footer from "@/components/Footer";
 
 import { CartProvider } from "@/features/cart";
 import { AuthProvider } from "@/features/auth";
-import { ToastContainer } from "@/features/toast";
 
-export default function RootLayout({ children }) {
+import { prisma } from "@/lib/prisma";
+
+export default async function RootLayout({ children }) {
+  const products = await prisma.product.findMany({
+    where: {
+      active: true,
+    },
+    select: {
+      id: true,
+      title: true,
+      slug: true,
+      thumbnail: true,
+      price: true,
+    },
+    take: 100,
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
   return (
     <html lang="es">
       <body className={fuenteGamer.variable}>
@@ -25,11 +43,10 @@ export default function RootLayout({ children }) {
 
         <AuthProvider>
           <CartProvider>
-            <Navbar />
+            <Navbar products={products} />
             <main id="main-content" tabIndex={-1}>
               {children}
             </main>
-            <ToastContainer />
           </CartProvider>
         </AuthProvider>
 

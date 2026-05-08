@@ -63,31 +63,12 @@
   color: rgb(220, 220, 220);
 }
 
-.orderNumber {
-  font-size: 0.9rem;
-  color: rgb(160, 160, 160);
-  margin-top: -0.5rem;
-}
-
-.orderNumber strong {
-  color: #24abf3;
-  font-size: 1rem;
-}
-
-.actions {
-  display: flex;
-  gap: 0.75rem;
-  margin-top: 0.5rem;
-  flex-wrap: wrap;
-  justify-content: center;
-}
-
 .backLink {
   display: inline-flex;
   align-items: center;
   gap: 0.4rem;
   padding: 0.75rem 1.8rem;
-  margin-top: 0;
+  margin-top: 0.5rem;
   background: rgb(34, 34, 34);
   color: rgb(200, 200, 200);
   border: 1px solid rgb(52, 52, 52);
@@ -103,27 +84,6 @@
   background: rgb(44, 44, 44);
   color: white;
   border-color: rgb(80, 80, 80);
-}
-
-.viewOrderLink {
-  display: inline-flex;
-  align-items: center;
-  gap: 0.4rem;
-  padding: 0.75rem 1.8rem;
-  background: #24abf3;
-  color: #111;
-  font-size: 0.88rem;
-  font-weight: 800;
-  text-decoration: none;
-  text-transform: uppercase;
-  letter-spacing: 1px;
-  transition: all 0.25s ease;
-}
-
-.viewOrderLink:hover {
-  background: #33b8fd;
-  box-shadow: 0 0 24px rgba(36, 171, 243, 0.35);
-  transform: translateY(-1px);
 }
 
 @media (max-width: 600px) {

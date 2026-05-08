@@ -1,62 +1,59 @@
 "use client";
 
-import { usePathname, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { useEffect } from "react";
+import { useRouter, usePathname, useSearchParams } from "next/navigation";
 import { LayoutGrid, List } from "lucide-react";
 import styles from "./ViewSwitcher.module.css";
 
 const STORAGE_KEY = "productView";
 
-export default function ViewSwitcher() {
+function persist(view) {
+  localStorage.setItem(STORAGE_KEY, view);
+  document.cookie = `${STORAGE_KEY}=${view}; path=/; max-age=${60 * 60 * 24 * 365}; SameSite=Lax`;
+}
+
+function buildUrl(pathname, searchParams, newView) {
+  const params = new URLSearchParams(searchParams.toString());
+  if (newView === "grid") {
+    params.delete("view");
+  } else {
+    params.set("view", newView);
+  }
+  const qs = params.toString();
+  return qs ? `${pathname}?${qs}` : pathname;
+}
+
+export default function ViewSwitcher({ resolvedView = "grid" }) {
+  const router = useRouter();
   const pathname = usePathname();
   const searchParams = useSearchParams();
-  const view = searchParams.get("view") || "grid";
 
-  useEffect(() => {
-    localStorage.setItem(STORAGE_KEY, view);
-  }, [view]);
+  const activeView = searchParams.get("view") || resolvedView;
 
-  const buildLink = (newView) => {
-    const params = new URLSearchParams(searchParams.toString());
-    if (newView === "grid") {
-      params.delete("view");
-    } else {
-      params.set("view", newView);
-    }
-    const qs = params.toString();
-    return qs ? `${pathname}?${qs}` : pathname;
-  };
+  function handleToggle(newView) {
+    persist(newView);
+    router.replace(buildUrl(pathname, searchParams, newView), { scroll: false });
+  }
 
   return (
-    <div
-      className={styles.switcher}
-      role="radiogroup"
-      aria-label="Vista de productos"
-    >
-      <Link
-        href={buildLink("grid")}
-        className={`${styles.btn} ${view === "grid" ? styles.active : ""}`}
+    <div className={styles.switcher} role="radiogroup" aria-label="Vista de productos">
+      <button
+        onClick={() => handleToggle("grid")}
+        className={`${styles.btn} ${activeView === "grid" ? styles.active : ""}`}
         role="radio"
-        aria-checked={view === "grid"}
+        aria-checked={activeView === "grid"}
         aria-label="Vista en cuadrícula"
-        scroll={false}
-        replace
       >
         <LayoutGrid size={16} aria-hidden="true" />
-      </Link>
-
-      <Link
-        href={buildLink("list")}
-        className={`${styles.btn} ${view === "list" ? styles.active : ""}`}
+      </button>
+      <button
+        onClick={() => handleToggle("list")}
+        className={`${styles.btn} ${activeView === "list" ? styles.active : ""}`}
         role="radio"
-        aria-checked={view === "list"}
+        aria-checked={activeView === "list"}
         aria-label="Vista en lista"
-        scroll={false}
-        replace
       >
         <List size={16} aria-hidden="true" />
-      </Link>
+      </button>
     </div>
   );
 }

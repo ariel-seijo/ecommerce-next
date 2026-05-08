@@ -4,7 +4,6 @@ export { default as CategoryHeader } from "./components/CategoryHeader";
 export { default as ActiveFilters } from "./components/ActiveFilters";
 export { default as EmptyProducts } from "./components/EmptyProducts";
 export { default as ViewSwitcher } from "./components/ViewSwitcher";
-export { default as ViewHydrator } from "./components/ViewHydrator";
 
 export { getCategoryProducts } from "./api/category.service";
 export { buildCategoryUrl } from "./utils/buildCategoryUrl";

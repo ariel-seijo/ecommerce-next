@@ -9,6 +9,7 @@ import {
   useState,
 } from "react";
 import { useAuthStore } from "@/features/auth";
+import { useToastStore } from "@/features/toast";
 import { cartReducer, initialState } from "./CartReducer";
 import { syncCart } from "../actions/syncCart";
 import { fetchCart } from "../actions/fetchCart";
@@ -121,9 +122,19 @@ export function CartProvider({ children }) {
     }));
 
     saveTimerRef.current = setTimeout(() => {
-      saveCart(items).catch((err) => {
-        console.error("Auto-save cart failed:", err.message);
-      });
+      saveCart(items)
+        .then((result) => {
+          if (result && result.warnings && result.warnings.length > 0) {
+            fetchCart()
+              .then((dbCart) => {
+                dispatch({ type: "SET_CART", payload: mapDbCartToClient(dbCart) });
+              })
+              .catch(() => {});
+          }
+        })
+        .catch((err) => {
+          console.error("Auto-save cart failed:", err.message);
+        });
     }, 2000);
 
     return () => {
@@ -255,8 +266,21 @@ export function CartProvider({ children }) {
 
   // --- Standard cart operations ---
 
-  const addToCart = (product) => {
-    dispatch({ type: "ADD_TO_CART", payload: product });
+  const addToCart = (product, quantity = 1) => {
+    const cartItem = cart.find((item) => item.id === product.id);
+    const cartQty = cartItem ? cartItem.quantity : 0;
+
+    if (cartQty >= product.stock) {
+      if (isClient()) {
+        useToastStore.getState().toast(
+          `Ya tienes el m\u00e1ximo disponible de "${product.title}" (${product.stock} unidades)`,
+          "error"
+        );
+      }
+      return;
+    }
+
+    dispatch({ type: "ADD_TO_CART", payload: { product, quantity } });
   };
 
   const increaseQuantity = (id) => {

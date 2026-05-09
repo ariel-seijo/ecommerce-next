@@ -2,6 +2,7 @@
 
 import styles from "../styles/Navbar.module.css";
 import Container from "@/components/Container";
+import Skeleton from "@/components/ui/Skeleton";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useCart } from "@/features/cart";
 import { useAuthStore } from "@/features/auth";
@@ -240,7 +241,7 @@ export default function Navbar() {
 
               <div className={styles.userWrapper} ref={menuRef}>
                 {!mounted || !initialized ? (
-                  <div className={styles.userIconSkeleton} role="status" aria-label="Cargando sesión" />
+                  <Skeleton variant="circle" width={30} height={30} role="status" aria-label="Cargando sesión" />
                 ) : (
                   <>
                     <button
@@ -423,8 +424,8 @@ export default function Navbar() {
         <div className={styles.drawerUserSection}>
           {!mounted || !initialized ? (
             <div className={styles.drawerUserSkeleton} aria-label="Cargando sesión">
-              <div className={styles.drawerUserSkeletonCircle} />
-              <div className={styles.drawerUserSkeletonText} />
+              <Skeleton variant="circle" width={34} height={34} />
+              <Skeleton width={120} height={14} />
             </div>
           ) : user ? (
             <>

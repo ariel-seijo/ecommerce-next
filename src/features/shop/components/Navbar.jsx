@@ -7,6 +7,7 @@ import { useCart } from "@/features/cart";
 import { useAuthStore } from "@/features/auth";
 import { useToastStore } from "@/features/toast";
 import { useDebounce } from "@/lib/hooks/useDebounce";
+import { formatPrice } from "@/lib/utils/currency";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -207,7 +208,7 @@ export default function Navbar() {
                         <div className={styles.searchInfo}>
                           <span className={styles.searchTitle}>{product.title}</span>
                           <span className={styles.searchPrice}>
-                            ${product.price.toLocaleString("es-AR")}
+                            {formatPrice(product.price)}
                           </span>
                         </div>
                       </Link>
@@ -532,7 +533,7 @@ export default function Navbar() {
                     <div className={styles.searchInfo}>
                       <span className={styles.searchTitle}>{product.title}</span>
                       <span className={styles.searchPrice}>
-                        ${product.price.toLocaleString("es-AR")}
+                        {formatPrice(product.price)}
                       </span>
                     </div>
                   </Link>

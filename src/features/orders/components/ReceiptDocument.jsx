@@ -1,6 +1,7 @@
 "use client";
 
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { formatPrice, formatArs, usdToArs } from "@/lib/utils/currency";
 
 Font.register({
   family: "Helvetica",
@@ -186,10 +187,6 @@ const PAYMENT_LABELS = {
   cash: "Efectivo (al retirar)",
 };
 
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString("es-AR", {
     year: "numeric",
@@ -258,11 +255,11 @@ export default function ReceiptDocument({ order }) {
                 <Text style={styles.cellText}>{item.quantity}</Text>
               </View>
               <View style={styles.colPrice}>
-                <Text style={styles.cellText}>{formatCurrency(item.unitPrice)}</Text>
+                <Text style={styles.cellText}>{formatPrice(item.unitPrice)}</Text>
               </View>
               <View style={styles.colTotal}>
                 <Text style={[styles.cellText, { fontWeight: 700 }]}>
-                  {formatCurrency(item.totalPrice)}
+                  {formatPrice(item.totalPrice)}
                 </Text>
               </View>
             </View>
@@ -274,17 +271,17 @@ export default function ReceiptDocument({ order }) {
           <View style={styles.totalsBlock}>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Subtotal</Text>
-              <Text style={styles.totalValue}>{formatCurrency(order.subtotal)}</Text>
+              <Text style={styles.totalValue}>{formatPrice(order.subtotal)}</Text>
             </View>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Envío</Text>
               <Text style={styles.totalValue}>
-                {order.shippingCost === 0 ? "Gratis" : formatCurrency(order.shippingCost)}
+                {order.shippingCost === 0 ? "Gratis" : formatArs(order.shippingCost)}
               </Text>
             </View>
             <View style={[styles.totalRow, styles.totalFinal]}>
               <Text style={styles.totalFinalLabel}>TOTAL</Text>
-              <Text style={styles.totalFinalValue}>{formatCurrency(order.total)}</Text>
+              <Text style={styles.totalFinalValue}>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</Text>
             </View>
           </View>
         </View>

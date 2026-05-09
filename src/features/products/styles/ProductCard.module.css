@@ -285,22 +285,27 @@
 
 .priceBlock {
   display: flex;
-  align-items: baseline;
-  gap: 0.25rem;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 0.1rem;
 }
 
 .oldPrice {
-  font-size: 0.66rem;
+  font-size: 0.62rem;
   color: rgb(120, 120, 120);
   text-decoration: line-through;
   font-weight: 600;
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .price {
-  font-size: 0.9rem;
+  font-size: 0.85rem;
   font-weight: 900;
   color: #24abf3;
   text-shadow: 0 0 12px rgba(36, 171, 243, 0.2);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 /* =========================
@@ -410,7 +415,11 @@
   }
 
   .price {
-    font-size: 1rem;
+    font-size: 0.92rem;
+  }
+  
+  .oldPrice {
+    font-size: 0.66rem;
   }
 
   .buy-btn {
@@ -472,10 +481,6 @@
   .meta {
     gap: 0.35rem;
     padding-top: 0.6rem;
-  }
-
-  .oldPrice {
-    font-size: 0.7rem;
   }
 
   .buy-btn {
@@ -589,11 +594,11 @@
   }
 
   .priceBlock {
-    gap: 0.4rem;
+    gap: 0.15rem;
   }
 
   .oldPrice {
-    font-size: 0.74rem;
+    font-size: 0.7rem;
   }
 
   .buy-btn {
@@ -675,7 +680,7 @@
   }
 
   .oldPrice {
-    font-size: 0.76rem;
+    font-size: 0.72rem;
   }
 
   .buy-btn {

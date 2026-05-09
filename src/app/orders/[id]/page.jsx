@@ -13,6 +13,7 @@ import {
   CreditCard,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { formatPrice, formatArs, usdToArs } from "@/lib/utils/currency";
 import styles from "./OrderDetail.module.css";
 
 const ReceiptDownload = dynamic(
@@ -48,10 +49,6 @@ function formatDate(dateStr) {
     hour: "2-digit",
     minute: "2-digit",
   });
-}
-
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export default function OrderDetailPage() {
@@ -142,10 +139,10 @@ export default function OrderDetailPage() {
                       <span className={styles.itemTitle}>{item.productTitle}</span>
                       <span className={styles.itemSku}>SKU: {item.productSku}</span>
                       <span className={styles.itemQty}>
-                        {item.quantity} x {formatCurrency(item.unitPrice)}
+                        {item.quantity} x {formatPrice(item.unitPrice)}
                       </span>
                     </div>
-                    <span className={styles.itemTotal}>{formatCurrency(item.totalPrice)}</span>
+                    <span className={styles.itemTotal}>{formatPrice(item.totalPrice)}</span>
                   </div>
                 ))}
               </div>
@@ -202,15 +199,15 @@ export default function OrderDetailPage() {
               <div className={styles.summaryRows}>
                 <div className={styles.summaryRow}>
                   <span>Subtotal</span>
-                  <span>{formatCurrency(order.subtotal)}</span>
+                  <span>{formatPrice(order.subtotal)}</span>
                 </div>
                 <div className={styles.summaryRow}>
                   <span>Envío</span>
-                  <span>{order.shippingCost === 0 ? "Gratis" : formatCurrency(order.shippingCost)}</span>
+                  <span>{order.shippingCost === 0 ? "Gratis" : formatArs(order.shippingCost)}</span>
                 </div>
                 <div className={styles.summaryRowTotal}>
                   <span>Total</span>
-                  <span>{formatCurrency(order.total)}</span>
+                  <span>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</span>
                 </div>
               </div>
 

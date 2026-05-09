@@ -4,6 +4,7 @@ import { useState, useCallback } from "react";
 import Image from "next/image";
 import { PackageOpen, ArrowLeft, Check, Loader2 } from "lucide-react";
 import { useCart } from "@/features/cart";
+import { formatPrice } from "@/lib/utils/currency";
 import { useCheckout } from "../context/CheckoutContext";
 import styles from "../styles/Review.module.css";
 
@@ -94,11 +95,11 @@ export default function ReviewStep() {
                 <div className={styles.reviewItemInfo}>
                   <span className={styles.reviewItemTitle}>{item.title}</span>
                   <span className={styles.reviewItemQty}>
-                    {item.quantity} x ${item.price.toFixed(2)}
+                    {item.quantity} x {formatPrice(item.price)}
                   </span>
                 </div>
                 <span className={styles.reviewItemTotal}>
-                  ${(item.price * item.quantity).toFixed(2)}
+                  {formatPrice(item.price * item.quantity)}
                 </span>
               </div>
             ))}

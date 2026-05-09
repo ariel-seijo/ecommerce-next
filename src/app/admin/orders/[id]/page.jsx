@@ -13,6 +13,7 @@ import {
   AlertCircle,
 } from "lucide-react";
 import dynamic from "next/dynamic";
+import { formatPrice, formatArs, usdToArs } from "@/lib/utils/currency";
 
 const ReceiptDownload = dynamic(
   () => import("@/features/orders/components/ReceiptDownload"),
@@ -57,10 +58,6 @@ function formatDate(dateStr) {
     hour: "2-digit",
     minute: "2-digit",
   });
-}
-
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 export default function AdminOrderDetailPage() {
@@ -243,11 +240,11 @@ export default function AdminOrderDetailPage() {
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem", color: "var(--admin-text)" }}>
               <span>Subtotal</span>
-              <span>{formatCurrency(order.subtotal)}</span>
+              <span>{formatPrice(order.subtotal)}</span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem", color: "var(--admin-text)" }}>
               <span>Envío</span>
-              <span>{order.shippingCost === 0 ? "Gratis" : formatCurrency(order.shippingCost)}</span>
+              <span>{order.shippingCost === 0 ? "Gratis" : formatArs(order.shippingCost)}</span>
             </div>
             <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem", color: "var(--admin-text)" }}>
               <span>Método</span>
@@ -261,7 +258,7 @@ export default function AdminOrderDetailPage() {
             )}
             <div style={{ display: "flex", justifyContent: "space-between", padding: "0.6rem 0", fontSize: "1rem", fontWeight: 900, color: "var(--admin-text)", borderTop: "1px solid var(--admin-border)", marginTop: "0.4rem" }}>
               <span>TOTAL</span>
-              <span style={{ color: "var(#24abf3)" }}>{formatCurrency(order.total)}</span>
+              <span style={{ color: "var(#24abf3)" }}>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</span>
             </div>
           </div>
         </div>
@@ -300,8 +297,8 @@ export default function AdminOrderDetailPage() {
                   </td>
                   <td style={{ fontSize: "0.75rem", color: "var(--admin-muted)" }}>{item.productSku}</td>
                   <td style={{ textAlign: "center" }}>{item.quantity}</td>
-                  <td style={{ textAlign: "right" }}>{formatCurrency(item.unitPrice)}</td>
-                  <td style={{ textAlign: "right", fontWeight: 700 }}>{formatCurrency(item.totalPrice)}</td>
+                  <td style={{ textAlign: "right" }}>{formatPrice(item.unitPrice)}</td>
+                  <td style={{ textAlign: "right", fontWeight: 700 }}>{formatPrice(item.totalPrice)}</td>
                 </tr>
               ))}
             </tbody>

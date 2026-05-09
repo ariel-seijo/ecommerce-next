@@ -3,6 +3,7 @@
 import { useState, useEffect } from "react";
 import Link from "next/link";
 import { ShoppingCart, Eye } from "lucide-react";
+import { formatArs, usdToArs } from "@/lib/utils/currency";
 
 const STATUS_LABELS = {
   PENDING: "Pendiente",
@@ -25,10 +26,6 @@ function formatDate(dateStr) {
     month: "short",
     day: "numeric",
   });
-}
-
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
 }
 
 function getStatusBadgeClass(status) {
@@ -179,7 +176,7 @@ export default function AdminOrdersPage() {
                       </div>
                     </td>
                     <td>{order.items.length}</td>
-                    <td style={{ fontWeight: 700 }}>{formatCurrency(order.total)}</td>
+                    <td style={{ fontWeight: 700 }}>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</td>
                     <td>
                       <span className={getStatusBadgeClass(order.status)}>
                         {STATUS_LABELS[order.status] || order.status}

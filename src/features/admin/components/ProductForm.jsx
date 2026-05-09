@@ -2,6 +2,7 @@
 
 import { useState, useRef } from 'react';
 import { Plus, Trash2, Upload, Image, Star } from 'lucide-react';
+import { formatPrice } from '@/lib/utils/currency';
 
 const initialFormState = {
   title: '',
@@ -255,8 +256,8 @@ export default function ProductForm({ product, categories, onSubmit, isSubmittin
               <small>(0 vendidos)</small>
             </div>
             <div className="preview-price">
-              {formData.oldPrice && <span className="preview-old">${parseFloat(formData.oldPrice).toFixed(2)}</span>}
-              <span className="preview-current">${formData.price ? parseFloat(formData.price).toFixed(2) : '0.00'}</span>
+              {formData.oldPrice && <span className="preview-old">{formatPrice(parseFloat(formData.oldPrice))}</span>}
+              <span className="preview-current">{formData.price ? formatPrice(parseFloat(formData.price)) : formatPrice(0)}</span>
             </div>
           </div>
           <button className="preview-btn" disabled aria-disabled="true">Agregar al carrito</button>

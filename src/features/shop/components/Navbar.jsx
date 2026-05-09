@@ -33,12 +33,13 @@ export default function Navbar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
 
   const { cart, toggleCart } = useCart();
-  const { user, logout } = useAuthStore();
+  const { user, logout, initialized } = useAuthStore();
   const toast = useToastStore((s) => s.toast);
 
   const menuRef = useRef(null);
@@ -124,6 +125,10 @@ export default function Navbar() {
       mobileSearchInputRef.current.focus();
     }
   }, [mobileSearchOpen]);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
 
   const handleLogout = async () => {
     await logout();
@@ -234,19 +239,23 @@ export default function Navbar() {
               </button>
 
               <div className={styles.userWrapper} ref={menuRef}>
-                <button
-                  className={styles["icon-btn"]}
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  aria-label="Menú de usuario"
-                  aria-expanded={showUserMenu}
-                >
-                  <UserRound size={30} />
-                  {isAdmin && <span className={styles.adminBadge}>ADMIN</span>}
-                </button>
+                {!mounted || !initialized ? (
+                  <div className={styles.userIconSkeleton} role="status" aria-label="Cargando sesión" />
+                ) : (
+                  <>
+                    <button
+                      className={styles["icon-btn"]}
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      aria-label="Menú de usuario"
+                      aria-expanded={showUserMenu}
+                    >
+                      <UserRound size={30} />
+                      {isAdmin && <span className={styles.adminBadge}>ADMIN</span>}
+                    </button>
 
-                {showUserMenu && (
-                  <div className={`${styles.userDropdown} ${showUserMenu ? styles.open : ""}`}>
-                    {user ? (
+                    {showUserMenu && (
+                      <div className={`${styles.userDropdown} ${showUserMenu ? styles.open : ""}`}>
+                        {user ? (
                       <>
                         <div className={styles.userDropdownHeader}>
                           <div className={styles.avatarCircle}>
@@ -329,6 +338,8 @@ export default function Navbar() {
                     )}
                   </div>
                 )}
+                  </>
+                )}
               </div>
 
               <div className={styles.cartWrapper}>
@@ -410,7 +421,12 @@ export default function Navbar() {
         <div className={styles.drawerDivider} />
 
         <div className={styles.drawerUserSection}>
-          {user ? (
+          {!mounted || !initialized ? (
+            <div className={styles.drawerUserSkeleton} aria-label="Cargando sesión">
+              <div className={styles.drawerUserSkeletonCircle} />
+              <div className={styles.drawerUserSkeletonText} />
+            </div>
+          ) : user ? (
             <>
               <div className={styles.drawerUserInfo}>
                 <div className={styles.avatarCircle}>

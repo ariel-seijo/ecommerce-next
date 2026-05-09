@@ -4,6 +4,7 @@ export const useAuthStore = create((set) => ({
   user: null,
   loading: false,
   error: null,
+  initialized: false,
 
   setUser: (user) => set({ user, error: null }),
 
@@ -56,9 +57,9 @@ export const useAuthStore = create((set) => ({
     try {
       const res = await fetch("/api/auth/me");
       const data = await res.json();
-      set({ user: data.user, loading: false });
+      set({ user: data.user, loading: false, initialized: true });
     } catch {
-      set({ user: null, loading: false });
+      set({ user: null, loading: false, initialized: true });
     }
   },
 

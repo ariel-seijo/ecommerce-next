@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Package, DollarSign, TrendingUp, ShoppingCart } from 'lucide-react';
+import { formatPrice } from '@/lib/utils/currency';
 
 export default function AdminDashboardPage() {
   const [stats, setStats] = useState(null);
@@ -55,7 +56,7 @@ export default function AdminDashboardPage() {
 
   const statCards = [
     { label: 'Total productos', value: stats.totalProducts, icon: Package, color: '#007fff' },
-    { label: 'Ingresos totales', value: `$${stats.totalRevenue.toLocaleString('es-AR')}`, icon: DollarSign, color: '#22c55e' },
+    { label: 'Ingresos totales', value: formatPrice(stats.totalRevenue), icon: DollarSign, color: '#22c55e' },
     { label: 'Artículos vendidos', value: stats.totalSold, icon: TrendingUp, color: '#24abf3' },
     { label: 'Stock bajo', value: stats.lowStock, icon: ShoppingCart, color: '#ef4444' },
   ];

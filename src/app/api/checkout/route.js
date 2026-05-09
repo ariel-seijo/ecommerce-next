@@ -3,9 +3,10 @@ import { getIronSession } from "iron-session";
 import { sessionOptions } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import { generateOrderNumber } from "@/features/orders/lib/orderNumber";
+import { usdToArs } from "@/lib/utils/currency";
 
 function calculateShipping(subtotal) {
-  return subtotal >= 50000 ? 0 : 1500;
+  return usdToArs(subtotal) >= 50000 ? 0 : 1500;
 }
 
 export async function POST(request) {

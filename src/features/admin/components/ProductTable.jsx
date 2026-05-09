@@ -2,6 +2,7 @@
 
 import Link from 'next/link';
 import { Edit, Trash2, Star, Package } from 'lucide-react';
+import { formatPrice } from '@/lib/utils/currency';
 
 export default function ProductTable({ products, onDelete, isDeleting }) {
   if (!products || products.length === 0) {
@@ -56,10 +57,10 @@ export default function ProductTable({ products, onDelete, isDeleting }) {
               </td>
               <td>
                 <div>
-                  <strong>${product.price.toFixed(2)}</strong>
+                  <strong>{formatPrice(product.price)}</strong>
                   {product.oldPrice && (
                     <span style={{ textDecoration: 'line-through', color: 'var(--admin-muted)', marginLeft: '8px', fontSize: '12px' }}>
-                      ${product.oldPrice.toFixed(2)}
+                      {formatPrice(product.oldPrice)}
                     </span>
                   )}
                 </div>

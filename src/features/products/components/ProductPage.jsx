@@ -4,6 +4,7 @@ import styles from "../styles/ProductPage.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useCart } from "@/features/cart";
+import { formatPrice } from "@/lib/utils/currency";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 import {
@@ -38,6 +39,10 @@ export default function ProductPage({ product, relatedProducts }) {
     ? Math.round(((product.oldPrice - product.price) / product.oldPrice) * 100)
     : 0;
   const isLowStock = product.stock > 0 && product.stock <= 5;
+
+  const formattedPrice = formatPrice(product.price);
+  const formattedOldPrice = hasDiscount ? formatPrice(product.oldPrice) : null;
+  const formattedSavings = hasDiscount ? formatPrice(product.oldPrice - product.price) : null;
 
   const handleAdd = () => {
     addToCart(product, quantity);
@@ -149,12 +154,12 @@ export default function ProductPage({ product, relatedProducts }) {
           <div className={styles["pp-price-box"]}>
             <div className={styles["pp-price-main"]}>
               <span className={styles["pp-price"]}>
-                ${product.price.toLocaleString("es-AR")}
+                {formattedPrice}
               </span>
               {hasDiscount && (
                 <>
                   <span className={styles["pp-old-price"]}>
-                    ${product.oldPrice.toLocaleString("es-AR")}
+                    {formattedOldPrice}
                   </span>
                   <span className={styles["pp-discount"]}>-{discount}%</span>
                 </>
@@ -162,7 +167,7 @@ export default function ProductPage({ product, relatedProducts }) {
             </div>
             {hasDiscount && (
               <p className={styles["pp-savings"]}>
-                Ahorrás ${(product.oldPrice - product.price).toLocaleString("es-AR")} ({discount}% OFF)
+                Ahorrás {formattedSavings} ({discount}% OFF)
               </p>
             )}
           </div>

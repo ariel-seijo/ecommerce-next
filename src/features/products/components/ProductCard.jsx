@@ -5,6 +5,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { ShoppingCart, Star, Check, Flame } from "lucide-react";
 import { useCart } from "@/features/cart";
+import { formatPrice } from "@/lib/utils/currency";
 
 export default function ProductCard({ product, view = "grid" }) {
   const { addToCart, cart } = useCart();
@@ -17,6 +18,10 @@ export default function ProductCard({ product, view = "grid" }) {
       ? Math.round((1 - product.price / product.oldPrice) * 100)
       : 0;
   const isLowStock = product.stock > 0 && product.stock <= 3;
+
+  const formattedPrice = formatPrice(product.price);
+  const formattedOldPrice =
+    product.oldPrice > product.price ? formatPrice(product.oldPrice) : null;
 
   const buyLabel = isMaxReached
     ? `${product.title} - stock máximo alcanzado`
@@ -91,14 +96,14 @@ export default function ProductCard({ product, view = "grid" }) {
           </div>
 
           <div className={styles.priceBlock}>
-            <span className={styles.price} aria-label={`Precio actual ${product.price} pesos`}>
-              ${product.price.toLocaleString("es-AR")}
-            </span>
-            {product.oldPrice > product.price && (
-              <span className={styles.oldPrice} aria-label={`Precio anterior ${product.oldPrice} pesos`}>
-                ${product.oldPrice.toLocaleString("es-AR")}
+            {formattedOldPrice && (
+              <span className={styles.oldPrice} aria-label={`Precio anterior ${formattedOldPrice}`}>
+                {formattedOldPrice}
               </span>
             )}
+            <span className={styles.price} aria-label={`Precio actual ${formattedPrice}`}>
+              {formattedPrice}
+            </span>
           </div>
         </div>
       </Link>

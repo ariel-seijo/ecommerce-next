@@ -3,7 +3,6 @@
 import { useCallback, useEffect, useRef, useState } from "react";
 import useEmblaCarousel from "embla-carousel-react";
 import Autoplay from "embla-carousel-autoplay";
-import { ChevronLeft, ChevronRight } from "lucide-react";
 import styles from "../styles/FeaturedCarousel.module.css";
 import ProductCard from "./ProductCard";
 
@@ -20,16 +19,6 @@ export default function FeaturedCarousel({ products }) {
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [scrollSnaps, setScrollSnaps] = useState([]);
   const isDragging = useRef(false);
-
-  const scrollPrev = useCallback(() => {
-    emblaApi?.scrollPrev();
-    emblaApi?.plugins()?.autoplay?.play();
-  }, [emblaApi]);
-
-  const scrollNext = useCallback(() => {
-    emblaApi?.scrollNext();
-    emblaApi?.plugins()?.autoplay?.play();
-  }, [emblaApi]);
 
   const scrollTo = useCallback(
     (index) => {
@@ -107,26 +96,6 @@ export default function FeaturedCarousel({ products }) {
             </div>
           ))}
         </div>
-      </div>
-
-      <div className={styles["fc-arrows"]}>
-        <button
-          className={`${styles["fc-arrow"]} ${styles["fc-arrow--prev"]}`}
-          type="button"
-          onClick={scrollPrev}
-          aria-label="Productos anteriores"
-        >
-          <ChevronLeft size={24} aria-hidden="true" />
-        </button>
-
-        <button
-          className={`${styles["fc-arrow"]} ${styles["fc-arrow--next"]}`}
-          type="button"
-          onClick={scrollNext}
-          aria-label="Productos siguientes"
-        >
-          <ChevronRight size={24} aria-hidden="true" />
-        </button>
       </div>
 
       <div

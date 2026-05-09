@@ -53,43 +53,6 @@
   }
 }
 
-/* Arrows */
-.fc-arrows {
-  position: absolute;
-  top: -2.25rem;
-  right: 1rem;
-  z-index: 3;
-  display: flex;
-  gap: 0.5rem;
-}
-
-.fc-arrow {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 2rem;
-  height: 2rem;
-  border-radius: 50%;
-  border: 1px solid rgba(36, 171, 243, 0.25);
-  background: rgba(10, 10, 10, 0.85);
-  color: #24abf3;
-  cursor: pointer;
-  padding: 0;
-  transition: background 0.2s, border-color 0.2s;
-}
-
-.fc-arrow:hover {
-  background: rgba(36, 171, 243, 0.15);
-  border-color: #24abf3;
-}
-
-.fc-arrow:focus-visible {
-  outline: 2px solid #24abf3;
-  outline-offset: 2px;
-}
-
-
-
 /* Dots */
 .fc-dots {
   display: flex;
@@ -135,7 +98,4 @@
     scroll-snap-align: start;
   }
 
-  .fc-arrow {
-    display: none;
-  }
 }

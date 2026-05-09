@@ -16,8 +16,8 @@ async function main() {
     const hashedPassword = await hash("123456", 12);
 
     const testUsers = [
-        { email: "admin@electroshop.com", password: hashedPassword, role: "admin" },
-        { email: "user@test.com", password: hashedPassword, role: "customer" },
+        { email: "admin@electroshop.com", password: hashedPassword, role: "ADMIN" },
+        { email: "user@test.com", password: hashedPassword, role: "CUSTOMER" },
     ];
 
     for (const u of testUsers) {
@@ -56,6 +56,8 @@ async function main() {
         create: { name: "STORAGE" },
     });
 
+    await prisma.orderItem.deleteMany();
+    await prisma.cartItem.deleteMany();
     await prisma.product.deleteMany();
 
     const products = [

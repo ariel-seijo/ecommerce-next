@@ -30,6 +30,8 @@ export default function ProductPage({ product, relatedProducts }) {
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
 
   const isInCart = cart.some((item) => item.id === product.id);
+  const cartQty = cart.find((item) => item.id === product.id)?.quantity ?? 0;
+  const isMaxReached = cartQty >= product.stock;
   const isOutOfStock = product.stock <= 0;
   const hasDiscount = product.oldPrice && product.oldPrice > product.price;
   const discount = hasDiscount
@@ -38,9 +40,7 @@ export default function ProductPage({ product, relatedProducts }) {
   const isLowStock = product.stock > 0 && product.stock <= 5;
 
   const handleAdd = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
+    addToCart(product, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   };
@@ -224,13 +224,15 @@ export default function ProductPage({ product, relatedProducts }) {
             <button
               className={`${styles["pp-add-btn"]} ${added ? styles.added : ""} ${isInCart ? styles["in-cart"] : ""}`}
               onClick={handleAdd}
-              disabled={isOutOfStock}
+              disabled={isOutOfStock || isMaxReached}
             >
               {added ? (
                 <>
                   <Check size={18} />
                   Añadido
                 </>
+              ) : isMaxReached ? (
+                "Máx. alcanzado"
               ) : isOutOfStock ? (
                 "Sin stock"
               ) : (

@@ -78,7 +78,10 @@ export function Cart() {
 
                       <small>{product.quantity}</small>
 
-                      <button onClick={() => increaseQuantity(product.id)}>
+                      <button
+                        onClick={() => increaseQuantity(product.id)}
+                        disabled={product.quantity >= product.stock}
+                      >
                         +
                       </button>
                     </div>

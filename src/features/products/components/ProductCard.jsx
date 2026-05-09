@@ -9,18 +9,22 @@ import { useCart } from "@/features/cart";
 export default function ProductCard({ product, view = "grid" }) {
   const { addToCart, cart } = useCart();
   const isOutOfStock = product.stock <= 0;
-  const isInCart = !isOutOfStock && cart.some((item) => item.id === product.id);
+  const cartQty = cart.find((item) => item.id === product.id)?.quantity ?? 0;
+  const isMaxReached = cartQty >= product.stock;
+  const isInCart = cartQty > 0;
   const discountPercent =
     product.oldPrice > product.price
       ? Math.round((1 - product.price / product.oldPrice) * 100)
       : 0;
   const isLowStock = product.stock > 0 && product.stock <= 3;
 
-  const buyLabel = isInCart
-    ? `${product.title} ya está en el carrito`
-    : isOutOfStock
-      ? `${product.title} sin stock disponible`
-      : `Añadir ${product.title} al carrito`;
+  const buyLabel = isMaxReached
+    ? `${product.title} - stock máximo alcanzado`
+    : isInCart
+      ? `${product.title} ya está en el carrito`
+      : isOutOfStock
+        ? `${product.title} sin stock disponible`
+        : `Añadir ${product.title} al carrito`;
 
   return (
     <li className={`${styles.card} ${view === "list" ? styles.list : ""}`}>
@@ -100,17 +104,22 @@ export default function ProductCard({ product, view = "grid" }) {
       </Link>
 
       <button
-        className={`${styles["buy-btn"]} ${isInCart ? styles["in-cart"] : ""} ${isOutOfStock ? styles["out-stock"] : ""}`}
+        className={`${styles["buy-btn"]} ${isInCart ? styles["in-cart"] : ""} ${isOutOfStock ? styles["out-stock"] : ""} ${isMaxReached ? styles["in-cart"] : ""}`}
         onClick={(e) => {
           e.preventDefault();
           addToCart(product);
         }}
-        disabled={isInCart || isOutOfStock}
+        disabled={isOutOfStock || isMaxReached}
         aria-label={buyLabel}
-        aria-disabled={isInCart || isOutOfStock}
+        aria-disabled={isOutOfStock || isMaxReached}
       >
         <span className={styles.content}>
-          {isInCart ? (
+          {isMaxReached ? (
+            <>
+              <Check size={16} aria-hidden="true" />
+              <span className={styles.text}>Máx. alcanzado</span>
+            </>
+          ) : isInCart ? (
             <>
               <Check size={16} aria-hidden="true" />
               <span className={styles.text}>Añadido</span>

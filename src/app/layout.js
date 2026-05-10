@@ -8,6 +8,7 @@ const fuenteGamer = localFont({
   display: "swap",
 });
 
+import { Suspense } from "react";
 import ScrollToTop from "./ScrollToTop";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
@@ -28,7 +29,9 @@ export default function RootLayout({ children }) {
           <CartProvider>
             <Navbar />
             <main id="main-content" tabIndex={-1}>
-              <ScrollToTop />
+              <Suspense fallback={null}>
+                <ScrollToTop />
+              </Suspense>
               {children}
             </main>
             <ToastContainer />

@@ -12,6 +12,19 @@ import {
   ViewSwitcher,
 } from "@/features/category";
 
+function truncate(text, max) {
+  if (text.length <= max) return text;
+  return text.slice(0, max - 1) + "\u2026";
+}
+
+export async function generateMetadata({ params }) {
+  const { name } = await params;
+  const displayName = truncate(name.toUpperCase(), 23);
+  return {
+    title: `${displayName} - Componentes | ElectroShop`,
+  };
+}
+
 export default async function CategoryPage({ params, searchParams }) {
   const { name } = await params;
   const query = await searchParams;

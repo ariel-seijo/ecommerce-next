@@ -198,6 +198,11 @@
   height: 100%;
   background: linear-gradient(90deg, #007fff, #00cfff, #24abf3);
   animation: progressBar linear forwards;
+  animation-play-state: running;
+}
+
+.slider:hover .slider-progress-bar {
+  animation-play-state: paused;
 }
 
 @keyframes progressBar {

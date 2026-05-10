@@ -16,3 +16,7 @@ export function formatArs(arsPrice) {
 export function usdToArs(usdPrice) {
   return usdPrice * USD_TO_ARS;
 }
+
+export function arsToUsd(arsPrice) {
+  return arsPrice / USD_TO_ARS;
+}

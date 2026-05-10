@@ -1,4 +1,5 @@
 import { prisma } from "@/lib/prisma";
+import { arsToUsd, usdToArs } from "@/lib/utils/currency";
 
 export async function getCategoryProducts({
     categoryName,
@@ -22,13 +23,11 @@ export async function getCategoryProducts({
         where.price = {};
 
         if (min) {
-            where.price.gte =
-                Number(min);
+            where.price.gte = arsToUsd(Number(min));
         }
 
         if (max) {
-            where.price.lte =
-                Number(max);
+            where.price.lte = arsToUsd(Number(max));
         }
     }
 
@@ -102,10 +101,10 @@ export async function getCategoryProducts({
         products,
         brands,
         minPrice: Math.floor(
-            priceData._min.price || 0
+            usdToArs(priceData._min.price || 0)
         ),
         maxPrice: Math.ceil(
-            priceData._max.price || 0
+            usdToArs(priceData._max.price || 0)
         ),
     };
 }

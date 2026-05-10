@@ -1,14 +1,14 @@
 "use client";
 
 import "@/features/auth/styles/auth.css";
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, UserPlus, Check } from "lucide-react";
 import { useToastStore } from "@/features/toast";
 
-function RegisterForm() {
+export default function RegisterPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
@@ -209,13 +209,5 @@ function RegisterForm() {
         </p>
       </div>
     </div>
-  );
-}
-
-export default function RegisterPage() {
-  return (
-    <Suspense fallback={<div className="auth-page"><div className="auth-card" /></div>}>
-      <RegisterForm />
-    </Suspense>
   );
 }

@@ -1,14 +1,14 @@
 "use client";
 
 import "@/features/auth/styles/auth.css";
-import { useState, Suspense } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useToastStore } from "@/features/toast";
 
-function LoginForm() {
+export default function LoginPage() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
@@ -139,13 +139,5 @@ function LoginForm() {
         </p>
       </div>
     </div>
-  );
-}
-
-export default function LoginPage() {
-  return (
-    <Suspense fallback={<div className="auth-page"><div className="auth-card" /></div>}>
-      <LoginForm />
-    </Suspense>
   );
 }

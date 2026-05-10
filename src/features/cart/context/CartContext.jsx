@@ -36,6 +36,7 @@ function mapDbCartToClient(dbCart) {
     oldPrice: item.product.oldPrice,
     thumbnail: item.product.thumbnail,
     stock: item.product.stock,
+    sku: item.product.sku,
     brand: item.product.brand,
     categoryId: item.product.categoryId,
     quantity: item.quantity,

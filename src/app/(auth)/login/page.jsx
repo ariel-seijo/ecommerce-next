@@ -33,11 +33,8 @@ export default function LoginPage() {
 
       router.prefetch(destination);
 
-      console.log("[login] before setTimeout");
-      setTimeout(() => {
-        router.push(destination);
-      }, 0);
-      console.log("[login] after setTimeout");
+      console.log("[login] calling window.location.href:", destination);
+      window.location.href = destination;
     } catch {
       // Error handled in store
     }

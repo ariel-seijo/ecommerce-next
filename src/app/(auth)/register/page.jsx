@@ -52,11 +52,8 @@ export default function RegisterPage() {
 
       router.prefetch(destination);
 
-      console.log("[register] before setTimeout");
-      setTimeout(() => {
-        router.push(destination);
-      }, 0);
-      console.log("[register] after setTimeout");
+      console.log("[register] calling window.location.href:", destination);
+      window.location.href = destination;
     } catch {
       // Error handled in store
     }

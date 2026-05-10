@@ -204,6 +204,13 @@ function formatDate(dateStr) {
   });
 }
 
+function formatTime(dateStr) {
+  return new Date(dateStr).toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
 export default function ReceiptDocument({ order }) {
   const shipping = order.shippingAddress || {};
 
@@ -238,8 +245,9 @@ export default function ReceiptDocument({ order }) {
             </Text>
           </View>
           <View style={[styles.infoBlock, { alignItems: "flex-end" }]}>
-            <Text style={styles.infoTitle}>Fecha</Text>
+            <Text style={styles.infoTitle}>Fecha y Hora</Text>
             <Text style={styles.infoText}>{formatDate(order.createdAt)}</Text>
+            <Text style={styles.infoText}>{formatTime(order.createdAt)}</Text>
           </View>
         </View>
 
@@ -258,7 +266,13 @@ export default function ReceiptDocument({ order }) {
                 <Text style={styles.productTitle}>{item.productTitle}</Text>
               </View>
               <View style={styles.colSku}>
-                <Text style={styles.productSku}>{item.productSku}</Text>
+                <Text style={styles.productSku}>
+                  {(() => {
+                    const sku = item.productSku;
+                    if (!sku) return "N/A";
+                    return sku.length > 15 ? sku.slice(0, 15) + "..." : sku;
+                  })()}
+                </Text>
               </View>
               <View style={styles.colQty}>
                 <Text style={styles.cellText}>{item.quantity}</Text>

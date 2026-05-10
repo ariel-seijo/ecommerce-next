@@ -20,6 +20,7 @@
 /* Viewport */
 .fc-viewport {
   overflow: hidden;
+  padding: 8px 0 10px;
 }
 
 /* Container */
@@ -85,6 +86,19 @@
 .fc-dot:focus-visible {
   outline: 2px solid #24abf3;
   outline-offset: 2px;
+}
+
+/* More room for hover lift on bigger screens */
+@media (min-width: 768px) {
+  .fc-viewport {
+    padding: 10px 0 14px;
+  }
+}
+
+@media (min-width: 1024px) {
+  .fc-viewport {
+    padding: 12px 0 16px;
+  }
 }
 
 /* Reduced motion */

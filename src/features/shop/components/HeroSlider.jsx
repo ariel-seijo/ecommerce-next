@@ -33,6 +33,7 @@ const slides = [
 export default function HeroSlider() {
   const [current, setCurrent] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
+  const [resumeKey, setResumeKey] = useState(0);
 
   const next = useCallback(() => {
     setCurrent((prev) => (prev + 1) % slides.length);
@@ -52,7 +53,7 @@ export default function HeroSlider() {
     <section
       className={styles.slider}
       onMouseEnter={() => setIsPaused(true)}
-      onMouseLeave={() => setIsPaused(false)}
+      onMouseLeave={() => { setIsPaused(false); setResumeKey((k) => k + 1); }}
     >
       <div
         className={styles["slider-track"]}
@@ -101,7 +102,7 @@ export default function HeroSlider() {
         <div
           className={styles["slider-progress-bar"]}
           style={{ animationDuration: "6s" }}
-          key={current}
+          key={`${current}-${resumeKey}`}
         />
       </div>
     </section>

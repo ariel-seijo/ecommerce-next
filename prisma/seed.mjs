@@ -1,4 +1,5 @@
 import { PrismaClient } from "@prisma/client";
+import { randomBytes } from "node:crypto";
 import { createRequire } from "module";
 const require = createRequire(import.meta.url);
 const { hash } = require("@node-rs/bcrypt");
@@ -13,7 +14,8 @@ import { buildProduct } from "./data/helpers.js";
 const prisma = new PrismaClient();
 
 async function main() {
-    const hashedPassword = await hash("123456", 12);
+    const seedPassword = process.env.SEED_ADMIN_PASSWORD || randomBytes(16).toString("hex");
+    const hashedPassword = await hash(seedPassword, 12);
 
     const testUsers = [
         { email: "admin@electroshop.com", password: hashedPassword, role: "ADMIN" },
@@ -29,8 +31,11 @@ async function main() {
     }
 
     console.log("Usuarios de prueba creados:");
-    console.log("  - admin@electroshop.com / 123456");
-    console.log("  - user@test.com / 123456");
+    console.log("  - admin@electroshop.com");
+    console.log("  - user@test.com");
+    if (!process.env.SEED_ADMIN_PASSWORD) {
+        console.log(`  Password generada: ${seedPassword}`);
+    }
 
     const gpu = await prisma.category.upsert({
         where: { name: "GPU" },

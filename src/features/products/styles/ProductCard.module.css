@@ -22,35 +22,9 @@
     border-color 0.35s ease;
 }
 
-.card::before {
-  content: "";
-  position: absolute;
-  inset: -1px;
-  border-radius: 7px;
-  background: linear-gradient(135deg, #007fff, #24abf3, #00cfff);
-  opacity: 0;
-  transition: opacity 0.4s ease;
-  z-index: -1;
-  pointer-events: none;
-}
-
-.card:hover {
-  transform: translateY(-3px);
-  box-shadow:
-    0 10px 25px rgba(0, 0, 0, 0.5),
-    0 0 20px rgba(36, 171, 243, 0.1);
-  border-color: rgba(36, 171, 243, 0.25);
-}
-
-.card:hover::before {
-  opacity: 0.3;
-}
-
 .card:focus-within {
-  border-color: rgba(36, 171, 243, 0.5);
-  box-shadow:
-    0 0 0 2px rgba(36, 171, 243, 0.3),
-    0 8px 25px rgba(0, 0, 0, 0.4);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 8px 25px rgba(0, 0, 0, 0.4);
 }
 
 .cardLink {
@@ -316,10 +290,10 @@
   margin: 0.4rem 0.4rem 0.4rem 0.4rem;
   width: calc(100% - 0.8rem);
   padding: 0.42rem 0.4rem;
-  border: 1px solid rgba(255, 255, 255, 0.06);
+  border: 1px solid transparent;
   border-radius: 5px;
-  background: rgb(20, 20, 20);
-  color: rgb(195, 195, 195);
+  background: linear-gradient(135deg, #007fff, #00cfff);
+  color: rgb(17, 17, 17);
   font-weight: 800;
   font-family: inherit;
   font-size: 0.66rem;
@@ -332,11 +306,13 @@
   overflow: hidden;
   position: relative;
   min-height: 34px;
+  box-shadow: 0 0 16px rgba(0, 127, 255, 0.2);
   transition:
     background 0.3s ease,
     border-color 0.3s ease,
     color 0.3s ease,
-    box-shadow 0.3s ease;
+    box-shadow 0.3s ease,
+    transform 0.3s ease;
 }
 
 .buy-btn:focus-visible {
@@ -361,10 +337,11 @@
 }
 
 .buy-btn:not(:disabled):hover {
-  background: #24abf3;
-  border-color: #24abf3;
+  background: linear-gradient(135deg, #0090ff, #30d8ff);
+  border-color: transparent;
   color: rgb(17, 17, 17);
-  box-shadow: 0 0 20px rgba(36, 171, 243, 0.3);
+  box-shadow: 0 0 28px rgba(0, 127, 255, 0.4);
+  transform: translateY(-1px);
 }
 
 .buy-btn:not(:disabled):active {
@@ -512,9 +489,7 @@
 
   .card:hover {
     transform: translateY(-7px);
-    box-shadow:
-      0 18px 45px rgba(0, 0, 0, 0.55),
-      0 0 35px rgba(36, 171, 243, 0.11);
+    box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
   }
 
   .img-container {
@@ -622,9 +597,7 @@
 
   .card:hover {
     transform: translateY(-8px);
-    box-shadow:
-      0 20px 50px rgba(0, 0, 0, 0.6),
-      0 0 40px rgba(36, 171, 243, 0.12);
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.6);
   }
 
   .title {

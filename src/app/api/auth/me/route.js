@@ -11,7 +11,7 @@ export async function GET(request) {
       return NextResponse.json({ user: null }, { status: 200 });
     }
 
-    const user = await prisma.user.findUnique({
+    const user = await prisma.user.findFirst({
       where: { id: session.userId },
       select: { id: true, name: true, email: true, role: true, createdAt: true },
     });

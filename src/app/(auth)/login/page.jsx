@@ -3,13 +3,12 @@
 import "@/features/auth/styles/auth.css";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useToastStore } from "@/features/toast";
 
 export default function LoginPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
   const { login, loading, error, clearError } = useAuthStore();
@@ -23,18 +22,8 @@ export default function LoginPage() {
     try {
       const user = await login(email, password);
       toast(`¡Bienvenido de nuevo, ${user.name || user.email}!`, "success");
-
-      const destination =
+      window.location.href =
         redirect || (user.role === "ADMIN" ? "/dashboard" : "/");
-
-      console.log("[login] redirect param:", redirect);
-      console.log("[login] destination:", destination);
-      console.log("[login] window.location.href:", window.location.href);
-
-      router.prefetch(destination);
-
-      console.log("[login] calling window.location.href:", destination);
-      window.location.href = destination;
     } catch {
       // Error handled in store
     }

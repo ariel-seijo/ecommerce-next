@@ -3,13 +3,12 @@
 import "@/features/auth/styles/auth.css";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter, useSearchParams } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, UserPlus, Check } from "lucide-react";
 import { useToastStore } from "@/features/toast";
 
 export default function RegisterPage() {
-  const router = useRouter();
   const searchParams = useSearchParams();
   const redirect = searchParams.get("redirect");
   const { register, loading, error, clearError } = useAuthStore();
@@ -43,17 +42,7 @@ export default function RegisterPage() {
     try {
       const user = await register(name, email, password, confirmPassword);
       toast(`¡Bienvenido, ${user.name || user.email}!`, "success");
-
-      const destination = redirect || "/";
-
-      console.log("[register] redirect param:", redirect);
-      console.log("[register] destination:", destination);
-      console.log("[register] window.location.href:", window.location.href);
-
-      router.prefetch(destination);
-
-      console.log("[register] calling window.location.href:", destination);
-      window.location.href = destination;
+      window.location.href = redirect || "/";
     } catch {
       // Error handled in store
     }

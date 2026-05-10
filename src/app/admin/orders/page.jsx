@@ -175,7 +175,7 @@ export default function AdminOrdersPage() {
                         </span>
                       </div>
                     </td>
-                    <td>{order.items.length}</td>
+                    <td>{order.items.reduce((acc, item) => acc + item.quantity, 0)}</td>
                     <td style={{ fontWeight: 700 }}>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</td>
                     <td>
                       <span className={getStatusBadgeClass(order.status)}>

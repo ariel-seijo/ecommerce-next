@@ -5,8 +5,8 @@ import '@/features/admin/styles/forms.css';
 import '@/features/admin/styles/table.css';
 
 export const metadata = {
-  title: 'Admin Dashboard | E-Commerce',
-  description: 'Panel de administración para gestionar tu tienda online',
+  title: "Panel de Administración | ElectroShop",
+  description: "Panel de administración para gestionar tu tienda online",
 };
 
 export default function AdminLayout({ children }) {

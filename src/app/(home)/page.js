@@ -5,6 +5,10 @@ import SectionTitle from "@/components/SectionTitle";
 import Brands from "@/components/Brands";
 import PromoBanner from "@/components/PromoBanner";
 
+export const metadata = {
+  title: "ElectroShop | Hardware Gamer y Componentes de PC",
+};
+
 export default async function Home() {
   const products = await prisma.product.findMany({
     where: {

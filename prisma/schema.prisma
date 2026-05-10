@@ -21,6 +21,8 @@ model User {
   createdAt         DateTime  @default(now())
   resetToken        String?   @unique
   resetTokenExpires DateTime?
+  deletedAt         DateTime?
+  anonymizedAt      DateTime?
   cartItems         CartItem[]
   orders            Order[]
   @@index([email])

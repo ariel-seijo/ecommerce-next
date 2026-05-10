@@ -1,7 +1,7 @@
 "use client";
 
 import "@/features/auth/styles/auth.css";
-import { useState, startTransition } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
@@ -52,11 +52,11 @@ export default function RegisterPage() {
 
       router.prefetch(destination);
 
-      console.log("[register] before startTransition");
-      startTransition(() => {
+      console.log("[register] before setTimeout");
+      setTimeout(() => {
         router.push(destination);
-      });
-      console.log("[register] after startTransition");
+      }, 0);
+      console.log("[register] after setTimeout");
     } catch {
       // Error handled in store
     }

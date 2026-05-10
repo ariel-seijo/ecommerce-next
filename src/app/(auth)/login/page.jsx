@@ -23,13 +23,19 @@ export default function LoginPage() {
     try {
       const user = await login(email, password);
       toast(`¡Bienvenido de nuevo, ${user.name || user.email}!`, "success");
-      if (redirect) {
-        router.push(redirect);
-      } else if (user.role === "ADMIN") {
-        router.push("/dashboard");
-      } else {
-        router.push("/");
-      }
+
+      const destination =
+        redirect || (user.role === "ADMIN" ? "/dashboard" : "/");
+
+      console.log("[login] redirect param:", redirect);
+      console.log("[login] destination:", destination);
+      console.log("[login] window.location.href:", window.location.href);
+
+      router.prefetch(destination);
+
+      console.log("[login] before router.push");
+      router.push(destination);
+      console.log("[login] after router.push");
     } catch {
       // Error handled in store
     }

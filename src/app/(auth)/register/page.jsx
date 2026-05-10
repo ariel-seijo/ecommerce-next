@@ -43,7 +43,18 @@ export default function RegisterPage() {
     try {
       const user = await register(name, email, password, confirmPassword);
       toast(`¡Bienvenido, ${user.name || user.email}!`, "success");
-      router.push(redirect || "/");
+
+      const destination = redirect || "/";
+
+      console.log("[register] redirect param:", redirect);
+      console.log("[register] destination:", destination);
+      console.log("[register] window.location.href:", window.location.href);
+
+      router.prefetch(destination);
+
+      console.log("[register] before router.push");
+      router.push(destination);
+      console.log("[register] after router.push");
     } catch {
       // Error handled in store
     }

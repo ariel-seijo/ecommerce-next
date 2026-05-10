@@ -3,13 +3,15 @@
 import "@/features/auth/styles/auth.css";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, UserPlus, Check } from "lucide-react";
 import { useToastStore } from "@/features/toast";
 
 export default function RegisterPage() {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
   const { register, loading, error, clearError } = useAuthStore();
   const toast = useToastStore((s) => s.toast);
   const [name, setName] = useState("");
@@ -41,7 +43,7 @@ export default function RegisterPage() {
     try {
       const user = await register(name, email, password, confirmPassword);
       toast(`¡Bienvenido, ${user.name || user.email}!`, "success");
-      router.push("/");
+      router.push(redirect || "/");
     } catch {
       // Error handled in store
     }
@@ -198,7 +200,10 @@ export default function RegisterPage() {
 
         <p className="auth-footer">
           ¿Ya tenés cuenta?{" "}
-          <Link href="/login" className="auth-link">
+          <Link
+            href={`/login${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""}`}
+            className="auth-link"
+          >
             Iniciar sesión
           </Link>
         </p>

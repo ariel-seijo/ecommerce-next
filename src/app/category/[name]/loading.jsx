@@ -1,86 +1,92 @@
-// src/app/category/[name]/loading.jsx — Category page skeleton
-// 1:1 DOM mirror of real layout: Breadcrumb → Topbar → Chips → Content( Sidebar + Products )
-
+import Skeleton from "@/components/ui/Skeleton";
 import s from "@/features/category/styles/CategorySkeleton.module.css";
 
 export default function Loading() {
   return (
     <main className={s.page}>
       <div className={s.container}>
-        {/* Breadcrumb — matches CategoryHeader breadcrumbs */}
+        {/* Breadcrumb */}
         <div className={s.breadcrumbRow}>
-          <div className={`${s.shimmer} ${s.breadItem} ${s.breadXs}`}></div>
-          <div className={`${s.shimmer} ${s.breadItem} ${s.breadSm}`}></div>
+          <Skeleton width={45} height={14} />
+          <Skeleton width={80} height={14} />
         </div>
 
-        {/* Topbar — matches resultsTopbar */}
+        {/* Topbar */}
         <div className={s.topbar}>
-          {/* Left: breadcrumb title */}
           <div className={s.topbarBread}>
-            <div className={`${s.shimmer} ${s.topbarTitle}`}></div>
+            <Skeleton width={130} height={14} />
           </div>
 
-          {/* Right: ViewSwitcher + SortDropdown */}
           <div className={s.toolbarRight}>
             <div className={s.viewToggle}>
-              <div className={`${s.shimmer} ${s.toggleBtn}`}></div>
-              <div className={`${s.shimmer} ${s.toggleBtn}`}></div>
+              <Skeleton width={36} height={36} />
+              <Skeleton width={36} height={36} />
             </div>
-            <div className={`${s.shimmer} ${s.sortBtn}`}></div>
+            <div className={s.sortBtn}>
+              <Skeleton width="100%" height="100%" />
+            </div>
           </div>
         </div>
 
-        {/* Active filter chips — matches activeFilters */}
+        {/* Active filter chips */}
         <div className={s.chips}>
           {Array.from({ length: 3 }).map((_, i) => (
-            <div key={i} className={`${s.shimmer} ${s.chip}`}></div>
+            <div key={i} className={s.chip}>
+              <Skeleton width="100%" height="100%" />
+            </div>
           ))}
         </div>
 
-        {/* Content — matches categoryContent grid */}
+        {/* Content: Sidebar + Products */}
         <div className={s.content}>
-          {/* Sidebar — matches .filters */}
           <aside className={s.sidebar}>
             {/* Filter group: Seleccionados */}
             <div className={s.filterGroup}>
-              <div className={`${s.shimmer} ${s.filterTitle}`}></div>
-              <div className={`${s.shimmer} ${s.selectedChip}`}></div>
-              <div className={`${s.shimmer} ${s.selectedChip}`}></div>
-              <div className={`${s.shimmer} ${s.selectedChip}`} style={{ width: 130 }}></div>
+              <Skeleton width="45%" height={12} />
+              <div className={s.selectedChip}>
+                <Skeleton width="100%" height="100%" />
+              </div>
+              <div className={s.selectedChip}>
+                <Skeleton width="100%" height="100%" />
+              </div>
+              <div className={s.selectedChip} style={{ width: 130 }}>
+                <Skeleton width="100%" height="100%" />
+              </div>
             </div>
 
-            {/* Filter group: Precio (range) */}
+            {/* Filter group: Precio */}
             <div className={s.filterGroup}>
-              <div className={`${s.shimmer} ${s.filterTitle}`}></div>
+              <Skeleton width="45%" height={12} />
               <div className={s.rangeRow}>
-                <div className={`${s.shimmer} ${s.rangeLabel}`}></div>
-                <div className={`${s.shimmer} ${s.rangeLabel}`}></div>
+                <Skeleton width={60} height={12} />
+                <Skeleton width={60} height={12} />
               </div>
-              <div className={`${s.shimmer} ${s.rangeBar}`}></div>
-              <div className={`${s.shimmer} ${s.rangeBtn}`}></div>
+              <Skeleton width="100%" height={4} />
+              <div className={s.rangeBtn}>
+                <Skeleton width="100%" height="100%" />
+              </div>
             </div>
 
             {/* Filter group: Marca */}
             <div className={s.filterGroup}>
-              <div className={`${s.shimmer} ${s.filterTitle}`}></div>
+              <Skeleton width="45%" height={12} />
               {Array.from({ length: 8 }).map((_, i) => (
-                <div key={i} className={`${s.shimmer} ${s.filterOption}`}></div>
+                <Skeleton key={i} width="100%" height={34} />
               ))}
             </div>
           </aside>
 
-          {/* Products area — matches productsArea */}
           <section className={s.productsArea} role="status" aria-label="Cargando productos">
             <div className={s.productsGrid}>
               {Array.from({ length: 8 }).map((_, i) => (
                 <div key={i} className={s.productCard}>
-                  <div className={`${s.shimmer} ${s.pcImg}`}></div>
+                  <Skeleton width="100%" style={{ aspectRatio: "1/1" }} />
                   <div className={s.pcMeta}>
-                    <div className={`${s.shimmer} ${s.line} ${s.lineSm}`}></div>
-                    <div className={`${s.shimmer} ${s.line} ${s.lineMd}`}></div>
-                    <div className={`${s.shimmer} ${s.lineXs}`}></div>
+                    <Skeleton width="42%" height={15} />
+                    <Skeleton width="88%" height={15} />
+                    <Skeleton width="52%" height={17} />
                   </div>
-                  <div className={`${s.shimmer} ${s.pcBtn}`}></div>
+                  <Skeleton width="100%" height={34} />
                 </div>
               ))}
             </div>

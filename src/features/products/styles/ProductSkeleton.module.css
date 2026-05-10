@@ -1,28 +1,9 @@
 /* =====================================================
-   PRODUCT DETAIL SKELETON — 1:1 mirror of ProductPage
-   Breadcrumb → Hero( gallery + info ) → Related products
-   All dimensions / border-radius / gaps match real component
+   PRODUCT DETAIL SKELETON — Layout structure only
+   Skeleton elements handled by <Skeleton> component
    ===================================================== */
 
-/* === SHIMMER BASE === */
-
-.shimmer {
-  background: linear-gradient(
-    90deg,
-    rgb(30, 30, 30) 20%,
-    rgb(52, 52, 52) 50%,
-    rgb(30, 30, 30) 80%
-  );
-  background-size: 220% 100%;
-  animation: shimmer 1.15s linear infinite;
-}
-
-@keyframes shimmer {
-  0%   { background-position: 220% 0; }
-  100% { background-position: -220% 0; }
-}
-
-/* === PAGE WRAPPER — matches .product-page === */
+/* === PAGE WRAPPER === */
 
 .page {
   max-width: 1200px;
@@ -31,25 +12,17 @@
   padding: 2rem 1rem 4rem;
 }
 
-/* === BREADCRUMB — matches .pp-breadcrumb === */
+/* === BREADCRUMB === */
 
 .breadcrumb {
   display: flex;
   flex-wrap: wrap;
   align-items: center;
-  gap: 1.25rem;              /* 0.35rem text + chevron icon */
+  gap: 1.25rem;
   margin-bottom: 2rem;
 }
 
-.breadLink {
-  height: 13px;              /* 0.8rem */
-}
-
-.breadXs { width: 40px; }
-.breadSm { width: 80px; }
-.breadMd { width: 110px; }
-
-/* === HERO LAYOUT — matches .pp-hero grid === */
+/* === HERO LAYOUT === */
 
 .hero {
   display: grid;
@@ -58,7 +31,7 @@
   margin-bottom: 4rem;
 }
 
-/* === GALLERY — matches .pp-gallery === */
+/* === GALLERY === */
 
 .gallery {
   display: flex;
@@ -73,7 +46,6 @@
   padding: 2rem;
 }
 
-/* Thumbnails — matches .pp-thumbs */
 .thumbs {
   display: flex;
   gap: 0.6rem;
@@ -88,7 +60,7 @@
   background: rgb(26, 26, 26);
 }
 
-/* === INFO SECTION — matches .pp-info === */
+/* === INFO SECTION === */
 
 .info {
   display: flex;
@@ -96,7 +68,6 @@
   gap: 1.2rem;
 }
 
-/* Tags — matches .pp-tags */
 .tags {
   display: flex;
   flex-wrap: wrap;
@@ -104,7 +75,7 @@
 }
 
 .tag {
-  height: 26px;              /* 0.35rem pad * 2 + 0.7rem font ≈ 26px */
+  height: 26px;
   width: 72px;
   padding: 0.35rem 0.65rem;
   background: rgb(34, 34, 34);
@@ -113,39 +84,6 @@
 
 .tagWide { width: 90px; }
 
-/* Title — matches .pp-title 2rem * 1.1 line-height */
-.title {
-  height: 35px;
-  width: 85%;
-}
-
-/* Rating — matches .pp-rating (0.85rem ≈ 14px) */
-.rating {
-  height: 14px;
-  width: 45%;
-}
-
-/* Price — matches .pp-price (2.2rem ≈ 35px) */
-.price {
-  height: 35px;
-  width: 38%;
-}
-
-/* Description — matches .pp-description (0.95rem * 1.7 ≈ 26px per line) */
-.descLine {
-  height: 16px;              /* 0.95rem body text */
-}
-
-.descLineLg {
-  height: 17px;
-  margin-bottom: 0.3rem;
-}
-
-.descSm {
-  width: 56%;
-}
-
-/* Meta grid — matches .pp-meta */
 .meta {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
@@ -161,13 +99,6 @@
   padding: 0.9rem 1rem;
 }
 
-.metaIcon {
-  width: 18px;
-  height: 18px;
-  flex-shrink: 0;
-  border-radius: 2px;
-}
-
 .metaText {
   display: flex;
   flex-direction: column;
@@ -175,17 +106,6 @@
   flex: 1;
 }
 
-.metaLabel {
-  height: 11px;              /* 0.68rem */
-  width: 60%;
-}
-
-.metaValue {
-  height: 14px;              /* 0.85rem */
-  width: 82%;
-}
-
-/* Actions — matches .pp-actions */
 .actions {
   display: flex;
   gap: 0.75rem;
@@ -193,16 +113,10 @@
 }
 
 .qty {
-  width: 130px;              /* 2 * 44px buttons + 40px center span */
+  width: 130px;
   border: 1px solid rgb(52, 52, 52);
 }
 
-.btnAdd {
-  flex: 1;
-  height: 52px;              /* padding 0.95rem * 2 + font ≈ 52px */
-}
-
-/* Features — matches .pp-features */
 .features {
   display: flex;
   flex-direction: column;
@@ -218,20 +132,7 @@
   gap: 0.6rem;
 }
 
-.featureIcon {
-  width: 16px;
-  height: 16px;
-  flex-shrink: 0;
-  border-radius: 2px;
-}
-
-.featureText {
-  height: 13px;              /* 0.82rem */
-  flex: 1;
-  max-width: 75%;
-}
-
-/* === RELATED PRODUCTS — matches .pp-related === */
+/* === RELATED PRODUCTS === */
 
 .related {
   margin-top: 1rem;
@@ -244,23 +145,11 @@
   margin-bottom: 1.2rem;
 }
 
-.relatedTitle {
-  height: 21px;              /* 1.3rem */
-  width: 260px;
-}
-
-.relatedLink {
-  height: 13px;              /* 0.82rem */
-  width: 100px;
-}
-
 .relatedGrid {
   display: grid;
   grid-template-columns: repeat(4, 1fr);
   gap: 1rem;
 }
-
-/* Related product card — matches ProductCard DOM exactly */
 
 .relatedCard {
   display: flex;
@@ -271,33 +160,12 @@
   padding: 0.4rem;
 }
 
-.relCardImg {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  border-radius: 4px;
-}
-
 .relCardMeta {
   display: flex;
   flex-direction: column;
   gap: 0.25rem;
   padding-top: 0.4rem;
 }
-
-.relCardBtn {
-  margin-top: 0.35rem;
-  width: 100%;
-  height: 34px;
-  border-radius: 5px;
-}
-
-.line {
-  height: 15px;
-}
-
-.lineSm { width: 42%; }
-.lineMd { width: 88%; }
-.lineXs { height: 17px; width: 52%; }
 
 /* =========================
    RESPONSIVE
@@ -308,145 +176,46 @@
     grid-template-columns: 1fr;
     gap: 2rem;
   }
-
   .mainImg {
     max-width: 600px;
     margin: 0 auto;
   }
-
   .relatedGrid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
 @media (max-width: 700px) {
-  .page {
-    padding: 1rem 0.8rem 3rem;
-  }
-
-  .title {
-    height: 24px;            /* 1.5rem */
-    width: 90%;
-  }
-
-  .price {
-    height: 27px;            /* 1.7rem */
-    width: 42%;
-  }
-
-  .meta {
-    grid-template-columns: 1fr;
-  }
-
-  .actions {
-    flex-direction: column;
-  }
-
-  .qty {
-    width: 100%;
-    height: 48px;
-  }
-
-  .btnAdd {
-    height: 48px;
-  }
-
+  .page { padding: 1rem 0.8rem 3rem; }
+  .meta { grid-template-columns: 1fr; }
+  .actions { flex-direction: column; }
+  .qty { width: 100%; height: 48px; }
   .relatedGrid {
     grid-template-columns: repeat(2, 1fr);
     gap: 0.7rem;
   }
-
-  /* Related cards mobile sizing */
-  .relatedCard {
-    padding: 0.4rem;
-    border-radius: 6px;
-  }
-
-  .relCardImg {
-    border-radius: 4px;
-  }
-
-  .relCardBtn {
-    height: 34px;
-    border-radius: 5px;
-  }
+  .relatedCard { padding: 0.4rem; border-radius: 6px; }
 }
 
 @media (max-width: 480px) {
-  .thumb {
-    width: 60px;
-    height: 60px;
-  }
-
-  .breadXs { width: 35px; }
-  .breadSm { width: 65px; }
-  .breadMd { width: 90px; }
+  .thumb { width: 60px; height: 60px; }
 }
-
-/* Feature items wrap on very small screens */
 
 @media (max-width: 380px) {
-  .featureText {
-    max-width: 65%;
-  }
+  .featureItem { max-width: 100%; }
 }
 
-/* Tablet+ related cards */
-
 @media (min-width: 480px) {
-  .relatedCard {
-    padding: 0.75rem;
-  }
-
-  .relCardImg {
-    border-radius: 5px;
-  }
-
-  .relCardMeta {
-    padding-top: 0.6rem;
-    gap: 0.35rem;
-  }
-
-  .relCardBtn {
-    height: 40px;
-    border-radius: 6px;
-    margin-top: 0.45rem;
-  }
+  .relatedCard { padding: 0.75rem; }
+  .relCardMeta { padding-top: 0.6rem; gap: 0.35rem; }
 }
 
 @media (min-width: 768px) {
-  .relatedCard {
-    padding: 1rem;
-    border-radius: 8px;
-  }
-
-  .relCardImg {
-    border-radius: 6px;
-  }
-
-  .relCardMeta {
-    padding-top: 0.7rem;
-    gap: 0.42rem;
-  }
-
-  .relCardBtn {
-    height: 42px;
-    margin-top: 0.5rem;
-  }
+  .relatedCard { padding: 1rem; border-radius: 8px; }
+  .relCardMeta { padding-top: 0.7rem; gap: 0.42rem; }
 }
 
 @media (min-width: 1024px) {
-  .relatedCard {
-    padding: 1.2rem;
-  }
-
-  .relCardMeta {
-    padding-top: 0.85rem;
-    gap: 0.5rem;
-  }
-
-  .relCardBtn {
-    height: 44px;
-    margin-top: 0.6rem;
-  }
+  .relatedCard { padding: 1.2rem; }
+  .relCardMeta { padding-top: 0.85rem; gap: 0.5rem; }
 }

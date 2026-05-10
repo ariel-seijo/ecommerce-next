@@ -1,104 +1,111 @@
-// src/app/product/[slug]/loading.jsx — Product detail skeleton
-// 1:1 DOM mirror of ProductPage: Breadcrumb → Hero( Gallery + Info ) → Related products
-
+import Skeleton from "@/components/ui/Skeleton";
 import s from "@/features/products/styles/ProductSkeleton.module.css";
 
 export default function Loading() {
   return (
     <main className={s.page}>
-      {/* Breadcrumb — matches pp-breadcrumb */}
+      {/* Breadcrumb */}
       <nav className={s.breadcrumb}>
-        <div className={`${s.shimmer} ${s.breadLink} ${s.breadXs}`}></div>
-        <div className={`${s.shimmer} ${s.breadLink} ${s.breadSm}`}></div>
-        <div className={`${s.shimmer} ${s.breadLink} ${s.breadMd}`}></div>
+        <Skeleton width={40} height={13} />
+        <Skeleton width={80} height={13} />
+        <Skeleton width={110} height={13} />
       </nav>
 
-      {/* Hero — matches pp-hero grid */}
+      {/* Hero: Gallery + Info */}
       <section className={s.hero}>
-        {/* Gallery — matches pp-gallery */}
+        {/* Gallery */}
         <div className={s.gallery}>
           <div className={s.mainImg}>
-            <div className={s.shimmer} style={{ width: "100%", height: "100%" }}></div>
+            <Skeleton width="100%" height="100%" />
           </div>
-
           <div className={s.thumbs}>
             {Array.from({ length: 4 }).map((_, i) => (
-              <div key={i} className={`${s.shimmer} ${s.thumb}`}></div>
+              <div key={i} className={s.thumb}>
+                <Skeleton width="100%" height="100%" />
+              </div>
             ))}
           </div>
         </div>
 
-        {/* Info — matches pp-info */}
+        {/* Info */}
         <div className={s.info}>
-          {/* Tags — matches pp-tags */}
+          {/* Tags */}
           <div className={s.tags}>
-            <div className={`${s.shimmer} ${s.tag} ${s.tagWide}`}></div>
-            <div className={`${s.shimmer} ${s.tag}`}></div>
-            <div className={`${s.shimmer} ${s.tag} ${s.tagWide}`}></div>
+            <div className={`${s.tag} ${s.tagWide}`}>
+              <Skeleton width="100%" height="100%" />
+            </div>
+            <div className={s.tag}>
+              <Skeleton width="100%" height="100%" />
+            </div>
+            <div className={`${s.tag} ${s.tagWide}`}>
+              <Skeleton width="100%" height="100%" />
+            </div>
           </div>
 
-          {/* Title — matches pp-title */}
-          <div className={`${s.shimmer} ${s.title}`}></div>
+          {/* Title */}
+          <Skeleton width="85%" height={35} />
 
-          {/* Rating — matches pp-rating */}
-          <div className={`${s.shimmer} ${s.rating}`}></div>
+          {/* Rating */}
+          <Skeleton width="45%" height={14} />
 
-          {/* Price — matches pp-price-box */}
-          <div className={`${s.shimmer} ${s.price}`}></div>
+          {/* Price */}
+          <Skeleton width="38%" height={35} />
 
-          {/* Description — matches pp-description */}
-          <div className={`${s.shimmer} ${s.descLineLg} ${s.lineMd}`} style={{ height: 17 }}></div>
-          <div className={`${s.shimmer} ${s.descLine} ${s.lineMd}`}></div>
-          <div className={`${s.shimmer} ${s.descLine} ${s.descSm}`}></div>
+          {/* Description */}
+          <Skeleton width="88%" height={17} />
+          <Skeleton width="88%" height={16} />
+          <Skeleton width="56%" height={16} />
 
-          {/* Meta boxes — matches pp-meta grid */}
+          {/* Meta boxes */}
           <div className={s.meta}>
             {Array.from({ length: 4 }).map((_, i) => (
               <div key={i} className={s.metaBox}>
-                <div className={`${s.shimmer} ${s.metaIcon}`}></div>
+                <Skeleton width={18} height={18} />
                 <div className={s.metaText}>
-                  <div className={`${s.shimmer} ${s.metaLabel}`}></div>
-                  <div className={`${s.shimmer} ${s.metaValue}`}></div>
+                  <Skeleton width="60%" height={11} />
+                  <Skeleton width="82%" height={14} />
                 </div>
               </div>
             ))}
           </div>
 
-          {/* Actions — matches pp-actions */}
+          {/* Actions */}
           <div className={s.actions}>
-            <div className={`${s.shimmer} ${s.qty}`}></div>
-            <div className={`${s.shimmer} ${s.btnAdd}`}></div>
+            <div className={s.qty}>
+              <Skeleton width="100%" height="100%" />
+            </div>
+            <Skeleton width="100%" height={52} style={{ flex: 1 }} />
           </div>
 
-          {/* Features — matches pp-features */}
+          {/* Features */}
           <div className={s.features}>
             {Array.from({ length: 2 }).map((_, i) => (
               <div key={i} className={s.featureItem}>
-                <div className={`${s.shimmer} ${s.featureIcon}`}></div>
-                <div className={`${s.shimmer} ${s.featureText}`}></div>
+                <Skeleton width={16} height={16} />
+                <Skeleton width="75%" height={13} />
               </div>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Related Products — matches pp-related */}
+      {/* Related Products */}
       <section className={s.related}>
         <div className={s.relatedHeader}>
-          <div className={`${s.shimmer} ${s.relatedTitle}`}></div>
-          <div className={`${s.shimmer} ${s.relatedLink}`}></div>
+          <Skeleton width={260} height={21} />
+          <Skeleton width={100} height={13} />
         </div>
 
         <div className={s.relatedGrid}>
           {Array.from({ length: 4 }).map((_, i) => (
             <div key={i} className={s.relatedCard}>
-              <div className={`${s.shimmer} ${s.relCardImg}`}></div>
+              <Skeleton width="100%" style={{ aspectRatio: "1/1" }} />
               <div className={s.relCardMeta}>
-                <div className={`${s.shimmer} ${s.line} ${s.lineSm}`}></div>
-                <div className={`${s.shimmer} ${s.line} ${s.lineMd}`}></div>
-                <div className={`${s.shimmer} ${s.lineXs}`}></div>
+                <Skeleton width="42%" height={15} />
+                <Skeleton width="88%" height={15} />
+                <Skeleton width="52%" height={17} />
               </div>
-              <div className={`${s.shimmer} ${s.relCardBtn}`}></div>
+              <Skeleton width="100%" height={34} />
             </div>
           ))}
         </div>

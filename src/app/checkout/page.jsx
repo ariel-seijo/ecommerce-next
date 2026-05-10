@@ -1,5 +1,6 @@
 "use client";
 
+import { useLayoutEffect } from "react";
 import { CheckoutProvider, useCheckout } from "@/features/checkout/context/CheckoutContext";
 import { useCart } from "@/features/cart";
 import {
@@ -19,6 +20,14 @@ function CheckoutFlow() {
   const { step, shipping, isConfirmed, orderData, goToStep } = useCheckout();
   const { cart } = useCart();
   const isEmpty = cart.length === 0;
+
+  useLayoutEffect(() => {
+    window.scrollTo({ top: 0, behavior: "instant" });
+    if (document.scrollingElement) {
+      document.scrollingElement.scrollTop = 0;
+    }
+    document.documentElement.scrollTop = 0;
+  }, [step, isConfirmed, isEmpty]);
 
   if (isConfirmed) {
     return (

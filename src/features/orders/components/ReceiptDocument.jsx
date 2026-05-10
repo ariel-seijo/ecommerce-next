@@ -211,6 +211,11 @@ function formatTime(dateStr) {
   });
 }
 
+function formatSku(sku) {
+  if (!sku) return "";
+  return sku.length > 15 ? sku.slice(0, 15) + "..." : sku;
+}
+
 export default function ReceiptDocument({ order }) {
   const shipping = order.shippingAddress || {};
 
@@ -266,13 +271,7 @@ export default function ReceiptDocument({ order }) {
                 <Text style={styles.productTitle}>{item.productTitle}</Text>
               </View>
               <View style={styles.colSku}>
-                <Text style={styles.productSku}>
-                  {(() => {
-                    const sku = item.productSku;
-                    if (!sku) return "N/A";
-                    return sku.length > 15 ? sku.slice(0, 15) + "..." : sku;
-                  })()}
-                </Text>
+                <Text style={styles.productSku}>{formatSku(item.productSku)}</Text>
               </View>
               <View style={styles.colQty}>
                 <Text style={styles.cellText}>{item.quantity}</Text>

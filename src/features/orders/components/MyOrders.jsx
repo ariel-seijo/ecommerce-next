@@ -97,7 +97,7 @@ export default function MyOrders({ embedded = false }) {
               </div>
               <div className={styles.orderMeta}>
                 <span className={styles.itemCount}>
-                  {order.items.length} {order.items.length === 1 ? "producto" : "productos"}
+                  {order.items.reduce((acc, item) => acc + item.quantity, 0)} {order.items.reduce((acc, item) => acc + item.quantity, 0) === 1 ? "producto" : "productos"}
                 </span>
                 <span className={styles.orderDate}>{formatDate(order.createdAt)}</span>
                 <span className={styles.orderTotal}>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</span>

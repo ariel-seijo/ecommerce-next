@@ -267,7 +267,7 @@ export default function AdminOrderDetailPage() {
       <div className="admin-card">
         <h3 className="admin-card-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
           <PackageOpen size={16} color="var(#24abf3)" />
-          Productos ({order.items.length})
+          Productos ({order.items.reduce((acc, item) => acc + item.quantity, 0)})
         </h3>
         <div className="admin-table-wrapper" style={{ marginTop: "1rem" }}>
           <table className="admin-table">

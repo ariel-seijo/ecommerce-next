@@ -17,6 +17,12 @@ import { CartProvider } from "@/features/cart";
 import { AuthProvider } from "@/features/auth";
 import { ToastContainer } from "@/features/toast";
 
+export const metadata = {
+  icons: {
+    icon: "/favicon.png",
+  },
+};
+
 export default function RootLayout({ children }) {
   return (
     <html lang="es">

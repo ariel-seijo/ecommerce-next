@@ -108,7 +108,7 @@ export default function ProductForm({
 
   async function handleGenerateSku() {
     if (!formData.categoryId) {
-      toast("Selecciona una categor\u00eda primero", "error");
+      toast("Selecciona una categoría primero", "error");
       return;
     }
     if (!formData.brand.trim()) {
@@ -116,7 +116,7 @@ export default function ProductForm({
       return;
     }
     if (!formData.title.trim()) {
-      toast("Ingresa el t\u00edtulo primero", "error");
+      toast("Ingresa el título primero", "error");
       return;
     }
 
@@ -140,14 +140,14 @@ export default function ProductForm({
 
   function validate() {
     const newErrors = {};
-    if (!formData.title.trim()) newErrors.title = "El t\u00edtulo es obligatorio";
+    if (!formData.title.trim()) newErrors.title = "El título es obligatorio";
     if (!formData.slug.trim()) newErrors.slug = "El slug es obligatorio";
     if (!formData.price || parseFloat(formData.price) <= 0)
-      newErrors.price = "El precio v\u00e1lido es obligatorio";
+      newErrors.price = "El precio válido es obligatorio";
     if (formData.stock === "" || parseInt(formData.stock) < 0)
-      newErrors.stock = "El inventario v\u00e1lido es obligatorio";
+      newErrors.stock = "El inventario válido es obligatorio";
     if (!formData.categoryId)
-      newErrors.categoryId = "La categor\u00eda es obligatoria";
+      newErrors.categoryId = "La categoría es obligatoria";
     if (!formData.thumbnail)
       newErrors.thumbnail = "La miniatura es obligatoria";
     setErrors(newErrors);
@@ -200,13 +200,13 @@ export default function ProductForm({
         className={styles.main}
         noValidate
       >
-        {/* ======== SECTION 1: Informaci\u00f3n general ======== */}
+        {/* ======== SECTION 1: Información general ======== */}
         <fieldset className={styles.section}>
-          <legend className={styles.sectionTitle}>Informaci\u00f3n general</legend>
+          <legend className={styles.sectionTitle}>Información general</legend>
 
           <div className={styles.group}>
             <label className={styles.label} htmlFor="title">
-              <span className={styles.labelRequired}>T\u00edtulo</span>
+              <span className={styles.labelRequired}>Título</span>
             </label>
             <input
               type="text"
@@ -216,7 +216,7 @@ export default function ProductForm({
               value={formData.title}
               onChange={handleChange}
               onBlur={handleTitleBlur}
-              placeholder="T\u00edtulo del producto"
+              placeholder="Título del producto"
               aria-invalid={!!errors.title}
               aria-describedby={fieldErrorId("title")}
             />
@@ -248,13 +248,13 @@ export default function ProductForm({
               </span>
             )}
             <span className={styles.hint}>
-              Se genera autom\u00e1ticamente del t\u00edtulo si se deja vac\u00edo al crear
+              Se genera automáticamente del título si se deja vacío al crear
             </span>
           </div>
 
           <div className={styles.group}>
             <label className={styles.label} htmlFor="description">
-              Descripci\u00f3n
+              Descripción
             </label>
             <textarea
               id="description"
@@ -262,7 +262,7 @@ export default function ProductForm({
               className={styles.textarea}
               value={formData.description}
               onChange={handleChange}
-              placeholder="Descripci\u00f3n del producto\u2026"
+              placeholder="Descripción del producto…"
               rows={4}
             />
           </div>
@@ -354,9 +354,9 @@ export default function ProductForm({
           </div>
         </fieldset>
 
-        {/* ======== SECTION 3: SKU y Clasificaci\u00f3n ======== */}
+        {/* ======== SECTION 3: SKU y Clasificación ======== */}
         <fieldset className={styles.section}>
-          <legend className={styles.sectionTitle}>SKU y Clasificaci\u00f3n</legend>
+          <legend className={styles.sectionTitle}>SKU y Clasificación</legend>
 
           <div className={styles.group}>
             <label className={styles.label} htmlFor="sku">
@@ -378,7 +378,7 @@ export default function ProductForm({
                 className={styles.skuBtn}
                 onClick={handleGenerateSku}
                 disabled={isGeneratingSku}
-                aria-label="Generar SKU autom\u00e1ticamente"
+                aria-label="Generar SKU automáticamente"
               >
                 {isGeneratingSku ? (
                   <Loader2 size={14} className={styles.spin} aria-hidden="true" />
@@ -396,7 +396,7 @@ export default function ProductForm({
           <div className={styles.row}>
             <div className={styles.group}>
               <label className={styles.label} htmlFor="categoryId">
-                <span className={styles.labelRequired}>Categor\u00eda</span>
+                <span className={styles.labelRequired}>Categoría</span>
               </label>
               <select
                 id="categoryId"
@@ -407,7 +407,7 @@ export default function ProductForm({
                 aria-invalid={!!errors.categoryId}
                 aria-describedby={fieldErrorId("categoryId")}
               >
-                <option value="">Seleccionar categor\u00eda</option>
+                <option value="">Seleccionar categoría</option>
                 {categories.map((cat) => (
                   <option key={cat.id} value={cat.id}>
                     {cat.name}
@@ -467,7 +467,7 @@ export default function ProductForm({
           {isEdit && (
             <div className={styles.group}>
               <label className={styles.label}>
-                Galer\u00eda Cloudinary ({productImages.length}/10)
+                Galería Cloudinary ({productImages.length}/10)
               </label>
               <AdminGallery
                 images={productImages}
@@ -532,7 +532,7 @@ export default function ProductForm({
             {isSubmitting ? (
               <>
                 <Loader2 size={16} className={styles.spin} aria-hidden="true" />
-                {isEdit ? "Actualizando\u2026" : "Creando\u2026"}
+                {isEdit ? "Actualizando…" : "Creando…"}
               </>
             ) : isEdit ? (
               "Actualizar producto"
@@ -569,14 +569,14 @@ export default function ProductForm({
             <div className={styles.previewTop}>
               <span className={styles.previewCat}>
                 {categories.find((c) => c.id.toString() === formData.categoryId)
-                  ?.name || "Categor\u00eda"}
+                  ?.name || "Categoría"}
               </span>
               <span className={styles.previewBrand}>
                 {formData.brand || "Marca"}
               </span>
             </div>
             <h4 className={styles.previewName}>
-              {formData.title || "T\u00edtulo del producto"}
+              {formData.title || "Título del producto"}
             </h4>
             <div className={styles.previewRating}>
               <Star size={14} fill="#fbbf24" color="#fbbf24" aria-hidden="true" />

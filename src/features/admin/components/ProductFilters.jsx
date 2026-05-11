@@ -4,7 +4,7 @@ import { ArrowUpDown, Check, X as XIcon } from "lucide-react";
 import styles from "./ProductFilters.module.css";
 
 const SORT_OPTIONS = [
-  { value: "createdAt", label: "M\u00e1s recientes" },
+  { value: "createdAt", label: "Más recientes" },
   { value: "price", label: "Precio" },
   { value: "stock", label: "Inventario" },
   { value: "sold", label: "Vendidos" },
@@ -24,14 +24,14 @@ export default function ProductFilters({
       {/* Category dropdown */}
       <div className={styles.group}>
         <label htmlFor="filter-category" className={styles.label}>
-          Categor\u00eda
+          Categoría
         </label>
         <select
           id="filter-category"
           value={categoryId}
           onChange={(e) => onChange("categoryId", e.target.value)}
           className={styles.select}
-          aria-label="Filtrar por categor\u00eda"
+          aria-label="Filtrar por categoría"
         >
           <option value="">Todas</option>
           {categories.map((cat) => (

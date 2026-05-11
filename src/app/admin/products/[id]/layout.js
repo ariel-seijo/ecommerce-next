@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
 
     const truncated =
       product.title.length > 26
-        ? product.title.slice(0, 25) + "\u2026"
+        ? product.title.slice(0, 25) + "…"
         : product.title;
 
     return {

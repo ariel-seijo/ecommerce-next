@@ -60,7 +60,7 @@ export default function ProductSearch() {
         type="text"
         value={local}
         onChange={handleChange}
-        placeholder="Buscar por t\u00edtulo, SKU o marca\u2026"
+        placeholder="Buscar por título, SKU o marca…"
         className={styles.input}
         aria-label="Buscar productos"
       />
@@ -69,7 +69,7 @@ export default function ProductSearch() {
           type="button"
           onClick={handleClear}
           className={styles.clear}
-          aria-label="Limpiar b\u00fasqueda"
+          aria-label="Limpiar búsqueda"
         >
           <X size={14} />
         </button>

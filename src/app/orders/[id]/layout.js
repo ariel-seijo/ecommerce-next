@@ -13,7 +13,7 @@ export async function generateMetadata({ params }) {
 
     const num =
       order.orderNumber.length > 19
-        ? order.orderNumber.slice(0, 18) + "\u2026"
+        ? order.orderNumber.slice(0, 18) + "…"
         : order.orderNumber;
 
     return {

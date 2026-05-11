@@ -8,7 +8,7 @@ export const dynamic = "force-dynamic";
 
 function truncate(text, max) {
   if (text.length <= max) return text;
-  return text.slice(0, max - 1) + "\u2026";
+  return text.slice(0, max - 1) + "…";
 }
 
 export async function generateMetadata({ params }) {

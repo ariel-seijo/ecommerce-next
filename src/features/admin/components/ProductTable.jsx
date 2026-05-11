@@ -84,7 +84,7 @@ export default function ProductTable({
     if (!editingStock) return;
     const parsed = parseInt(editingStock.value);
     if (isNaN(parsed) || parsed < 0) {
-      toast("Stock debe ser un n\u00famero v\u00e1lido (>= 0)", "error");
+      toast("Stock debe ser un número válido (>= 0)", "error");
       setEditingStock(null);
       return;
     }
@@ -194,7 +194,7 @@ export default function ProductTable({
           role="grid"
         >
           <caption className="visually-hidden">
-            Tabla de productos — {total} registros, p\u00e1gina {page} de{" "}
+            Tabla de productos — {total} registros, página {page} de{" "}
             {totalPages}
           </caption>
           <thead>
@@ -475,9 +475,9 @@ export default function ProductTable({
               </div>
 
               <div className={styles.cardRow}>
-                <span className={styles.cardLabel}>Categor\u00eda</span>
+                <span className={styles.cardLabel}>Categoría</span>
                 <span className={styles.cardValue}>
-                  {product.category?.name || "\u2014"}
+                  {product.category?.name || "—"}
                 </span>
               </div>
             </div>
@@ -544,13 +544,13 @@ export default function ProductTable({
 
       {/* ---- PAGINATION ---- */}
       {totalPages > 1 && (
-        <nav className={styles.pagination} aria-label="Paginaci\u00f3n de productos">
+        <nav className={styles.pagination} aria-label="Paginación de productos">
           <button
             type="button"
             className={styles.pageBtn}
             onClick={() => onPage(page - 1)}
             disabled={page <= 1}
-            aria-label="P\u00e1gina anterior"
+            aria-label="Página anterior"
           >
             <ChevronLeft size={16} />
             Anterior
@@ -571,7 +571,7 @@ export default function ProductTable({
                   <span key={n} className={styles.pageGroup}>
                     {showEllipsis && (
                       <span className={styles.ellipsis} aria-hidden="true">
-                        \u2026
+                        …
                       </span>
                     )}
                     <button
@@ -581,7 +581,7 @@ export default function ProductTable({
                       }`}
                       onClick={() => onPage(n)}
                       aria-current={n === page ? "page" : undefined}
-                      aria-label={`P\u00e1gina ${n}`}
+                      aria-label={`Página ${n}`}
                     >
                       {n}
                     </button>
@@ -595,7 +595,7 @@ export default function ProductTable({
             className={styles.pageBtn}
             onClick={() => onPage(page + 1)}
             disabled={page >= totalPages}
-            aria-label="P\u00e1gina siguiente"
+            aria-label="Página siguiente"
           >
             Siguiente
             <ChevronRight size={16} />
@@ -606,7 +606,7 @@ export default function ProductTable({
       <ConfirmModal
         isOpen={deleteModal.isOpen}
         title="Eliminar producto"
-        message={`\u00bfEst\u00e1s seguro de que deseas eliminar \u201c${deleteModal.product?.title}\u201d? Esta acci\u00f3n no se puede deshacer.`}
+        message={`¿Estás seguro de que deseas eliminar "${deleteModal.product?.title}"? Esta acción no se puede deshacer.`}
         onConfirm={handleDeleteConfirm}
         onCancel={handleDeleteCancel}
         isConfirming={isDeleting}

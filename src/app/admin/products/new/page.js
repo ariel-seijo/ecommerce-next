@@ -17,11 +17,11 @@ export default function NewProductPage() {
     async function fetchCategories() {
       try {
         const res = await fetch("/api/categories");
-        if (!res.ok) throw new Error("Error al obtener las categor\u00edas");
+        if (!res.ok) throw new Error("Error al obtener las categorías");
         const data = await res.json();
         setCategories(data);
       } catch {
-        toast("Error al cargar categor\u00edas", "error");
+        toast("Error al cargar categorías", "error");
       } finally {
         setLoading(false);
       }

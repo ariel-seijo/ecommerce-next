@@ -5,3 +5,6 @@ export { default as ProductForm } from "./components/ProductForm";
 export { default as ConfirmModal } from "./components/ConfirmModal";
 export { default as UserTable } from "./components/UserTable";
 export { default as UserFormModal } from "./components/UserFormModal";
+export { default as ImageUploadWidget } from "./components/ImageUploadWidget";
+export { default as AdminGallery } from "./components/AdminGallery";
+export { default as ThumbnailUploader } from "./components/ThumbnailUploader";

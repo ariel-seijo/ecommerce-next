@@ -28,43 +28,15 @@ export default function NewProductPage() {
     fetchCategories();
   }, []);
 
-  async function uploadFile(file) {
-    const formData = new FormData();
-    formData.append('file', file);
-    const res = await fetch('/api/upload', { method: 'POST', body: formData });
-    if (!res.ok) throw new Error('Error al subir archivo');
-    const data = await res.json();
-    return data.url;
-  }
-
-  async function handleSubmit(formData, files) {
+  async function handleSubmit(formData) {
     setIsSubmitting(true);
     setError('');
     setSuccess('');
 
     try {
-      let thumbnail = formData.thumbnail;
-      let images = formData.images || [];
-
-      if (files?.thumbnailFile) {
-        thumbnail = await uploadFile(files.thumbnailFile);
-      }
-
-      if (files?.imageFiles?.length) {
-        for (const file of files.imageFiles) {
-          const url = await uploadFile(file);
-          images.push(url);
-        }
-      }
-
-      if (thumbnail.startsWith('blob:')) {
-        throw new Error('La miniatura debe ser subida');
-      }
-
       const productData = {
         ...formData,
-        thumbnail,
-        images,
+        images: formData.images || [],
       };
 
       const res = await fetch('/api/products', {

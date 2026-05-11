@@ -1,8 +1,11 @@
 'use client';
 
-import { useState, useRef } from 'react';
-import { Plus, Trash2, Upload, Image, Star } from 'lucide-react';
+import { useState } from 'react';
+import { Star } from 'lucide-react';
 import { formatPrice } from '@/lib/utils/currency';
+import ImageUploadWidget from './ImageUploadWidget';
+import AdminGallery from './AdminGallery';
+import ThumbnailUploader from './ThumbnailUploader';
 
 const initialFormState = {
   title: '',
@@ -19,7 +22,7 @@ const initialFormState = {
   sold: '0',
 };
 
-export default function ProductForm({ product, categories, onSubmit, isSubmitting }) {
+export default function ProductForm({ product, categories, onSubmit, isSubmitting, onRefreshProduct }) {
   const [formData, setFormData] = useState(() => {
     if (product) {
       return {
@@ -40,17 +43,9 @@ export default function ProductForm({ product, categories, onSubmit, isSubmittin
     return initialFormState;
   });
 
-  const [errors, setErrors] = useState({});
-  const [showUrlInput, setShowUrlInput] = useState(false);
-  const [thumbnailFile, setThumbnailFile] = useState(null);
-  const [thumbnailPreview, setThumbnailPreview] = useState(product?.thumbnail || '');
-  const [imageFiles, setImageFiles] = useState([]);
-  const [imagePreviews, setImagePreviews] = useState(
-    product?.images?.filter((img) => img) || []
-  );
+  const productImages = product?.imagesRel || [];
 
-  const thumbnailInputRef = useRef(null);
-  const imagesInputRef = useRef(null);
+  const [errors, setErrors] = useState({});
 
   function handleChange(e) {
     const { name, value } = e.target;
@@ -70,33 +65,6 @@ export default function ProductForm({ product, categories, onSubmit, isSubmittin
     }
   }
 
-  function handleThumbnailChange(e) {
-    const file = e.target.files?.[0];
-    if (!file) return;
-    setThumbnailFile(file);
-    setThumbnailPreview(URL.createObjectURL(file));
-  }
-
-  function handleAddImages(e) {
-    const files = Array.from(e.target.files || []);
-    if (!files.length) return;
-    const newFiles = [...imageFiles];
-    const newPreviews = [...imagePreviews];
-    for (const file of files) {
-      newFiles.push(file);
-      newPreviews.push(URL.createObjectURL(file));
-    }
-    setImageFiles(newFiles);
-    setImagePreviews(newPreviews);
-  }
-
-  function removeImageField(index) {
-    const newFiles = imageFiles.filter((_, i) => i !== index);
-    const newPreviews = imagePreviews.filter((_, i) => i !== index);
-    setImageFiles(newFiles);
-    setImagePreviews(newPreviews);
-  }
-
   function validate() {
     const newErrors = {};
     if (!formData.title.trim()) newErrors.title = 'El título es obligatorio';
@@ -104,7 +72,7 @@ export default function ProductForm({ product, categories, onSubmit, isSubmittin
     if (!formData.price || parseFloat(formData.price) <= 0) newErrors.price = 'El precio válido es obligatorio';
     if (!formData.stock || parseInt(formData.stock) < 0) newErrors.stock = 'El inventario válido es obligatorio';
     if (!formData.categoryId) newErrors.categoryId = 'La categoría es obligatoria';
-    if (!formData.thumbnail && !thumbnailFile) newErrors.thumbnail = 'La miniatura es obligatoria';
+    if (!formData.thumbnail) newErrors.thumbnail = 'La miniatura es obligatoria';
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   }
@@ -113,18 +81,15 @@ export default function ProductForm({ product, categories, onSubmit, isSubmittin
     e.preventDefault();
     if (!validate()) return;
 
-    onSubmit(
-      {
-        ...formData,
-        price: parseFloat(formData.price),
-        oldPrice: formData.oldPrice ? parseFloat(formData.oldPrice) : null,
-        stock: parseInt(formData.stock),
-        categoryId: parseInt(formData.categoryId),
-        rating: parseFloat(formData.rating) || 0,
-        sold: parseInt(formData.sold) || 0,
-      },
-      { thumbnailFile, imageFiles }
-    );
+    onSubmit({
+      ...formData,
+      price: parseFloat(formData.price),
+      oldPrice: formData.oldPrice ? parseFloat(formData.oldPrice) : null,
+      stock: parseInt(formData.stock),
+      categoryId: parseInt(formData.categoryId),
+      rating: parseFloat(formData.rating) || 0,
+      sold: parseInt(formData.sold) || 0,
+    });
   }
 
   const fieldErrorId = (name) => (errors[name] ? `${name}-error` : undefined);
@@ -181,34 +146,32 @@ export default function ProductForm({ product, categories, onSubmit, isSubmittin
           <h3 className="form-section-title">Medios</h3>
           <div className="form-group">
             <label className="form-label form-label_required">Miniatura</label>
-            <div className="media-input-methods">
-              <button type="button" className={`btn btn-sm ${!showUrlInput ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setShowUrlInput(false)}><Upload size={14} aria-hidden="true" />Subir archivo</button>
-              <button type="button" className={`btn btn-sm ${showUrlInput ? 'btn-primary' : 'btn-secondary'}`} onClick={() => setShowUrlInput(true)}><Image size={14} aria-hidden="true" />Desde URL</button>
-            </div>
-            {!showUrlInput ? (
-              <>
-                <input type="file" ref={thumbnailInputRef} accept="image/*" onChange={handleThumbnailChange} className="form-input-file" aria-label="Subir miniatura" />
-                {thumbnailPreview && <div className="image-preview"><img src={thumbnailPreview} alt="Vista previa de la miniatura" /></div>}
-              </>
-            ) : (
-              <input type="url" id="thumbnail" name="thumbnail" className={`form-input ${errors.thumbnail ? 'error' : ''}`} value={formData.thumbnail} onChange={handleChange} placeholder="https://ejemplo.com/imagen.jpg" aria-invalid={!!errors.thumbnail} aria-describedby={fieldErrorId('thumbnail')} />
-            )}
+            <ThumbnailUploader
+              value={formData.thumbnail}
+              onChange={(url) => {
+                setFormData((prev) => ({ ...prev, thumbnail: url }));
+                if (errors.thumbnail) {
+                  setErrors((prev) => ({ ...prev, thumbnail: "" }));
+                }
+              }}
+            />
             {errors.thumbnail && <span className="form-error" id="thumbnail-error" role="alert">{errors.thumbnail}</span>}
           </div>
           <div className="form-group">
-            <label className="form-label" id="images-label">Imágenes adicionales ({imagePreviews.length})</label>
-            {imagePreviews.length > 0 && (
-              <div className="images-preview-grid" aria-labelledby="images-label" role="list">
-                {imagePreviews.map((preview, index) => (
-                  <div key={index} className="image-preview-item" role="listitem">
-                    <img src={preview} alt={`Imagen adicional ${index + 1}`} />
-                    <button type="button" className="btn-remove-image" onClick={() => removeImageField(index)} aria-label={`Eliminar imagen ${index + 1}`}><Trash2 size={16} aria-hidden="true" /></button>
-                  </div>
-                ))}
+            <label className="form-label">Galeria Cloudinary ({productImages.length}/10)</label>
+            <AdminGallery
+              images={productImages}
+              onImageDeleted={() => onRefreshProduct?.()}
+            />
+            {product?.id && (
+              <div style={{ marginTop: '12px' }}>
+                <ImageUploadWidget
+                  productId={product.id}
+                  existingCount={productImages.length}
+                  onImagesUploaded={() => onRefreshProduct?.()}
+                />
               </div>
             )}
-            <button type="button" className="btn btn-secondary btn-sm images-add-btn" onClick={() => imagesInputRef.current?.click()}><Plus size={14} aria-hidden="true" />Agregar más imágenes</button>
-            <input type="file" ref={imagesInputRef} accept="image/*" multiple onChange={handleAddImages} className="form-input-file" style={{ display: 'none' }} aria-label="Seleccionar imágenes adicionales" />
           </div>
         </div>
 
@@ -242,7 +205,7 @@ export default function ProductForm({ product, categories, onSubmit, isSubmittin
         <h3 className="preview-title-bar">Vista previa</h3>
         <div className="preview-card">
           <div className="preview-img">
-            {thumbnailPreview ? <img src={thumbnailPreview} alt={formData.title || 'Producto'} /> : <div className="preview-placeholder">Sin imagen</div>}
+            {formData.thumbnail ? <img src={formData.thumbnail} alt={formData.title || 'Producto'} /> : <div className="preview-placeholder">Sin imagen</div>}
           </div>
           <div className="preview-meta">
             <div className="preview-top">

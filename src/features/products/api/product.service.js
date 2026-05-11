@@ -7,6 +7,7 @@ export async function getProductBySlug(slug) {
         },
         include: {
             category: true,
+            imagesRel: true,
         },
     });
 }

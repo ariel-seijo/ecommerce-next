@@ -1,11 +1,11 @@
 "use client";
 
 import styles from "../styles/ProductPage.module.css";
-import Image from "next/image";
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { useCart } from "@/features/cart";
 import { formatPrice } from "@/lib/utils/currency";
 import ProductCard from "./ProductCard";
+import ProductGallery from "./ProductGallery";
 import Link from "next/link";
 import {
   ShoppingCart,
@@ -23,12 +23,8 @@ import {
 export default function ProductPage({ product, relatedProducts }) {
   const { addToCart, cart } = useCart();
 
-  const images = [product.thumbnail, ...(product.images || [])].filter(Boolean);
-  const [selectedImage, setSelectedImage] = useState(images[0]);
   const [quantity, setQuantity] = useState(1);
   const [added, setAdded] = useState(false);
-  const [isZoomed, setIsZoomed] = useState(false);
-  const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
 
   const isInCart = cart.some((item) => item.id === product.id);
   const cartQty = cart.find((item) => item.id === product.id)?.quantity ?? 0;
@@ -50,13 +46,6 @@ export default function ProductPage({ product, relatedProducts }) {
     setTimeout(() => setAdded(false), 1800);
   };
 
-  const handleMouseMove = (e) => {
-    const rect = e.currentTarget.getBoundingClientRect();
-    const x = ((e.clientX - rect.left) / rect.width) * 100;
-    const y = ((e.clientY - rect.top) / rect.height) * 100;
-    setZoomPos({ x, y });
-  };
-
   return (
     <main className={styles["product-page"]}>
       <nav className={styles["pp-breadcrumb"]}>
@@ -70,46 +59,7 @@ export default function ProductPage({ product, relatedProducts }) {
       </nav>
 
       <section className={styles["pp-hero"]}>
-        <div className={styles["pp-gallery"]}>
-          <div
-            className={`${styles["pp-main-image"]} ${isZoomed ? styles.zoomed : ""}`}
-            onMouseEnter={() => setIsZoomed(true)}
-            onMouseLeave={() => setIsZoomed(false)}
-            onMouseMove={handleMouseMove}
-          >
-            <Image
-              src={selectedImage}
-              alt={product.title}
-              width={700}
-              height={700}
-              priority
-              style={
-                isZoomed
-                  ? { transformOrigin: `${zoomPos.x}% ${zoomPos.y}%` }
-                  : undefined
-              }
-            />
-          </div>
-
-          {images.length > 1 && (
-            <div className={styles["pp-thumbs"]}>
-              {images.map((img, i) => (
-                <button
-                  key={i}
-                  className={`${styles["pp-thumb"]} ${selectedImage === img ? styles.active : ""}`}
-                  onClick={() => setSelectedImage(img)}
-                >
-                  <Image
-                    src={img}
-                    alt={`${product.title} - vista ${i + 1}`}
-                    width={100}
-                    height={100}
-                  />
-                </button>
-              ))}
-            </div>
-          )}
-        </div>
+        <ProductGallery product={product} />
 
         <div className={styles["pp-info"]}>
           <div className={styles["pp-tags"]}>

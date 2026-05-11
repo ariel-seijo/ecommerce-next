@@ -16,7 +16,6 @@ export default function ProductsClient({
   const router = useRouter();
   const searchParams = useSearchParams();
 
-  const search = searchParams.get("search") || "";
   const categoryId = searchParams.get("categoryId") || "";
   const status = searchParams.get("status") || "";
   const featured = searchParams.get("featured") || "";
@@ -38,10 +37,6 @@ export default function ProductsClient({
     [router, searchParams]
   );
 
-  function handleSearch(value) {
-    pushParams({ search: value, page: "" });
-  }
-
   function handleFilter(key, value) {
     pushParams({ [key]: value, page: "" });
   }
@@ -60,7 +55,7 @@ export default function ProductsClient({
 
   return (
     <>
-      <ProductSearch value={search} onChange={handleSearch} />
+      <ProductSearch />
       <ProductFilters
         categories={categories}
         categoryId={categoryId}

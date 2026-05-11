@@ -1,31 +1,56 @@
 "use client";
 
-import { useState, useEffect, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { Search, X } from "lucide-react";
 import styles from "./ProductSearch.module.css";
 
-export default function ProductSearch({ value, onChange }) {
-  const [local, setLocal] = useState(value || "");
-  const timerRef = useRef(null);
+export default function ProductSearch() {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const urlValue = searchParams.get("search") || "";
 
+  const [local, setLocal] = useState(urlValue);
+  const timerRef = useRef(null);
+  const committedRef = useRef(urlValue);
+
+  /* Sync local state when URL changes externally (browser back/forward, direct navigation).
+     Only syncs when the URL value differs from what we last committed — avoids
+     overwriting user input when our own debounced push triggers a re-render.
+     committedRef acts as the guard that prevents cascading renders. */
   useEffect(() => {
-    // React 19: syncing controlled input from URL search params.
-    // eslint-disable-next-line react-hooks/set-state-in-effect
-    setLocal(value || "");
-  }, [value]);
+    if (urlValue !== committedRef.current) {
+      committedRef.current = urlValue;
+      // eslint-disable-next-line react-hooks/set-state-in-effect
+      setLocal(urlValue);
+    }
+  }, [urlValue]);
+
+  function pushToUrl(v) {
+    committedRef.current = v;
+    const params = new URLSearchParams(searchParams.toString());
+    if (v) {
+      params.set("search", v);
+    } else {
+      params.delete("search");
+    }
+    params.set("page", "1");
+    router.push(`/admin/products?${params.toString()}`, { scroll: false });
+  }
 
   function handleChange(e) {
     const v = e.target.value;
     setLocal(v);
     if (timerRef.current) clearTimeout(timerRef.current);
     timerRef.current = setTimeout(() => {
-      onChange(v);
+      pushToUrl(v);
     }, 300);
   }
 
   function handleClear() {
     setLocal("");
-    onChange("");
+    if (timerRef.current) clearTimeout(timerRef.current);
+    pushToUrl("");
   }
 
   return (

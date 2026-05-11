@@ -1,5 +1,5 @@
 /* =====================================================
-   FEATURED CAROUSEL — INFINITE SCROLL CSS
+   FEATURED CAROUSEL — EMBLA CAROUSEL
    ===================================================== */
 
 .fc {
@@ -7,6 +7,8 @@
   width: 100%;
   max-width: 1200px;
   margin: 0 auto 1.5rem;
+  padding: 0 1rem;
+  --fc-gap: 0.5rem;
 }
 
 .fc-empty {
@@ -15,93 +17,99 @@
   padding: 3rem 1rem;
 }
 
-/* VIEWPORT */
+/* Viewport */
 .fc-viewport {
   overflow: hidden;
+  padding: 8px 0 10px;
 }
 
-/* FADES */
-.fc-fade {
-  position: absolute;
-  top: 0;
-  bottom: 0;
-  width: 1rem;
-  pointer-events: none;
-  z-index: 2;
-}
-
-.fc-fade-left {
-  left: 0;
-  background: linear-gradient(to right, #0a0a0a, transparent);
-}
-
-.fc-fade-right {
-  right: 0;
-  background: linear-gradient(to left, #0a0a0a, transparent);
-}
-
-/* SCROLL */
-.fc-scroll {
+/* Container */
+.fc-container {
   display: flex;
-  flex-wrap: nowrap;
-  width: max-content;
-  gap: 0.5rem;
-  animation: scroll 30s linear infinite;
-  margin-bottom: 0.5rem;
+  margin-left: calc(var(--fc-gap) * -1);
 }
 
-.fc-scroll:hover {
-  animation-play-state: paused;
+/* Slide */
+.fc-slide {
+  flex: 0 0 100%;
+  min-width: 0;
+  padding-left: var(--fc-gap);
 }
 
-@keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(-50%);
+@media (min-width: 660px) {
+  .fc-slide {
+    flex: 0 0 50%;
   }
 }
 
-/* CARD SIZES */
-.fc-card {
-  flex-shrink: 0;
-  width: 65%;
-  max-width: 220px;
-}
-
-@media (min-width: 480px) {
-  .fc-card {
-    width: 45%;
+@media (min-width: 999px) {
+  .fc-slide {
+    flex: 0 0 33.333%;
   }
 }
 
+@media (min-width: 1300px) {
+  .fc-slide {
+    flex: 0 0 25%;
+  }
+}
+
+/* Dots */
+.fc-dots {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.625rem;
+  margin-top: 1rem;
+}
+
+.fc-dot {
+  width: 0.625rem;
+  height: 0.625rem;
+  border-radius: 50%;
+  border: none;
+  background: rgba(255, 255, 255, 0.15);
+  cursor: pointer;
+  padding: 0;
+  transition: background 0.2s, transform 0.2s;
+}
+
+.fc-dot:hover {
+  background: rgba(36, 171, 243, 0.4);
+}
+
+.fc-dot--active {
+  background: #24abf3;
+  transform: scale(1.3);
+}
+
+.fc-dot:focus-visible {
+  outline: 2px solid #24abf3;
+  outline-offset: 2px;
+}
+
+/* More room for hover lift on bigger screens */
 @media (min-width: 768px) {
-  .fc-card {
-    width: 30%;
-    max-width: 240px;
+  .fc-viewport {
+    padding: 10px 0 14px;
   }
 }
 
 @media (min-width: 1024px) {
-  .fc-card {
-    width: 26%;
-    max-width: 260px;
+  .fc-viewport {
+    padding: 12px 0 16px;
   }
 }
 
-/* REDUCED MOTION */
+/* Reduced motion */
 @media (prefers-reduced-motion: reduce) {
-  .fc-scroll {
-    animation: none;
-  }
-
   .fc-viewport {
     overflow-x: auto;
     scroll-snap-type: x mandatory;
   }
 
-  .fc-card {
-    scroll-snap-align: center;
+  .fc-slide {
+    scroll-snap-align: start;
   }
+
 }

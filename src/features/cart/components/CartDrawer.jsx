@@ -5,6 +5,7 @@ import Image from "next/image";
 import { ShoppingBag, Trash2 } from "lucide-react";
 import { useCart } from "../hooks/useCart";
 import { useRouter } from "next/navigation";
+import { formatPrice } from "@/lib/utils/currency";
 
 export function Cart() {
   const {
@@ -20,8 +21,7 @@ export function Cart() {
   const router = useRouter();
 
   const total = cart
-    .reduce((acc, product) => acc + product.price * product.quantity, 0)
-    .toFixed(2);
+    .reduce((acc, product) => acc + product.price * product.quantity, 0);
 
   const totalItems = cart.reduce((acc, item) => acc + item.quantity, 0);
   const isEmpty = cart.length === 0;
@@ -63,7 +63,7 @@ export function Cart() {
                   <div className={styles.cartInfo}>
                     <strong>{product.title}</strong>
                     <span className={styles.productPrice}>
-                      ${product.price.toFixed(2)}
+                      {formatPrice(product.price)}
                     </span>
                   </div>
 
@@ -78,7 +78,10 @@ export function Cart() {
 
                       <small>{product.quantity}</small>
 
-                      <button onClick={() => increaseQuantity(product.id)}>
+                      <button
+                        onClick={() => increaseQuantity(product.id)}
+                        disabled={product.quantity >= product.stock}
+                      >
                         +
                       </button>
                     </div>
@@ -95,7 +98,7 @@ export function Cart() {
           <div className={styles["cart-footer"]}>
             <div className={styles.totalPrice}>
               <span>Total</span>
-              <strong>${total}</strong>
+              <strong>{formatPrice(total)}</strong>
             </div>
 
             <button

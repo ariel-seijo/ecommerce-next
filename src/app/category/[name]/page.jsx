@@ -1,5 +1,7 @@
 import "./category.css";
 
+import { cookies } from "next/headers";
+
 import { Products } from "@/features/products";
 import {
   getCategoryProducts,
@@ -8,8 +10,20 @@ import {
   EmptyProducts,
   SortDropdown,
   ViewSwitcher,
-  ViewHydrator,
 } from "@/features/category";
+
+function truncate(text, max) {
+  if (text.length <= max) return text;
+  return text.slice(0, max - 1) + "\u2026";
+}
+
+export async function generateMetadata({ params }) {
+  const { name } = await params;
+  const displayName = truncate(name.toUpperCase(), 23);
+  return {
+    title: `${displayName} - Componentes | ElectroShop`,
+  };
+}
 
 export default async function CategoryPage({ params, searchParams }) {
   const { name } = await params;
@@ -33,11 +47,13 @@ export default async function CategoryPage({ params, searchParams }) {
     max,
   });
 
-  const view = query.view || "grid";
+  const cookieStore = await cookies();
+  const cookieView = cookieStore.get("productView")?.value;
+
+  const view = query.view || cookieView || "grid";
 
   return (
     <main className="categoryPage">
-      <ViewHydrator />
       <div className="categoryContainer">
         <div className="categoryContent">
           <FiltersSidebar
@@ -57,7 +73,7 @@ export default async function CategoryPage({ params, searchParams }) {
               <CategoryHeader categoryName={categoryName} />
 
               <div className="toolbarRight">
-                <ViewSwitcher />
+                <ViewSwitcher resolvedView={view} />
                 <SortDropdown
                   name={name}
                   sort={sort}

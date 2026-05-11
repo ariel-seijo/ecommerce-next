@@ -86,12 +86,26 @@ export async function DELETE(request, { params }) {
 
     const { id } = params;
 
-    const existingUser = await prisma.user.findUnique({ where: { id } });
+    const existingUser = await prisma.user.findFirst({ where: { id } });
     if (!existingUser) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    await prisma.user.delete({ where: { id } });
+    const now = new Date();
+    const anonymousTag = `deleted_${now.getTime()}_${id.slice(-8)}`;
+
+    await prisma.user.update({
+      where: { id },
+      data: {
+        name: "Usuario eliminado",
+        email: `${anonymousTag}@deleted.local`,
+        password: "DELETED",
+        deletedAt: now,
+        anonymizedAt: now,
+        resetToken: null,
+        resetTokenExpires: null,
+      },
+    });
 
     return NextResponse.json({ message: "User deleted successfully" });
   } catch (error) {

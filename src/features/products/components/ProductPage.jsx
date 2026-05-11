@@ -4,6 +4,7 @@ import styles from "../styles/ProductPage.module.css";
 import Image from "next/image";
 import { useState, useEffect } from "react";
 import { useCart } from "@/features/cart";
+import { formatPrice } from "@/lib/utils/currency";
 import ProductCard from "./ProductCard";
 import Link from "next/link";
 import {
@@ -30,6 +31,8 @@ export default function ProductPage({ product, relatedProducts }) {
   const [zoomPos, setZoomPos] = useState({ x: 50, y: 50 });
 
   const isInCart = cart.some((item) => item.id === product.id);
+  const cartQty = cart.find((item) => item.id === product.id)?.quantity ?? 0;
+  const isMaxReached = cartQty >= product.stock;
   const isOutOfStock = product.stock <= 0;
   const hasDiscount = product.oldPrice && product.oldPrice > product.price;
   const discount = hasDiscount
@@ -37,10 +40,12 @@ export default function ProductPage({ product, relatedProducts }) {
     : 0;
   const isLowStock = product.stock > 0 && product.stock <= 5;
 
+  const formattedPrice = formatPrice(product.price);
+  const formattedOldPrice = hasDiscount ? formatPrice(product.oldPrice) : null;
+  const formattedSavings = hasDiscount ? formatPrice(product.oldPrice - product.price) : null;
+
   const handleAdd = () => {
-    for (let i = 0; i < quantity; i++) {
-      addToCart(product);
-    }
+    addToCart(product, quantity);
     setAdded(true);
     setTimeout(() => setAdded(false), 1800);
   };
@@ -149,12 +154,12 @@ export default function ProductPage({ product, relatedProducts }) {
           <div className={styles["pp-price-box"]}>
             <div className={styles["pp-price-main"]}>
               <span className={styles["pp-price"]}>
-                ${product.price.toLocaleString("es-AR")}
+                {formattedPrice}
               </span>
               {hasDiscount && (
                 <>
                   <span className={styles["pp-old-price"]}>
-                    ${product.oldPrice.toLocaleString("es-AR")}
+                    {formattedOldPrice}
                   </span>
                   <span className={styles["pp-discount"]}>-{discount}%</span>
                 </>
@@ -162,7 +167,7 @@ export default function ProductPage({ product, relatedProducts }) {
             </div>
             {hasDiscount && (
               <p className={styles["pp-savings"]}>
-                Ahorrás ${(product.oldPrice - product.price).toLocaleString("es-AR")} ({discount}% OFF)
+                Ahorrás {formattedSavings} ({discount}% OFF)
               </p>
             )}
           </div>
@@ -224,13 +229,15 @@ export default function ProductPage({ product, relatedProducts }) {
             <button
               className={`${styles["pp-add-btn"]} ${added ? styles.added : ""} ${isInCart ? styles["in-cart"] : ""}`}
               onClick={handleAdd}
-              disabled={isOutOfStock}
+              disabled={isOutOfStock || isMaxReached}
             >
               {added ? (
                 <>
                   <Check size={18} />
                   Añadido
                 </>
+              ) : isMaxReached ? (
+                "Máx. alcanzado"
               ) : isOutOfStock ? (
                 "Sin stock"
               ) : (

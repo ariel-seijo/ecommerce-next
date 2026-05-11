@@ -896,6 +896,17 @@
 }
 
 /* =========================
+   AUTH SKELETONS (loading state)
+   ========================= */
+
+.drawerUserSkeleton {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  padding: 0.5rem 0;
+}
+
+/* =========================
    REDUCED MOTION
    ========================= */
 
@@ -917,6 +928,18 @@
   }
 
   .searchLoading {
+    animation: none;
+  }
+
+  .userIconSkeleton {
+    animation: none;
+  }
+
+  .drawerUserSkeletonCircle {
+    animation: none;
+  }
+
+  .drawerUserSkeletonText {
     animation: none;
   }
 

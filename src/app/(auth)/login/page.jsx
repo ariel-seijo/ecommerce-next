@@ -3,13 +3,14 @@
 import "@/features/auth/styles/auth.css";
 import { useState } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { useAuthStore } from "@/features/auth";
 import { Eye, EyeOff, LogIn } from "lucide-react";
 import { useToastStore } from "@/features/toast";
 
 export default function LoginPage() {
-  const router = useRouter();
+  const searchParams = useSearchParams();
+  const redirect = searchParams.get("redirect");
   const { login, loading, error, clearError } = useAuthStore();
   const toast = useToastStore((s) => s.toast);
   const [email, setEmail] = useState("");
@@ -21,11 +22,8 @@ export default function LoginPage() {
     try {
       const user = await login(email, password);
       toast(`¡Bienvenido de nuevo, ${user.name || user.email}!`, "success");
-      if (user.role === "ADMIN") {
-        router.push("/dashboard");
-      } else {
-        router.push("/");
-      }
+      window.location.href =
+        redirect || (user.role === "ADMIN" ? "/dashboard" : "/");
     } catch {
       // Error handled in store
     }
@@ -126,7 +124,10 @@ export default function LoginPage() {
 
         <p className="auth-footer" style={{ marginTop: "0.5rem" }}>
           ¿No tenés cuenta?{" "}
-          <Link href="/register" className="auth-link">
+          <Link
+            href={`/register${redirect ? `?redirect=${encodeURIComponent(redirect)}` : ""}`}
+            className="auth-link"
+          >
             Registrate
           </Link>
         </p>

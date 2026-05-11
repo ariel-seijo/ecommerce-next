@@ -3,13 +3,15 @@
 import Image from "next/image";
 import { useCart } from "@/features/cart";
 import styles from "../styles/OrderSummary.module.css";
+import { formatPrice, formatArs, usdToArs } from "@/lib/utils/currency";
 
 export default function OrderSummary() {
   const { cart } = useCart();
 
   const subtotal = cart.reduce((acc, item) => acc + item.price * item.quantity, 0);
-  const shippingCost = subtotal > 50000 ? 0 : 3500;
-  const total = subtotal + shippingCost;
+  const subtotalArs = usdToArs(subtotal);
+  const shippingCost = subtotalArs >= 50000 ? 0 : 1500;
+  const totalArs = subtotalArs + shippingCost;
 
   return (
     <div className={styles.summary}>
@@ -26,7 +28,7 @@ export default function OrderSummary() {
               <span className={styles.itemTitle}>{item.title}</span>
             </div>
             <span className={styles.itemPrice}>
-              ${(item.price * item.quantity).toFixed(2)}
+              {formatPrice(item.price * item.quantity)}
             </span>
           </li>
         ))}
@@ -36,25 +38,25 @@ export default function OrderSummary() {
 
       <div className={styles.row}>
         <span>Subtotal</span>
-        <span>${subtotal.toFixed(2)}</span>
+        <span>{formatPrice(subtotal)}</span>
       </div>
 
       <div className={styles.row}>
         <span>Envío</span>
         <span className={shippingCost === 0 ? styles.freeShipping : ""}>
-          {shippingCost === 0 ? "GRATIS" : `$${shippingCost.toFixed(2)}`}
+          {shippingCost === 0 ? "GRATIS" : formatArs(shippingCost)}
         </span>
       </div>
 
       {shippingCost > 0 && (
-        <p className={styles.hint}>¡Envío gratis en compras superiores a $50.000!</p>
+        <p className={styles.hint}>¡Envío gratis en compras superiores a {formatArs(50000)}!</p>
       )}
 
       <div className={styles.divider} />
 
       <div className={`${styles.row} ${styles.total}`}>
         <span>Total</span>
-        <span>${total.toFixed(2)}</span>
+        <span>{formatArs(totalArs)}</span>
       </div>
     </div>
   );

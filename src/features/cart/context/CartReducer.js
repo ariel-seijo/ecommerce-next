@@ -3,24 +3,28 @@ export const initialState = [];
 export const cartReducer = (state, action) => {
     switch (action.type) {
         case "ADD_TO_CART": {
-            const productExists = state.find(
-                (item) => item.id === action.payload.id
-            );
+            const { product, quantity: addQty = 1 } = action.payload;
+            const existingItem = state.find((item) => item.id === product.id);
+            const existingQty = existingItem ? existingItem.quantity : 0;
+            const stock = product.stock ?? 0;
 
-            if (productExists) {
+            if (existingQty >= stock) return state;
+
+            const newQty = Math.min(existingQty + addQty, stock);
+
+            if (existingItem) {
                 return state.map((item) =>
-                    item.id === action.payload.id
-                        ? { ...item, quantity: item.quantity + 1 }
+                    item.id === product.id
+                        ? { ...item, quantity: newQty }
                         : item
                 );
             }
-
-            return [...state, { ...action.payload, quantity: 1 }];
+            return [...state, { ...product, quantity: newQty }];
         }
 
         case "INCREASE_QUANTITY":
             return state.map((item) =>
-                item.id === action.payload
+                item.id === action.payload && item.quantity < item.stock
                     ? { ...item, quantity: item.quantity + 1 }
                     : item
             );

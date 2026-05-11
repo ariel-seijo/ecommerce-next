@@ -8,12 +8,20 @@ const fuenteGamer = localFont({
   display: "swap",
 });
 
+import { Suspense } from "react";
+import ScrollToTop from "./ScrollToTop";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
 
 import { CartProvider } from "@/features/cart";
 import { AuthProvider } from "@/features/auth";
 import { ToastContainer } from "@/features/toast";
+
+export const metadata = {
+  icons: {
+    icon: "/favicon.png",
+  },
+};
 
 export default function RootLayout({ children }) {
   return (
@@ -27,6 +35,9 @@ export default function RootLayout({ children }) {
           <CartProvider>
             <Navbar />
             <main id="main-content" tabIndex={-1}>
+              <Suspense fallback={null}>
+                <ScrollToTop />
+              </Suspense>
               {children}
             </main>
             <ToastContainer />

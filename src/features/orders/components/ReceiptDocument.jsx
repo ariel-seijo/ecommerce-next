@@ -1,6 +1,7 @@
 "use client";
 
 import { Document, Page, Text, View, StyleSheet, Font } from "@react-pdf/renderer";
+import { formatPrice, formatArs, usdToArs } from "@/lib/utils/currency";
 
 Font.register({
   family: "Helvetica",
@@ -79,6 +80,7 @@ const styles = StyleSheet.create({
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderBottom: "1px solid #ddd",
+    gap: 6,
   },
   tableHeaderCell: {
     fontSize: 8,
@@ -89,27 +91,35 @@ const styles = StyleSheet.create({
   },
   tableRow: {
     flexDirection: "row",
+    alignItems: "flex-start",
+    gap: 6,
     paddingVertical: 8,
     paddingHorizontal: 8,
     borderBottom: "1px solid #eee",
   },
-  colProduct: { flex: 3 },
-  colSku: { flex: 1.5 },
-  colQty: { flex: 0.8, textAlign: "center" },
-  colPrice: { flex: 1.2, textAlign: "right" },
-  colTotal: { flex: 1.2, textAlign: "right" },
+  colProduct: { width: "38%", flexShrink: 1, flexGrow: 0 },
+  colSku: { width: "18%", flexShrink: 1, flexGrow: 0 },
+  colQty: { width: "10%", flexShrink: 1, flexGrow: 0, textAlign: "center" },
+  colPrice: { width: "17%", flexShrink: 1, flexGrow: 0, textAlign: "right" },
+  colTotal: { width: "17%", flexShrink: 1, flexGrow: 0, textAlign: "right" },
   productTitle: {
     fontSize: 10,
     fontWeight: 700,
     color: "#1a1a1a",
+    textOverflow: "ellipsis",
+    hyphens: "auto",
   },
   productSku: {
     fontSize: 8,
     color: "#888",
+    textOverflow: "ellipsis",
+    hyphens: "auto",
   },
   cellText: {
     fontSize: 9,
     color: "#444",
+    textOverflow: "ellipsis",
+    hyphens: "auto",
   },
   totals: {
     flexDirection: "row",
@@ -186,16 +196,24 @@ const PAYMENT_LABELS = {
   cash: "Efectivo (al retirar)",
 };
 
-function formatCurrency(amount) {
-  return `$${amount.toLocaleString("es-AR", { minimumFractionDigits: 2, maximumFractionDigits: 2 })}`;
-}
-
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString("es-AR", {
     year: "numeric",
     month: "long",
     day: "numeric",
   });
+}
+
+function formatTime(dateStr) {
+  return new Date(dateStr).toLocaleTimeString("es-AR", {
+    hour: "2-digit",
+    minute: "2-digit",
+  });
+}
+
+function formatSku(sku) {
+  if (!sku) return "";
+  return sku.length > 15 ? sku.slice(0, 15) + "..." : sku;
 }
 
 export default function ReceiptDocument({ order }) {
@@ -232,8 +250,9 @@ export default function ReceiptDocument({ order }) {
             </Text>
           </View>
           <View style={[styles.infoBlock, { alignItems: "flex-end" }]}>
-            <Text style={styles.infoTitle}>Fecha</Text>
+            <Text style={styles.infoTitle}>Fecha y Hora</Text>
             <Text style={styles.infoText}>{formatDate(order.createdAt)}</Text>
+            <Text style={styles.infoText}>{formatTime(order.createdAt)}</Text>
           </View>
         </View>
 
@@ -252,17 +271,17 @@ export default function ReceiptDocument({ order }) {
                 <Text style={styles.productTitle}>{item.productTitle}</Text>
               </View>
               <View style={styles.colSku}>
-                <Text style={styles.productSku}>{item.productSku}</Text>
+                <Text style={styles.productSku}>{formatSku(item.productSku)}</Text>
               </View>
               <View style={styles.colQty}>
                 <Text style={styles.cellText}>{item.quantity}</Text>
               </View>
               <View style={styles.colPrice}>
-                <Text style={styles.cellText}>{formatCurrency(item.unitPrice)}</Text>
+                <Text style={styles.cellText}>{formatPrice(item.unitPrice)}</Text>
               </View>
               <View style={styles.colTotal}>
                 <Text style={[styles.cellText, { fontWeight: 700 }]}>
-                  {formatCurrency(item.totalPrice)}
+                  {formatPrice(item.totalPrice)}
                 </Text>
               </View>
             </View>
@@ -274,17 +293,17 @@ export default function ReceiptDocument({ order }) {
           <View style={styles.totalsBlock}>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Subtotal</Text>
-              <Text style={styles.totalValue}>{formatCurrency(order.subtotal)}</Text>
+              <Text style={styles.totalValue}>{formatPrice(order.subtotal)}</Text>
             </View>
             <View style={styles.totalRow}>
               <Text style={styles.totalLabel}>Envío</Text>
               <Text style={styles.totalValue}>
-                {order.shippingCost === 0 ? "Gratis" : formatCurrency(order.shippingCost)}
+                {order.shippingCost === 0 ? "Gratis" : formatArs(order.shippingCost)}
               </Text>
             </View>
             <View style={[styles.totalRow, styles.totalFinal]}>
               <Text style={styles.totalFinalLabel}>TOTAL</Text>
-              <Text style={styles.totalFinalValue}>{formatCurrency(order.total)}</Text>
+              <Text style={styles.totalFinalValue}>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</Text>
             </View>
           </View>
         </View>

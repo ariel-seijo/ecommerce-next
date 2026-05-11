@@ -2,11 +2,13 @@
 
 import styles from "../styles/Navbar.module.css";
 import Container from "@/components/Container";
+import Skeleton from "@/components/ui/Skeleton";
 import { useState, useRef, useEffect, useCallback } from "react";
 import { useCart } from "@/features/cart";
 import { useAuthStore } from "@/features/auth";
 import { useToastStore } from "@/features/toast";
 import { useDebounce } from "@/lib/hooks/useDebounce";
+import { formatPrice } from "@/lib/utils/currency";
 import Link from "next/link";
 import { usePathname, useRouter } from "next/navigation";
 import {
@@ -32,12 +34,13 @@ export default function Navbar() {
   const [showUserMenu, setShowUserMenu] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [mobileSearchOpen, setMobileSearchOpen] = useState(false);
+  const [mounted, setMounted] = useState(false);
 
   const pathname = usePathname();
   const router = useRouter();
 
   const { cart, toggleCart } = useCart();
-  const { user, logout } = useAuthStore();
+  const { user, logout, initialized } = useAuthStore();
   const toast = useToastStore((s) => s.toast);
 
   const menuRef = useRef(null);
@@ -124,6 +127,10 @@ export default function Navbar() {
     }
   }, [mobileSearchOpen]);
 
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
   const handleLogout = async () => {
     await logout();
     setShowUserMenu(false);
@@ -207,7 +214,7 @@ export default function Navbar() {
                         <div className={styles.searchInfo}>
                           <span className={styles.searchTitle}>{product.title}</span>
                           <span className={styles.searchPrice}>
-                            ${product.price.toLocaleString("es-AR")}
+                            {formatPrice(product.price)}
                           </span>
                         </div>
                       </Link>
@@ -233,19 +240,23 @@ export default function Navbar() {
               </button>
 
               <div className={styles.userWrapper} ref={menuRef}>
-                <button
-                  className={styles["icon-btn"]}
-                  onClick={() => setShowUserMenu(!showUserMenu)}
-                  aria-label="Menú de usuario"
-                  aria-expanded={showUserMenu}
-                >
-                  <UserRound size={30} />
-                  {isAdmin && <span className={styles.adminBadge}>ADMIN</span>}
-                </button>
+                {!mounted || !initialized ? (
+                  <Skeleton variant="circle" width={30} height={30} role="status" aria-label="Cargando sesión" />
+                ) : (
+                  <>
+                    <button
+                      className={styles["icon-btn"]}
+                      onClick={() => setShowUserMenu(!showUserMenu)}
+                      aria-label="Menú de usuario"
+                      aria-expanded={showUserMenu}
+                    >
+                      <UserRound size={30} />
+                      {isAdmin && <span className={styles.adminBadge}>ADMIN</span>}
+                    </button>
 
-                {showUserMenu && (
-                  <div className={`${styles.userDropdown} ${showUserMenu ? styles.open : ""}`}>
-                    {user ? (
+                    {showUserMenu && (
+                      <div className={`${styles.userDropdown} ${showUserMenu ? styles.open : ""}`}>
+                        {user ? (
                       <>
                         <div className={styles.userDropdownHeader}>
                           <div className={styles.avatarCircle}>
@@ -328,6 +339,8 @@ export default function Navbar() {
                     )}
                   </div>
                 )}
+                  </>
+                )}
               </div>
 
               <div className={styles.cartWrapper}>
@@ -409,7 +422,12 @@ export default function Navbar() {
         <div className={styles.drawerDivider} />
 
         <div className={styles.drawerUserSection}>
-          {user ? (
+          {!mounted || !initialized ? (
+            <div className={styles.drawerUserSkeleton} aria-label="Cargando sesión">
+              <Skeleton variant="circle" width={34} height={34} />
+              <Skeleton width={120} height={14} />
+            </div>
+          ) : user ? (
             <>
               <div className={styles.drawerUserInfo}>
                 <div className={styles.avatarCircle}>
@@ -532,7 +550,7 @@ export default function Navbar() {
                     <div className={styles.searchInfo}>
                       <span className={styles.searchTitle}>{product.title}</span>
                       <span className={styles.searchPrice}>
-                        ${product.price.toLocaleString("es-AR")}
+                        {formatPrice(product.price)}
                       </span>
                     </div>
                   </Link>

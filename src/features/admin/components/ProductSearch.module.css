@@ -1,0 +1,64 @@
+/* =====================================================
+   PRODUCT SEARCH — Cyberpunk glow
+   ===================================================== */
+
+.wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  margin-bottom: 16px;
+}
+
+.icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--admin-muted);
+  pointer-events: none;
+}
+
+.input {
+  width: 100%;
+  padding: 10px 40px 10px 38px;
+  background: #0a0a0a;
+  border: 1.5px solid rgb(45, 45, 45);
+  border-radius: 8px;
+  color: var(--admin-text);
+  font-size: 0.85rem;
+  font-family: var(--admin-font);
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input::placeholder {
+  color: rgb(80, 80, 80);
+}
+
+.input:focus {
+  outline: none;
+  border-color: #24abf3;
+  box-shadow: 0 0 10px rgba(36, 171, 243, 0.3), 0 0 20px rgba(36, 171, 243, 0.1);
+}
+
+.clear {
+  position: absolute;
+  right: 8px;
+  top: 50%;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgb(30, 30, 30);
+  border: 1px solid rgb(50, 50, 50);
+  border-radius: 6px;
+  color: var(--admin-muted);
+  cursor: pointer;
+  transition: color 0.15s, border-color 0.15s;
+}
+
+.clear:hover {
+  color: #24abf3;
+  border-color: #24abf3;
+}

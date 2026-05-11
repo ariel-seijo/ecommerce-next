@@ -1,0 +1,62 @@
+/* =====================================================
+   PRODUCT TABLE SKELETON — Matching table layout
+   ===================================================== */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.searchPlaceholder {
+  margin-bottom: 4px;
+}
+
+.filtersPlaceholder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-bottom: 10px;
+  padding-bottom: 14px;
+  border-bottom: 1px solid var(--admin-border);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 28% 10% 10% 10% 8% 8% 8% 18%;
+  gap: 8px;
+  padding: 8px 0 6px;
+  align-items: center;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 28% 10% 10% 10% 8% 8% 8% 18%;
+  gap: 8px;
+  padding: 8px 0;
+  align-items: center;
+}
+
+.productCell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.productMeta {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  flex: 1;
+}
+
+.actionsCell {
+  display: flex;
+  gap: 6px;
+}

@@ -1,20 +1,20 @@
-'use client';
+"use client";
 
-import { useState, useEffect, useCallback } from 'react';
-import { useRouter, useParams } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import ProductForm from '@/components/admin/ProductForm';
+import { useState, useEffect, useCallback } from "react";
+import { useRouter, useParams } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import ProductForm from "@/features/admin/components/ProductForm";
+import { useToastStore } from "@/features/toast";
 
 export default function EditProductPage() {
   const params = useParams();
   const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [error, setError] = useState("");
   const router = useRouter();
+  const toast = useToastStore((s) => s.toast);
 
   const productId = params?.id;
 
@@ -45,35 +45,8 @@ export default function EditProductPage() {
     fetchProduct();
   }, [productId, fetchProduct]);
 
-  async function handleSubmit(formData) {
-    setIsSubmitting(true);
-    setError('');
-    setSuccess('');
-
-    try {
-      const productData = {
-        ...formData,
-        images: formData.images || [],
-      };
-
-      const res = await fetch(`/api/products/${productId}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productData),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Error al actualizar el producto');
-      }
-
-      setSuccess('¡Producto actualizado exitosamente!');
-      router.refresh();
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+  function handleSuccess() {
+    router.push("/admin/products");
   }
 
   if (loading) {
@@ -81,12 +54,16 @@ export default function EditProductPage() {
   }
 
   if (error && !product) {
-    return <div className="error-message">{error}</div>;
+    return (
+      <div className="error-message" role="alert">
+        {error}
+      </div>
+    );
   }
 
   return (
     <div>
-      <div style={{ marginBottom: '24px' }}>
+      <div style={{ marginBottom: "24px" }}>
         <Link href="/admin/products" className="btn btn-secondary btn-sm">
           <ArrowLeft size={14} />
           Volver a productos
@@ -95,18 +72,19 @@ export default function EditProductPage() {
 
       <div className="admin-card">
         <div className="admin-card-header">
-          <h3 className="admin-card-title">Editar producto: {product?.title}</h3>
+          <h3 className="admin-card-title">
+            Editar producto: {product?.title}
+          </h3>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
-
         <ProductForm
+          mode="edit"
+          productId={product ? parseInt(productId) : undefined}
           product={product}
           categories={categories}
-          onSubmit={handleSubmit}
-          isSubmitting={isSubmitting}
           onRefreshProduct={fetchProduct}
+          onSuccess={handleSuccess}
+          onCancel={handleSuccess}
         />
       </div>
     </div>

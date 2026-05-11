@@ -1,83 +1,55 @@
-import { NextResponse } from 'next/server';
-import { prisma } from '@/lib/prisma';
-import { generateSku } from '@/lib/sku';
+import { NextResponse } from "next/server";
+import * as productService from "@/features/products/services/product.service";
 
-export async function GET() {
+export async function GET(request) {
   try {
-    const products = await prisma.product.findMany({
-      orderBy: { createdAt: 'desc' },
-    });
-    return NextResponse.json(products);
+    const { searchParams } = new URL(request.url);
+
+    const filters = {
+      page: searchParams.get("page"),
+      limit: searchParams.get("limit"),
+      search: searchParams.get("search"),
+      categoryId: searchParams.get("categoryId"),
+      status: searchParams.get("status"),
+      featured: searchParams.get("featured") === "true" ? true : undefined,
+      sort: searchParams.get("sort"),
+      order: searchParams.get("order"),
+    };
+
+    const result = await productService.getAllProducts(filters);
+    return NextResponse.json(result);
   } catch (error) {
-    return NextResponse.json({ error: 'Failed to fetch products' }, { status: 500 });
+    console.error("[API GET /products]", error);
+    return NextResponse.json(
+      { error: "Failed to fetch products" },
+      { status: 500 }
+    );
   }
 }
 
 export async function POST(request) {
   try {
     const body = await request.json();
-
-    const {
-      title,
-      slug,
-      description,
-      price,
-      oldPrice,
-      stock,
-      brand,
-      categoryId,
-      thumbnail,
-      images,
-      rating,
-      sold,
-    } = body;
-
-    if (!title || !slug || !price || stock === undefined || !categoryId || !thumbnail) {
-      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
-    }
-
-    const category = await prisma.category.findUnique({
-      where: { id: parseInt(categoryId) },
-      select: { name: true },
-    });
-    if (!category) {
-      return NextResponse.json({ error: 'Category not found' }, { status: 400 });
-    }
-
-    const existingProduct = await prisma.product.findUnique({ where: { slug } });
-    if (existingProduct) {
-      return NextResponse.json({ error: 'Product with this slug already exists' }, { status: 409 });
-    }
-
-    const product = await prisma.$transaction(async (tx) => {
-      const sku = await generateSku({
-        title,
-        brand: brand || 'Generic',
-        categoryName: category.name,
-      }, tx);
-
-      return tx.product.create({
-        data: {
-          title,
-          slug,
-          description: description || '',
-          price: parseFloat(price),
-          oldPrice: oldPrice ? parseFloat(oldPrice) : null,
-          stock: parseInt(stock),
-          brand: brand || 'Generic',
-          sku,
-          categoryId: parseInt(categoryId),
-          thumbnail,
-          images: images || [],
-          rating: parseFloat(rating) || 0,
-          sold: parseInt(sold) || 0,
-        },
-      });
-    });
-
+    const product = await productService.createProduct(body);
     return NextResponse.json(product, { status: 201 });
   } catch (error) {
-    console.error('Error creating product:', error);
-    return NextResponse.json({ error: 'Failed to create product' }, { status: 500 });
+    console.error("[API POST /products]", error);
+
+    const message = error.message || "Failed to create product";
+
+    if (message.includes("Missing required fields")) {
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+    if (message.includes("must be greater than 0") || message.includes("must be at least 0")) {
+      return NextResponse.json({ error: message }, { status: 400 });
+    }
+    if (message === "Category not found") {
+      return NextResponse.json({ error: message }, { status: 404 });
+    }
+    if (message === "Slug already exists" || message === "SKU already exists") {
+      return NextResponse.json({ error: message }, { status: 409 });
+    }
+
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }

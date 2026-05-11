@@ -42,6 +42,7 @@
   overflow-x: auto;
   border-radius: 10px;
   border: 1px solid var(--admin-border);
+  position: relative;
 }
 
 .table {
@@ -51,11 +52,9 @@
   font-family: var(--admin-font);
 }
 
-/* Sticky header */
+/* Header */
 .table thead {
-  position: sticky;
-  top: var(--admin-header-height);
-  z-index: 10;
+  background: #080808;
 }
 
 .table thead tr {

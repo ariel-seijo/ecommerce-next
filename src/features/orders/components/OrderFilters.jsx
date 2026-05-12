@@ -1,8 +1,8 @@
 "use client";
 
+import { useState, useEffect, useCallback, useRef } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { useCallback, useRef } from "react";
-import { Search, X, Filter } from "lucide-react";
+import { Search, X, Filter, Check } from "lucide-react";
 import styles from "./OrderFilters.module.css";
 
 const STATUS_OPTIONS = [
@@ -24,6 +24,15 @@ export default function OrderFilters() {
   const dateFrom = searchParams.get("dateFrom") || "";
   const dateTo = searchParams.get("dateTo") || "";
 
+  const [localFrom, setLocalFrom] = useState(dateFrom);
+  const [localTo, setLocalTo] = useState(dateTo);
+
+  useEffect(() => {
+    setLocalFrom(dateFrom);
+    setLocalTo(dateTo);
+  }, [dateFrom, dateTo]);
+
+  const datesDirty = localFrom !== dateFrom || localTo !== dateTo;
   const hasFilters = status || search || dateFrom || dateTo;
 
   const pushParams = useCallback(
@@ -48,7 +57,13 @@ export default function OrderFilters() {
     pushParams({ search: value || "" });
   }
 
+  function handleApplyDates() {
+    pushParams({ dateFrom: localFrom, dateTo: localTo });
+  }
+
   function handleClear() {
+    setLocalFrom("");
+    setLocalTo("");
     router.push("/admin/orders", { scroll: false });
     if (searchRef.current) {
       searchRef.current.value = "";
@@ -89,19 +104,30 @@ export default function OrderFilters() {
         <div className={styles.dateGroup}>
           <input
             type="date"
-            value={dateFrom}
-            onChange={(e) => pushParams({ dateFrom: e.target.value })}
+            value={localFrom}
+            onChange={(e) => setLocalFrom(e.target.value)}
             className={styles.dateInput}
             aria-label="Fecha desde"
           />
           <span className={styles.dateSep}>-</span>
           <input
             type="date"
-            value={dateTo}
-            onChange={(e) => pushParams({ dateTo: e.target.value })}
+            value={localTo}
+            onChange={(e) => setLocalTo(e.target.value)}
             className={styles.dateInput}
             aria-label="Fecha hasta"
           />
+          {datesDirty && (
+            <button
+              type="button"
+              onClick={handleApplyDates}
+              className={styles.applyBtn}
+              aria-label="Aplicar filtro de fechas"
+            >
+              <Check size={14} />
+              Aplicar
+            </button>
+          )}
         </div>
 
         {hasFilters && (

@@ -94,8 +94,10 @@
   min-width: 150px;
 }
 
-.select:focus {
+.select:focus,
+.select:focus-visible {
   border-color: rgba(0, 229, 255, 0.3);
+  outline: none;
 }
 
 /* ---- date group ---- */
@@ -118,8 +120,10 @@
   width: 140px;
 }
 
-.dateInput:focus {
+.dateInput:focus,
+.dateInput:focus-visible {
   border-color: rgba(0, 229, 255, 0.3);
+  outline: none;
 }
 
 .dateInput::-webkit-calendar-picker-indicator {
@@ -130,6 +134,28 @@
 .dateSep {
   color: rgb(100, 100, 100);
   font-size: 0.8rem;
+}
+
+.applyBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 8px 12px;
+  background: rgba(0, 229, 255, 0.1);
+  border: 1px solid rgba(0, 229, 255, 0.25);
+  border-radius: 8px;
+  color: #00e5ff;
+  font-size: 0.73rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+  white-space: nowrap;
+}
+
+.applyBtn:hover {
+  background: rgba(0, 229, 255, 0.16);
+  border-color: rgba(0, 229, 255, 0.35);
 }
 
 /* ---- clear ---- */

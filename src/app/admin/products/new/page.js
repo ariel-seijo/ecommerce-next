@@ -9,6 +9,7 @@ import { useToastStore } from "@/features/toast";
 
 export default function NewProductPage() {
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const router = useRouter();
   const toast = useToastStore((s) => s.toast);
@@ -16,10 +17,17 @@ export default function NewProductPage() {
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await fetch("/api/categories");
-        if (!res.ok) throw new Error("Error al obtener las categorías");
-        const data = await res.json();
-        setCategories(data);
+        const [catRes, brandsRes] = await Promise.all([
+          fetch("/api/categories"),
+          fetch("/api/brands"),
+        ]);
+        if (!catRes.ok) throw new Error("Error al obtener las categorías");
+        const catData = await catRes.json();
+        setCategories(catData);
+        if (brandsRes.ok) {
+          const brandsData = await brandsRes.json();
+          setBrands(brandsData);
+        }
       } catch {
         toast("Error al cargar categorías", "error");
       } finally {
@@ -54,6 +62,7 @@ export default function NewProductPage() {
         <ProductForm
           mode="create"
           categories={categories}
+          brands={brands}
           onSuccess={handleSuccess}
           onCancel={handleSuccess}
         />

@@ -37,6 +37,7 @@ export default function ProductForm({
   productId,
   product,
   categories,
+  brands = [],
   onRefreshProduct,
   onSuccess,
   onCancel,
@@ -71,6 +72,12 @@ export default function ProductForm({
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingSku, setIsGeneratingSku] = useState(false);
+  const [isCustomBrand, setIsCustomBrand] = useState(() => {
+    if (product && brands.length > 0) {
+      return product.brand && !brands.includes(product.brand);
+    }
+    return false;
+  });
 
   /* ── Field change ── */
 
@@ -87,6 +94,22 @@ export default function ProductForm({
 
   function handleToggle(key) {
     setFormData((prev) => ({ ...prev, [key]: !prev[key] }));
+  }
+
+  function handleBrandSelect(e) {
+    const value = e.target.value;
+    if (value === "__custom_brand__") {
+      setIsCustomBrand(true);
+      if (brands.includes(formData.brand)) {
+        setFormData((prev) => ({ ...prev, brand: "" }));
+      }
+    } else {
+      setIsCustomBrand(false);
+      setFormData((prev) => ({ ...prev, brand: value }));
+    }
+    if (errors.brand) {
+      setErrors((prev) => ({ ...prev, brand: "" }));
+    }
   }
 
   /* ── Slug auto-generate ── */
@@ -341,15 +364,47 @@ export default function ProductForm({
               <label className={styles.label} htmlFor="brand">
                 Marca
               </label>
-              <input
-                type="text"
-                id="brand"
-                name="brand"
-                className={styles.input}
-                value={formData.brand}
-                onChange={handleChange}
-                placeholder="Marca del producto"
-              />
+              {!isCustomBrand ? (
+                <select
+                  id="brand"
+                  name="brand"
+                  className={styles.select}
+                  value={formData.brand}
+                  onChange={handleBrandSelect}
+                >
+                  <option value="">Seleccionar marca</option>
+                  {brands.map((b) => (
+                    <option key={b} value={b}>
+                      {b}
+                    </option>
+                  ))}
+                  <option value="__custom_brand__">Otra...</option>
+                </select>
+              ) : (
+                <div className={styles.skuRow}>
+                  <input
+                    type="text"
+                    id="brand"
+                    name="brand"
+                    className={styles.input}
+                    value={formData.brand}
+                    onChange={handleChange}
+                    placeholder="Escribí la marca"
+                    autoFocus
+                  />
+                  <button
+                    type="button"
+                    className={styles.skuBtn}
+                    onClick={() => {
+                      setIsCustomBrand(false);
+                      setFormData((prev) => ({ ...prev, brand: "" }));
+                    }}
+                    title="Volver a la lista de marcas"
+                  >
+                    <XIcon size={14} />
+                  </button>
+                </div>
+              )}
             </div>
           </div>
         </fieldset>

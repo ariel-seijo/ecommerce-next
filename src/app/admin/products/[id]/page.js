@@ -11,6 +11,7 @@ export default function EditProductPage() {
   const params = useParams();
   const [product, setProduct] = useState(null);
   const [categories, setCategories] = useState([]);
+  const [brands, setBrands] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const router = useRouter();
@@ -20,9 +21,10 @@ export default function EditProductPage() {
 
   const fetchProduct = useCallback(async () => {
     try {
-      const [productRes, categoriesRes] = await Promise.all([
+      const [productRes, categoriesRes, brandsRes] = await Promise.all([
         fetch(`/api/products/${productId}`),
         fetch("/api/categories"),
+        fetch("/api/brands"),
       ]);
 
       if (!productRes.ok) throw new Error("Error al obtener el producto");
@@ -32,6 +34,11 @@ export default function EditProductPage() {
       if (categoriesRes.ok) {
         const categoriesData = await categoriesRes.json();
         setCategories(categoriesData);
+      }
+
+      if (brandsRes.ok) {
+        const brandsData = await brandsRes.json();
+        setBrands(brandsData);
       }
     } catch (err) {
       setError(err.message);
@@ -82,6 +89,7 @@ export default function EditProductPage() {
           productId={product ? parseInt(productId) : undefined}
           product={product}
           categories={categories}
+          brands={brands}
           onRefreshProduct={fetchProduct}
           onSuccess={handleSuccess}
           onCancel={handleSuccess}

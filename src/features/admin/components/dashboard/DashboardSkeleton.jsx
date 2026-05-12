@@ -1,9 +1,11 @@
-import Skeleton from "@/components/ui/Skeleton";
-import styles from "@/features/admin/components/dashboard/StatsCards.module.css";
-import chartStyles from "@/features/admin/components/dashboard/RevenueChart.module.css";
-import activityStyles from "@/features/admin/components/dashboard/RecentActivity.module.css";
+"use client";
 
-export default function AdminLoading() {
+import Skeleton from "@/components/ui/Skeleton";
+import styles from "./StatsCards.module.css";
+import chartStyles from "./RevenueChart.module.css";
+import activityStyles from "./RecentActivity.module.css";
+
+export default function DashboardSkeleton() {
   return (
     <div>
       <div className={styles.grid}>

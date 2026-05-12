@@ -95,12 +95,12 @@ export default function RevenueChart({ data, totalRevenue }) {
         >
           <defs>
             <linearGradient id="areaGradient" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stopColor="#00e5ff" stopOpacity="0.25" />
-              <stop offset="50%" stopColor="#00e5ff" stopOpacity="0.08" />
-              <stop offset="100%" stopColor="#00e5ff" stopOpacity="0" />
+              <stop offset="0%" stopColor="#24abf3" stopOpacity="0.25" />
+              <stop offset="50%" stopColor="#24abf3" stopOpacity="0.08" />
+              <stop offset="100%" stopColor="#24abf3" stopOpacity="0" />
             </linearGradient>
             <filter id="glow">
-              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#00e5ff" floodOpacity="0.5" />
+              <feDropShadow dx="0" dy="0" stdDeviation="3" floodColor="#24abf3" floodOpacity="0.5" />
             </filter>
           </defs>
 
@@ -155,7 +155,7 @@ export default function RevenueChart({ data, totalRevenue }) {
               <path
                 d={linePathD}
                 fill="none"
-                stroke="#00e5ff"
+                stroke="#24abf3"
                 strokeWidth="2.5"
                 strokeLinecap="round"
                 strokeLinejoin="round"
@@ -175,7 +175,7 @@ export default function RevenueChart({ data, totalRevenue }) {
                   cy={p.y}
                   r={maxRevenue === 0 ? 4 : 5}
                   fill="#0a0a0a"
-                  stroke="#00e5ff"
+                  stroke="#24abf3"
                   strokeWidth="2"
                   className={styles.point}
                 >

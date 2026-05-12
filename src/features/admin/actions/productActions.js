@@ -2,7 +2,7 @@
 
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { sessionOptions } from "@/lib/session";
 import * as productService from "@/features/products/services/product.service";
 
@@ -71,6 +71,7 @@ export async function createProductAction(data) {
     await requireAdmin();
     const product = await productService.createProduct(data);
     revalidatePath("/admin/products");
+    revalidateTag("admin-dashboard");
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -93,6 +94,7 @@ export async function updateProductAction(id, data) {
     await requireAdmin();
     const product = await productService.updateProduct(id, data);
     revalidatePath("/admin/products");
+    revalidateTag("admin-dashboard");
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -117,6 +119,7 @@ export async function deleteProductAction(id) {
     await requireAdmin();
     await productService.deleteProduct(id);
     revalidatePath("/admin/products");
+    revalidateTag("admin-dashboard");
     return { success: true };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -193,6 +196,7 @@ export async function updateProductStockAction(id, stock) {
     await requireAdmin();
     const product = await productService.updateProductStock(id, stock);
     revalidatePath("/admin/products");
+    revalidateTag("admin-dashboard");
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {

@@ -13,3 +13,7 @@ export { default as UserFormModal } from "./components/UserFormModal";
 export { default as ImageUploadWidget } from "./components/ImageUploadWidget";
 export { default as AdminGallery } from "./components/AdminGallery";
 export { default as ThumbnailUploader } from "./components/ThumbnailUploader";
+export { default as StatsCards } from "./components/dashboard/StatsCards";
+export { default as RevenueChart } from "./components/dashboard/RevenueChart";
+export { default as RecentActivity } from "./components/dashboard/RecentActivity";
+export { default as LowStockAlert } from "./components/dashboard/LowStockAlert";

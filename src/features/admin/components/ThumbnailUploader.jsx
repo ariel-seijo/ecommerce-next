@@ -1,8 +1,7 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
-import Script from "next/script";
-import { Upload, Trash2, Loader, Link } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Upload, Trash2, Loader, Link, AlertTriangle } from "lucide-react";
 import { getCloudinarySignatureAction } from "@/features/admin/actions/imageActions";
 import { useToastStore } from "@/features/toast";
 import styles from "./ThumbnailUploader.module.css";
@@ -10,11 +9,54 @@ import styles from "./ThumbnailUploader.module.css";
 export default function ThumbnailUploader({ value, onChange }) {
   const [isUploading, setIsUploading] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [scriptError, setScriptError] = useState(false);
   const [previewUrl, setPreviewUrl] = useState(value || "");
   const [showUrlInput, setShowUrlInput] = useState(false);
   const [urlValue, setUrlValue] = useState("");
   const widgetRef = useRef(null);
   const toast = useToastStore((s) => s.toast);
+
+  /* ── Cloudinary script injection ── */
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    const SCRIPT_SRC = "https://upload-widget.cloudinary.com/global/all.js";
+
+    if (window.cloudinary) {
+      setScriptLoaded(true);
+      return;
+    }
+
+    const existing = document.querySelector(`script[src="${SCRIPT_SRC}"]`);
+    if (existing) {
+      const handleLoad = () => {
+        setScriptLoaded(true);
+        setScriptError(false);
+      };
+      const handleError = () => setScriptError(true);
+      existing.addEventListener("load", handleLoad);
+      existing.addEventListener("error", handleError);
+      return () => {
+        existing.removeEventListener("load", handleLoad);
+        existing.removeEventListener("error", handleError);
+      };
+    }
+
+    const script = document.createElement("script");
+    script.src = SCRIPT_SRC;
+    script.async = true;
+    script.onload = () => {
+      setScriptLoaded(true);
+      setScriptError(false);
+    };
+    script.onerror = () => setScriptError(true);
+    document.body.appendChild(script);
+
+    return () => {
+      script.onload = null;
+      script.onerror = null;
+    };
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const handleResult = useCallback(
     (error, result) => {
@@ -40,7 +82,10 @@ export default function ThumbnailUploader({ value, onChange }) {
   );
 
   const openWidget = useCallback(async () => {
-    if (!scriptLoaded) return;
+    if (!scriptLoaded) {
+      toast("El widget de Cloudinary aún no se cargó. Reintentá en unos segundos.", "error");
+      return;
+    }
 
     try {
       const sigResult = await getCloudinarySignatureAction();
@@ -112,14 +157,7 @@ export default function ThumbnailUploader({ value, onChange }) {
   }
 
   return (
-    <>
-      <Script
-        src="https://upload-widget.cloudinary.com/global/all.js"
-        strategy="afterInteractive"
-        onLoad={() => setScriptLoaded(true)}
-      />
-
-      <div className={styles.wrapper}>
+    <div className={styles.wrapper}>
         {previewUrl ? (
           <div className={styles.preview}>
             <img src={previewUrl} alt="Vista previa de la miniatura" />
@@ -133,6 +171,20 @@ export default function ThumbnailUploader({ value, onChange }) {
         )}
 
         <div className={styles.actions}>
+          {scriptError && (
+            <div className={styles.scriptError} role="alert">
+              <AlertTriangle size={12} aria-hidden="true" />
+              <span>No se pudo cargar Cloudinary. Verificá tu conexión.</span>
+            </div>
+          )}
+
+          {!scriptLoaded && !scriptError && (
+            <div className={styles.scriptLoading}>
+              <Loader size={12} className={styles.spinner} aria-hidden="true" />
+              <span>Cargando widget...</span>
+            </div>
+          )}
+
           <button
             type="button"
             className={styles.btnUpload}
@@ -200,6 +252,5 @@ export default function ThumbnailUploader({ value, onChange }) {
           </div>
         )}
       </div>
-    </>
   );
 }

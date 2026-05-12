@@ -295,6 +295,20 @@
   margin-top: 12px;
 }
 
+.galleryPlaceholder {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 28px 20px;
+  background: rgba(0, 127, 255, 0.04);
+  border: 1px dashed rgba(0, 127, 255, 0.18);
+  border-radius: 8px;
+  font-size: 0.78rem;
+  color: #6a8eb8;
+  text-align: center;
+  line-height: 1.5;
+}
+
 /* ---- Form actions ---- */
 
 .actions {

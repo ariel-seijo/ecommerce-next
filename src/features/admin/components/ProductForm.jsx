@@ -7,6 +7,7 @@ import {
   createProductAction,
   updateProductAction,
   generateSkuAction,
+  getProductAction,
 } from "@/features/admin/actions/productActions";
 import { useToastStore } from "@/features/toast";
 import ImageUploadWidget from "./ImageUploadWidget";
@@ -68,16 +69,35 @@ export default function ProductForm({
     return initialFormState;
   });
 
-  const productImages = product?.imagesRel || [];
   const [errors, setErrors] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isGeneratingSku, setIsGeneratingSku] = useState(false);
+  const [formVersion, setFormVersion] = useState(0);
+  const [createdProductId, setCreatedProductId] = useState(null);
+  const [localProduct, setLocalProduct] = useState(null);
   const [isCustomBrand, setIsCustomBrand] = useState(() => {
     if (product && brands.length > 0) {
       return product.brand && !brands.includes(product.brand);
     }
     return false;
   });
+
+  const effectiveProductId = createdProductId || productId;
+  const effectiveProduct = product || localProduct;
+
+  const productImagesRel = effectiveProduct?.imagesRel || [];
+  const productImagesLegacy = effectiveProduct?.images || [];
+  const productImages =
+    productImagesRel.length > 0
+      ? productImagesRel
+      : productImagesLegacy.map((url, i) => ({
+          id: `legacy-${i}`,
+          url,
+          format: "legacy",
+          width: 0,
+          height: 0,
+          _legacy: true,
+        }));
 
   /* ── Field change ── */
 
@@ -94,6 +114,17 @@ export default function ProductForm({
 
   function handleToggle(key) {
     setFormData((prev) => ({ ...prev, [key]: !prev[key] }));
+  }
+
+  function handleRefresh() {
+    setFormVersion((v) => v + 1);
+    if (onRefreshProduct) {
+      onRefreshProduct();
+    } else if (createdProductId) {
+      getProductAction(createdProductId).then((res) => {
+        if (res.success) setLocalProduct(res.product);
+      });
+    }
   }
 
   function handleBrandSelect(e) {
@@ -194,20 +225,25 @@ export default function ProductForm({
       sold: parseInt(formData.sold) || 0,
     };
 
-    const action = isEdit
-      ? updateProductAction(productId, data)
-      : createProductAction(data);
+    const isFirstCreate = !isEdit && !createdProductId;
+    const action = isFirstCreate
+      ? createProductAction(data)
+      : updateProductAction(effectiveProductId, data);
 
     const result = await action;
     setIsSubmitting(false);
 
     if (result.error) {
       toast(result.error, "error");
-    } else {
+    } else if (isFirstCreate) {
+      setCreatedProductId(result.product.id);
+      setLocalProduct(result.product);
       toast(
-        isEdit ? "Producto actualizado" : "Producto creado exitosamente",
+        "Producto creado. Ahora podés agregar imágenes a la galería.",
         "success"
       );
+    } else {
+      toast("Producto actualizado", "success");
       onSuccess?.();
     }
   }
@@ -504,6 +540,7 @@ export default function ProductForm({
               <span className={styles.labelRequired}>Miniatura</span>
             </label>
             <ThumbnailUploader
+              key={`thumb-${formVersion}`}
               value={formData.thumbnail}
               onChange={(url) => {
                 setFormData((prev) => ({ ...prev, thumbnail: url }));
@@ -519,21 +556,41 @@ export default function ProductForm({
             )}
           </div>
 
-          {isEdit && (
+          {effectiveProductId ? (
             <div className={styles.group}>
               <label className={styles.label}>
                 Galería Cloudinary ({productImages.length}/10)
               </label>
               <AdminGallery
                 images={productImages}
-                onImageDeleted={() => onRefreshProduct?.()}
+                onImageDeleted={() => handleRefresh()}
+                onDelete={
+                  productImagesRel.length === 0
+                    ? async (imageId) => {
+                        const idx = parseInt(imageId.replace("legacy-", ""));
+                        const updated = [...formData.images];
+                        updated.splice(idx, 1);
+                        setFormData((prev) => ({ ...prev, images: updated }));
+                      }
+                    : undefined
+                }
               />
               <div className={styles.galleryUpload}>
                 <ImageUploadWidget
-                  productId={productId}
-                  existingCount={productImages.length}
-                  onImagesUploaded={() => onRefreshProduct?.()}
+                  productId={effectiveProductId}
+                  existingCount={productImagesRel.length}
+                  onImagesUploaded={() => handleRefresh()}
                 />
+              </div>
+            </div>
+          ) : (
+            <div className={styles.group}>
+              <label className={styles.label}>Galería Cloudinary</label>
+              <div className={styles.galleryPlaceholder}>
+                <span>
+                  La galería de imágenes estará disponible después de crear el
+                  producto.
+                </span>
               </div>
             </div>
           )}
@@ -587,9 +644,9 @@ export default function ProductForm({
             {isSubmitting ? (
               <>
                 <Loader2 size={16} className={styles.spin} aria-hidden="true" />
-                {isEdit ? "Actualizando…" : "Creando…"}
+                {isEdit || createdProductId ? "Actualizando…" : "Creando…"}
               </>
-            ) : isEdit ? (
+            ) : isEdit || createdProductId ? (
               "Actualizar producto"
             ) : (
               "Crear producto"

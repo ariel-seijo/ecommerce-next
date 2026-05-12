@@ -49,6 +49,15 @@
   outline: none;
 }
 
+.searchInput:focus {
+  outline: none;
+}
+
+.searchInput:focus-visible {
+  outline: none;
+  box-shadow: none;
+}
+
 .searchInput::placeholder {
   color: rgb(100, 100, 100);
 }

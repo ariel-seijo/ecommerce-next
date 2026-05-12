@@ -1,0 +1,257 @@
+.grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 24px;
+}
+
+.column {
+  background: rgba(255, 255, 255, 0.03);
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+}
+
+.columnHeader {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  margin-bottom: 18px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.columnTitle {
+  font-size: 0.85rem;
+  font-weight: 900;
+  color: #e4e4e4;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+
+.tableWrapper {
+  overflow-x: auto;
+  flex: 1;
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.8rem;
+}
+
+.table th {
+  text-align: left;
+  padding: 8px 10px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  color: rgb(130, 130, 130);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+.table td {
+  padding: 10px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.03);
+  vertical-align: middle;
+}
+
+.table tr:hover td {
+  background: rgba(255, 255, 255, 0.02);
+}
+
+.mono {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 0.75rem;
+  color: #e4e4e4;
+}
+
+.clientCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.clientName {
+  font-size: 0.8rem;
+  color: #e4e4e4;
+  font-weight: 600;
+}
+
+.clientEmail {
+  font-size: 0.7rem;
+  color: rgb(130, 130, 130);
+}
+
+.emptyRow {
+  text-align: center;
+  color: rgb(130, 130, 130);
+  padding: 24px !important;
+  font-size: 0.8rem;
+}
+
+.viewAll {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-top: 16px;
+  padding-top: 12px;
+  font-size: 0.75rem;
+  font-weight: 700;
+  color: #24abf3;
+  text-decoration: none;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  transition: gap 0.2s ease;
+}
+
+.viewAll:hover {
+  gap: 10px;
+}
+
+.productsList {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+  flex: 1;
+}
+
+.productItem {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  background: rgba(255, 255, 255, 0.02);
+  border-radius: 8px;
+  transition: background 0.2s ease;
+}
+
+.productItem:hover {
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.productRank {
+  width: 24px;
+  height: 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(36, 171, 243, 0.1);
+  border: 1px solid rgba(36, 171, 243, 0.2);
+  border-radius: 4px;
+  font-size: 0.65rem;
+  font-weight: 900;
+  color: #24abf3;
+  flex-shrink: 0;
+}
+
+.productInfo {
+  flex: 1;
+  min-width: 0;
+}
+
+.productHeader {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  flex-wrap: wrap;
+  margin-bottom: 4px;
+}
+
+.productTitle {
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #e4e4e4;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  max-width: 180px;
+}
+
+.productBrand {
+  font-size: 0.65rem;
+  color: rgb(130, 130, 130);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.productMeta {
+  display: flex;
+  gap: 12px;
+  margin-bottom: 8px;
+}
+
+.soldCount {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #22c55e;
+}
+
+.stockCount {
+  font-size: 0.7rem;
+  color: rgb(130, 130, 130);
+}
+
+.progressWrapper {
+  height: 4px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 2px;
+  overflow: hidden;
+}
+
+.progressBar {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 0.3s ease;
+}
+
+.progressBar[data-stock-green="true"] {
+  background: linear-gradient(90deg, #22c55e, #16a34a);
+}
+
+.progressBar[data-stock-amber="true"] {
+  background: linear-gradient(90deg, #f59e0b, #d97706);
+}
+
+.progressBar[data-stock-red="true"] {
+  background: linear-gradient(90deg, #ef4444, #dc2626);
+}
+
+.emptyProducts {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  min-height: 150px;
+  color: rgb(130, 130, 130);
+  font-size: 0.8rem;
+}
+
+@media (max-width: 900px) {
+  .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+@media (max-width: 600px) {
+  .column {
+    padding: 14px;
+  }
+
+  .table {
+    font-size: 0.75rem;
+  }
+
+  .table th,
+  .table td {
+    padding: 8px 6px;
+  }
+
+  .productTitle {
+    max-width: 140px;
+  }
+}

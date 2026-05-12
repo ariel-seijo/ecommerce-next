@@ -1,33 +1,80 @@
 import Skeleton from "@/components/ui/Skeleton";
+import styles from "@/features/admin/components/dashboard/StatsCards.module.css";
+import chartStyles from "@/features/admin/components/dashboard/RevenueChart.module.css";
+import activityStyles from "@/features/admin/components/dashboard/RecentActivity.module.css";
 
 export default function AdminLoading() {
   return (
     <div>
-      <div className="admin-stats">
+      <div className={styles.grid}>
         {[...Array(4)].map((_, i) => (
-          <div key={i} className="admin-stat-card">
-            <div
-              style={{
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "space-between",
-                marginBottom: 10,
-              }}
-            >
-              <Skeleton width="60%" height={14} />
+          <div key={i} className={styles.card} style={{ "--accent-color": "#24abf3" }}>
+            <div className={styles.cardHeader}>
+              <Skeleton width="50%" height={14} />
               <Skeleton width={20} height={20} variant="circle" />
             </div>
-            <Skeleton width="80%" height={28} />
+            <Skeleton width="70%" height={32} />
           </div>
         ))}
       </div>
 
-      <div className="admin-card">
-        <Skeleton width="40%" height={16} />
-        <div style={{ display: "flex", gap: 12, marginTop: 14, flexWrap: "wrap" }}>
-          <Skeleton width={200} height={40} />
-          <Skeleton width={200} height={40} />
-          <Skeleton width={200} height={40} />
+      <div className={chartStyles.wrapper}>
+        <div className={chartStyles.header}>
+          <Skeleton width="30%" height={16} />
+          <Skeleton width="20%" height={12} />
+        </div>
+        <Skeleton width="100%" height={260} />
+        <div style={{ display: "flex", justifyContent: "space-between", marginTop: 16 }}>
+          <Skeleton width="30%" height={14} />
+          <Skeleton width="25%" height={14} />
+        </div>
+      </div>
+
+      <div className={activityStyles.grid}>
+        <div className={activityStyles.column}>
+          <div className={activityStyles.columnHeader}>
+            <Skeleton width={18} height={18} variant="circle" />
+            <Skeleton width="50%" height={16} />
+          </div>
+          <table className={activityStyles.table}>
+            <thead>
+              <tr>
+                <th><Skeleton width="100%" height={12} /></th>
+                <th><Skeleton width="100%" height={12} /></th>
+                <th><Skeleton width="100%" height={12} /></th>
+                <th><Skeleton width="100%" height={12} /></th>
+              </tr>
+            </thead>
+            <tbody>
+              {[...Array(5)].map((_, i) => (
+                <tr key={i}>
+                  <td><Skeleton width="80%" height={14} /></td>
+                  <td><Skeleton width="70%" height={14} /></td>
+                  <td><Skeleton width={60} height={20} /></td>
+                  <td><Skeleton width="70%" height={14} /></td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+
+        <div className={activityStyles.column}>
+          <div className={activityStyles.columnHeader}>
+            <Skeleton width={18} height={18} variant="circle" />
+            <Skeleton width="50%" height={16} />
+          </div>
+          <div className={activityStyles.productsList}>
+            {[...Array(5)].map((_, i) => (
+              <div key={i} className={activityStyles.productItem}>
+                <Skeleton width={24} height={24} variant="circle" />
+                <div style={{ flex: 1 }}>
+                  <Skeleton width="80%" height={14} />
+                  <Skeleton width="50%" height={12} />
+                  <Skeleton width="100%" height={4} style={{ marginTop: 8 }} />
+                </div>
+              </div>
+            ))}
+          </div>
         </div>
       </div>
     </div>

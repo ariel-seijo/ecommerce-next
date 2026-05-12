@@ -7,6 +7,7 @@ export { default as ProductFilters } from "./components/ProductFilters";
 export { default as ProductTableSkeleton } from "./components/ProductTableSkeleton";
 export { default as ProductsClient } from "./components/ProductsClient";
 export { default as ConfirmModal } from "./components/ConfirmModal";
+export { default as StockEditModal } from "./components/StockEditModal";
 export { default as UserTable } from "./components/UserTable";
 export { default as UserFormModal } from "./components/UserFormModal";
 export { default as ImageUploadWidget } from "./components/ImageUploadWidget";

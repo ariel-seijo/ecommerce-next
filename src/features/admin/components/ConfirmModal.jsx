@@ -3,7 +3,7 @@
 import { useEffect, useRef } from 'react';
 import { AlertTriangle, X } from 'lucide-react';
 
-export default function ConfirmModal({ isOpen, title, message, onConfirm, onCancel, isConfirming }) {
+export default function ConfirmModal({ isOpen, title, message, onConfirm, onCancel, isConfirming, confirmLabel = "Eliminar", variant = "danger" }) {
   const modalRef = useRef(null);
   const confirmBtnRef = useRef(null);
 
@@ -69,13 +69,13 @@ export default function ConfirmModal({ isOpen, title, message, onConfirm, onCanc
             Cancelar
           </button>
           <button
-            className="btn btn-danger"
+            className={`btn ${variant === "danger" ? "btn-danger" : "btn-primary"}`}
             onClick={onConfirm}
             disabled={isConfirming}
             ref={confirmBtnRef}
             aria-busy={isConfirming}
           >
-            {isConfirming ? 'Eliminando...' : 'Eliminar'}
+            {isConfirming ? (variant === "danger" ? "Eliminando..." : "Procesando...") : confirmLabel}
           </button>
         </div>
       </div>

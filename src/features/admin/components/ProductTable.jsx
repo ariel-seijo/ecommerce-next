@@ -13,7 +13,6 @@ import {
   ArrowDown,
   Check,
   X as XIcon,
-  Loader2,
 } from "lucide-react";
 import { formatPrice } from "@/lib/utils/currency";
 import {
@@ -24,6 +23,7 @@ import {
 } from "@/features/admin/actions/productActions";
 import { useToastStore } from "@/features/toast";
 import ConfirmModal from "./ConfirmModal";
+import StockEditModal from "./StockEditModal";
 import styles from "./ProductTable.module.css";
 
 const SORTABLE_COLUMNS = [
@@ -68,31 +68,81 @@ export default function ProductTable({
 }) {
   const toast = useToastStore((s) => s.toast);
 
-  /* ── Inline stock editing ── */
-  const [editingStock, setEditingStock] = useState(null);
-  const [savingStock, setSavingStock] = useState(null);
+  /* ── Active modal ── */
+  const [activeModal, setActiveModal] = useState({ isOpen: false, product: null });
+  const [confirmingActive, setConfirmingActive] = useState(false);
 
-  function startEdit(product) {
-    setEditingStock({ id: product.id, value: product.stock.toString() });
+  function handleActiveClick(product) {
+    setActiveModal({ isOpen: true, product });
   }
 
-  function cancelEdit() {
-    setEditingStock(null);
+  async function handleActiveConfirm() {
+    if (!activeModal.product) return;
+    setConfirmingActive(true);
+    const newActive = !activeModal.product.active;
+    const result = await toggleProductActiveAction(activeModal.product.id, newActive);
+    setConfirmingActive(false);
+    setActiveModal({ isOpen: false, product: null });
+
+    if (result.error) {
+      toast(result.error, "error");
+    } else {
+      toast(newActive ? "Producto activado" : "Producto desactivado", "success");
+    }
   }
 
-  async function saveStock(productId) {
-    if (!editingStock) return;
-    const parsed = parseInt(editingStock.value);
+  function handleActiveCancel() {
+    setActiveModal({ isOpen: false, product: null });
+  }
+
+  /* ── Featured modal ── */
+  const [featuredModal, setFeaturedModal] = useState({ isOpen: false, product: null });
+  const [confirmingFeatured, setConfirmingFeatured] = useState(false);
+
+  function handleFeaturedClick(product) {
+    setFeaturedModal({ isOpen: true, product });
+  }
+
+  async function handleFeaturedConfirm() {
+    if (!featuredModal.product) return;
+    setConfirmingFeatured(true);
+    const newFeatured = !featuredModal.product.featured;
+    const result = await toggleProductFeaturedAction(featuredModal.product.id, newFeatured);
+    setConfirmingFeatured(false);
+    setFeaturedModal({ isOpen: false, product: null });
+
+    if (result.error) {
+      toast(result.error, "error");
+    } else {
+      toast(newFeatured ? "Producto destacado" : "Producto no destacado", "success");
+    }
+  }
+
+  function handleFeaturedCancel() {
+    setFeaturedModal({ isOpen: false, product: null });
+  }
+
+  /* ── Stock modal ── */
+  const [stockModal, setStockModal] = useState({ isOpen: false, product: null });
+  const [stockValue, setStockValue] = useState("");
+  const [confirmingStock, setConfirmingStock] = useState(false);
+
+  function handleStockClick(product) {
+    setStockValue(product.stock.toString());
+    setStockModal({ isOpen: true, product });
+  }
+
+  async function handleStockConfirm() {
+    if (!stockModal.product) return;
+    const parsed = parseInt(stockValue);
     if (isNaN(parsed) || parsed < 0) {
       toast("Stock debe ser un número válido (>= 0)", "error");
-      setEditingStock(null);
       return;
     }
-
-    setSavingStock(productId);
-    const result = await updateProductStockAction(productId, parsed);
-    setSavingStock(null);
-    setEditingStock(null);
+    setConfirmingStock(true);
+    const result = await updateProductStockAction(stockModal.product.id, parsed);
+    setConfirmingStock(false);
+    setStockModal({ isOpen: false, product: null });
 
     if (result.error) {
       toast(result.error, "error");
@@ -101,49 +151,8 @@ export default function ProductTable({
     }
   }
 
-  function handleStockKeyDown(e, productId) {
-    if (e.key === "Enter") saveStock(productId);
-    else if (e.key === "Escape") cancelEdit();
-  }
-
-  /* ── Toggle active / featured ── */
-  const [toggling, setToggling] = useState({});
-
-  async function handleToggleActive(product) {
-    const key = `active-${product.id}`;
-    setToggling((prev) => ({ ...prev, [key]: true }));
-    const result = await toggleProductActiveAction(product.id, !product.active);
-    setToggling((prev) => ({ ...prev, [key]: false }));
-
-    if (result.error) {
-      toast(result.error, "error");
-    } else {
-      toast(
-        product.active ? "Producto desactivado" : "Producto activado",
-        "success"
-      );
-    }
-  }
-
-  async function handleToggleFeatured(product) {
-    const key = `featured-${product.id}`;
-    setToggling((prev) => ({ ...prev, [key]: true }));
-    const result = await toggleProductFeaturedAction(
-      product.id,
-      !product.featured
-    );
-    setToggling((prev) => ({ ...prev, [key]: false }));
-
-    if (result.error) {
-      toast(result.error, "error");
-    } else {
-      toast(
-        product.featured
-          ? "Producto no destacado"
-          : "Producto destacado",
-        "success"
-      );
-    }
+  function handleStockCancel() {
+    setStockModal({ isOpen: false, product: null });
   }
 
   /* ── Delete ── */
@@ -286,44 +295,16 @@ export default function ProductTable({
                   </div>
                 </td>
 
-                {/* Stock — inline editable */}
+                {/* Stock — click opens modal */}
                 <td>
-                  {editingStock?.id === product.id ? (
-                    <div className={styles.stockEdit}>
-                      <input
-                        type="number"
-                        className={styles.stockInput}
-                        value={editingStock.value}
-                        min="0"
-                        onChange={(e) =>
-                          setEditingStock((prev) => ({
-                            ...prev,
-                            value: e.target.value,
-                          }))
-                        }
-                        onBlur={() => saveStock(product.id)}
-                        onKeyDown={(e) => handleStockKeyDown(e, product.id)}
-                        autoFocus
-                        aria-label={`Editar stock de ${product.title}`}
-                      />
-                      {savingStock === product.id && (
-                        <Loader2
-                          size={14}
-                          className={styles.spin}
-                          aria-hidden="true"
-                        />
-                      )}
-                    </div>
-                  ) : (
-                    <button
-                      type="button"
-                      className={`${styles.badge} ${getStockClass(product.stock)}`}
-                      onClick={() => startEdit(product)}
-                      aria-label={`Editar stock: ${getStockLabel(product.stock)}`}
-                    >
-                      {getStockLabel(product.stock)}
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    className={`${styles.badge} ${getStockClass(product.stock)}`}
+                    onClick={() => handleStockClick(product)}
+                    aria-label={`Editar stock: ${getStockLabel(product.stock)}`}
+                  >
+                    {getStockLabel(product.stock)}
+                  </button>
                 </td>
 
                 {/* Sold */}
@@ -336,16 +317,13 @@ export default function ProductTable({
                     className={`${styles.switch} ${
                       product.active ? styles.switchOn : styles.switchOff
                     }`}
-                    onClick={() => handleToggleActive(product)}
-                    disabled={toggling[`active-${product.id}`]}
+                    onClick={() => handleActiveClick(product)}
                     aria-label={
                       product.active ? "Desactivar producto" : "Activar producto"
                     }
                     aria-pressed={product.active}
                   >
-                    {toggling[`active-${product.id}`] ? (
-                      <Loader2 size={12} className={styles.spin} aria-hidden="true" />
-                    ) : product.active ? (
+                    {product.active ? (
                       <Check size={12} aria-hidden="true" />
                     ) : (
                       <XIcon size={12} aria-hidden="true" />
@@ -360,8 +338,7 @@ export default function ProductTable({
                     className={`${styles.switch} ${
                       product.featured ? styles.switchOn : styles.switchOff
                     }`}
-                    onClick={() => handleToggleFeatured(product)}
-                    disabled={toggling[`featured-${product.id}`]}
+                    onClick={() => handleFeaturedClick(product)}
                     aria-label={
                       product.featured
                         ? "Quitar destacado"
@@ -369,15 +346,11 @@ export default function ProductTable({
                     }
                     aria-pressed={product.featured}
                   >
-                    {toggling[`featured-${product.id}`] ? (
-                      <Loader2 size={12} className={styles.spin} aria-hidden="true" />
-                    ) : (
-                      <Star
-                        size={12}
-                        fill={product.featured ? "currentColor" : "none"}
-                        aria-hidden="true"
-                      />
-                    )}
+                    <Star
+                      size={12}
+                      fill={product.featured ? "currentColor" : "none"}
+                      aria-hidden="true"
+                    />
                   </button>
                 </td>
 
@@ -439,34 +412,13 @@ export default function ProductTable({
 
               <div className={styles.cardRow}>
                 <span className={styles.cardLabel}>Stock</span>
-                {editingStock?.id === product.id ? (
-                  <div className={styles.stockEdit}>
-                    <input
-                      type="number"
-                      className={styles.stockInput}
-                      value={editingStock.value}
-                      min="0"
-                      onChange={(e) =>
-                        setEditingStock((prev) => ({
-                          ...prev,
-                          value: e.target.value,
-                        }))
-                      }
-                      onBlur={() => saveStock(product.id)}
-                      onKeyDown={(e) => handleStockKeyDown(e, product.id)}
-                      autoFocus
-                      aria-label={`Editar stock de ${product.title}`}
-                    />
-                  </div>
-                ) : (
-                  <button
-                    type="button"
-                    className={`${styles.badge} ${getStockClass(product.stock)}`}
-                    onClick={() => startEdit(product)}
-                  >
-                    {getStockLabel(product.stock)}
-                  </button>
-                )}
+                <button
+                  type="button"
+                  className={`${styles.badge} ${getStockClass(product.stock)}`}
+                  onClick={() => handleStockClick(product)}
+                >
+                  {getStockLabel(product.stock)}
+                </button>
               </div>
 
               <div className={styles.cardRow}>
@@ -488,13 +440,10 @@ export default function ProductTable({
                 className={`${styles.switch} ${
                   product.active ? styles.switchOn : styles.switchOff
                 }`}
-                onClick={() => handleToggleActive(product)}
-                disabled={toggling[`active-${product.id}`]}
+                onClick={() => handleActiveClick(product)}
                 aria-pressed={product.active}
               >
-                {toggling[`active-${product.id}`] ? (
-                  <Loader2 size={12} className={styles.spin} />
-                ) : product.active ? (
+                {product.active ? (
                   <Check size={12} />
                 ) : (
                   <XIcon size={12} />
@@ -507,18 +456,13 @@ export default function ProductTable({
                 className={`${styles.switch} ${
                   product.featured ? styles.switchOn : styles.switchOff
                 }`}
-                onClick={() => handleToggleFeatured(product)}
-                disabled={toggling[`featured-${product.id}`]}
+                onClick={() => handleFeaturedClick(product)}
                 aria-pressed={product.featured}
               >
-                {toggling[`featured-${product.id}`] ? (
-                  <Loader2 size={12} className={styles.spin} />
-                ) : (
-                  <Star
-                    size={12}
-                    fill={product.featured ? "currentColor" : "none"}
-                  />
-                )}
+                <Star
+                  size={12}
+                  fill={product.featured ? "currentColor" : "none"}
+                />
                 <span>Destacado</span>
               </button>
 
@@ -610,6 +554,38 @@ export default function ProductTable({
         onConfirm={handleDeleteConfirm}
         onCancel={handleDeleteCancel}
         isConfirming={isDeleting}
+      />
+
+      <ConfirmModal
+        isOpen={activeModal.isOpen}
+        title={activeModal.product?.active ? "Desactivar producto" : "Activar producto"}
+        message={`¿Estás seguro de que deseas ${activeModal.product?.active ? "desactivar" : "activar"} "${activeModal.product?.title}"?`}
+        confirmLabel={activeModal.product?.active ? "Desactivar" : "Activar"}
+        variant="primary"
+        onConfirm={handleActiveConfirm}
+        onCancel={handleActiveCancel}
+        isConfirming={confirmingActive}
+      />
+
+      <ConfirmModal
+        isOpen={featuredModal.isOpen}
+        title={featuredModal.product?.featured ? "Quitar destacado" : "Marcar como destacado"}
+        message={`¿Estás seguro de que deseas ${featuredModal.product?.featured ? "quitar el destacado de" : "marcar como destacado"} "${featuredModal.product?.title}"?`}
+        confirmLabel={featuredModal.product?.featured ? "Quitar destacado" : "Destacar"}
+        variant="primary"
+        onConfirm={handleFeaturedConfirm}
+        onCancel={handleFeaturedCancel}
+        isConfirming={confirmingFeatured}
+      />
+
+      <StockEditModal
+        isOpen={stockModal.isOpen}
+        product={stockModal.product}
+        value={stockValue}
+        onChange={setStockValue}
+        onConfirm={handleStockConfirm}
+        onCancel={handleStockCancel}
+        isConfirming={confirmingStock}
       />
     </>
   );

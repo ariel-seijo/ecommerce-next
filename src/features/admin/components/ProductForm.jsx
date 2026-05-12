@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { Star, Check, X as XIcon, Wand2, Loader2 } from "lucide-react";
-import { formatPrice } from "@/lib/utils/currency";
 import {
   createProductAction,
   updateProductAction,
@@ -13,6 +12,7 @@ import { useToastStore } from "@/features/toast";
 import ImageUploadWidget from "./ImageUploadWidget";
 import AdminGallery from "./AdminGallery";
 import ThumbnailUploader from "./ThumbnailUploader";
+import ProductCardPreview from "./ProductCardPreview";
 import styles from "./ProductForm.module.css";
 
 const initialFormState = {
@@ -666,55 +666,22 @@ export default function ProductForm({
       {/* ======== Live Preview ======== */}
       <aside className={styles.preview} aria-label="Vista previa del producto">
         <h3 className={styles.previewTitle}>Vista previa</h3>
-        <div className={styles.previewCard}>
-          <div className={styles.previewImg}>
-            {formData.thumbnail ? (
-              <img
-                src={formData.thumbnail}
-                alt={formData.title || "Producto"}
-              />
-            ) : (
-              <div className={styles.previewPlaceholder}>Sin imagen</div>
-            )}
-          </div>
-          <div className={styles.previewMeta}>
-            <div className={styles.previewTop}>
-              <span className={styles.previewCat}>
-                {categories.find((c) => c.id.toString() === formData.categoryId)
-                  ?.name || "Categoría"}
-              </span>
-              <span className={styles.previewBrand}>
-                {formData.brand || "Marca"}
-              </span>
-            </div>
-            <h4 className={styles.previewName}>
-              {formData.title || "Título del producto"}
-            </h4>
-            <div className={styles.previewRating}>
-              <Star size={14} fill="#fbbf24" color="#fbbf24" aria-hidden="true" />
-              <span>{formData.rating || "0.0"}</span>
-              <small>(0 vendidos)</small>
-            </div>
-            <div className={styles.previewPrice}>
-              {formData.oldPrice && (
-                <span className={styles.previewOld}>
-                  {formatPrice(parseFloat(formData.oldPrice))}
-                </span>
-              )}
-              <span className={styles.previewCurrent}>
-                {formData.price
-                  ? formatPrice(parseFloat(formData.price))
-                  : formatPrice(0)}
-              </span>
-            </div>
-            {formData.sku && (
-              <div className={styles.previewSku}>{formData.sku}</div>
-            )}
-          </div>
-          <button className={styles.previewBtn} disabled aria-disabled="true">
-            Agregar al carrito
-          </button>
-        </div>
+        <ProductCardPreview
+          product={{
+            thumbnail: formData.thumbnail,
+            title: formData.title,
+            brand: formData.brand,
+            price: parseFloat(formData.price) || 0,
+            oldPrice: parseFloat(formData.oldPrice) || 0,
+            stock: parseInt(formData.stock) || 0,
+            rating: parseFloat(formData.rating) || 0,
+            sold: parseInt(formData.sold) || 0,
+            featured: formData.featured,
+            category: categories.find(
+              (c) => c.id.toString() === formData.categoryId
+            ) || null,
+          }}
+        />
       </aside>
     </div>
   );

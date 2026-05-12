@@ -10,6 +10,7 @@ export default function LowStockAlert({ lowStockCount, lowStockProducts }) {
   }
 
   const displayProducts = lowStockProducts?.slice(0, 5) || [];
+  const hiddenCount = (lowStockProducts?.length || 0) - displayProducts.length;
 
   return (
     <div className={styles.alert}>
@@ -33,6 +34,11 @@ export default function LowStockAlert({ lowStockCount, lowStockProducts }) {
               </span>
             </div>
           ))}
+          {hiddenCount > 0 && (
+            <span className={styles.hiddenBadge}>
+              +{hiddenCount} más
+            </span>
+          )}
         </div>
       )}
 

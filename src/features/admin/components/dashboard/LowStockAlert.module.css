@@ -56,6 +56,18 @@
   text-overflow: ellipsis;
 }
 
+.hiddenBadge {
+  display: inline-flex;
+  align-items: center;
+  padding: 6px 10px;
+  background: rgba(245, 158, 11, 0.06);
+  border: 1px dashed rgba(245, 158, 11, 0.2);
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: #f59e0b;
+}
+
 .stockBadge {
   font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
   font-size: 0.65rem;

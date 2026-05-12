@@ -1,0 +1,46 @@
+/* =====================================================
+   ORDER TABLE SKELETON — Matching table layout
+   ===================================================== */
+
+.wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.filtersPlaceholder {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-bottom: 6px;
+  padding-bottom: 12px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.header {
+  display: grid;
+  grid-template-columns: 14% 18% 8% 10% 10% 10% 8%;
+  gap: 12px;
+  padding: 8px 0 6px;
+  align-items: center;
+}
+
+.rows {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.row {
+  display: grid;
+  grid-template-columns: 14% 18% 8% 10% 10% 10% 8%;
+  gap: 12px;
+  padding: 10px 0;
+  align-items: center;
+}
+
+.customerCell {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}

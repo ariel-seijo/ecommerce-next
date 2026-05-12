@@ -1,0 +1,290 @@
+/* =====================================================
+   ORDER TABLE — Cyberpunk Sticky Header + Neon Status
+   ===================================================== */
+
+.tableWrapper {
+  border: 1px solid rgba(255, 255, 255, 0.05);
+  border-radius: 10px;
+  overflow: hidden;
+  background: rgba(12, 12, 12, 0.95);
+  box-shadow:
+    0 0 20px rgba(0, 229, 255, 0.03),
+    0 4px 24px rgba(0, 0, 0, 0.5);
+}
+
+.table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.82rem;
+}
+
+.table caption {
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: rgb(180, 180, 180);
+  text-align: left;
+  padding: 12px 16px;
+  caption-side: top;
+}
+
+/* ---- sticky header ---- */
+.thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
+.thead th {
+  padding: 12px 14px;
+  text-align: left;
+  font-weight: 900;
+  font-size: 0.68rem;
+  color: rgb(160, 160, 160);
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  background: rgba(16, 16, 16, 0.98);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid rgba(0, 229, 255, 0.12);
+  white-space: nowrap;
+}
+
+/* ---- rows ---- */
+.row td {
+  padding: 12px 14px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+  vertical-align: middle;
+  color: rgb(200, 200, 200);
+}
+
+.row {
+  transition: background 0.15s ease, box-shadow 0.15s ease;
+  position: relative;
+}
+
+.row:nth-child(even) {
+  background: rgba(255, 255, 255, 0.01);
+}
+
+.row:hover {
+  background: rgba(0, 229, 255, 0.03);
+  box-shadow: inset 3px 0 0 rgba(0, 229, 255, 0.5);
+}
+
+.row:focus-within {
+  background: rgba(0, 229, 255, 0.04);
+  outline: 1px solid rgba(0, 229, 255, 0.2);
+  outline-offset: -1px;
+}
+
+/* ---- order number ---- */
+.orderNumber {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-size: 0.8rem;
+  font-weight: 700;
+  color: #00e5ff;
+}
+
+/* ---- customer ---- */
+.customerCell {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.customerName {
+  font-weight: 600;
+  font-size: 0.84rem;
+  color: rgb(220, 220, 220);
+}
+
+.customerEmail {
+  font-size: 0.72rem;
+  color: rgb(130, 130, 130);
+}
+
+/* ---- products count ---- */
+.productsCell {
+  text-align: center;
+  font-weight: 600;
+}
+
+/* ---- total ---- */
+.totalValue {
+  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-weight: 700;
+  font-size: 0.82rem;
+}
+
+/* ---- date ---- */
+.dateCell {
+  font-size: 0.78rem;
+  color: rgb(140, 140, 140);
+}
+
+/* ---- status badges ---- */
+.statusBadge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 20px;
+  font-size: 0.65rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  line-height: 1.6;
+}
+
+.statusWarning {
+  background: rgba(245, 158, 11, 0.08);
+  color: #fbbf24;
+  border: 1px solid rgba(245, 158, 11, 0.2);
+}
+
+.statusCyan {
+  background: rgba(0, 229, 255, 0.08);
+  color: #00e5ff;
+  border: 1px solid rgba(0, 229, 255, 0.2);
+  box-shadow: 0 0 8px rgba(0, 229, 255, 0.08);
+}
+
+.statusBlue {
+  background: rgba(0, 127, 255, 0.08);
+  color: #3399ff;
+  border: 1px solid rgba(0, 127, 255, 0.2);
+}
+
+.statusGreen {
+  background: rgba(34, 197, 94, 0.08);
+  color: #4ade80;
+  border: 1px solid rgba(34, 197, 94, 0.2);
+}
+
+.statusNeonRed {
+  background: rgba(255, 51, 102, 0.08);
+  color: #ff3366;
+  border: 1px solid rgba(255, 51, 102, 0.2);
+  box-shadow: 0 0 8px rgba(255, 51, 102, 0.08);
+}
+
+.statusDefault {
+  background: rgba(160, 160, 160, 0.08);
+  color: rgb(180, 180, 180);
+  border: 1px solid rgba(160, 160, 160, 0.2);
+}
+
+/* ---- view button ---- */
+.viewBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 4px 12px;
+  border-radius: 6px;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: rgb(180, 180, 180);
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  text-decoration: none;
+  transition: all 0.15s ease;
+}
+
+.viewBtn:hover {
+  background: rgba(0, 229, 255, 0.08);
+  border-color: rgba(0, 229, 255, 0.25);
+  color: #00e5ff;
+}
+
+/* ---- empty state ---- */
+.empty {
+  text-align: center;
+  padding: 56px 24px;
+  color: rgb(130, 130, 130);
+}
+
+.emptyIcon {
+  margin-bottom: 14px;
+  opacity: 0.3;
+}
+
+.emptyText {
+  font-size: 0.88rem;
+  font-weight: 700;
+  margin: 0;
+}
+
+/* ---- pagination ---- */
+.pagination {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 14px 16px;
+  border-top: 1px solid rgba(255, 255, 255, 0.06);
+  background: rgba(16, 16, 16, 0.98);
+}
+
+.pageNumbers {
+  display: flex;
+  gap: 4px;
+}
+
+.pageGroup {
+  display: flex;
+  align-items: center;
+}
+
+.ellipsis {
+  color: rgb(100, 100, 100);
+  font-size: 0.85rem;
+  padding: 0 2px;
+}
+
+.pageBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 6px 12px;
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  background: rgba(255, 255, 255, 0.02);
+  color: rgb(180, 180, 180);
+  border-radius: 6px;
+  font-size: 0.78rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.15s ease;
+  font-family: inherit;
+}
+
+.pageBtn:hover:not(:disabled) {
+  background: rgba(0, 229, 255, 0.06);
+  border-color: rgba(0, 229, 255, 0.2);
+  color: rgb(220, 220, 220);
+}
+
+.pageBtn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.pageBtnActive {
+  background: rgba(0, 229, 255, 0.1);
+  border-color: rgba(0, 229, 255, 0.3);
+  color: #00e5ff;
+}
+
+/* ---- responsive ---- */
+@media (max-width: 768px) {
+  .thead th,
+  .row td {
+    padding: 8px 10px;
+    font-size: 0.75rem;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .pageNumbers {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+}

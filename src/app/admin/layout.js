@@ -3,6 +3,7 @@ import Header from '@/components/admin/Header';
 import '@/features/admin/styles/dashboard.css';
 import '@/features/admin/styles/forms.css';
 import '@/features/admin/styles/table.css';
+import '@/features/admin/styles/print-order.css';
 
 export const metadata = {
   title: "Panel de Administración | ElectroShop",

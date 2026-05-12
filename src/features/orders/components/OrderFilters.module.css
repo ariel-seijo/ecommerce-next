@@ -1,0 +1,208 @@
+/* =====================================================
+   ORDER FILTERS — Search + Status + Date Range
+   ===================================================== */
+
+.wrapper {
+  margin-bottom: 16px;
+}
+
+.row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+/* ---- search ---- */
+.searchGroup {
+  display: flex;
+  align-items: center;
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  overflow: hidden;
+  flex: 1;
+  min-width: 240px;
+  max-width: 420px;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+.searchGroup:focus-within {
+  border-color: rgba(0, 229, 255, 0.3);
+  box-shadow: 0 0 10px rgba(0, 229, 255, 0.06);
+}
+
+.searchIcon {
+  margin-left: 12px;
+  color: rgb(130, 130, 130);
+  flex-shrink: 0;
+}
+
+.searchInput {
+  flex: 1;
+  background: transparent;
+  border: none;
+  padding: 9px 12px;
+  color: rgb(220, 220, 220);
+  font-size: 0.82rem;
+  font-family: inherit;
+  outline: none;
+}
+
+.searchInput::placeholder {
+  color: rgb(100, 100, 100);
+}
+
+.searchBtn {
+  padding: 9px 16px;
+  background: rgba(0, 229, 255, 0.08);
+  border: none;
+  color: #00e5ff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: background 0.15s ease;
+}
+
+.searchBtn:hover {
+  background: rgba(0, 229, 255, 0.14);
+}
+
+/* ---- select ---- */
+.select {
+  padding: 9px 12px;
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgb(200, 200, 200);
+  font-size: 0.78rem;
+  font-weight: 600;
+  font-family: inherit;
+  cursor: pointer;
+  outline: none;
+  transition: border-color 0.2s ease;
+  min-width: 150px;
+}
+
+.select:focus {
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+/* ---- date group ---- */
+.dateGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+}
+
+.dateInput {
+  padding: 8px 10px;
+  background: rgba(20, 20, 20, 0.95);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 8px;
+  color: rgb(200, 200, 200);
+  font-size: 0.78rem;
+  font-family: inherit;
+  outline: none;
+  transition: border-color 0.2s ease;
+  width: 140px;
+}
+
+.dateInput:focus {
+  border-color: rgba(0, 229, 255, 0.3);
+}
+
+.dateInput::-webkit-calendar-picker-indicator {
+  filter: invert(0.7);
+  cursor: pointer;
+}
+
+.dateSep {
+  color: rgb(100, 100, 100);
+  font-size: 0.8rem;
+}
+
+/* ---- clear ---- */
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  padding: 9px 14px;
+  background: rgba(255, 51, 102, 0.06);
+  border: 1px solid rgba(255, 51, 102, 0.15);
+  border-radius: 8px;
+  color: #ff3366;
+  font-size: 0.75rem;
+  font-weight: 700;
+  cursor: pointer;
+  font-family: inherit;
+  transition: all 0.15s ease;
+}
+
+.clearBtn:hover {
+  background: rgba(255, 51, 102, 0.12);
+  border-color: rgba(255, 51, 102, 0.3);
+}
+
+/* ---- active filters bar ---- */
+.activeBar {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 10px;
+  padding: 8px 12px;
+  background: rgba(0, 229, 255, 0.03);
+  border: 1px solid rgba(0, 229, 255, 0.06);
+  border-radius: 8px;
+  color: rgb(160, 160, 160);
+  font-size: 0.72rem;
+  flex-wrap: wrap;
+}
+
+.activeLabel {
+  font-weight: 700;
+  color: rgb(140, 140, 140);
+  margin-right: 2px;
+}
+
+.chip {
+  display: inline-block;
+  padding: 2px 10px;
+  background: rgba(255, 255, 255, 0.04);
+  border: 1px solid rgba(255, 255, 255, 0.08);
+  border-radius: 12px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: rgb(180, 180, 180);
+}
+
+/* ---- responsive ---- */
+@media (max-width: 768px) {
+  .row {
+    flex-direction: column;
+  }
+
+  .searchGroup {
+    max-width: 100%;
+  }
+
+  .select {
+    width: 100%;
+  }
+
+  .dateGroup {
+    width: 100%;
+    flex-wrap: wrap;
+  }
+
+  .dateInput {
+    flex: 1;
+    min-width: 0;
+  }
+
+  .clearBtn {
+    width: 100%;
+    justify-content: center;
+  }
+}

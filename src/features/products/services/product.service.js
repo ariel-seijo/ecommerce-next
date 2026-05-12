@@ -62,7 +62,9 @@ export async function getAllProducts(params = {}) {
       take: limit,
       include: {
         category: true,
-        imagesRel: true,
+        imagesRel: {
+          orderBy: { sortOrder: "asc" },
+        },
       },
     }),
     prisma.product.count({ where }),
@@ -283,7 +285,7 @@ export async function deleteProduct(id) {
   const product = await prisma.product.findUnique({
     where: { id },
     include: {
-      imagesRel: { select: { publicId: true } },
+      imagesRel: { select: { publicId: true }, orderBy: { sortOrder: "asc" } },
     },
   });
 

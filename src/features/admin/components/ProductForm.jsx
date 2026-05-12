@@ -8,6 +8,7 @@ import {
   generateSkuAction,
   getProductAction,
 } from "@/features/admin/actions/productActions";
+import { reorderProductImagesAction } from "@/features/admin/actions/imageActions";
 import { useToastStore } from "@/features/toast";
 import ImageUploadWidget from "./ImageUploadWidget";
 import AdminGallery from "./AdminGallery";
@@ -75,6 +76,7 @@ export default function ProductForm({
   const [formVersion, setFormVersion] = useState(0);
   const [createdProductId, setCreatedProductId] = useState(null);
   const [localProduct, setLocalProduct] = useState(null);
+  const [galleryOrder, setGalleryOrder] = useState(null);
   const [isCustomBrand, setIsCustomBrand] = useState(() => {
     if (product && brands.length > 0) {
       return product.brand && !brands.includes(product.brand);
@@ -117,6 +119,7 @@ export default function ProductForm({
   }
 
   function handleRefresh() {
+    setGalleryOrder(null);
     setFormVersion((v) => v + 1);
     if (onRefreshProduct) {
       onRefreshProduct();
@@ -231,13 +234,29 @@ export default function ProductForm({
       : updateProductAction(effectiveProductId, data);
 
     const result = await action;
-    setIsSubmitting(false);
 
     if (result.error) {
       toast(result.error, "error");
-    } else if (isFirstCreate) {
+      setIsSubmitting(false);
+      return;
+    }
+
+    let productId = effectiveProductId;
+
+    if (isFirstCreate) {
       setCreatedProductId(result.product.id);
       setLocalProduct(result.product);
+      productId = result.product.id;
+    }
+
+    if (galleryOrder && productId) {
+      await reorderProductImagesAction(productId, galleryOrder);
+      setGalleryOrder(null);
+    }
+
+    setIsSubmitting(false);
+
+    if (isFirstCreate) {
       toast(
         "Producto creado. Ahora podés agregar imágenes a la galería.",
         "success"
@@ -564,6 +583,7 @@ export default function ProductForm({
               <AdminGallery
                 images={productImages}
                 onImageDeleted={() => handleRefresh()}
+                onReorder={setGalleryOrder}
                 onDelete={
                   productImagesRel.length === 0
                     ? async (imageId) => {

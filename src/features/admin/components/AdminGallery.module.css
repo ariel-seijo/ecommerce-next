@@ -29,12 +29,51 @@
   border: 1px solid #1a1a1a;
   border-radius: 8px;
   overflow: hidden;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease, opacity 0.2s ease;
 }
 
 .card:hover {
   border-color: rgba(0, 127, 255, 0.35);
   box-shadow: 0 4px 20px rgba(0, 127, 255, 0.08);
+}
+
+.dragHandle {
+  position: absolute;
+  top: 6px;
+  left: 6px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: rgba(0, 0, 0, 0.8);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 50%;
+  color: rgb(130, 130, 130);
+  cursor: grab;
+  opacity: 0;
+  z-index: 5;
+  transition: opacity 0.15s ease, color 0.15s ease, border-color 0.15s ease;
+}
+
+.card:hover .dragHandle,
+.card:focus-within .dragHandle {
+  opacity: 1;
+}
+
+.dragHandle:hover {
+  color: #24abf3;
+  border-color: rgba(36, 171, 243, 0.4);
+}
+
+.dragHandle:active {
+  cursor: grabbing;
+}
+
+.dragHandle:focus-visible {
+  opacity: 1;
+  outline: 2px solid #24abf3;
+  outline-offset: 2px;
 }
 
 .imageWrap {

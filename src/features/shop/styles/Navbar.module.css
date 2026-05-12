@@ -96,8 +96,10 @@
   transition: border-color 0.2s ease;
 }
 
-.search:focus {
+.search:focus,
+.search:focus-visible {
   border-color: #24abf3;
+  outline: none;
 }
 
 .search::placeholder {
@@ -749,8 +751,10 @@
   border-radius: 6px;
 }
 
-.mobileSearchInput:focus {
+.mobileSearchInput:focus,
+.mobileSearchInput:focus-visible {
   border-color: #24abf3;
+  outline: none;
 }
 
 .mobileSearchInput::placeholder {

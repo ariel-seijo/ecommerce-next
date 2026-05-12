@@ -33,6 +33,7 @@ enum OrderStatus {
   PAID
   SHIPPED
   CANCELLED
+  DELIVERED
 }
 
 model CartItem {

@@ -37,7 +37,7 @@ const PAYMENT_LABELS = {
 function getStatusBadgeStyle(status) {
   switch (status) {
     case "PENDING": return { bg: "rgba(245,158,11,0.08)", color: "#fbbf24", border: "rgba(245,158,11,0.2)" };
-    case "PAID": return { bg: "rgba(0,229,255,0.08)", color: "#00e5ff", border: "rgba(0,229,255,0.2)" };
+    case "PAID": return { bg: "rgba(36,171,243,0.08)", color: "#24abf3", border: "rgba(36,171,243,0.2)" };
     case "SHIPPED": return { bg: "rgba(0,127,255,0.08)", color: "#3399ff", border: "rgba(0,127,255,0.2)" };
     case "DELIVERED": return { bg: "rgba(34,197,94,0.08)", color: "#4ade80", border: "rgba(34,197,94,0.2)" };
     case "CANCELLED": return { bg: "rgba(255,51,102,0.08)", color: "#ff3366", border: "rgba(255,51,102,0.2)" };
@@ -158,7 +158,7 @@ async function OrderDetailContent({ id }) {
                 marginBottom: "0.3rem",
                 fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace",
                 fontSize: "1.1rem",
-                color: "#00e5ff",
+                color: "#24abf3",
               }}
             >
               {order.orderNumber}
@@ -193,7 +193,7 @@ async function OrderDetailContent({ id }) {
             className="admin-card-title"
             style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
           >
-            <MapPin size={16} color="#00e5ff" />
+            <MapPin size={16} color="#24abf3" />
             Dirección de envío
           </h3>
 
@@ -253,8 +253,8 @@ async function OrderDetailContent({ id }) {
                   style={{
                     marginTop: "1rem",
                     padding: "0.75rem",
-                    background: "rgba(0, 229, 255, 0.04)",
-                    borderLeft: "3px solid #00e5ff",
+                    background: "rgba(36, 171, 243, 0.04)",
+                    borderLeft: "3px solid #24abf3",
                     fontSize: "0.8rem",
                     color: "var(--admin-muted)",
                     fontStyle: "italic",
@@ -273,7 +273,7 @@ async function OrderDetailContent({ id }) {
             className="admin-card-title"
             style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
           >
-            <CreditCard size={16} color="#00e5ff" />
+            <CreditCard size={16} color="#24abf3" />
             Resumen del pedido
           </h3>
           <div style={{ marginTop: "1rem" }}>
@@ -317,7 +317,7 @@ async function OrderDetailContent({ id }) {
               <span>TOTAL</span>
               <span
                 className="print-mono"
-                style={{ color: "#00e5ff", fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace" }}
+                style={{ color: "#24abf3", fontFamily: "'JetBrains Mono', 'Fira Code', 'Cascadia Code', monospace" }}
               >
                 {formatPrice(order.total)}
               </span>
@@ -332,7 +332,7 @@ async function OrderDetailContent({ id }) {
           className="admin-card-title"
           style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}
         >
-          <PackageOpen size={16} color="#00e5ff" />
+          <PackageOpen size={16} color="#24abf3" />
           Productos ({totalItems})
         </h3>
         <div className="admin-table-wrapper" style={{ marginTop: "1rem" }}>

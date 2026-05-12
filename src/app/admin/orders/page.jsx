@@ -66,7 +66,7 @@ async function OrdersContent({ searchParams }) {
               color: "#e4e4e4",
             }}
           >
-            <ShoppingCart size={18} color="#00e5ff" aria-hidden="true" />
+            <ShoppingCart size={18} color="#24abf3" aria-hidden="true" />
             Pedidos ({total})
           </h3>
         </div>

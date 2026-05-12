@@ -8,7 +8,7 @@
   overflow: hidden;
   background: rgba(12, 12, 12, 0.95);
   box-shadow:
-    0 0 20px rgba(0, 229, 255, 0.03),
+    0 0 20px rgba(36, 171, 243, 0.03),
     0 4px 24px rgba(0, 0, 0, 0.5);
 }
 
@@ -44,7 +44,7 @@
   letter-spacing: 0.8px;
   background: rgba(16, 16, 16, 0.98);
   backdrop-filter: blur(8px);
-  border-bottom: 1px solid rgba(0, 229, 255, 0.12);
+  border-bottom: 1px solid rgba(36, 171, 243, 0.12);
   white-space: nowrap;
 }
 
@@ -66,13 +66,13 @@
 }
 
 .row:hover {
-  background: rgba(0, 229, 255, 0.03);
-  box-shadow: inset 3px 0 0 rgba(0, 229, 255, 0.5);
+  background: rgba(36, 171, 243, 0.03);
+  box-shadow: inset 3px 0 0 rgba(36, 171, 243, 0.5);
 }
 
 .row:focus-within {
-  background: rgba(0, 229, 255, 0.04);
-  outline: 1px solid rgba(0, 229, 255, 0.2);
+  background: rgba(36, 171, 243, 0.04);
+  outline: 1px solid rgba(36, 171, 243, 0.2);
   outline-offset: -1px;
 }
 
@@ -81,7 +81,7 @@
   font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
   font-size: 0.8rem;
   font-weight: 700;
-  color: #00e5ff;
+  color: #24abf3;
 }
 
 /* ---- customer ---- */
@@ -140,10 +140,10 @@
 }
 
 .statusCyan {
-  background: rgba(0, 229, 255, 0.08);
-  color: #00e5ff;
-  border: 1px solid rgba(0, 229, 255, 0.2);
-  box-shadow: 0 0 8px rgba(0, 229, 255, 0.08);
+  background: rgba(36, 171, 243, 0.08);
+  color: #24abf3;
+  border: 1px solid rgba(36, 171, 243, 0.2);
+  box-shadow: 0 0 8px rgba(36, 171, 243, 0.08);
 }
 
 .statusBlue {
@@ -188,9 +188,9 @@
 }
 
 .viewBtn:hover {
-  background: rgba(0, 229, 255, 0.08);
-  border-color: rgba(0, 229, 255, 0.25);
-  color: #00e5ff;
+  background: rgba(36, 171, 243, 0.08);
+  border-color: rgba(36, 171, 243, 0.25);
+  color: #24abf3;
 }
 
 /* ---- empty state ---- */
@@ -254,8 +254,8 @@
 }
 
 .pageBtn:hover:not(:disabled) {
-  background: rgba(0, 229, 255, 0.06);
-  border-color: rgba(0, 229, 255, 0.2);
+  background: rgba(36, 171, 243, 0.06);
+  border-color: rgba(36, 171, 243, 0.2);
   color: rgb(220, 220, 220);
 }
 
@@ -265,9 +265,9 @@
 }
 
 .pageBtnActive {
-  background: rgba(0, 229, 255, 0.1);
-  border-color: rgba(0, 229, 255, 0.3);
-  color: #00e5ff;
+  background: rgba(36, 171, 243, 0.1);
+  border-color: rgba(36, 171, 243, 0.3);
+  color: #24abf3;
 }
 
 /* ---- responsive ---- */

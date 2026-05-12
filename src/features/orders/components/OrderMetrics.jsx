@@ -7,7 +7,7 @@ const METRICS = [
     key: "totalRevenue",
     label: "Ingresos Totales",
     icon: DollarSign,
-    color: "#00e5ff",
+    color: "#24abf3",
     format: (v) => formatPrice(v),
   },
   {

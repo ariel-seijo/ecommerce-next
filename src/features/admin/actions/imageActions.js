@@ -78,8 +78,12 @@ export async function saveProductImagesAction(productId, images) {
       return { error: "Producto no encontrado" };
     }
 
+    const existingCount = await prisma.productImage.count({
+      where: { productId },
+    });
+
     const imagesWithBlur = await Promise.all(
-      images.map(async (img) => {
+      images.map(async (img, i) => {
         let blurDataURL = "";
 
         try {
@@ -95,6 +99,7 @@ export async function saveProductImagesAction(productId, images) {
           height: img.height,
           format: img.format,
           blurDataURL,
+          sortOrder: existingCount + i,
           productId,
         };
       })
@@ -160,5 +165,40 @@ export async function deleteProductImageAction(imageId) {
     }
     console.error("[DELETE IMAGE ERROR]", error);
     return { error: "Error al eliminar la imagen" };
+  }
+}
+
+/**
+ * Reorders product images by updating their sortOrder values.
+ * The order of imageIds in the array determines the new sortOrder (0-based).
+ *
+ * @param {number} productId
+ * @param {string[]} imageIds - Ordered array of ProductImage cuid values
+ * @returns {{ success: boolean } | { error: string }}
+ */
+export async function reorderProductImagesAction(productId, imageIds) {
+  try {
+    await requireAdmin();
+
+    if (!productId || !imageIds || !imageIds.length) {
+      return { error: "Faltan datos" };
+    }
+
+    await prisma.$transaction(
+      imageIds.map((imageId, index) =>
+        prisma.productImage.update({
+          where: { id: imageId, productId },
+          data: { sortOrder: index },
+        })
+      )
+    );
+
+    return { success: true };
+  } catch (error) {
+    if (error.message === "Unauthorized") {
+      return { error: "No autorizado" };
+    }
+    console.error("[REORDER IMAGES ERROR]", error);
+    return { error: "Error al reordenar las imágenes" };
   }
 }

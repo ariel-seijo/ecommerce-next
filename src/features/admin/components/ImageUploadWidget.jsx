@@ -1,14 +1,15 @@
 "use client";
 
-import { useState, useRef, useCallback } from "react";
-import Script from "next/script";
-import { Upload, Loader } from "lucide-react";
+import { useState, useEffect, useRef, useCallback } from "react";
+import { Upload, Loader, AlertTriangle } from "lucide-react";
 import {
   getCloudinarySignatureAction,
   saveProductImagesAction,
 } from "@/features/admin/actions/imageActions";
 import { useToastStore } from "@/features/toast";
 import styles from "./ImageUploadWidget.module.css";
+
+const SCRIPT_TIMEOUT_MS = 12000;
 
 export default function ImageUploadWidget({
   productId,
@@ -17,11 +18,83 @@ export default function ImageUploadWidget({
 }) {
   const [isUploading, setIsUploading] = useState(false);
   const [scriptLoaded, setScriptLoaded] = useState(false);
+  const [scriptError, setScriptError] = useState(false);
   const widgetRef = useRef(null);
   const collectedRef = useRef([]);
+  const timeoutRef = useRef(null);
   const toast = useToastStore((s) => s.toast);
 
   const remainingSlots = Math.max(0, 10 - existingCount);
+
+  /* ── Cloudinary script injection ── */
+  /* eslint-disable react-hooks/set-state-in-effect */
+  useEffect(() => {
+    const SCRIPT_SRC = "https://upload-widget.cloudinary.com/global/all.js";
+
+    if (window.cloudinary) {
+      setScriptLoaded(true);
+      return;
+    }
+
+    const existing = document.querySelector(`script[src="${SCRIPT_SRC}"]`);
+    if (existing) {
+      const handleLoad = () => {
+        setScriptLoaded(true);
+        setScriptError(false);
+      };
+      const handleError = () => setScriptError(true);
+      existing.addEventListener("load", handleLoad);
+      existing.addEventListener("error", handleError);
+      return () => {
+        existing.removeEventListener("load", handleLoad);
+        existing.removeEventListener("error", handleError);
+      };
+    }
+
+    const script = document.createElement("script");
+    script.src = SCRIPT_SRC;
+    script.async = true;
+    script.onload = () => {
+      setScriptLoaded(true);
+      setScriptError(false);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+    script.onerror = () => {
+      setScriptError(true);
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+    document.body.appendChild(script);
+
+    return () => {
+      script.onload = null;
+      script.onerror = null;
+    };
+  }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
+
+  /* ── Timeout fallback ── */
+  useEffect(() => {
+    if (scriptLoaded) return;
+
+    timeoutRef.current = setTimeout(() => {
+      if (!scriptLoaded) {
+        setScriptError(true);
+      }
+    }, SCRIPT_TIMEOUT_MS);
+
+    return () => {
+      if (timeoutRef.current) {
+        clearTimeout(timeoutRef.current);
+        timeoutRef.current = null;
+      }
+    };
+  }, [scriptLoaded]);
 
   const handleUploadResult = useCallback(
     async (error, result) => {
@@ -72,7 +145,21 @@ export default function ImageUploadWidget({
   );
 
   const openWidget = useCallback(async () => {
-    if (!scriptLoaded || !productId || remainingSlots <= 0) return;
+    if (!scriptLoaded) {
+      toast(
+        "El widget de Cloudinary aún se está cargando. Si el problema persiste, revisá bloqueadores de anuncios o red.",
+        "error"
+      );
+      return;
+    }
+    if (!productId) {
+      toast("Falta el ID del producto", "error");
+      return;
+    }
+    if (remainingSlots <= 0) {
+      toast("Ya se alcanzó el máximo de 10 imágenes", "error");
+      return;
+    }
 
     try {
       const sigResult = await getCloudinarySignatureAction();
@@ -117,14 +204,24 @@ export default function ImageUploadWidget({
   if (!productId) return null;
 
   return (
-    <>
-      <Script
-        src="https://upload-widget.cloudinary.com/global/all.js"
-        strategy="afterInteractive"
-        onLoad={() => setScriptLoaded(true)}
-      />
+    <div className={styles.uploadSection}>
+        {scriptError && (
+          <div className={styles.scriptError} role="alert">
+            <AlertTriangle size={14} aria-hidden="true" />
+            <span>
+              No se pudo cargar el widget de Cloudinary. Verificá tu conexión o
+              desactivá bloqueadores de anuncios.
+            </span>
+          </div>
+        )}
 
-      <div className={styles.uploadSection}>
+        {!scriptLoaded && !scriptError && (
+          <div className={styles.scriptLoading}>
+            <Loader size={14} className={styles.spinner} aria-hidden="true" />
+            <span>Cargando widget de subida...</span>
+          </div>
+        )}
+
         <button
           type="button"
           className={styles.btnUpload}
@@ -145,7 +242,7 @@ export default function ImageUploadWidget({
           )}
         </button>
 
-        {remainingSlots > 0 && !isUploading && (
+        {remainingSlots > 0 && !isUploading && scriptLoaded && (
           <span className={styles.counter}>
             {remainingSlots} {remainingSlots === 1 ? "slot" : "slots"}{" "}
             disponible{remainingSlots === 1 ? "" : "s"}
@@ -159,6 +256,5 @@ export default function ImageUploadWidget({
           </div>
         )}
       </div>
-    </>
   );
 }

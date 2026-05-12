@@ -1,70 +1,53 @@
-'use client';
+"use client";
 
-import { useState, useEffect } from 'react';
-import { useRouter } from 'next/navigation';
-import { ArrowLeft } from 'lucide-react';
-import Link from 'next/link';
-import ProductForm from '@/components/admin/ProductForm';
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+import { ArrowLeft } from "lucide-react";
+import Link from "next/link";
+import ProductForm from "@/features/admin/components/ProductForm";
+import { useToastStore } from "@/features/toast";
 
 export default function NewProductPage() {
   const [categories, setCategories] = useState([]);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');
+  const [brands, setBrands] = useState([]);
+  const [loading, setLoading] = useState(true);
   const router = useRouter();
+  const toast = useToastStore((s) => s.toast);
 
   useEffect(() => {
     async function fetchCategories() {
       try {
-        const res = await fetch('/api/categories');
-        if (!res.ok) throw new Error('Error al obtener las categorías');
-        const data = await res.json();
-        setCategories(data);
-      } catch (err) {
-        console.error('Error fetching categories:', err);
+        const [catRes, brandsRes] = await Promise.all([
+          fetch("/api/categories"),
+          fetch("/api/brands"),
+        ]);
+        if (!catRes.ok) throw new Error("Error al obtener las categorías");
+        const catData = await catRes.json();
+        setCategories(catData);
+        if (brandsRes.ok) {
+          const brandsData = await brandsRes.json();
+          setBrands(brandsData);
+        }
+      } catch {
+        toast("Error al cargar categorías", "error");
+      } finally {
+        setLoading(false);
       }
     }
-
     fetchCategories();
-  }, []);
+  }, [toast]);
 
-  async function handleSubmit(formData) {
-    setIsSubmitting(true);
-    setError('');
-    setSuccess('');
+  function handleSuccess() {
+    router.push("/admin/products");
+  }
 
-    try {
-      const productData = {
-        ...formData,
-        images: formData.images || [],
-      };
-
-      const res = await fetch('/api/products', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(productData),
-      });
-
-      if (!res.ok) {
-        const errorData = await res.json();
-        throw new Error(errorData.error || 'Error al crear el producto');
-      }
-
-      setSuccess('¡Producto creado exitosamente!');
-      setTimeout(() => {
-        router.push('/admin/products');
-        router.refresh();
-      }, 1000);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setIsSubmitting(false);
-    }
+  if (loading) {
+    return <div className="loading-spinner" />;
   }
 
   return (
     <div>
-      <div style={{ marginBottom: '24px' }}>
+      <div style={{ marginBottom: "24px" }}>
         <Link href="/admin/products" className="btn btn-secondary btn-sm">
           <ArrowLeft size={14} />
           Volver a productos
@@ -76,13 +59,12 @@ export default function NewProductPage() {
           <h3 className="admin-card-title">Crear nuevo producto</h3>
         </div>
 
-        {error && <div className="error-message">{error}</div>}
-        {success && <div className="success-message">{success}</div>}
-
         <ProductForm
+          mode="create"
           categories={categories}
-          onSubmit={handleSubmit}
-          isSubmitting={isSubmitting}
+          brands={brands}
+          onSuccess={handleSuccess}
+          onCancel={handleSuccess}
         />
       </div>
     </div>

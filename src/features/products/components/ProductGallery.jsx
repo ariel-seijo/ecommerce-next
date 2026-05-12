@@ -6,27 +6,31 @@ import styles from "../styles/ProductGallery.module.css";
 
 export default function ProductGallery({ product }) {
   const imagesRel = product?.imagesRel || [];
+  const thumbnail = product?.thumbnail;
 
-  const images =
-    imagesRel.length > 0
-      ? imagesRel.map((img) => ({
-          url: img.url,
-          blurDataURL: img.blurDataURL || "",
-          width: img.width,
-          height: img.height,
-          format: img.format,
-        }))
-      : product?.thumbnail
-        ? [
-            {
-              url: product.thumbnail,
-              blurDataURL: "",
-              width: 700,
-              height: 700,
-              format: "jpg",
-            },
-          ]
-        : [];
+  const images = [];
+
+  if (thumbnail) {
+    images.push({
+      url: thumbnail,
+      blurDataURL: "",
+      width: 700,
+      height: 700,
+      format: "jpg",
+    });
+  }
+
+  imagesRel
+    .filter((img) => img.url !== thumbnail)
+    .forEach((img) =>
+      images.push({
+        url: img.url,
+        blurDataURL: img.blurDataURL || "",
+        width: img.width,
+        height: img.height,
+        format: img.format,
+      })
+    );
 
   const [selectedIndex, setSelectedIndex] = useState(0);
   const [isZoomed, setIsZoomed] = useState(false);

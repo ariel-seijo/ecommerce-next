@@ -28,3 +28,25 @@
    SKELETONS — now in CSS Modules per page
    (HomeSkeleton, ProductSkeleton, CategorySkeleton)
    ========================= */
+
+/* =========================
+   STICKY FOOTER LAYOUT
+   Ensures main content fills remaining space
+   so footer never floats up during loading
+   ========================= */
+
+body {
+  display: flex;
+  flex-direction: column;
+}
+
+#main-content {
+  flex: 1;
+}
+
+/* Spinner for global loading state */
+@keyframes spin-loading {
+  to {
+    transform: rotate(360deg);
+  }
+}

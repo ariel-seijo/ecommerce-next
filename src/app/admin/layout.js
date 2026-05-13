@@ -1,6 +1,7 @@
 import { Suspense } from "react";
 import Sidebar from "@/components/admin/Sidebar";
 import AdminHeader from "@/features/admin/components/AdminHeader";
+import Skeleton from "@/components/ui/Skeleton";
 import layoutStyles from "@/features/admin/styles/AdminLayout.module.css";
 import "@/features/admin/styles/admin-tokens.css";
 import "@/features/admin/styles/admin-components.css";
@@ -14,7 +15,13 @@ export const metadata = {
 };
 
 function HeaderSkeleton() {
-  return <div style={{ height: "var(--admin-header-height, 64px)", background: "rgb(8, 8, 8)", borderBottom: "var(--admin-border-thin)" }} />;
+  return (
+    <Skeleton
+      width="100%"
+      height="var(--admin-header-height, 64px)"
+      style={{ borderRadius: 0 }}
+    />
+  );
 }
 
 export default function AdminLayout({ children }) {

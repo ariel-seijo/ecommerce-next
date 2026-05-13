@@ -3,12 +3,8 @@ import ProductTableSkeleton from "@/features/admin/components/ProductTableSkelet
 export default function ProductsLoading() {
   return (
     <div>
-      <div className="admin-card">
-        <div className="admin-card-header">
-          <h3 className="admin-card-title">Productos</h3>
-        </div>
-        <ProductTableSkeleton />
-      </div>
+      <h3 className="admin-card-title page-title-spacing">Productos</h3>
+      <ProductTableSkeleton />
     </div>
   );
 }

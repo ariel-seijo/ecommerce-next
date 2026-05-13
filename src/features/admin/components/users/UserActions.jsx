@@ -8,12 +8,74 @@ import {
   deleteUserAction,
 } from "@/features/admin/actions/userActions";
 import { useToastStore } from "@/features/toast";
+import ConfirmModal from "@/features/admin/components/ConfirmModal";
 import styles from "./UserActions.module.css";
+
+function ConfirmationModal({ confirm, onConfirm, onCancel }) {
+  if (!confirm) return null;
+
+  const { action, user } = confirm;
+  const isBanned = user.status === "BANNED";
+  const isAdmin = user.role === "ADMIN";
+
+  switch (action) {
+    case "delete":
+      return (
+        <ConfirmModal
+          isOpen
+          title="Eliminar usuario"
+          message={`¿Eliminar a "${user.email}"?\nEsta acción anonimiza sus datos pero conserva el historial de compras.`}
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          isConfirming={false}
+          confirmLabel="Eliminar"
+          variant="danger"
+        />
+      );
+    case "status":
+      return (
+        <ConfirmModal
+          isOpen
+          title={isBanned ? "Reactivar usuario" : "Banear usuario"}
+          message={
+            isBanned
+              ? `¿Reactivar a "${user.email}"? Podrá volver a iniciar sesión y comprar.`
+              : `¿Banear a "${user.email}"? No podrá iniciar sesión ni realizar compras.`
+          }
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          isConfirming={false}
+          confirmLabel={isBanned ? "Reactivar" : "Banear"}
+          variant={isBanned ? "primary" : "danger"}
+        />
+      );
+    case "role":
+      return (
+        <ConfirmModal
+          isOpen
+          title="Cambiar rol"
+          message={
+            isAdmin
+              ? `¿Quitar permisos de administrador a "${user.email}"? Pasará a ser Cliente.`
+              : `¿Convertir a "${user.email}" en Administrador? Tendrá acceso completo al panel.`
+          }
+          onConfirm={onConfirm}
+          onCancel={onCancel}
+          isConfirming={false}
+          confirmLabel={isAdmin ? "Quitar Admin" : "Hacer Admin"}
+          variant="primary"
+        />
+      );
+    default:
+      return null;
+  }
+}
 
 export default function UserActions({ user, onViewOrders }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(null);
   const [flipUp, setFlipUp] = useState(false);
+  const [confirm, setConfirm] = useState(null);
   const menuRef = useRef(null);
   const triggerRef = useRef(null);
   const toast = useToastStore((s) => s.toast);
@@ -61,16 +123,53 @@ export default function UserActions({ user, onViewOrders }) {
     triggerRef.current?.focus();
   }
 
-  async function handleAction(action, actionFn, successMsg) {
-    setLoading(action);
-    const result = await actionFn();
-    setLoading(null);
+  function handleActionClick(actionType) {
     closeMenu();
+    setConfirm({ action: actionType, user });
+  }
+
+  function handleConfirmCancel() {
+    setConfirm(null);
+  }
+
+  async function handleConfirmExecute() {
+    if (!confirm) return;
+    const { action } = confirm;
+    setLoading(action);
+
+    let result;
+    switch (action) {
+      case "delete":
+        result = await deleteUserAction(user.id);
+        break;
+      case "status":
+        result = await toggleUserStatusAction(user.id);
+        break;
+      case "role":
+        result = await updateUserRoleAction(
+          user.id,
+          user.role === "ADMIN" ? "CUSTOMER" : "ADMIN"
+        );
+        break;
+      default:
+        result = { error: "Acción desconocida" };
+    }
+
+    setLoading(null);
+    setConfirm(null);
 
     if (result.error) {
       toast(result.error, "error");
     } else {
-      toast(successMsg, "success");
+      const msgs = {
+        delete: `Usuario ${user.email} eliminado`,
+        status:
+          user.status === "BANNED"
+            ? `Usuario ${user.email} reactivado`
+            : `Usuario ${user.email} baneado`,
+        role: `Rol actualizado`,
+      };
+      toast(msgs[action], "success");
     }
   }
 
@@ -111,12 +210,7 @@ export default function UserActions({ user, onViewOrders }) {
             <button
               className={styles.menuItem}
               role="menuitem"
-              disabled={loading === "status"}
-              onClick={() =>
-                handleAction("status", () => toggleUserStatusAction(user.id), isBanned
-                  ? `Usuario ${user.email} reactivado`
-                  : `Usuario ${user.email} baneado`)
-              }
+              onClick={() => handleActionClick("status")}
             >
               {isBanned ? (
                 <>
@@ -136,14 +230,7 @@ export default function UserActions({ user, onViewOrders }) {
             <button
               className={styles.menuItem}
               role="menuitem"
-              disabled={loading === "role"}
-              onClick={() =>
-                handleAction(
-                  "role",
-                  () => updateUserRoleAction(user.id, isAdmin ? "CUSTOMER" : "ADMIN"),
-                  `Rol cambiado a ${isAdmin ? "Cliente" : "Admin"}`
-                )
-              }
+              onClick={() => handleActionClick("role")}
             >
               <UserCheck size={16} aria-hidden="true" />
               {isAdmin ? "Quitar Admin" : "Hacer Admin"}
@@ -156,10 +243,7 @@ export default function UserActions({ user, onViewOrders }) {
             <button
               className={`${styles.menuItem} ${styles.menuItemDanger}`}
               role="menuitem"
-              disabled={loading === "delete"}
-              onClick={() =>
-                handleAction("delete", () => deleteUserAction(user.id), `Usuario ${user.email} eliminado`)
-              }
+              onClick={() => handleActionClick("delete")}
             >
               <Trash2 size={16} aria-hidden="true" />
               Eliminar
@@ -167,6 +251,12 @@ export default function UserActions({ user, onViewOrders }) {
           )}
         </div>
       )}
+
+      <ConfirmationModal
+        confirm={confirm}
+        onConfirm={handleConfirmExecute}
+        onCancel={handleConfirmCancel}
+      />
     </div>
   );
 }

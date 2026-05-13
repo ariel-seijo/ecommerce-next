@@ -11,6 +11,7 @@ import {
 import { formatPrice } from "@/lib/utils/currency";
 import { updateUserRoleAction } from "@/features/admin/actions/userActions";
 import { useToastStore } from "@/features/toast";
+import ConfirmModal from "@/features/admin/components/ConfirmModal";
 import UserActions from "./UserActions";
 import styles from "./UserTable.module.css";
 
@@ -91,16 +92,29 @@ export default function UserTable({
 }) {
   const toast = useToastStore((s) => s.toast);
   const [roleLoading, setRoleLoading] = useState(null);
+  const [roleConfirm, setRoleConfirm] = useState(null);
 
-  async function handleRoleChange(userId, newRole) {
+  function handleRoleChange(userId, newRole) {
+    const user = users.find((u) => u.id === userId);
+    setRoleConfirm({ userId, newRole, user });
+  }
+
+  async function handleRoleConfirm() {
+    if (!roleConfirm) return;
+    const { userId, newRole } = roleConfirm;
     setRoleLoading(userId);
     const result = await updateUserRoleAction(userId, newRole);
     setRoleLoading(null);
+    setRoleConfirm(null);
     if (result.error) {
       toast(result.error, "error");
     } else {
       toast(`Rol actualizado a ${ROLES.find((r) => r.value === newRole)?.label}`, "success");
     }
+  }
+
+  function handleRoleCancel() {
+    setRoleConfirm(null);
   }
 
   if (!users || users.length === 0) {
@@ -236,6 +250,23 @@ export default function UserTable({
           </div>
         )}
       </div>
+
+      {roleConfirm && (
+        <ConfirmModal
+          isOpen
+          title="Cambiar rol"
+          message={
+            roleConfirm.newRole === "ADMIN"
+              ? `¿Convertir a "${roleConfirm.user?.email}" en Administrador? Tendrá acceso completo al panel.`
+              : `¿Quitar permisos de administrador a "${roleConfirm.user?.email}"? Pasará a ser Cliente.`
+          }
+          onConfirm={handleRoleConfirm}
+          onCancel={handleRoleCancel}
+          isConfirming={!!roleLoading}
+          confirmLabel={roleConfirm.newRole === "ADMIN" ? "Hacer Admin" : "Quitar Admin"}
+          variant="primary"
+        />
+      )}
     </>
   );
 }

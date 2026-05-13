@@ -65,10 +65,8 @@ export default function RevenueChart({ data, totalRevenue }) {
   );
 
   const xLabels = data.map((d) => {
-    const date = new Date(d.date);
-    return `${date.getDate().toString().padStart(2, "0")}/${(date.getMonth() + 1)
-      .toString()
-      .padStart(2, "0")}`;
+    const [, month, day] = d.date.split("-");
+    return `${day}/${month}`;
   });
 
   const isEmpty = maxRevenue === 0;

@@ -206,7 +206,7 @@ export default function ProductTable({
             Tabla de productos — {total} registros, página {page} de{" "}
             {totalPages}
           </caption>
-          <thead>
+          <thead className={styles.thead}>
             <tr>
               <th scope="col" className={styles.thProduct}>
                 Producto

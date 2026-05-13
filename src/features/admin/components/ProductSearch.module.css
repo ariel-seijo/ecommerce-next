@@ -1,5 +1,5 @@
 /* =====================================================
-   PRODUCT SEARCH — Cyberpunk glow
+   PRODUCT SEARCH — Unified Admin Input Style
    ===================================================== */
 
 .wrapper {
@@ -14,30 +14,31 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: var(--admin-muted);
+  color: rgb(130, 130, 130);
   pointer-events: none;
 }
 
 .input {
   width: 100%;
-  padding: 10px 40px 10px 38px;
-  background: #0a0a0a;
-  border: 1.5px solid rgb(45, 45, 45);
-  border-radius: 8px;
-  color: var(--admin-text);
-  font-size: 0.85rem;
+  height: 40px;
+  padding: 0 40px 0 38px;
+  border: 1px solid var(--admin-input-border);
+  border-radius: var(--admin-radius-sm);
+  font-size: 0.82rem;
   font-family: var(--admin-font);
-  transition: border-color 0.2s, box-shadow 0.2s;
+  color: var(--admin-text);
+  background: var(--admin-input-bg);
+  transition: border-color var(--admin-transition), box-shadow var(--admin-transition);
+  outline: none;
 }
 
 .input::placeholder {
-  color: rgb(80, 80, 80);
+  color: rgb(72, 72, 72);
 }
 
 .input:focus {
-  outline: none;
-  border-color: #24abf3;
-  box-shadow: 0 0 10px rgba(36, 171, 243, 0.3), 0 0 20px rgba(36, 171, 243, 0.1);
+  border-color: var(--admin-primary-glow);
+  box-shadow: 0 0 10px rgba(36, 171, 243, 0.08);
 }
 
 .clear {
@@ -50,15 +51,15 @@
   justify-content: center;
   width: 28px;
   height: 28px;
-  background: rgb(30, 30, 30);
-  border: 1px solid rgb(50, 50, 50);
+  background: var(--admin-input-bg);
+  border: 1px solid var(--admin-input-border);
   border-radius: 6px;
   color: var(--admin-muted);
   cursor: pointer;
-  transition: color 0.15s, border-color 0.15s;
+  transition: color var(--admin-transition), border-color var(--admin-transition);
 }
 
 .clear:hover {
-  color: #24abf3;
-  border-color: #24abf3;
+  color: var(--admin-primary-glow);
+  border-color: var(--admin-primary-glow);
 }

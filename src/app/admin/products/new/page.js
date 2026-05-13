@@ -47,7 +47,7 @@ export default function NewProductPage() {
 
   return (
     <div>
-      <div style={{ marginBottom: "24px" }}>
+      <div className="page-back-wrapper">
         <Link href="/admin/products" className="btn btn-secondary btn-sm">
           <ArrowLeft size={14} />
           Volver a productos

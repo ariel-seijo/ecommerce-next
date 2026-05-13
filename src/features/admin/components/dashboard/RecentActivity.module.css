@@ -5,12 +5,13 @@
 }
 
 .column {
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
   padding: 20px;
   display: flex;
   flex-direction: column;
+  box-shadow: var(--admin-shadow);
 }
 
 .columnHeader {
@@ -19,13 +20,13 @@
   gap: 10px;
   margin-bottom: 18px;
   padding-bottom: 12px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--admin-border-thin);
 }
 
 .columnTitle {
   font-size: 0.85rem;
   font-weight: 900;
-  color: #e4e4e4;
+  color: var(--admin-text);
   text-transform: uppercase;
   letter-spacing: 0.5px;
   margin: 0;
@@ -47,10 +48,10 @@
   padding: 8px 10px;
   font-size: 0.65rem;
   font-weight: 800;
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid var(--admin-border-thin);
 }
 
 .table td {
@@ -64,9 +65,9 @@
 }
 
 .mono {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-size: 0.75rem;
-  color: #e4e4e4;
+  color: var(--admin-text);
 }
 
 .clientCell {
@@ -77,18 +78,18 @@
 
 .clientName {
   font-size: 0.8rem;
-  color: #e4e4e4;
+  color: var(--admin-text);
   font-weight: 600;
 }
 
 .clientEmail {
   font-size: 0.7rem;
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
 }
 
 .emptyRow {
   text-align: center;
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
   padding: 24px !important;
   font-size: 0.8rem;
 }
@@ -101,7 +102,7 @@
   padding-top: 12px;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #24abf3;
+  color: var(--admin-primary-glow);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -130,7 +131,7 @@
 }
 
 .productItem:hover {
-  background: rgba(255, 255, 255, 0.04);
+  background: var(--admin-hover-bg);
 }
 
 .productRank {
@@ -144,7 +145,7 @@
   border-radius: 4px;
   font-size: 0.65rem;
   font-weight: 900;
-  color: #24abf3;
+  color: var(--admin-primary-glow);
   flex-shrink: 0;
 }
 
@@ -164,7 +165,7 @@
 .productTitle {
   font-size: 0.8rem;
   font-weight: 600;
-  color: #e4e4e4;
+  color: var(--admin-text);
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
@@ -173,7 +174,7 @@
 
 .productBrand {
   font-size: 0.65rem;
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -185,15 +186,15 @@
 }
 
 .soldCount {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-size: 0.7rem;
   font-weight: 600;
-  color: #22c55e;
+  color: var(--admin-success);
 }
 
 .stockCount {
   font-size: 0.7rem;
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
 }
 
 .progressWrapper {
@@ -227,7 +228,7 @@
   justify-content: center;
   height: 100%;
   min-height: 150px;
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
   font-size: 0.8rem;
 }
 
@@ -237,7 +238,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .column {
     padding: 14px;
   }

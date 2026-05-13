@@ -61,9 +61,9 @@ function getStatusLabel(status, deletedAt) {
 }
 
 function getStatusBadgeClass(status, deletedAt) {
-  if (deletedAt) return "table-badge-danger";
-  if (status === "BANNED") return "table-badge-danger";
-  return "table-badge-success";
+  if (deletedAt) return "badge-danger";
+  if (status === "BANNED") return "badge-danger";
+  return "badge-success";
 }
 
 function formatDate(dateString) {
@@ -133,8 +133,8 @@ export default function UserTable({
           <caption className="visually-hidden">
             Tabla de usuarios — {total} registros, página {page} de {totalPages}
           </caption>
-          <thead>
-            <tr className={styles.thead}>
+          <thead className={styles.thead}>
+            <tr>
               <SortableTh col={SORTABLE_COLUMNS[0]} sort={sort} order={order} onSort={onSort} />
               <SortableTh col={SORTABLE_COLUMNS[1]} sort={sort} order={order} onSort={onSort} />
               <SortableTh col={SORTABLE_COLUMNS[2]} sort={sort} order={order} onSort={onSort} />
@@ -180,7 +180,7 @@ export default function UserTable({
                     </span>
                   </td>
                   <td>
-                    <span className={`table-badge ${getStatusBadgeClass(user.status, user.deletedAt)}`}>
+                    <span className={`badge ${getStatusBadgeClass(user.status, user.deletedAt)}`}>
                       {getStatusLabel(user.status, user.deletedAt)}
                     </span>
                   </td>

@@ -5,13 +5,12 @@ import { formatPrice } from "@/lib/utils/currency";
 import Link from "next/link";
 import styles from "./RecentActivity.module.css";
 
-const STATUS_CLASS = "table-badge";
 const STATUS_MAP = {
-  PENDING: { class: "table-badge-warning", label: "Pendiente" },
-  PAID: { class: "table-badge-info", label: "Pagado" },
-  SHIPPED: { class: "table-badge-info", label: "Enviado" },
-  DELIVERED: { class: "table-badge-success", label: "Entregado" },
-  CANCELLED: { class: "table-badge-danger", label: "Cancelado" },
+  PENDING: { class: "badge-warning", label: "Pendiente" },
+  PAID: { class: "badge-info", label: "Pagado" },
+  SHIPPED: { class: "badge-info", label: "Enviado" },
+  DELIVERED: { class: "badge-success", label: "Entregado" },
+  CANCELLED: { class: "badge-danger", label: "Cancelado" },
 };
 
 export default function RecentActivity({ latestOrders, topProducts }) {
@@ -49,7 +48,7 @@ export default function RecentActivity({ latestOrders, topProducts }) {
                       </span>
                     </td>
                     <td>
-                      <span className={`${STATUS_CLASS} ${STATUS_MAP[order.status]?.class || ""}`}>
+                      <span className={`badge ${STATUS_MAP[order.status]?.class || ""}`}>
                         {STATUS_MAP[order.status]?.label || order.status}
                       </span>
                     </td>

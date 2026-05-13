@@ -24,6 +24,7 @@
   .btn,
   button:not(.print-keep),
   a.btn,
+  .badge,
   .table-badge,
   .loading-spinner,
   .error-message,
@@ -34,20 +35,11 @@
   }
 
   /* ---- reset layout ---- */
-  .admin-layout {
+  [data-admin-root="true"] {
     display: block !important;
     background: white !important;
     min-height: auto !important;
-  }
-
-  .admin-main {
-    margin-left: 0 !important;
-    min-height: auto !important;
-  }
-
-  .admin-content {
-    padding: 0 !important;
-    max-width: 100% !important;
+    font-family: "Inter", system-ui, sans-serif !important;
   }
 
   /* ---- reset colors ---- */
@@ -72,14 +64,10 @@
   }
 
   /* ---- reset text colors ---- */
-  body,
-  body *,
-  .admin-layout,
-  .admin-layout *,
-  .admin-main,
-  .admin-main *,
-  .admin-content,
-  .admin-content *,
+  [data-admin-root="true"],
+  [data-admin-root="true"] *,
+  #admin-content,
+  #admin-content *,
   .admin-card,
   .admin-card *,
   table,

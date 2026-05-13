@@ -2,7 +2,8 @@ import { Suspense } from "react";
 import Sidebar from "@/components/admin/Sidebar";
 import AdminHeader from "@/features/admin/components/AdminHeader";
 import layoutStyles from "@/features/admin/styles/AdminLayout.module.css";
-import "@/features/admin/styles/dashboard.css";
+import "@/features/admin/styles/admin-tokens.css";
+import "@/features/admin/styles/admin-components.css";
 import "@/features/admin/styles/forms.css";
 import "@/features/admin/styles/table.css";
 import "@/features/admin/styles/print-order.css";
@@ -13,7 +14,7 @@ export const metadata = {
 };
 
 function HeaderSkeleton() {
-  return <div style={{ height: "var(--header-height, 64px)", background: "rgb(8, 8, 8)", borderBottom: "1px solid rgba(255, 255, 255, 0.05)" }} />;
+  return <div style={{ height: "var(--admin-header-height, 64px)", background: "rgb(8, 8, 8)", borderBottom: "var(--admin-border-thin)" }} />;
 }
 
 export default function AdminLayout({ children }) {

@@ -78,10 +78,10 @@
 
 /* ---- order number ---- */
 .orderNumber {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-size: 0.8rem;
   font-weight: 700;
-  color: #24abf3;
+  color: var(--admin-primary-glow);
 }
 
 /* ---- customer ---- */
@@ -110,7 +110,7 @@
 
 /* ---- total ---- */
 .totalValue {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-weight: 700;
   font-size: 0.82rem;
 }
@@ -119,56 +119,6 @@
 .dateCell {
   font-size: 0.78rem;
   color: rgb(140, 140, 140);
-}
-
-/* ---- status badges ---- */
-.statusBadge {
-  display: inline-block;
-  padding: 3px 12px;
-  border-radius: 20px;
-  font-size: 0.65rem;
-  font-weight: 800;
-  text-transform: uppercase;
-  letter-spacing: 0.6px;
-  line-height: 1.6;
-}
-
-.statusWarning {
-  background: rgba(245, 158, 11, 0.08);
-  color: #fbbf24;
-  border: 1px solid rgba(245, 158, 11, 0.2);
-}
-
-.statusCyan {
-  background: rgba(36, 171, 243, 0.08);
-  color: #24abf3;
-  border: 1px solid rgba(36, 171, 243, 0.2);
-  box-shadow: 0 0 8px rgba(36, 171, 243, 0.08);
-}
-
-.statusBlue {
-  background: rgba(0, 127, 255, 0.08);
-  color: #3399ff;
-  border: 1px solid rgba(0, 127, 255, 0.2);
-}
-
-.statusGreen {
-  background: rgba(34, 197, 94, 0.08);
-  color: #4ade80;
-  border: 1px solid rgba(34, 197, 94, 0.2);
-}
-
-.statusNeonRed {
-  background: rgba(255, 51, 102, 0.08);
-  color: #ff3366;
-  border: 1px solid rgba(255, 51, 102, 0.2);
-  box-shadow: 0 0 8px rgba(255, 51, 102, 0.08);
-}
-
-.statusDefault {
-  background: rgba(160, 160, 160, 0.08);
-  color: rgb(180, 180, 180);
-  border: 1px solid rgba(160, 160, 160, 0.2);
 }
 
 /* ---- view button ---- */
@@ -190,7 +140,7 @@
 .viewBtn:hover {
   background: rgba(36, 171, 243, 0.08);
   border-color: rgba(36, 171, 243, 0.25);
-  color: #24abf3;
+  color: var(--admin-primary-glow);
 }
 
 /* ---- empty state ---- */
@@ -267,11 +217,11 @@
 .pageBtnActive {
   background: rgba(36, 171, 243, 0.1);
   border-color: rgba(36, 171, 243, 0.3);
-  color: #24abf3;
+  color: var(--admin-primary-glow);
 }
 
 /* ---- responsive ---- */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .thead th,
   .row td {
     padding: 8px 10px;

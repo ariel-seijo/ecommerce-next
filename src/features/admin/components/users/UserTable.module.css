@@ -5,7 +5,7 @@
 .tableWrapper {
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  overflow: visible;
+  overflow: hidden;
   background: rgba(12, 12, 12, 0.95);
   box-shadow:
     0 0 20px rgba(36, 171, 243, 0.03),
@@ -28,6 +28,12 @@
 }
 
 /* ---- sticky header ---- */
+.thead {
+  position: sticky;
+  top: 0;
+  z-index: 10;
+}
+
 .thead th {
   padding: 12px 14px;
   text-align: left;
@@ -49,7 +55,7 @@
 }
 
 .thead th.sortable:hover {
-  color: #24abf3;
+  color: var(--admin-primary-glow);
 }
 
 .sortIcon {
@@ -61,7 +67,7 @@
 
 .sortIconActive {
   opacity: 1;
-  color: #24abf3;
+  color: var(--admin-primary-glow);
 }
 
 /* ---- rows ---- */
@@ -83,6 +89,7 @@
 
 .row:hover {
   background: rgba(36, 171, 243, 0.03);
+  box-shadow: inset 3px 0 0 rgba(36, 171, 243, 0.5);
 }
 
 .row:focus-within {
@@ -92,10 +99,8 @@
 }
 
 .activeRow {
-  border-left: 1px solid #24abf3;
-  box-shadow:
-    inset 0 0 6px rgba(36, 171, 243, 0.15),
-    0 0 4px rgba(36, 171, 243, 0.06);
+  border-left: none;
+  box-shadow: none;
 }
 
 /* ---- user info ---- */
@@ -125,7 +130,7 @@
 
 /* ---- orders count ---- */
 .ordersCell {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-weight: 700;
   font-size: 0.84rem;
   color: rgb(200, 200, 200);
@@ -137,10 +142,10 @@
 }
 
 .ltvValue {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-weight: 700;
   font-size: 0.82rem;
-  color: #24abf3;
+  color: var(--admin-primary-glow);
   white-space: nowrap;
 }
 
@@ -151,15 +156,15 @@
 /* ---- role dropdown ---- */
 .roleSelect {
   padding: 4px 10px;
-  border: 1px solid rgba(255, 255, 255, 0.08);
-  border-radius: 6px;
-  background: rgba(16, 16, 16, 0.95);
-  color: rgb(200, 200, 200);
+  border: 1px solid var(--admin-input-border);
+  border-radius: var(--admin-radius-sm);
+  background: var(--admin-input-bg);
+  color: var(--admin-text);
   font-size: 0.78rem;
   font-weight: 700;
-  font-family: inherit;
+  font-family: var(--admin-font);
   cursor: pointer;
-  transition: border-color 0.15s ease;
+  transition: border-color var(--admin-transition), box-shadow var(--admin-transition);
   appearance: none;
   background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%239a9a9a' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
@@ -173,9 +178,9 @@
 }
 
 .roleSelect:focus {
-  border-color: #24abf3;
+  border-color: var(--admin-primary-glow);
   outline: none;
-  box-shadow: 0 0 0 2px rgba(36, 171, 243, 0.12);
+  box-shadow: 0 0 10px rgba(36, 171, 243, 0.08);
 }
 
 .roleSelect:disabled {
@@ -274,11 +279,11 @@
 .pageBtnActive {
   background: rgba(36, 171, 243, 0.1);
   border-color: rgba(36, 171, 243, 0.3);
-  color: #24abf3;
+  color: var(--admin-primary-glow);
 }
 
 /* ---- responsive ---- */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .thead th,
   .row td {
     padding: 8px 10px;

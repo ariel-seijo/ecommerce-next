@@ -22,12 +22,12 @@ const STATUS_LABELS = {
 
 function getStatusClass(status) {
   switch (status) {
-    case "PENDING": return styles.statusWarning;
-    case "PAID": return styles.statusCyan;
-    case "SHIPPED": return styles.statusBlue;
-    case "DELIVERED": return styles.statusGreen;
-    case "CANCELLED": return styles.statusNeonRed;
-    default: return styles.statusDefault;
+    case "PENDING": return "badge-warning";
+    case "PAID": return "badge-info";
+    case "SHIPPED": return "badge-blue";
+    case "DELIVERED": return "badge-success";
+    case "CANCELLED": return "badge-danger";
+    default: return "badge-neutral";
   }
 }
 
@@ -170,7 +170,7 @@ export default function OrderTable({ orders, total, page, totalPages }) {
                 </span>
               </td>
               <td>
-                <span className={`${styles.statusBadge} ${getStatusClass(order.status)}`}>
+                <span className={`badge ${getStatusClass(order.status)}`}>
                   {STATUS_LABELS[order.status] || order.status}
                 </span>
               </td>

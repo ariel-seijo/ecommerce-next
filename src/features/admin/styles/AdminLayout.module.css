@@ -2,15 +2,7 @@
    ADMIN LAYOUT MODULE — Backoffice Grid + Z-Index Stack
    ===================================================== */
 
-/* ----- Typography tokens ----- */
-.layout {
-  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
-  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
-  --sidebar-width: 260px;
-  --header-height: 64px;
-  --border-thin: 1px solid rgba(255, 255, 255, 0.05);
-  --transition-sidebar: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
-}
+/* Typography tokens reference admin-tokens.css */
 
 /* =========================
    GRID SHELL
@@ -18,10 +10,10 @@
 
 .layout {
   display: grid;
-  grid-template-columns: var(--sidebar-width) 1fr;
+  grid-template-columns: var(--admin-sidebar-width) 1fr;
   min-height: 100vh;
   background: rgb(8, 8, 8);
-  font-family: var(--font-ui);
+  font-family: var(--admin-font);
   color: #e4e4e4;
   isolation: isolate;
 }
@@ -35,10 +27,10 @@
   top: 0;
   left: 0;
   bottom: 0;
-  width: var(--sidebar-width);
+  width: var(--admin-sidebar-width);
   height: 100vh;
   background: rgb(14, 14, 14);
-  border-right: var(--border-thin);
+  border-right: var(--admin-border-thin);
   z-index: 40;
   overflow-y: auto;
   display: flex;
@@ -79,11 +71,11 @@
   position: sticky;
   top: 0;
   z-index: 30;
-  height: var(--header-height);
+  height: var(--admin-header-height);
   background: rgba(8, 8, 8, 0.88);
   backdrop-filter: blur(14px);
   -webkit-backdrop-filter: blur(14px);
-  border-bottom: var(--border-thin);
+  border-bottom: var(--admin-border-thin);
   display: flex;
   align-items: center;
   padding: 0 28px;
@@ -124,7 +116,7 @@
 
   .sidebar {
     transform: translateX(-100%);
-    transition: transform var(--transition-sidebar);
+    transition: transform var(--admin-transition-sidebar);
     z-index: 40;
   }
 
@@ -149,7 +141,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .content {
     padding: 12px;
   }

@@ -9,15 +9,15 @@ import styles from "./UserOrderHistory.module.css";
 function getStatusClass(status) {
   switch (status) {
     case "PENDING":
-      return "table-badge-warning";
+      return "badge-warning";
     case "PAID":
-      return "table-badge-info";
+      return "badge-info";
     case "SHIPPED":
-      return "table-badge-info";
+      return "badge-info";
     case "DELIVERED":
-      return "table-badge-success";
+      return "badge-success";
     case "CANCELLED":
-      return "table-badge-danger";
+      return "badge-danger";
     default:
       return "";
   }
@@ -141,7 +141,7 @@ export default function UserOrderHistory({ userId, isOpen, onClose }) {
                 </div>
                 <div className={styles.orderDetails}>
                   <span>
-                    <span className={`table-badge ${getStatusClass(order.status)}`}>
+                    <span className={`badge ${getStatusClass(order.status)}`}>
                       {getStatusLabel(order.status)}
                     </span>
                   </span>

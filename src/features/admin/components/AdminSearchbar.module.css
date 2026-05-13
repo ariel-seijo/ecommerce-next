@@ -103,10 +103,10 @@
 }
 
 /* =========================
-   MOBILE / TABLET (≤768px)
+   MOBILE / TABLET (≤1023px)
    ========================= */
 
-@media (max-width: 768px) {
+@media (max-width: 1023px) {
   .desktopForm {
     display: none;
   }

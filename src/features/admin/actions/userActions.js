@@ -2,7 +2,7 @@
 
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { sessionOptions } from "@/lib/session";
 import * as userService from "@/features/admin/services/user.service";
 
@@ -72,6 +72,7 @@ export async function deleteUserAction(id) {
     await requireAdmin();
     const user = await userService.softDeleteUser(id);
     revalidatePath("/admin/users");
+    revalidateTag("admin-dashboard");
     return { success: true, user };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -99,6 +100,7 @@ export async function toggleUserStatusAction(id) {
     await requireAdmin();
     const user = await userService.toggleUserStatus(id);
     revalidatePath("/admin/users");
+    revalidateTag("admin-dashboard");
     return { success: true, user };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -127,6 +129,7 @@ export async function updateUserRoleAction(id, role) {
     await requireAdmin();
     const userData = await userService.updateUserRole(id, role);
     revalidatePath("/admin/users");
+    revalidateTag("admin-dashboard");
     return { success: true, user: userData };
   } catch (error) {
     if (error.message === "Unauthorized") {

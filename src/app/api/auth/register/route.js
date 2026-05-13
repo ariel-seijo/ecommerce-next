@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { hash } from "@node-rs/bcrypt";
 import { getIronSession } from "iron-session";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { sessionOptions } from "@/lib/session";
 
@@ -62,6 +63,8 @@ export async function POST(request) {
       data: { name, email, password: hashedPassword, role: "CUSTOMER" },
       select: { id: true, name: true, email: true, role: true },
     });
+
+    revalidateTag("admin-dashboard");
 
     const res = new NextResponse(
       JSON.stringify({ user }),

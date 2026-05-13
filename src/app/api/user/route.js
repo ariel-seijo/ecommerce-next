@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { sessionOptions } from "@/lib/session";
 
@@ -26,6 +27,8 @@ export async function DELETE(request) {
         resetTokenExpires: null,
       },
     });
+
+    revalidateTag("admin-dashboard");
 
     const response = NextResponse.json({ success: true }, { status: 200 });
     response.cookies.delete(sessionOptions.cookieName);

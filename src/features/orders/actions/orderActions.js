@@ -2,7 +2,7 @@
 
 import { getIronSession } from "iron-session";
 import { cookies } from "next/headers";
-import { revalidatePath } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 import { sessionOptions } from "@/lib/session";
 import * as orderService from "@/features/orders/services/order.service";
 
@@ -73,6 +73,7 @@ export async function updateOrderStatusAction(id, status) {
     await requireAdmin();
     const order = await orderService.updateOrderStatus(id, status);
     revalidatePath("/admin/orders");
+    revalidateTag("admin-dashboard");
     return { success: true, order };
   } catch (error) {
     if (error.message === "Unauthorized") {

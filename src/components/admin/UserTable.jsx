@@ -1,1 +1,1 @@
-export { default } from "@/features/admin/components/UserTable";
+export { default } from "@/features/admin/components/users/UserTable";

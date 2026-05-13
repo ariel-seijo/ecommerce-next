@@ -1,0 +1,238 @@
+"use client";
+
+import { useState } from "react";
+import {
+  Users,
+  ChevronLeft,
+  ChevronRight,
+  ArrowUp,
+  ArrowDown,
+} from "lucide-react";
+import { formatPrice } from "@/lib/utils/currency";
+import { updateUserRoleAction } from "@/features/admin/actions/userActions";
+import { useToastStore } from "@/features/toast";
+import UserActions from "./UserActions";
+import styles from "./UserTable.module.css";
+
+const SORTABLE_COLUMNS = [
+  { key: "name", label: "Nombre" },
+  { key: "createdAt", label: "Fecha" },
+];
+
+function SortIcon({ column, sort, order }) {
+  if (sort !== column) {
+    return <ArrowUp size={11} className={styles.sortIcon} aria-hidden="true" />;
+  }
+  return order === "asc" ? (
+    <ArrowUp size={11} className={styles.sortIconActive} aria-hidden="true" />
+  ) : (
+    <ArrowDown size={11} className={styles.sortIconActive} aria-hidden="true" />
+  );
+}
+
+function getStatusLabel(status, deletedAt) {
+  if (deletedAt) return "Eliminado";
+  if (status === "BANNED") return "Baneado";
+  return "Activo";
+}
+
+function getStatusBadgeClass(status, deletedAt) {
+  if (deletedAt) return "table-badge-danger";
+  if (status === "BANNED") return "table-badge-danger";
+  return "table-badge-success";
+}
+
+function formatDate(dateString) {
+  return new Date(dateString).toLocaleDateString("es-ES", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+const ROLES = [
+  { value: "CUSTOMER", label: "Cliente" },
+  { value: "ADMIN", label: "Admin" },
+];
+
+export default function UserTable({
+  users,
+  total,
+  page,
+  totalPages,
+  sort = "createdAt",
+  order = "desc",
+  onSort,
+  onPage,
+  onViewOrders,
+}) {
+  const toast = useToastStore((s) => s.toast);
+  const [roleLoading, setRoleLoading] = useState(null);
+
+  async function handleRoleChange(userId, newRole) {
+    setRoleLoading(userId);
+    const result = await updateUserRoleAction(userId, newRole);
+    setRoleLoading(null);
+    if (result.error) {
+      toast(result.error, "error");
+    } else {
+      toast(`Rol actualizado a ${ROLES.find((r) => r.value === newRole)?.label}`, "success");
+    }
+  }
+
+  if (!users || users.length === 0) {
+    return (
+      <div className={styles.empty} role="status">
+        <Users size={48} className={styles.emptyIcon} aria-hidden="true" />
+        <p className={styles.emptyText}>No se encontraron usuarios</p>
+      </div>
+    );
+  }
+
+  return (
+    <>
+      <div className={styles.tableWrapper}>
+        <table className={styles.table} aria-label="Lista de usuarios" role="grid">
+          <caption className="visually-hidden">
+            Tabla de usuarios — {total} registros, página {page} de {totalPages}
+          </caption>
+          <thead>
+            <tr className={styles.thead}>
+              {SORTABLE_COLUMNS.map((col) => (
+                <th
+                  key={col.key}
+                  scope="col"
+                  className={styles.sortable}
+                  aria-sort={
+                    sort === col.key
+                      ? order === "asc"
+                        ? "ascending"
+                        : "descending"
+                      : "none"
+                  }
+                  onClick={() => onSort?.(col.key)}
+                >
+                  {col.label}
+                  <SortIcon column={col.key} sort={sort} order={order} />
+                </th>
+              ))}
+              <th scope="col">Email</th>
+              <th scope="col" className={styles.ordersCell}>
+                Órdenes
+              </th>
+              <th scope="col" style={{ textAlign: "right" }}>
+                LTV
+              </th>
+              <th scope="col">Estado</th>
+              <th scope="col">Rol</th>
+              <th scope="col" style={{ width: 50 }}>
+                <span className="visually-hidden">Acciones</span>
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            {users.map((user) => {
+              const isActive =
+                !user.deletedAt && user.status === "ACTIVE";
+              return (
+                <tr
+                  key={user.id}
+                  className={`${styles.row} ${isActive ? styles.activeRow : ""}`}
+                >
+                  <td>
+                    <div className={styles.userCell}>
+                      <span className={styles.userName}>
+                        {user.name || "—"}
+                      </span>
+                    </div>
+                  </td>
+                  <td>
+                    <span className={styles.userEmail}>{user.email}</span>
+                  </td>
+                  <td className={styles.dateCell}>
+                    {formatDate(user.createdAt)}
+                  </td>
+                  <td className={styles.ordersCell}>
+                    {user._count?.orders ?? 0}
+                  </td>
+                  <td style={{ textAlign: "right" }}>
+                    <span
+                      className={`${styles.ltvValue} ${(user.lifetimeValue || 0) === 0 ? styles.ltvZero : ""}`}
+                    >
+                      {formatPrice(user.lifetimeValue || 0)}
+                    </span>
+                  </td>
+                  <td>
+                    <span className={`table-badge ${getStatusBadgeClass(user.status, user.deletedAt)}`}>
+                      {getStatusLabel(user.status, user.deletedAt)}
+                    </span>
+                  </td>
+                  <td>
+                    <select
+                      className={styles.roleSelect}
+                      value={user.role}
+                      disabled={roleLoading === user.id || !!user.deletedAt}
+                      onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                      aria-label={`Rol de ${user.email}`}
+                    >
+                      {ROLES.map((r) => (
+                        <option key={r.value} value={r.value}>
+                          {r.label}
+                        </option>
+                      ))}
+                    </select>
+                  </td>
+                  <td className={styles.actionsCell}>
+                    <UserActions
+                      user={user}
+                      onViewOrders={onViewOrders}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+
+        {totalPages > 1 && (
+          <div className={styles.pagination}>
+            <span className={styles.paginationInfo}>
+              {total} usuarios — Página {page} de {totalPages}
+            </span>
+            <div className={styles.pageNumbers}>
+              <button
+                className={styles.pageBtn}
+                onClick={() => onPage?.(page - 1)}
+                disabled={page <= 1}
+                aria-label="Página anterior"
+              >
+                <ChevronLeft size={14} aria-hidden="true" />
+                Anterior
+              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
+                <button
+                  key={p}
+                  className={`${styles.pageBtn} ${p === page ? styles.pageBtnActive : ""}`}
+                  onClick={() => onPage?.(p)}
+                  aria-label={`Ir a página ${p}`}
+                  aria-current={p === page ? "page" : undefined}
+                >
+                  {p}
+                </button>
+              ))}
+              <button
+                className={styles.pageBtn}
+                onClick={() => onPage?.(page + 1)}
+                disabled={page >= totalPages}
+                aria-label="Página siguiente"
+              >
+                Siguiente
+                <ChevronRight size={14} aria-hidden="true" />
+              </button>
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+}

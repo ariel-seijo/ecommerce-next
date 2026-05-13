@@ -3,6 +3,11 @@ import { getIronSession } from "iron-session";
 import { sessionOptions } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 
+/**
+ * @deprecated Use Server Actions from `@/features/admin/actions/userActions` instead.
+ * These API routes are kept for backward compatibility with legacy integrations.
+ */
+
 async function isAdmin(request) {
   const response = new NextResponse();
   const session = await getIronSession(request, response, sessionOptions);

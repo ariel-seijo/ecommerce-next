@@ -193,9 +193,9 @@
 
 .topMeta {
   display: flex;
-  flex-direction: column;
-  align-items: flex-start;
-  gap: 0.05rem;
+  flex-direction: row;
+  align-items: center;
+  gap: 0.4rem;
 }
 
 .category,
@@ -409,12 +409,6 @@
   .buy-btn .content svg {
     width: 15px;
     height: 15px;
-  }
-
-  .topMeta {
-    flex-direction: row;
-    align-items: center;
-    gap: 0.4rem;
   }
 
   .category,

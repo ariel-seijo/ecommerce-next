@@ -95,7 +95,6 @@
 
 .content {
   flex: 1;
-  overflow-y: auto;
   padding: 28px;
   max-width: 1440px;
   width: 100%;
@@ -172,7 +171,6 @@
 
 :global(body:has([data-admin-root="true"])) {
   background: rgb(8, 8, 8);
-  overflow: hidden;
 }
 
 :global(body:has([data-admin-root="true"])::after) {

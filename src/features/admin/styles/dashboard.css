@@ -654,8 +654,7 @@ body {
 input:focus-visible,
 select:focus-visible,
 textarea:focus-visible {
-  outline: 2px solid #24abf3;
-  outline-offset: 2px;
+  outline: none;
 }
 
 /* focus not obscured */

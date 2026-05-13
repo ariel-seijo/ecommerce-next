@@ -26,7 +26,7 @@ export default function AdminProfileMenu() {
   const handleLogout = async () => {
     setOpen(false);
     await logout();
-    router.push("/login");
+    router.push("/");
     router.refresh();
   };
 

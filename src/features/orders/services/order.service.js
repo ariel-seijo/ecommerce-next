@@ -211,7 +211,7 @@ export async function updateOrderStatus(id, newStatus) {
  * }>}
  */
 export async function getDashboardMetrics() {
-  const [revenueAgg, pendingCount, totalOrders, cancelledCount] = await Promise.all([
+  const [revenueAgg, pendingCount, totalOrders, cancelledCount, completedCount] = await Promise.all([
     prisma.order.aggregate({
       where: {
         OR: [
@@ -225,11 +225,20 @@ export async function getDashboardMetrics() {
     prisma.order.count({ where: { status: "PENDING" } }),
     prisma.order.count(),
     prisma.order.count({ where: { status: "CANCELLED" } }),
+    prisma.order.count({
+      where: {
+        OR: [
+          { status: "PAID" },
+          { status: "SHIPPED" },
+          { status: "DELIVERED" },
+        ],
+      },
+    }),
   ]);
 
   const totalRevenue = revenueAgg._sum.total || 0;
   const cancellationRate = totalOrders > 0 ? (cancelledCount / totalOrders) * 100 : 0;
-  const averageTicket = totalOrders > 0 ? totalRevenue / totalOrders : 0;
+  const averageTicket = completedCount > 0 ? totalRevenue / completedCount : 0;
 
   return {
     totalRevenue,

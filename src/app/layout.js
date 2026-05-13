@@ -10,6 +10,7 @@ const fuenteGamer = localFont({
 
 import { AuthProvider } from "@/features/auth";
 import { ToastContainer } from "@/features/toast";
+import { CartProvider } from "@/features/cart";
 
 export const metadata = {
   icons: {
@@ -22,7 +23,9 @@ export default function RootLayout({ children }) {
     <html lang="es">
       <body className={fuenteGamer.variable}>
         <AuthProvider>
-          {children}
+          <CartProvider>
+            {children}
+          </CartProvider>
           <ToastContainer />
         </AuthProvider>
       </body>

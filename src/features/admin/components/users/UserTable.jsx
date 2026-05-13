@@ -16,7 +16,10 @@ import styles from "./UserTable.module.css";
 
 const SORTABLE_COLUMNS = [
   { key: "name", label: "Nombre" },
+  { key: "email", label: "Email" },
   { key: "createdAt", label: "Fecha" },
+  { key: "orders", label: "Órdenes" },
+  { key: "lifetimeValue", label: "LTV" },
 ];
 
 function SortIcon({ column, sort, order }) {
@@ -27,6 +30,26 @@ function SortIcon({ column, sort, order }) {
     <ArrowUp size={11} className={styles.sortIconActive} aria-hidden="true" />
   ) : (
     <ArrowDown size={11} className={styles.sortIconActive} aria-hidden="true" />
+  );
+}
+
+function SortableTh({ col, sort, order, onSort, children }) {
+  return (
+    <th
+      scope="col"
+      className={styles.sortable}
+      aria-sort={
+        sort === col.key
+          ? order === "asc"
+            ? "ascending"
+            : "descending"
+          : "none"
+      }
+      onClick={() => onSort?.(col.key)}
+    >
+      {children || col.label}
+      <SortIcon column={col.key} sort={sort} order={order} />
+    </th>
   );
 }
 
@@ -98,31 +121,11 @@ export default function UserTable({
           </caption>
           <thead>
             <tr className={styles.thead}>
-              {SORTABLE_COLUMNS.map((col) => (
-                <th
-                  key={col.key}
-                  scope="col"
-                  className={styles.sortable}
-                  aria-sort={
-                    sort === col.key
-                      ? order === "asc"
-                        ? "ascending"
-                        : "descending"
-                      : "none"
-                  }
-                  onClick={() => onSort?.(col.key)}
-                >
-                  {col.label}
-                  <SortIcon column={col.key} sort={sort} order={order} />
-                </th>
-              ))}
-              <th scope="col">Email</th>
-              <th scope="col" className={styles.ordersCell}>
-                Órdenes
-              </th>
-              <th scope="col" style={{ textAlign: "right" }}>
-                LTV
-              </th>
+              <SortableTh col={SORTABLE_COLUMNS[0]} sort={sort} order={order} onSort={onSort} />
+              <SortableTh col={SORTABLE_COLUMNS[1]} sort={sort} order={order} onSort={onSort} />
+              <SortableTh col={SORTABLE_COLUMNS[2]} sort={sort} order={order} onSort={onSort} />
+              <SortableTh col={SORTABLE_COLUMNS[3]} sort={sort} order={order} onSort={onSort} />
+              <SortableTh col={SORTABLE_COLUMNS[4]} sort={sort} order={order} onSort={onSort} />
               <th scope="col">Estado</th>
               <th scope="col">Rol</th>
               <th scope="col" style={{ width: 50 }}>

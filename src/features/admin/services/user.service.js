@@ -40,7 +40,7 @@ const ORDER_HISTORY_SELECT = {
  * @param {string} [params.search] - Searches name or email (case-insensitive)
  * @param {string} [params.role] - Filter by "CUSTOMER" or "ADMIN"
  * @param {string} [params.status] - Filter by "ACTIVE", "BANNED", or "DELETED"
- * @param {'createdAt'|'name'} [params.sort=createdAt]
+ * @param {'createdAt'|'name'|'email'|'orders'|'lifetimeValue'} [params.sort=createdAt]
  * @param {'asc'|'desc'} [params.order=desc]
  * @returns {Promise<{ users: Array, total: number, page: number, totalPages: number }>}
  */
@@ -48,6 +48,7 @@ export async function getAllUsers(params = {}) {
   const page = Math.max(1, parseInt(params.page) || 1);
   const limit = Math.min(50, Math.max(1, parseInt(params.limit) || 10));
   const skip = (page - 1) * limit;
+  const sortDir = params.order === "asc" ? "asc" : "desc";
 
   const where = {};
 
@@ -73,9 +74,55 @@ export async function getAllUsers(params = {}) {
 
   const orderBy = {};
   if (params.sort === "name") {
-    orderBy.name = params.order === "asc" ? "asc" : "desc";
+    orderBy.name = sortDir;
+  } else if (params.sort === "email") {
+    orderBy.email = sortDir;
+  } else if (params.sort === "orders") {
+    orderBy.orders = { _count: sortDir };
+  } else if (params.sort === "lifetimeValue") {
+    // LTV sort handled in-memory after aggregation
   } else {
-    orderBy.createdAt = params.order === "asc" ? "asc" : "desc";
+    orderBy.createdAt = sortDir;
+  }
+
+  const isLtvSort = params.sort === "lifetimeValue";
+
+  if (isLtvSort) {
+    // Fetch all matching users, then sort by LTV in JS and paginate
+    const [allUsers, total, ltvRows] = await Promise.all([
+      prisma.user.findMany({
+        where,
+        select: USER_LIST_SELECT,
+      }),
+      prisma.user.count({ where }),
+      prisma.order.groupBy({
+        by: ["userId"],
+        where: { status: { in: SUCCESSFUL_ORDER_STATUSES } },
+        _sum: { total: true },
+      }),
+    ]);
+
+    const ltvMap = new Map(
+      ltvRows.map((row) => [row.userId, (row._sum.total || 0)])
+    );
+
+    const enriched = allUsers
+      .map((user) => ({
+        ...user,
+        lifetimeValue: ltvMap.get(user.id) || 0,
+      }))
+      .sort((a, b) =>
+        sortDir === "asc"
+          ? a.lifetimeValue - b.lifetimeValue
+          : b.lifetimeValue - a.lifetimeValue
+      );
+
+    return {
+      users: enriched.slice(skip, skip + limit),
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
   }
 
   const [users, total, ltvRows] = await Promise.all([

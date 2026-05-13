@@ -1,0 +1,102 @@
+.searchbar {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.inputGroup {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background: rgb(16, 16, 16);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 0 10px;
+  height: 34px;
+  transition: border-color 0.2s ease;
+}
+
+.inputGroup:focus-within {
+  border-color: rgba(255, 255, 255, 0.12);
+}
+
+.icon {
+  color: rgb(120, 120, 120);
+  flex-shrink: 0;
+  cursor: pointer;
+}
+
+.input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: #e4e4e4;
+  font-size: 0.78rem;
+  font-family: inherit;
+  width: 160px;
+}
+
+.input::placeholder {
+  color: rgb(100, 100, 100);
+}
+
+.scopeToggle {
+  display: flex;
+  gap: 2px;
+  background: rgb(16, 16, 16);
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  border-radius: 6px;
+  padding: 2px;
+}
+
+.scopeBtn {
+  background: transparent;
+  border: none;
+  color: rgb(120, 120, 120);
+  font-size: 0.65rem;
+  font-weight: 700;
+  font-family: inherit;
+  padding: 3px 8px;
+  border-radius: 4px;
+  cursor: pointer;
+  text-transform: uppercase;
+  letter-spacing: 0.3px;
+  white-space: nowrap;
+  transition: all 0.15s ease;
+}
+
+.scopeBtn:hover {
+  color: #e4e4e4;
+}
+
+.scopeActive {
+  background: rgba(36, 171, 243, 0.18);
+  color: #24abf3;
+}
+
+@media (max-width: 900px) {
+  .inputGroup {
+    display: none;
+  }
+
+  .inputGroup.expanded {
+    display: flex;
+    position: absolute;
+    top: 100%;
+    right: 8px;
+    margin-top: 6px;
+    background: rgb(20, 20, 20);
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    box-shadow: 0 8px 24px rgba(0, 0, 0, 0.6);
+    z-index: 45;
+    width: 220px;
+  }
+
+  .scopeToggle {
+    display: none;
+  }
+
+  .searchbar {
+    position: relative;
+  }
+}

@@ -13,7 +13,7 @@ const navItems = [
   { href: '/admin/settings', label: 'Ajustes', icon: Settings },
 ];
 
-export default function Sidebar() {
+export default function Sidebar({ className }) {
   const pathname = usePathname();
   const [mobileOpen, setMobileOpen] = useState(false);
 
@@ -40,7 +40,7 @@ export default function Sidebar() {
 
       <aside
         id="admin-sidebar"
-        className={`admin-sidebar ${mobileOpen ? "open" : ""}`}
+        className={`${className || ""} admin-sidebar ${mobileOpen ? "open" : ""}`}
         aria-label="Navegación principal"
       >
         <div className="admin-sidebar-logo">

@@ -1,0 +1,190 @@
+/* =====================================================
+   ADMIN LAYOUT MODULE — Backoffice Grid + Z-Index Stack
+   ===================================================== */
+
+/* ----- Typography tokens ----- */
+.layout {
+  --font-ui: 'Inter', system-ui, -apple-system, sans-serif;
+  --font-mono: 'JetBrains Mono', 'Fira Code', monospace;
+  --sidebar-width: 260px;
+  --header-height: 64px;
+  --border-thin: 1px solid rgba(255, 255, 255, 0.05);
+  --transition-sidebar: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+/* =========================
+   GRID SHELL
+   ========================= */
+
+.layout {
+  display: grid;
+  grid-template-columns: var(--sidebar-width) 1fr;
+  min-height: 100vh;
+  background: rgb(8, 8, 8);
+  font-family: var(--font-ui);
+  color: #e4e4e4;
+  isolation: isolate;
+}
+
+/* =========================
+   SIDEBAR
+   ========================= */
+
+.sidebar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  width: var(--sidebar-width);
+  height: 100vh;
+  background: rgb(14, 14, 14);
+  border-right: var(--border-thin);
+  z-index: 40;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+  scrollbar-width: thin;
+  scrollbar-color: rgb(50, 50, 50) transparent;
+}
+
+.sidebar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background: rgb(50, 50, 50);
+  border-radius: 2px;
+}
+
+/* =========================
+   MAIN CONTENT AREA
+   ========================= */
+
+.main {
+  grid-column: 2;
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
+}
+
+/* =========================
+   HEADER (sticky)
+   ========================= */
+
+.header {
+  position: sticky;
+  top: 0;
+  z-index: 30;
+  height: var(--header-height);
+  background: rgba(8, 8, 8, 0.88);
+  backdrop-filter: blur(14px);
+  -webkit-backdrop-filter: blur(14px);
+  border-bottom: var(--border-thin);
+  display: flex;
+  align-items: center;
+  padding: 0 28px;
+}
+
+/* =========================
+   CONTENT (scrollable)
+   ========================= */
+
+.content {
+  flex: 1;
+  overflow-y: auto;
+  padding: 28px;
+  max-width: 1440px;
+  width: 100%;
+  margin: 0 auto;
+}
+
+/* =========================
+   MOBILE OVERLAY
+   ========================= */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.7);
+  z-index: 35;
+  display: none;
+}
+
+/* =========================
+   RESPONSIVE
+   ========================= */
+
+@media (max-width: 900px) {
+  .layout {
+    grid-template-columns: 1fr;
+  }
+
+  .sidebar {
+    transform: translateX(-100%);
+    transition: transform var(--transition-sidebar);
+    z-index: 40;
+  }
+
+  .sidebar:global(.open) {
+    transform: translateX(0);
+  }
+
+  .overlay:global(.visible) {
+    display: block;
+  }
+
+  .main {
+    grid-column: 1;
+  }
+
+  .header {
+    padding-left: 60px;
+  }
+
+  .content {
+    padding: 16px;
+  }
+}
+
+@media (max-width: 600px) {
+  .content {
+    padding: 12px;
+  }
+}
+
+/* =========================
+   REDUCED MOTION
+   ========================= */
+
+@media (prefers-reduced-motion: reduce) {
+  .sidebar {
+    transition: none;
+  }
+}
+
+/* =========================
+   BODY SCANLINE SUPPRESSION
+   ========================= */
+
+:global(body:has([data-admin-root="true"])) {
+  background: rgb(8, 8, 8);
+  overflow: hidden;
+}
+
+:global(body:has([data-admin-root="true"])::after) {
+  display: none;
+}
+
+/* =========================
+   Z-INDEX REFERENCE
+   =========================
+   50  — Slide-over drawers (UserOrderHistory, modals)
+   40  — Sidebar (desktop fixed)
+   35  — Mobile sidebar overlay
+   30  — AdminHeader (sticky)
+   10  — Content area (auto)
+   ========================= */

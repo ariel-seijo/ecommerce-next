@@ -3,7 +3,7 @@
    ===================================================== */
 
 .wrapper {
-  background: rgba(14, 14, 14, 0.95);
+  background: rgb(14, 14, 14);
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 10px;
   padding: 24px;
@@ -65,17 +65,6 @@
 .completed .checkIcon {
   color: #24abf3;
   filter: drop-shadow(0 0 6px rgba(36, 171, 243, 0.5));
-}
-
-.completed::after {
-  content: "";
-  position: absolute;
-  top: 11px;
-  left: 50%;
-  width: 100%;
-  height: 2px;
-  background: linear-gradient(90deg, rgba(36, 171, 243, 0.4), rgba(36, 171, 243, 0.1));
-  z-index: 0;
 }
 
 /* ---- current with pulse ---- */
@@ -210,7 +199,7 @@
 }
 
 /* ---- responsive ---- */
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .timeline {
     flex-direction: column;
     gap: 16px;

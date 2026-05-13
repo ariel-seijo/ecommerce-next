@@ -63,8 +63,8 @@
   display: flex;
   align-items: center;
   justify-content: center;
-  width: 36px;
-  height: 36px;
+  min-width: 44px;
+  min-height: 44px;
   border: 1px solid rgb(40, 40, 40);
   background: rgb(22, 22, 22);
   color: rgb(160, 160, 160);
@@ -238,7 +238,7 @@
 }
 
 /* ---- responsive ---- */
-@media (max-width: 480px) {
+@media (max-width: 640px) {
   .drawer {
     width: 100vw;
   }

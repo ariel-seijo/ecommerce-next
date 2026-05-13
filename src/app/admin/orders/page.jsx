@@ -1,5 +1,5 @@
 import { Suspense } from "react";
-import { ShoppingCart, AlertCircle } from "lucide-react";
+import { AlertCircle } from "lucide-react";
 import { getOrdersAction, getDashboardMetricsAction } from "@/features/orders/actions/orderActions";
 import OrderMetrics from "@/features/orders/components/OrderMetrics";
 import OrderFilters from "@/features/orders/components/OrderFilters";
@@ -39,36 +39,9 @@ async function OrdersContent({ searchParams }) {
     <>
       <OrderMetrics metrics={metricsResult} />
       <OrderFilters />
-      <div
-        className="admin-card"
-        style={{ padding: 0, overflow: "visible", background: "transparent", border: "none", boxShadow: "none" }}
-      >
-        <div
-          style={{
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "space-between",
-            padding: "0 0 14px",
-            flexWrap: "wrap",
-            gap: "8px",
-          }}
-        >
-          <h3
-            style={{
-              fontSize: "1rem",
-              fontWeight: 900,
-              letterSpacing: "0.5px",
-              textTransform: "uppercase",
-              margin: 0,
-              display: "flex",
-              alignItems: "center",
-              gap: "8px",
-              color: "#e4e4e4",
-            }}
-          >
-            <ShoppingCart size={18} color="#24abf3" aria-hidden="true" />
-            Pedidos ({total})
-          </h3>
+      <div className="admin-card">
+        <div className="admin-card-header">
+          <h3 className="admin-card-title">Pedidos ({total})</h3>
         </div>
         <OrderTable orders={orders} total={total} page={page} totalPages={totalPages} />
       </div>

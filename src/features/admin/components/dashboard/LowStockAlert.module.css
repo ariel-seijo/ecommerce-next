@@ -1,7 +1,7 @@
 .alert {
   background: linear-gradient(135deg, rgba(245, 158, 11, 0.08), rgba(245, 158, 11, 0.02));
   border: 1px solid rgba(245, 158, 11, 0.2);
-  border-radius: 10px;
+  border-radius: var(--admin-radius);
   padding: 18px 22px;
   margin-bottom: 24px;
 }
@@ -14,7 +14,7 @@
 }
 
 .icon {
-  color: #f59e0b;
+  color: var(--admin-warning);
   flex-shrink: 0;
   animation: pulse 2s ease-in-out infinite;
 }
@@ -41,14 +41,14 @@
   align-items: center;
   gap: 8px;
   padding: 6px 10px;
-  background: rgba(255, 255, 255, 0.03);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 6px;
+  background: var(--admin-hover-bg);
+  border: 1px solid var(--admin-border-thin);
+  border-radius: var(--admin-radius-sm);
 }
 
 .productTitle {
   font-size: 0.75rem;
-  color: #e4e4e4;
+  color: var(--admin-text);
   font-weight: 500;
   max-width: 200px;
   white-space: nowrap;
@@ -62,20 +62,20 @@
   padding: 6px 10px;
   background: rgba(245, 158, 11, 0.06);
   border: 1px dashed rgba(245, 158, 11, 0.2);
-  border-radius: 6px;
+  border-radius: var(--admin-radius-sm);
   font-size: 0.7rem;
   font-weight: 600;
-  color: #f59e0b;
+  color: var(--admin-warning);
 }
 
 .stockBadge {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-size: 0.65rem;
   font-weight: 700;
   padding: 2px 6px;
   border-radius: 3px;
   background: rgba(239, 68, 68, 0.15);
-  color: #ef4444;
+  color: var(--admin-danger);
   border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
@@ -98,7 +98,7 @@
   gap: 6px;
   font-size: 0.75rem;
   font-weight: 700;
-  color: #f59e0b;
+  color: var(--admin-warning);
   text-decoration: none;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -115,7 +115,7 @@
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .alert {
     padding: 14px 16px;
   }

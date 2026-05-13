@@ -336,7 +336,7 @@
   max-width: 320px;
 }
 
-@media (min-width: 900px) {
+@media (min-width: 768px) {
   .product-form-layout {
     display: grid;
     grid-template-columns: 1fr 300px;

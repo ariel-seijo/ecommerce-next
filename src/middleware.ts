@@ -10,7 +10,7 @@ export async function middleware(request: NextRequest) {
   const isAuthPage = pathname === "/login" || pathname === "/register";
 
   if (isAuthPage && session.userId) {
-    const destination = session.role === "ADMIN" ? "/dashboard" : "/";
+    const destination = session.role === "ADMIN" ? "/admin" : "/";
     return NextResponse.redirect(new URL(destination, request.url));
   }
 

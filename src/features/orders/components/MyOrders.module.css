@@ -7,7 +7,7 @@
 
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 768px;
 }
 
 .header {
@@ -212,6 +212,12 @@
   background: rgba(36, 171, 243, 0.12);
   color: #24abf3;
   border: 1px solid rgba(36, 171, 243, 0.25);
+}
+
+.statusDelivered {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .statusCancelled {

@@ -1,33 +1,59 @@
-import Sidebar from '@/components/admin/Sidebar';
-import Header from '@/components/admin/Header';
-import '@/features/admin/styles/dashboard.css';
-import '@/features/admin/styles/forms.css';
-import '@/features/admin/styles/table.css';
-import '@/features/admin/styles/print-order.css';
+import { Suspense } from "react";
+import Sidebar from "@/components/admin/Sidebar";
+import AdminHeader from "@/features/admin/components/AdminHeader";
+import AdminMobileMenuButton from "@/features/admin/components/AdminMobileMenuButton";
+import { SidebarProvider } from "@/features/admin/components/SidebarContext";
+import Skeleton from "@/components/ui/Skeleton";
+import layoutStyles from "@/features/admin/styles/AdminLayout.module.css";
+import "@/features/admin/styles/admin-tokens.css";
+import "@/features/admin/styles/admin-components.css";
+import "@/features/admin/styles/forms.css";
+import "@/features/admin/styles/table.css";
+import "@/features/admin/styles/print-order.css";
 
 export const metadata = {
   title: "Panel de Administración | ElectroShop",
   description: "Panel de administración para gestionar tu tienda online",
 };
 
+function HeaderSkeleton() {
+  return (
+    <Skeleton
+      width="100%"
+      height="var(--admin-header-height, 64px)"
+      style={{ borderRadius: 0, flex: 1 }}
+    />
+  );
+}
+
 export default function AdminLayout({ children }) {
   return (
-    <>
-      <a href="#admin-content" className="skip-link">
-        Saltar al contenido principal
-      </a>
+    <SidebarProvider>
+      <div className={layoutStyles.layout} data-admin-root="true">
+        <Suspense fallback={null}>
+          <Sidebar className={layoutStyles.sidebar} />
+        </Suspense>
 
-      <div className="admin-layout" role="application" aria-label="Panel de administración">
-        <Sidebar />
-        <div className="admin-main">
-          <Header />
-          <main className="admin-content" id="admin-content" tabIndex={-1}>
-            <div className="sr-announce" aria-live="polite" aria-atomic="true" id="sr-live" />
+        <div className={layoutStyles.main}>
+          <header className={layoutStyles.header}>
+            <AdminMobileMenuButton />
 
+            <Suspense fallback={<HeaderSkeleton />}>
+              <AdminHeader />
+            </Suspense>
+          </header>
+
+          <main className={layoutStyles.content} id="admin-content" tabIndex={-1}>
+            <div
+              className="sr-announce"
+              aria-live="polite"
+              aria-atomic="true"
+              id="sr-live"
+            />
             {children}
           </main>
         </div>
       </div>
-    </>
+    </SidebarProvider>
   );
 }

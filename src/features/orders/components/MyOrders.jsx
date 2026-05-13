@@ -10,6 +10,7 @@ const STATUS_LABELS = {
   PENDING: "Pendiente",
   PAID: "Pagado",
   SHIPPED: "Enviado",
+  DELIVERED: "Entregado",
   CANCELLED: "Cancelado",
 };
 
@@ -17,6 +18,7 @@ const STATUS_CLASSES = {
   PENDING: styles.statusPending,
   PAID: styles.statusPaid,
   SHIPPED: styles.statusShipped,
+  DELIVERED: styles.statusDelivered,
   CANCELLED: styles.statusCancelled,
 };
 

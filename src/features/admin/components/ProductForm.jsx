@@ -359,6 +359,7 @@ export default function ProductForm({
                 type="number"
                 id="price"
                 name="price"
+                inputMode="decimal"
                 className={`${styles.input} ${errors.price ? styles.inputError : ""}`}
                 value={formData.price}
                 onChange={handleChange}
@@ -382,6 +383,7 @@ export default function ProductForm({
                 type="number"
                 id="oldPrice"
                 name="oldPrice"
+                inputMode="decimal"
                 className={styles.input}
                 value={formData.oldPrice}
                 onChange={handleChange}
@@ -401,6 +403,7 @@ export default function ProductForm({
                 type="number"
                 id="stock"
                 name="stock"
+                inputMode="numeric"
                 className={`${styles.input} ${errors.stock ? styles.inputError : ""}`}
                 value={formData.stock}
                 onChange={handleChange}

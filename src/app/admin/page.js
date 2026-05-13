@@ -1,4 +1,5 @@
 import { Suspense } from "react";
+import { LayoutDashboard } from "lucide-react";
 import { getDashboardData } from "@/features/admin/services/dashboard.service";
 import StatsCards from "@/features/admin/components/dashboard/StatsCards";
 import RevenueChart from "@/features/admin/components/dashboard/RevenueChart";
@@ -38,7 +39,10 @@ async function DashboardContent() {
 export default function AdminDashboardPage() {
   return (
     <div>
-      <h2 className="visually-hidden">Panel de control</h2>
+      <h2 className="admin-card-title admin-card-title-with-icon page-title-spacing">
+        <LayoutDashboard size={20} color="var(--admin-primary-glow)" aria-hidden="true" />
+        Panel de Control
+      </h2>
 
       <Suspense fallback={<DashboardSkeleton />}>
         <DashboardContent />

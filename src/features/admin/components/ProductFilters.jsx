@@ -75,6 +75,7 @@ export default function ProductFilters({
 
       {/* Featured toggle */}
       <div className={styles.group}>
+        <span className={styles.placeholder} aria-hidden="true">Destacados</span>
         <button
           type="button"
           className={`${styles.pill} ${featured === "true" ? styles.pillActive : ""}`}

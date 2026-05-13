@@ -19,6 +19,9 @@ import {
   LayoutDashboard,
   User,
   Package,
+  Users,
+  ClipboardList,
+  Settings,
   Search,
   Menu,
   X,
@@ -276,7 +279,7 @@ export default function Navbar() {
                         {isAdmin ? (
                           <>
                             <Link
-                              href="/dashboard"
+                              href="/admin"
                               className={`${styles.userDropdownLink} ${styles.userDropdownAccent}`}
                               onClick={() => setShowUserMenu(false)}
                             >
@@ -284,12 +287,36 @@ export default function Navbar() {
                               Dashboard
                             </Link>
                             <Link
-                              href="/admin"
+                              href="/admin/products"
                               className={styles.userDropdownLink}
                               onClick={() => setShowUserMenu(false)}
                             >
-                              <Shield size={15} />
-                              Panel admin
+                              <Package size={15} />
+                              Productos
+                            </Link>
+                            <Link
+                              href="/admin/users"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <Users size={15} />
+                              Usuarios
+                            </Link>
+                            <Link
+                              href="/admin/orders"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <ClipboardList size={15} />
+                              Pedidos
+                            </Link>
+                            <Link
+                              href="/admin/settings"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                            >
+                              <Settings size={15} />
+                              Ajustes
                             </Link>
                           </>
                         ) : (
@@ -445,15 +472,33 @@ export default function Navbar() {
                 {isAdmin ? (
                   <>
                     <li>
-                      <Link href="/dashboard" className={styles.drawerLink} onClick={closeMobileMenu}>
+                      <Link href="/admin" className={styles.drawerLink} onClick={closeMobileMenu}>
                         <LayoutDashboard size={15} />
                         Dashboard
                       </Link>
                     </li>
                     <li>
-                      <Link href="/admin" className={styles.drawerLink} onClick={closeMobileMenu}>
-                        <Shield size={15} />
-                        Panel admin
+                      <Link href="/admin/products" className={styles.drawerLink} onClick={closeMobileMenu}>
+                        <Package size={15} />
+                        Productos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/admin/users" className={styles.drawerLink} onClick={closeMobileMenu}>
+                        <Users size={15} />
+                        Usuarios
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/admin/orders" className={styles.drawerLink} onClick={closeMobileMenu}>
+                        <ClipboardList size={15} />
+                        Pedidos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/admin/settings" className={styles.drawerLink} onClick={closeMobileMenu}>
+                        <Settings size={15} />
+                        Ajustes
                       </Link>
                     </li>
                   </>

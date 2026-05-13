@@ -16,24 +16,36 @@ function getEndOfPreviousMonth() {
   return new Date(Date.UTC(now.getUTCFullYear(), now.getUTCMonth(), 0, 23, 59, 59, 999));
 }
 
-function getSevenDaysAgo() {
-  const now = new Date();
-  const sevenDaysAgo = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000);
-  return new Date(
-    Date.UTC(sevenDaysAgo.getUTCFullYear(), sevenDaysAgo.getUTCMonth(), sevenDaysAgo.getUTCDate())
-  );
+const BA_TIMEZONE = "America/Argentina/Buenos_Aires";
+const BA_UTC_OFFSET = 3;
+
+function formatBuenosAiresDate(date) {
+  return new Intl.DateTimeFormat("en-CA", {
+    timeZone: BA_TIMEZONE,
+    year: "numeric",
+    month: "2-digit",
+    day: "2-digit",
+  }).format(date);
 }
 
-function formatDateYYYYMMDD(date) {
-  return date.toISOString().split("T")[0];
+function getBuenosAiresTodayMidnight() {
+  const now = new Date();
+  const dateStr = formatBuenosAiresDate(now);
+  const [year, month, day] = dateStr.split("-").map(Number);
+  return new Date(Date.UTC(year, month - 1, day, BA_UTC_OFFSET));
+}
+
+function getSevenDaysAgo() {
+  const todayMidnight = getBuenosAiresTodayMidnight();
+  return new Date(todayMidnight.getTime() - 6 * 24 * 60 * 60 * 1000);
 }
 
 function generateDateRange(days = 7) {
+  const todayMidnight = getBuenosAiresTodayMidnight();
   const dates = [];
-  const today = new Date();
   for (let i = days - 1; i >= 0; i--) {
-    const d = new Date(today.getTime() - i * 24 * 60 * 60 * 1000);
-    dates.push(formatDateYYYYMMDD(d));
+    const d = new Date(todayMidnight.getTime() - i * 24 * 60 * 60 * 1000);
+    dates.push(formatBuenosAiresDate(d));
   }
   return dates;
 }
@@ -134,20 +146,18 @@ export async function getSalesTimeline() {
   const sevenDaysAgo = getSevenDaysAgo();
   const dateRange = generateDateRange(7);
 
-  const salesData = await prisma.order.groupBy({
-    by: ["createdAt"],
+  const orders = await prisma.order.findMany({
     where: {
       status: { in: ["PAID", "SHIPPED", "DELIVERED"] },
       createdAt: { gte: sevenDaysAgo },
     },
-    _sum: { total: true },
-    orderBy: { createdAt: "asc" },
+    select: { total: true, createdAt: true },
   });
 
   const salesByDate = {};
-  salesData.forEach((item) => {
-    const dateKey = formatDateYYYYMMDD(item.createdAt);
-    salesByDate[dateKey] = Number(item._sum.total || 0);
+  orders.forEach((order) => {
+    const dateKey = formatBuenosAiresDate(order.createdAt);
+    salesByDate[dateKey] = (salesByDate[dateKey] || 0) + Number(order.total);
   });
 
   const timeline = dateRange.map((date) => ({

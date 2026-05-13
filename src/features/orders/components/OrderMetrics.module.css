@@ -10,13 +10,14 @@
 }
 
 .card {
-  background: rgba(18, 18, 18, 0.95);
-  border: 1px solid rgba(255, 255, 255, 0.05);
-  border-radius: 10px;
+  background: var(--admin-card-bg);
+  border: 1px solid var(--admin-border);
+  border-radius: var(--admin-radius);
   padding: 22px 24px;
   position: relative;
   overflow: hidden;
-  transition: transform 0.2s ease, box-shadow 0.2s ease, border-color 0.2s ease;
+  transition: transform var(--admin-transition), box-shadow var(--admin-transition), border-color var(--admin-transition);
+  box-shadow: var(--admin-shadow);
 }
 
 .card::before {
@@ -54,7 +55,7 @@
 .label {
   font-size: 0.7rem;
   font-weight: 800;
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
 }
@@ -68,18 +69,18 @@
 }
 
 .value[data-mono="true"] {
-  font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", monospace;
+  font-family: var(--admin-font-mono);
   font-size: 1.4rem;
   letter-spacing: 0;
 }
 
-@media (max-width: 900px) {
+@media (max-width: 768px) {
   .grid {
     grid-template-columns: repeat(2, 1fr);
   }
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .grid {
     grid-template-columns: 1fr;
   }

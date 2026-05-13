@@ -206,7 +206,7 @@ export default function ProductTable({
             Tabla de productos — {total} registros, página {page} de{" "}
             {totalPages}
           </caption>
-          <thead>
+          <thead className={styles.thead}>
             <tr>
               <th scope="col" className={styles.thProduct}>
                 Producto
@@ -497,7 +497,6 @@ export default function ProductTable({
             aria-label="Página anterior"
           >
             <ChevronLeft size={16} />
-            Anterior
           </button>
 
           <div className={styles.pageNumbers}>
@@ -541,7 +540,6 @@ export default function ProductTable({
             disabled={page >= totalPages}
             aria-label="Página siguiente"
           >
-            Siguiente
             <ChevronRight size={16} />
           </button>
         </nav>

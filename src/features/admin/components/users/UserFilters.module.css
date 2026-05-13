@@ -1,5 +1,5 @@
 /* =====================================================
-   USER FILTERS — Inline Filter Row with Debounce
+   USER FILTERS — Unified Admin Inputs
    ===================================================== */
 
 .filtersRow {
@@ -24,7 +24,7 @@
   left: 12px;
   top: 50%;
   transform: translateY(-50%);
-  color: rgb(130, 130, 130);
+  color: var(--admin-muted);
   pointer-events: none;
   width: 16px;
   height: 16px;
@@ -40,7 +40,7 @@
   font-family: var(--admin-font);
   color: var(--admin-text);
   background: var(--admin-input-bg);
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color var(--admin-transition), box-shadow var(--admin-transition);
   outline: none;
 }
 
@@ -49,8 +49,8 @@
 }
 
 .searchInput:focus {
-  border-color: #24abf3;
-  box-shadow: 0 0 0 3px rgba(36, 171, 243, 0.1);
+  border-color: var(--admin-primary-glow);
+  box-shadow: 0 0 10px rgba(36, 171, 243, 0.08);
 }
 
 .filterSelect {
@@ -59,14 +59,14 @@
   border: 1px solid var(--admin-input-border);
   border-radius: var(--admin-radius-sm);
   font-size: 0.82rem;
-  font-family: var(--admin-font);
   font-weight: 700;
+  font-family: var(--admin-font);
   color: var(--admin-text);
   background: var(--admin-input-bg);
   cursor: pointer;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color var(--admin-transition), box-shadow var(--admin-transition);
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='10' height='10' viewBox='0 0 10 10'%3E%3Cpath fill='%239a9a9a' d='M5 7L1 3h8z'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239a9a9a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
   background-position: right 10px center;
   outline: none;
@@ -74,13 +74,13 @@
 }
 
 .filterSelect:focus {
-  border-color: #24abf3;
-  box-shadow: 0 0 0 3px rgba(36, 171, 243, 0.1);
+  border-color: var(--admin-primary-glow);
+  box-shadow: 0 0 10px rgba(36, 171, 243, 0.08);
 }
 
 .filterSelect option {
-  background: rgb(16, 16, 16);
-  color: rgb(200, 200, 200);
+  background: var(--admin-input-bg);
+  color: var(--admin-text);
 }
 
 .filterSelect::-ms-expand {
@@ -89,15 +89,15 @@
 
 .resultCount {
   font-size: 0.72rem;
-  color: rgb(130, 130, 130);
   font-weight: 700;
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: 0.5px;
+  color: var(--admin-muted);
 }
 
 /* ---- responsive ---- */
-@media (max-width: 768px) {
+@media (max-width: 640px) {
   .filtersRow {
     gap: 8px;
   }

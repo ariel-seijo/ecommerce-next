@@ -3,12 +3,8 @@ import UserTableSkeleton from "@/features/admin/components/users/UserTableSkelet
 export default function UsersLoading() {
   return (
     <div>
-      <div className="admin-card">
-        <div className="admin-card-header">
-          <h3 className="admin-card-title">Usuarios</h3>
-        </div>
-        <UserTableSkeleton />
-      </div>
+      <h3 className="admin-card-title page-title-spacing">Usuarios</h3>
+      <UserTableSkeleton />
     </div>
   );
 }

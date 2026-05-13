@@ -1,11 +1,11 @@
 /* =====================================================
-   PRODUCT FILTERS — Horizontal bar, neon pills
+   PRODUCT FILTERS — Clean symmetric bar
    ===================================================== */
 
 .bar {
   display: flex;
   flex-wrap: wrap;
-  gap: 14px 20px;
+  gap: 12px 24px;
   align-items: flex-end;
   margin-bottom: 18px;
   padding-bottom: 14px;
@@ -15,77 +15,100 @@
 .group {
   display: flex;
   flex-direction: column;
-  gap: 5px;
+  gap: 6px;
 }
 
 .label {
-  font-size: 0.65rem;
+  font-size: 0.68rem;
   font-weight: 800;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: var(--admin-muted);
   user-select: none;
+  height: 14px;
+  line-height: 14px;
+}
+
+.placeholder {
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.8px;
+  color: var(--admin-muted);
+  user-select: none;
+  height: 14px;
+  line-height: 14px;
+  visibility: hidden;
 }
 
 .select {
-  padding: 6px 28px 6px 10px;
-  background: #0a0a0a;
-  border: 1.5px solid rgb(45, 45, 45);
-  border-radius: 6px;
-  color: var(--admin-text);
-  font-size: 0.78rem;
+  height: 40px;
+  padding: 0 32px 0 12px;
+  border: 1px solid var(--admin-input-border);
+  border-radius: var(--admin-radius-sm);
+  font-size: 0.82rem;
+  font-weight: 700;
   font-family: var(--admin-font);
+  color: var(--admin-text);
+  background: var(--admin-input-bg);
   cursor: pointer;
   appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg width='10' height='6' fill='none' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='m1 1 4 4 4-4' stroke='%23828282' stroke-width='1.5' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%239a9a9a' d='M6 8L1 3h10z'/%3E%3C/svg%3E");
   background-repeat: no-repeat;
-  background-position: right 8px center;
-  transition: border-color 0.2s, box-shadow 0.2s;
-  min-height: 34px;
+  background-position: right 12px center;
+  transition: border-color var(--admin-transition), box-shadow var(--admin-transition);
+  outline: none;
+  min-width: 140px;
 }
 
 .select:focus {
-  outline: none;
-  border-color: #24abf3;
-  box-shadow: 0 0 8px rgba(36, 171, 243, 0.25);
+  border-color: var(--admin-primary-glow);
+  box-shadow: 0 0 10px rgba(36, 171, 243, 0.08);
+}
+
+.select option {
+  background: var(--admin-input-bg);
+  color: var(--admin-text);
 }
 
 .pills {
   display: flex;
   gap: 4px;
+  height: 40px;
 }
 
 .pill {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 5px 10px;
-  background: #0a0a0a;
-  border: 1.5px solid rgb(45, 45, 45);
-  border-radius: 6px;
+  gap: 5px;
+  padding: 0 14px;
+  height: 40px;
+  background: var(--admin-input-bg);
+  border: 1px solid var(--admin-input-border);
+  border-radius: var(--admin-radius-sm);
   color: var(--admin-muted);
-  font-size: 0.75rem;
+  font-size: 0.78rem;
   font-weight: 700;
   font-family: var(--admin-font);
   cursor: pointer;
-  transition: all 0.2s;
-  min-height: 34px;
+  transition: all var(--admin-transition);
+  white-space: nowrap;
 }
 
 .pill:hover {
-  border-color: rgb(70, 70, 70);
+  border-color: rgba(36, 171, 243, 0.25);
   color: var(--admin-text);
 }
 
 .pill:focus-visible {
-  outline: 2px solid #24abf3;
+  outline: 2px solid var(--admin-primary-glow);
   outline-offset: 2px;
 }
 
 .pillActive {
   background: rgba(36, 171, 243, 0.1);
-  border-color: #24abf3;
-  color: #24abf3;
+  border-color: var(--admin-primary-glow);
+  color: var(--admin-primary-glow);
   box-shadow: 0 0 8px rgba(36, 171, 243, 0.15);
 }
 
@@ -93,31 +116,65 @@
   display: flex;
   gap: 6px;
   align-items: center;
+  height: 40px;
+}
+
+.sortRow .select {
+  min-width: 150px;
 }
 
 .orderBtn {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
-  width: 34px;
-  height: 34px;
-  background: #0a0a0a;
-  border: 1.5px solid rgb(45, 45, 45);
-  border-radius: 6px;
+  width: 40px;
+  height: 40px;
+  flex-shrink: 0;
+  background: var(--admin-input-bg);
+  border: 1px solid var(--admin-input-border);
+  border-radius: var(--admin-radius-sm);
   color: var(--admin-muted);
   cursor: pointer;
-  transition: all 0.2s;
+  transition: all var(--admin-transition);
 }
 
 .orderBtn:hover {
-  border-color: #24abf3;
-  color: #24abf3;
+  border-color: var(--admin-primary-glow);
+  color: var(--admin-primary-glow);
 }
 
 .orderAsc {
-  color: #24abf3;
+  color: var(--admin-primary-glow);
 }
 
 .orderDesc {
   color: var(--admin-muted);
+}
+
+/* Mobile: stack vertically, full-width */
+@media (max-width: 640px) {
+  .bar {
+    flex-direction: column;
+    gap: 12px;
+    align-items: stretch;
+  }
+
+  .group {
+    width: 100%;
+  }
+
+  .select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .sortRow .select {
+    width: 100%;
+    min-width: 0;
+  }
+
+  .pills {
+    flex-wrap: wrap;
+    height: auto;
+  }
 }

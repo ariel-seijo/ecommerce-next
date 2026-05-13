@@ -84,7 +84,8 @@ export default function UserActions({ user, onViewOrders }) {
     if (!isOpen && triggerRef.current) {
       const rect = triggerRef.current.getBoundingClientRect();
       const spaceBelow = window.innerHeight - rect.bottom;
-      setFlipUp(spaceBelow < 220);
+      const spaceRight = window.innerWidth - rect.right;
+      setFlipUp(spaceBelow < 220 || spaceRight < 200);
     }
     setIsOpen((prev) => !prev);
   }

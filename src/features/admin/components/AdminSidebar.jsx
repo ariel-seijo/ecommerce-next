@@ -1,9 +1,10 @@
 'use client';
 
-import { useState } from "react";
+import { useEffect } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { LayoutDashboard, Package, ShoppingCart, Users, Settings, Menu, X } from "lucide-react";
+import { LayoutDashboard, Package, ShoppingCart, Users, Settings } from "lucide-react";
+import { useSidebar } from "./SidebarContext";
 
 const navItems = [
   { href: '/admin', label: 'Panel', icon: LayoutDashboard },
@@ -15,32 +16,38 @@ const navItems = [
 
 export default function Sidebar({ className }) {
   const pathname = usePathname();
-  const [mobileOpen, setMobileOpen] = useState(false);
+  const { sidebarOpen, closeSidebar } = useSidebar();
+
+  useEffect(() => {
+    function handleEscape(e) {
+      if (e.key === "Escape") closeSidebar();
+    }
+    document.addEventListener("keydown", handleEscape);
+    return () => document.removeEventListener("keydown", handleEscape);
+  }, [closeSidebar]);
+
+  useEffect(() => {
+    if (sidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "";
+    }
+    return () => {
+      document.body.style.overflow = "";
+    };
+  }, [sidebarOpen]);
 
   return (
     <>
-      <button
-        className="sidebar-toggle"
-        onClick={() => setMobileOpen(!mobileOpen)}
-        aria-expanded={mobileOpen}
-        aria-controls="admin-sidebar"
-        aria-label={mobileOpen ? "Cerrar menú" : "Abrir menú"}
-      >
-        {mobileOpen ? <X size={22} /> : <Menu size={22} />}
-      </button>
-
-      {mobileOpen && (
-        <div
-          className="modal-overlay"
-          style={{ zIndex: 99 }}
-          onClick={() => setMobileOpen(false)}
-          aria-hidden="true"
-        />
-      )}
+      <div
+        className={`sidebar-overlay ${sidebarOpen ? "visible" : ""}`}
+        onClick={closeSidebar}
+        aria-hidden="true"
+      />
 
       <aside
         id="admin-sidebar"
-        className={`${className || ""} admin-sidebar ${mobileOpen ? "open" : ""}`}
+        className={`${className || ""} admin-sidebar ${sidebarOpen ? "open" : ""}`}
         aria-label="Navegación principal"
       >
         <div className="admin-sidebar-logo">
@@ -59,7 +66,7 @@ export default function Sidebar({ className }) {
                     href={item.href}
                     className={`admin-nav-link ${isActive ? 'active' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
-                    onClick={() => setMobileOpen(false)}
+                    onClick={closeSidebar}
                   >
                     <Icon aria-hidden="true" size={18} />
                     {item.label}

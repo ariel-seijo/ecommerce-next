@@ -139,21 +139,25 @@
   flex-shrink: 0;
 }
 
-.sidebar-toggle {
+.admin-hamburger-btn {
   display: none;
-  position: fixed;
-  top: 10px;
-  left: 10px;
-  z-index: 200;
-  width: 44px;
-  height: 44px;
-  background: var(--admin-sidebar-bg);
-  border: 1px solid var(--admin-border);
-  color: var(--admin-text);
-  cursor: pointer;
-  border-radius: var(--admin-radius-sm);
   align-items: center;
   justify-content: center;
+  min-width: 44px;
+  min-height: 44px;
+  background: transparent;
+  border: 1px solid rgba(255, 255, 255, 0.06);
+  color: var(--admin-text-light);
+  cursor: pointer;
+  border-radius: var(--admin-radius-sm);
+  flex-shrink: 0;
+  transition: all var(--admin-transition);
+}
+
+.admin-hamburger-btn:hover {
+  color: #fff;
+  border-color: rgba(255, 255, 255, 0.12);
+  background: rgba(255, 255, 255, 0.04);
 }
 
 /* =========================
@@ -166,6 +170,8 @@
   border-radius: var(--admin-radius);
   box-shadow: var(--admin-shadow);
   padding: 28px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .admin-card + .admin-card {
@@ -218,8 +224,83 @@
   margin-top: 1rem;
 }
 
+/* ---- Order detail: shipping grid ---- */
+.order-detail-shipping-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 14px 24px;
+  margin-top: 0.5rem;
+}
+
+.order-detail-label {
+  display: block;
+  font-size: 0.68rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.6px;
+  color: var(--admin-muted);
+  margin-bottom: 3px;
+}
+
+.order-detail-value {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--admin-text);
+  margin: 0;
+  word-break: break-word;
+}
+
+.order-detail-notes {
+  margin-top: 14px;
+  padding-top: 12px;
+  border-top: 1px solid var(--admin-border-thin);
+  font-size: 0.78rem;
+  color: var(--admin-muted);
+}
+
+/* ---- Order detail: summary rows ---- */
 .order-summary-body {
-  margin-top: 1rem;
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+.order-detail-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 0;
+  font-size: 0.85rem;
+  color: var(--admin-text-light);
+  gap: 16px;
+}
+
+.order-detail-row:not(:last-of-type) {
+  border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+}
+
+.order-detail-row-divider {
+  padding-top: 14px;
+  margin-top: 4px;
+  border-top: 1px solid var(--admin-border-thin);
+  border-bottom: none !important;
+  font-weight: 800;
+  font-size: 0.9rem;
+  color: var(--admin-text);
+}
+
+.order-detail-total {
+  font-family: var(--admin-font-mono);
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: var(--admin-primary-glow);
+}
+
+.order-detail-mono {
+  font-family: var(--admin-font-mono);
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--admin-text);
 }
 
 .order-table-section {
@@ -243,6 +324,51 @@
 }
 
 /* =========================
+   ORDER DETAIL HEADER
+   ========================= */
+
+.order-detail-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.order-detail-header-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.order-detail-header-right {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+
+.order-detail-back {
+  padding: 8px 14px;
+  font-size: 0.78rem;
+}
+
+.order-detail-number {
+  margin: 0;
+}
+
+.order-detail-date {
+  font-size: 0.78rem;
+  color: var(--admin-muted);
+  margin: 4px 0 0 0;
+}
+
+.order-detail-section-icon {
+  color: var(--admin-primary-glow);
+}
+
+/* =========================
    BUTTONS
    ========================= */
 
@@ -261,8 +387,8 @@
   text-decoration: none;
   font-family: var(--admin-font);
   letter-spacing: 0.3px;
-  min-height: 40px;
-  min-width: 40px;
+  min-height: 44px;
+  min-width: 44px;
 }
 
 .btn:disabled {
@@ -307,13 +433,13 @@
 .btn-sm {
   padding: 5px 10px;
   font-size: 0.75rem;
-  min-height: 32px;
+  min-height: 36px;
 }
 
 .btn-icon {
   padding: 8px;
-  min-width: 40px;
-  min-height: 40px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 /* =========================
@@ -435,6 +561,27 @@
 }
 
 /* =========================
+   SIDEBAR OVERLAY (mobile backdrop)
+   ========================= */
+
+.sidebar-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 35;
+  background: rgba(0, 0, 0, 0.55);
+  backdrop-filter: blur(4px);
+  -webkit-backdrop-filter: blur(4px);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.28s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.sidebar-overlay.visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+/* =========================
    MODAL
    ========================= */
 
@@ -499,8 +646,8 @@
   cursor: pointer;
   border-radius: var(--admin-radius-sm);
   transition: all var(--admin-transition);
-  min-width: 36px;
-  min-height: 36px;
+  min-width: 44px;
+  min-height: 44px;
 }
 
 .modal-close:hover:not(:disabled) {
@@ -604,15 +751,15 @@ textarea:focus-visible {
    RESPONSIVE
    ========================= */
 
-@media (max-width: 900px) {
-  .sidebar-toggle {
+@media (max-width: 1023px) {
+  .admin-hamburger-btn {
     display: flex;
   }
 }
 
 @media (max-width: 640px) {
   .admin-card {
-    padding: 18px;
+    padding: 14px;
   }
 
   .admin-card-header {
@@ -627,12 +774,6 @@ textarea:focus-visible {
 
   .order-detail-grid {
     grid-template-columns: 1fr;
-  }
-}
-
-@media (max-width: 480px) {
-  .admin-card {
-    padding: 14px;
   }
 
   .order-detail-shipping-grid {

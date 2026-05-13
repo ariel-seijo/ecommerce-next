@@ -50,7 +50,7 @@
 .form-textarea:focus,
 .form-select:focus {
   border-color: var(--admin-primary);
-  box-shadow: 0 0 0 3px rgba(0, 127, 255, 0.12);
+  box-shadow: none;
 }
 
 /* error state */

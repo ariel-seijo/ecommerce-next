@@ -8,6 +8,7 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
     name: '',
     email: '',
     role: 'CUSTOMER',
+    status: 'ACTIVE',
     password: '',
   });
   const [errors, setErrors] = useState({});
@@ -20,6 +21,7 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
         name: user.name || '',
         email: user.email || '',
         role: user.role || 'CUSTOMER',
+        status: user.status || 'ACTIVE',
         password: '',
       });
     } else {
@@ -27,6 +29,7 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
         name: '',
         email: '',
         role: 'CUSTOMER',
+        status: 'ACTIVE',
         password: '',
       });
     }
@@ -74,6 +77,10 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
 
     if (!formData.role) {
       newErrors.role = 'El rol es obligatorio';
+    }
+
+    if (!formData.status) {
+      newErrors.status = 'El estado es obligatorio';
     }
 
     return newErrors;
@@ -186,6 +193,26 @@ export default function UserFormModal({ isOpen, user, onClose, onSubmit }) {
               <option value="ADMIN">Administrador</option>
             </select>
             {errors.role && <span className="form-error" id="role-error" role="alert">{errors.role}</span>}
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="user-status" className="form-label">
+              Estado
+            </label>
+            <select
+              id="user-status"
+              name="status"
+              value={formData.status}
+              onChange={handleChange}
+              className={`form-select ${errors.status ? 'form-input-error' : ''}`}
+              disabled={isSubmitting}
+              aria-invalid={!!errors.status}
+              aria-describedby={errorId('status')}
+            >
+              <option value="ACTIVE">Activo</option>
+              <option value="BANNED">Baneado</option>
+            </select>
+            {errors.status && <span className="form-error" id="status-error" role="alert">{errors.status}</span>}
           </div>
 
           <div className="form-group">

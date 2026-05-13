@@ -4,6 +4,11 @@ import { sessionOptions } from "@/lib/session";
 import { prisma } from "@/lib/prisma";
 import { hash } from "@node-rs/bcrypt";
 
+/**
+ * @deprecated Use Server Actions from `@/features/admin/actions/userActions` instead.
+ * These API routes are kept for backward compatibility with legacy integrations.
+ */
+
 async function isAdmin(request) {
   const response = new NextResponse();
   const session = await getIronSession(request, response, sessionOptions);
@@ -96,15 +101,16 @@ export async function DELETE(request, { params }) {
 
     await prisma.user.update({
       where: { id },
-      data: {
-        name: "Usuario eliminado",
-        email: `${anonymousTag}@deleted.local`,
-        password: "DELETED",
-        deletedAt: now,
-        anonymizedAt: now,
-        resetToken: null,
-        resetTokenExpires: null,
-      },
+        data: {
+          name: "Usuario eliminado",
+          email: `${anonymousTag}@deleted.local`,
+          password: "DELETED",
+          status: "BANNED",
+          deletedAt: now,
+          anonymizedAt: now,
+          resetToken: null,
+          resetTokenExpires: null,
+        },
     });
 
     return NextResponse.json({ message: "User deleted successfully" });

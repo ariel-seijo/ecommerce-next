@@ -145,6 +145,7 @@ export async function toggleProductActiveAction(id, active) {
     await requireAdmin();
     const product = await productService.toggleProductStatus(id, active);
     revalidatePath("/admin/products");
+    revalidateTag("admin-dashboard");
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -170,6 +171,7 @@ export async function toggleProductFeaturedAction(id, featured) {
     await requireAdmin();
     const product = await productService.toggleProductFeatured(id, featured);
     revalidatePath("/admin/products");
+    revalidateTag("admin-dashboard");
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {

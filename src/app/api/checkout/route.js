@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { sessionOptions } from "@/lib/session";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { generateOrderNumber } from "@/features/orders/lib/orderNumber";
 import { usdToArs } from "@/lib/utils/currency";
@@ -132,6 +133,8 @@ export async function POST(request) {
 
       return createdOrder;
     });
+
+    revalidateTag("admin-dashboard");
 
     return NextResponse.json({ order }, { status: 201 });
   } catch (error) {

@@ -13,9 +13,19 @@ import styles from "./UserActions.module.css";
 export default function UserActions({ user, onViewOrders }) {
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(null);
+  const [flipUp, setFlipUp] = useState(false);
   const menuRef = useRef(null);
   const triggerRef = useRef(null);
   const toast = useToastStore((s) => s.toast);
+
+  function toggleMenu() {
+    if (!isOpen && triggerRef.current) {
+      const rect = triggerRef.current.getBoundingClientRect();
+      const spaceBelow = window.innerHeight - rect.bottom;
+      setFlipUp(spaceBelow < 220);
+    }
+    setIsOpen((prev) => !prev);
+  }
 
   useEffect(() => {
     if (!isOpen) return;
@@ -73,7 +83,7 @@ export default function UserActions({ user, onViewOrders }) {
       <button
         ref={triggerRef}
         className={styles.trigger}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={toggleMenu}
         aria-label={`Acciones para ${user.email}`}
         aria-expanded={isOpen}
         aria-haspopup="menu"
@@ -82,7 +92,7 @@ export default function UserActions({ user, onViewOrders }) {
       </button>
 
       {isOpen && (
-        <div ref={menuRef} className={styles.menu} role="menu">
+        <div ref={menuRef} className={`${styles.menu} ${flipUp ? styles.menuUp : ""}`} role="menu">
           <button
             className={styles.menuItem}
             role="menuitem"

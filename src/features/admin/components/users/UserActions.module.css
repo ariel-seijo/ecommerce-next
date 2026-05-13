@@ -50,6 +50,12 @@
   transform-origin: top right;
 }
 
+.menuUp {
+  top: auto;
+  bottom: calc(100% + 4px);
+  transform-origin: bottom right;
+}
+
 @keyframes slideDown {
   from {
     opacity: 0;

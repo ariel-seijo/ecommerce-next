@@ -140,9 +140,9 @@ export default function UserTable({
               <SortableTh col={SORTABLE_COLUMNS[2]} sort={sort} order={order} onSort={onSort} />
               <SortableTh col={SORTABLE_COLUMNS[3]} sort={sort} order={order} onSort={onSort} />
               <SortableTh col={SORTABLE_COLUMNS[4]} sort={sort} order={order} onSort={onSort} />
-              <th scope="col">Estado</th>
-              <th scope="col">Rol</th>
-              <th scope="col" style={{ width: 50 }}>
+              <th scope="col" className={styles.statusCol}>Estado</th>
+              <th scope="col" className={styles.roleCol}>Rol</th>
+              <th scope="col" className={styles.actionsCol}>
                 <span className="visually-hidden">Acciones</span>
               </th>
             </tr>
@@ -172,7 +172,7 @@ export default function UserTable({
                   <td className={styles.ordersCell}>
                     {user._count?.orders ?? 0}
                   </td>
-                  <td style={{ textAlign: "right" }}>
+                  <td className={styles.ltvCell}>
                     <span
                       className={`${styles.ltvValue} ${(user.lifetimeValue || 0) === 0 ? styles.ltvZero : ""}`}
                     >

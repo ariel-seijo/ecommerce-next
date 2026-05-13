@@ -60,11 +60,27 @@
 }
 
 /* Responsive */
-@media (max-width: 768px) {
-  .header,
-  .row {
-    grid-template-columns: 30% 25% 15% 10% 10% 10%;
+@media (max-width: 640px) {
+  .header {
+    display: none;
+  }
+
+  .rows {
     gap: 8px;
-    padding: 10px 12px;
+  }
+
+  .row {
+    grid-template-columns: 1fr;
+    gap: 8px;
+    padding: 14px 16px;
+  }
+
+  .userCell {
+    margin-bottom: 4px;
+  }
+
+  .pagination {
+    flex-direction: column;
+    gap: 10px;
   }
 }

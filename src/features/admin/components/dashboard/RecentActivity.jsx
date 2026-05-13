@@ -41,10 +41,10 @@ export default function RecentActivity({ latestOrders, topProducts }) {
                     </td>
                     <td className={styles.clientCell}>
                       <span className={styles.clientName}>
-                        {order.user?.name || "Sin nombre"}
+                        {order.user?.email || "—"}
                       </span>
                       <span className={styles.clientEmail}>
-                        {order.user?.email}
+                        {order.user?.name || ""}
                       </span>
                     </td>
                     <td>

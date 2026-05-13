@@ -30,7 +30,7 @@
   /* ---- Text ---- */
   --admin-text: #e4e4e4;
   --admin-text-light: #a0a0a0;
-  --admin-muted: rgb(130, 130, 130);
+  --admin-muted: rgb(145, 145, 145);
 
   /* ---- Layout ---- */
   --admin-sidebar-width: 260px;
@@ -52,9 +52,33 @@
   --admin-transition: 0.2s ease;
   --admin-transition-sidebar: 0.28s cubic-bezier(0.4, 0, 0.2, 1);
 
-  /* ---- Responsive Breakpoints (used in media queries) ----
-     900px — sidebar collapses to hamburger
-     640px — 2-col grids collapse to 1-col, tables compact
-     480px — fine adjustments, padding reduction
+  /* ---- Responsive Breakpoints (standard mobile-first) ----
+     640px  — phone: stacked cards, single column, reduced padding
+     768px  — tablet: sidebar hamburger, 2-col grids collapse
+     1024px — desktop: full sidebar, wide tables
+     1280px — wide: max-width content cap
   */
+}
+
+/* Reduce neon shadows on mobile to save GPU/battery */
+@media (max-width: 640px) {
+  :root {
+    --admin-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    --admin-shadow-lg: 0 8px 24px rgba(0, 0, 0, 0.4);
+  }
+}
+
+/* Global anti-overflow: prevent horizontal scroll */
+[data-admin-root] *,
+[data-admin-root] *::before,
+[data-admin-root] *::after {
+  box-sizing: border-box;
+}
+
+[data-admin-root] img,
+[data-admin-root] video,
+[data-admin-root] canvas,
+[data-admin-root] svg {
+  max-width: 100%;
+  height: auto;
 }

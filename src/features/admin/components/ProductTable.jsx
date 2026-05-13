@@ -497,7 +497,6 @@ export default function ProductTable({
             aria-label="Página anterior"
           >
             <ChevronLeft size={16} />
-            Anterior
           </button>
 
           <div className={styles.pageNumbers}>
@@ -541,7 +540,6 @@ export default function ProductTable({
             disabled={page >= totalPages}
             aria-label="Página siguiente"
           >
-            Siguiente
             <ChevronRight size={16} />
           </button>
         </nav>

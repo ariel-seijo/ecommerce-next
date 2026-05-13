@@ -35,9 +35,25 @@ export default function Breadcrumbs() {
   }));
 
   return (
-    <nav aria-label="Ruta de navegación" style={{ display: "flex", alignItems: "center", gap: 6, fontSize: "0.78rem", fontWeight: 600, color: "rgb(160, 160, 160)", flexShrink: 0, minWidth: 0 }}>
+    <nav
+      aria-label="Ruta de navegación"
+      style={{
+        display: "flex",
+        alignItems: "center",
+        gap: 6,
+        fontSize: "0.78rem",
+        fontWeight: 600,
+        color: "rgb(160, 160, 160)",
+        minWidth: 0,
+        maxWidth: "100%",
+        overflowX: "auto",
+        WebkitOverflowScrolling: "touch",
+        scrollbarWidth: "none",
+        msOverflowStyle: "none",
+      }}
+    >
       {crumbs.map((crumb, i) => (
-        <span key={i} style={{ display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap" }}>
+        <span key={i} style={{ display: "flex", alignItems: "center", gap: 6, whiteSpace: "nowrap", flexShrink: 0 }}>
           {i > 0 && <ChevronRight size={12} style={{ color: "rgb(80, 80, 80)", flexShrink: 0 }} />}
           <span
             style={{

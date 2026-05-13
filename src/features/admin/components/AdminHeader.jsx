@@ -21,7 +21,8 @@ export default async function AdminHeader() {
         <Suspense fallback={null}>
           <NotificationBell
             lowStock={notifications.lowStock}
-            pendingOrders={notifications.pendingOrders}
+            recentOrders={notifications.recentOrders}
+            pendingCount={notifications.pendingCount}
           />
         </Suspense>
 

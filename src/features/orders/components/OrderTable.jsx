@@ -77,7 +77,6 @@ function Pagination({ page, totalPages }) {
         aria-label="Página anterior"
       >
         <ChevronLeft size={16} />
-        Anterior
       </button>
 
       <div className={styles.pageNumbers}>
@@ -109,7 +108,6 @@ function Pagination({ page, totalPages }) {
         disabled={page >= totalPages}
         aria-label="Página siguiente"
       >
-        Siguiente
         <ChevronRight size={16} />
       </button>
     </nav>
@@ -127,72 +125,139 @@ export default function OrderTable({ orders, total, page, totalPages }) {
   }
 
   return (
-    <div className={styles.tableWrapper}>
-      <table className={styles.table} aria-label="Lista de pedidos">
-        <caption className="visually-hidden">
-          Pedidos — {total} registros, página {page} de {totalPages}
-        </caption>
-        <thead className={styles.thead}>
-          <tr>
-            <th scope="col" className={styles.thOrder}>Pedido</th>
-            <th scope="col" className={styles.thCustomer}>Cliente</th>
-            <th scope="col" className={styles.thProducts}>Productos</th>
-            <th scope="col" className={styles.thTotal}>Total</th>
-            <th scope="col" className={styles.thStatus}>Estado</th>
-            <th scope="col" className={styles.thDate}>Fecha</th>
-            <th scope="col" className={styles.thActions}>Acciones</th>
-          </tr>
-        </thead>
-        <tbody>
-          {orders.map((order) => (
-            <tr key={order.id} className={styles.row}>
-              <td>
-                <span className={styles.orderNumber}>
-                  {order.orderNumber}
+    <>
+      {/* ---- DESKTOP TABLE ---- */}
+      <div className={styles.tableWrapper}>
+        <table className={styles.table} aria-label="Lista de pedidos">
+          <caption className="visually-hidden">
+            Pedidos — {total} registros, página {page} de {totalPages}
+          </caption>
+          <thead className={styles.thead}>
+            <tr>
+              <th scope="col" className={styles.thOrder}>Pedido</th>
+              <th scope="col" className={styles.thCustomer}>Cliente</th>
+              <th scope="col" className={styles.thProducts}>Productos</th>
+              <th scope="col" className={styles.thTotal}>Total</th>
+              <th scope="col" className={styles.thStatus}>Estado</th>
+              <th scope="col" className={styles.thDate}>Fecha</th>
+              <th scope="col" className={styles.thActions}>Acciones</th>
+            </tr>
+          </thead>
+          <tbody>
+            {orders.map((order) => (
+              <tr key={order.id} className={styles.row}>
+                <td>
+                  <span className={styles.orderNumber}>
+                    {order.orderNumber}
+                  </span>
+                </td>
+                <td>
+                  <div className={styles.customerCell}>
+                    <span className={styles.customerName}>
+                      {order.user?.name || "—"}
+                    </span>
+                    <span className={styles.customerEmail}>
+                      {order.user?.email || "—"}
+                    </span>
+                  </div>
+                </td>
+                <td className={styles.productsCell}>
+                  {order._count?.items ?? 0}
+                </td>
+                <td className={styles.totalCell}>
+                  <span className={styles.totalValue}>
+                    {formatPrice(order.total)}
+                  </span>
+                </td>
+                <td>
+                  <span className={`badge ${getStatusClass(order.status)}`}>
+                    {STATUS_LABELS[order.status] || order.status}
+                  </span>
+                </td>
+                <td className={styles.dateCell}>
+                  {formatDate(order.createdAt)}
+                </td>
+                <td>
+                  <Link
+                    href={`/admin/orders/${order.id}`}
+                    className={styles.viewBtn}
+                    aria-label={`Ver pedido ${order.orderNumber}`}
+                  >
+                    <Eye size={14} />
+                    Ver
+                  </Link>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {/* ---- MOBILE CARDS ---- */}
+      <div className={styles.mobileCards}>
+        {orders.map((order) => (
+          <article key={order.id} className={styles.card}>
+            <div className={styles.cardHeader}>
+              <span className={styles.cardOrderNumber}>
+                {order.orderNumber}
+              </span>
+              <span className={`badge ${getStatusClass(order.status)}`}>
+                {STATUS_LABELS[order.status] || order.status}
+              </span>
+            </div>
+
+            <div className={styles.cardBody}>
+              <div className={styles.cardRow}>
+                <span className={styles.cardLabel}>Cliente</span>
+                <span className={styles.cardValue}>
+                  {order.user?.name || "—"}
                 </span>
-              </td>
-              <td>
-                <div className={styles.customerCell}>
-                  <span className={styles.customerName}>
-                    {order.user?.name || "—"}
-                  </span>
-                  <span className={styles.customerEmail}>
-                    {order.user?.email || "—"}
-                  </span>
-                </div>
-              </td>
-              <td className={styles.productsCell}>
-                {order._count?.items ?? 0}
-              </td>
-              <td className={styles.totalCell}>
-                <span className={styles.totalValue}>
+              </div>
+
+              <div className={styles.cardRow}>
+                <span className={styles.cardLabel}>Email</span>
+                <span className={styles.cardValue}>
+                  {order.user?.email || "—"}
+                </span>
+              </div>
+
+              <div className={styles.cardRow}>
+                <span className={styles.cardLabel}>Productos</span>
+                <span className={styles.cardValue}>
+                  {order._count?.items ?? 0}
+                </span>
+              </div>
+
+              <div className={styles.cardRow}>
+                <span className={styles.cardLabel}>Total</span>
+                <span className={styles.cardValue}>
                   {formatPrice(order.total)}
                 </span>
-              </td>
-              <td>
-                <span className={`badge ${getStatusClass(order.status)}`}>
-                  {STATUS_LABELS[order.status] || order.status}
+              </div>
+
+              <div className={styles.cardRow}>
+                <span className={styles.cardLabel}>Fecha</span>
+                <span className={styles.cardValue}>
+                  {formatDate(order.createdAt)}
                 </span>
-              </td>
-              <td className={styles.dateCell}>
-                {formatDate(order.createdAt)}
-              </td>
-              <td>
-                <Link
-                  href={`/admin/orders/${order.id}`}
-                  className={styles.viewBtn}
-                  aria-label={`Ver pedido ${order.orderNumber}`}
-                >
-                  <Eye size={14} />
-                  Ver
-                </Link>
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
+              </div>
+            </div>
+
+            <div className={styles.cardActions}>
+              <Link
+                href={`/admin/orders/${order.id}`}
+                className={styles.viewBtn}
+                aria-label={`Ver pedido ${order.orderNumber}`}
+              >
+                <Eye size={14} />
+                Ver pedido
+              </Link>
+            </div>
+          </article>
+        ))}
+      </div>
 
       <Pagination page={page} totalPages={totalPages} />
-    </div>
+    </>
   );
 }

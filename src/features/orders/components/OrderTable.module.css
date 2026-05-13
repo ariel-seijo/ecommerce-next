@@ -5,7 +5,8 @@
 .tableWrapper {
   border: 1px solid rgba(255, 255, 255, 0.05);
   border-radius: 10px;
-  overflow: hidden;
+  overflow-x: auto;
+  -webkit-overflow-scrolling: touch;
   background: rgba(12, 12, 12, 0.95);
   box-shadow:
     0 0 20px rgba(36, 171, 243, 0.03),
@@ -100,6 +101,10 @@
 .customerEmail {
   font-size: 0.72rem;
   color: rgb(130, 130, 130);
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 /* ---- products count ---- */
@@ -165,7 +170,8 @@
 .pagination {
   display: flex;
   align-items: center;
-  justify-content: space-between;
+  justify-content: center;
+  gap: 4px;
   padding: 14px 16px;
   border-top: 1px solid rgba(255, 255, 255, 0.06);
   background: rgba(16, 16, 16, 0.98);
@@ -190,8 +196,10 @@
 .pageBtn {
   display: inline-flex;
   align-items: center;
-  gap: 4px;
-  padding: 6px 12px;
+  justify-content: center;
+  min-width: 36px;
+  height: 36px;
+  padding: 0 8px;
   border: 1px solid rgba(255, 255, 255, 0.08);
   background: rgba(255, 255, 255, 0.02);
   color: rgb(180, 180, 180);
@@ -201,6 +209,7 @@
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
+  flex-shrink: 0;
 }
 
 .pageBtn:hover:not(:disabled) {
@@ -220,21 +229,102 @@
   color: var(--admin-primary-glow);
 }
 
+/* ---- mobile cards (hidden on desktop) ---- */
+.mobileCards {
+  display: none;
+}
+
+  .card {
+    background: rgb(14, 14, 14);
+    border: 1px solid rgba(255, 255, 255, 0.05);
+    border-radius: 10px;
+    padding: 14px;
+    transition: border-color 0.2s, box-shadow 0.2s;
+  }
+
+.card:hover {
+  border-color: rgba(36, 171, 243, 0.15);
+  box-shadow: 0 0 12px rgba(36, 171, 243, 0.05);
+}
+
+.cardHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 10px;
+}
+
+.cardOrderNumber {
+  font-family: var(--admin-font-mono);
+  font-size: 0.85rem;
+  font-weight: 800;
+  color: var(--admin-primary-glow);
+}
+
+.cardBody {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 10px 0;
+  border-top: 1px solid rgba(255, 255, 255, 0.05);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+  margin-bottom: 10px;
+}
+
+.cardRow {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardLabel {
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--admin-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.cardValue {
+  font-size: 0.82rem;
+  font-weight: 600;
+  color: var(--admin-text);
+  max-width: 60%;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  text-align: right;
+}
+
+.cardActions {
+  display: flex;
+  justify-content: flex-end;
+}
+
 /* ---- responsive ---- */
 @media (max-width: 640px) {
-  .thead th,
-  .row td {
-    padding: 8px 10px;
-    font-size: 0.75rem;
+  .tableWrapper {
+    display: none;
+  }
+
+  .mobileCards {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
   }
 
   .pagination {
-    flex-direction: column;
-    gap: 10px;
+    flex-wrap: wrap;
+    gap: 4px;
   }
 
   .pageNumbers {
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .pageBtn {
+    min-width: 44px;
+    height: 44px;
   }
 }

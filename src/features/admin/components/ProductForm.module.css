@@ -7,9 +7,10 @@
   grid-template-columns: 1fr 320px;
   gap: 28px;
   align-items: start;
+  min-width: 0;
 }
 
-@media (max-width: 960px) {
+@media (max-width: 768px) {
   .layout {
     grid-template-columns: 1fr;
   }
@@ -21,6 +22,7 @@
   display: flex;
   flex-direction: column;
   gap: 0;
+  min-width: 0;
 }
 
 /* ---- Sections (fieldsets) ---- */
@@ -71,7 +73,7 @@
   margin-bottom: 0;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 640px) {
   .row {
     flex-direction: column;
     gap: 0;
@@ -333,7 +335,7 @@
   cursor: pointer;
   letter-spacing: 0.3px;
   transition: all 0.2s;
-  min-height: 42px;
+  min-height: 44px;
 }
 
 .submitBtn:hover:not(:disabled) {
@@ -367,7 +369,7 @@
   cursor: pointer;
   text-decoration: none;
   transition: all 0.2s;
-  min-height: 42px;
+  min-height: 44px;
 }
 
 .cancelBtn:hover:not(:disabled) {
@@ -415,6 +417,28 @@
   margin: 0 0 14px 0;
   padding-bottom: 10px;
   border-bottom: 1px solid rgb(35, 35, 35);
+}
+
+/* ---- Mobile: sticky submit bar ---- */
+@media (max-width: 640px) {
+  .actions {
+    position: sticky;
+    bottom: 0;
+    z-index: 20;
+    background: rgb(10, 10, 10);
+    border-top: 1px solid rgb(35, 35, 35);
+    padding: 12px 0;
+    margin-bottom: 0;
+  }
+
+  .section {
+    padding: 14px 16px;
+  }
+
+  .input {
+    padding: 10px 12px;
+    min-height: 44px;
+  }
 }
 
 

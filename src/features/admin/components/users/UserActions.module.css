@@ -84,6 +84,7 @@
   transition: all 0.12s ease;
   text-align: left;
   line-height: 1;
+  min-height: 44px;
 }
 
 .menuItem:hover {
@@ -120,4 +121,17 @@
   height: 1px;
   background: rgba(255, 255, 255, 0.06);
   margin: 4px 8px;
+}
+
+/* Responsive */
+@media (max-width: 640px) {
+  .trigger {
+    min-width: 44px;
+    min-height: 44px;
+  }
+
+  .menu {
+    min-width: 160px;
+    max-width: calc(100vw - 24px);
+  }
 }

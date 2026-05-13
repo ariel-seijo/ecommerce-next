@@ -210,46 +210,126 @@ export default function UserTable({
             })}
           </tbody>
         </table>
+      </div>
 
-        {totalPages > 1 && (
+      {/* ---- MOBILE CARDS ---- */}
+      <div className={styles.mobileCards}>
+        {users.map((user) => {
+          const isActive = !user.deletedAt && user.status === "ACTIVE";
+          return (
+            <article key={user.id} className={styles.card}>
+              <div className={styles.cardHeader}>
+                <span className={styles.cardName}>
+                  {user.name || "Sin nombre"}
+                </span>
+                <span className={`badge ${getStatusBadgeClass(user.status, user.deletedAt)}`}>
+                  {getStatusLabel(user.status, user.deletedAt)}
+                </span>
+              </div>
+
+              <div className={styles.cardBody}>
+                <div className={styles.cardRow}>
+                  <span className={styles.cardLabel}>Email</span>
+                  <span className={styles.cardValue}>{user.email}</span>
+                </div>
+
+                <div className={styles.cardRow}>
+                  <span className={styles.cardLabel}>Fecha</span>
+                  <span className={styles.cardValue}>
+                    {formatDate(user.createdAt)}
+                  </span>
+                </div>
+
+                <div className={styles.cardRow}>
+                  <span className={styles.cardLabel}>Órdenes</span>
+                  <span className={styles.cardValue}>
+                    {user._count?.orders ?? 0}
+                  </span>
+                </div>
+
+                <div className={styles.cardRow}>
+                  <span className={styles.cardLabel}>LTV</span>
+                  <span className={styles.cardValue}>
+                    {formatPrice(user.lifetimeValue || 0)}
+                  </span>
+                </div>
+              </div>
+
+              <div className={styles.cardActions}>
+                <select
+                  className={styles.roleSelect}
+                  value={user.role}
+                  disabled={roleLoading === user.id || !!user.deletedAt}
+                  onChange={(e) => handleRoleChange(user.id, e.target.value)}
+                  aria-label={`Rol de ${user.email}`}
+                >
+                  {ROLES.map((r) => (
+                    <option key={r.value} value={r.value}>
+                      {r.label}
+                    </option>
+                  ))}
+                </select>
+                <UserActions
+                  user={user}
+                  onViewOrders={onViewOrders}
+                />
+              </div>
+            </article>
+          );
+        })}
+      </div>
+
+      {totalPages > 1 && (
           <div className={styles.pagination}>
             <span className={styles.paginationInfo}>
               {total} usuarios — Página {page} de {totalPages}
             </span>
+            <button
+              className={styles.pageBtn}
+              onClick={() => onPage?.(page - 1)}
+              disabled={page <= 1}
+              aria-label="Página anterior"
+            >
+              <ChevronLeft size={16} />
+            </button>
             <div className={styles.pageNumbers}>
-              <button
-                className={styles.pageBtn}
-                onClick={() => onPage?.(page - 1)}
-                disabled={page <= 1}
-                aria-label="Página anterior"
-              >
-                <ChevronLeft size={14} aria-hidden="true" />
-                Anterior
-              </button>
-              {Array.from({ length: totalPages }, (_, i) => i + 1).map((p) => (
-                <button
-                  key={p}
-                  className={`${styles.pageBtn} ${p === page ? styles.pageBtnActive : ""}`}
-                  onClick={() => onPage?.(p)}
-                  aria-label={`Ir a página ${p}`}
-                  aria-current={p === page ? "page" : undefined}
-                >
-                  {p}
-                </button>
-              ))}
-              <button
-                className={styles.pageBtn}
-                onClick={() => onPage?.(page + 1)}
-                disabled={page >= totalPages}
-                aria-label="Página siguiente"
-              >
-                Siguiente
-                <ChevronRight size={14} aria-hidden="true" />
-              </button>
+              {Array.from({ length: totalPages }, (_, i) => i + 1)
+                .filter((n) => {
+                  if (totalPages <= 7) return true;
+                  if (n === 1 || n === totalPages) return true;
+                  if (Math.abs(n - page) <= 1) return true;
+                  return false;
+                })
+                .map((n, idx, arr) => {
+                  const showEllipsis = idx > 0 && n - arr[idx - 1] > 1;
+                  return (
+                    <span key={n} style={{ display: "flex", alignItems: "center", gap: 0 }}>
+                      {showEllipsis && (
+                        <span className={styles.ellipsis} aria-hidden="true">…</span>
+                      )}
+                      <button
+                        key={n}
+                        className={`${styles.pageBtn} ${n === page ? styles.pageBtnActive : ""}`}
+                        onClick={() => onPage?.(n)}
+                        aria-label={`Ir a página ${n}`}
+                        aria-current={n === page ? "page" : undefined}
+                      >
+                        {n}
+                      </button>
+                    </span>
+                  );
+                })}
             </div>
+            <button
+              className={styles.pageBtn}
+              onClick={() => onPage?.(page + 1)}
+              disabled={page >= totalPages}
+              aria-label="Página siguiente"
+            >
+              <ChevronRight size={16} />
+            </button>
           </div>
         )}
-      </div>
 
       {roleConfirm && (
         <ConfirmModal

@@ -59,7 +59,9 @@ export default function Sidebar({ className }) {
           <ul className="admin-nav" role="list">
             {navItems.map((item) => {
               const Icon = item.icon;
-              const isActive = pathname === item.href || pathname?.startsWith(item.href + '/');
+              const isActive = item.href === '/admin'
+                ? pathname === item.href
+                : pathname === item.href || pathname?.startsWith(item.href + '/');
               return (
                 <li key={item.href}>
                   <Link

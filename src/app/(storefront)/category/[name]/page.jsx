@@ -11,6 +11,7 @@ import {
   SortDropdown,
   ViewSwitcher,
 } from "@/features/category";
+import { serializeProductsForClient } from "@/lib/utils/serialize-product";
 
 function truncate(text, max) {
   if (text.length <= max) return text;
@@ -90,7 +91,7 @@ export default async function CategoryPage({ params, searchParams }) {
 
             {products.length > 0 ? (
               <>
-                <Products products={products} view={view} />
+                <Products products={serializeProductsForClient(products)} view={view} />
                 <Pagination
                   name={name}
                   page={currentPage}

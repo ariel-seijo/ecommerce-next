@@ -4,6 +4,7 @@ import Slider from "@/components/Slider";
 import SectionTitle from "@/components/SectionTitle";
 import Brands from "@/components/Brands";
 import PromoBanner from "@/components/PromoBanner";
+import { serializeProductsForClient } from "@/lib/utils/serialize-product";
 
 export const metadata = {
   title: "ElectroShop | Hardware Gamer y Componentes de PC",
@@ -25,7 +26,7 @@ export default async function Home() {
       <Slider />
       <section className="featured">
         <SectionTitle>PRODUCTOS DESTACADOS</SectionTitle>
-        <FeaturedCarousel products={products} />
+        <FeaturedCarousel products={serializeProductsForClient(products)} />
       </section>
       <PromoBanner />
       <section className="brands">

@@ -6,6 +6,7 @@ import Image from "next/image";
 import { ShoppingCart, Star, Check, Flame } from "lucide-react";
 import { useCart } from "@/features/cart";
 import { formatPrice } from "@/lib/utils/currency";
+import { optimizeCloudinaryUrl } from "@/lib/utils/cloudinary-url";
 
 export default function ProductCard({ product, view = "grid" }) {
   const { addToCart, cart } = useCart();
@@ -40,7 +41,7 @@ export default function ProductCard({ product, view = "grid" }) {
       >
         <div className={styles["img-container"]}>
           <Image
-            src={product.thumbnail}
+            src={optimizeCloudinaryUrl(product.thumbnail)}
             alt={`${product.title} - ${product.brand}`}
             fill
             sizes="(max-width: 480px) 90vw, (max-width: 1024px) 50vw, 33vw"

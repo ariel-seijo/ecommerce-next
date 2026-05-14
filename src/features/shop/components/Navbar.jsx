@@ -43,7 +43,9 @@ export default function Navbar() {
   const router = useRouter();
 
   const { cart, toggleCart } = useCart();
-  const { user, logout, initialized } = useAuthStore();
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+  const initialized = useAuthStore((s) => s.initialized);
   const toast = useToastStore((s) => s.toast);
 
   const menuRef = useRef(null);

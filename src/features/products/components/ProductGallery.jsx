@@ -3,6 +3,7 @@
 import { useState } from "react";
 import Image from "next/image";
 import styles from "../styles/ProductGallery.module.css";
+import { optimizeCloudinaryUrl } from "@/lib/utils/cloudinary-url";
 
 export default function ProductGallery({ product }) {
   const imagesRel = product?.imagesRel || [];
@@ -81,7 +82,7 @@ export default function ProductGallery({ product }) {
         {!hasBlur && <div className={styles.placeholderFallback} aria-hidden="true" />}
 
         <Image
-          src={current.url}
+          src={optimizeCloudinaryUrl(current.url)}
           alt={product.title}
           width={current.width || 700}
           height={current.height || 700}
@@ -109,7 +110,7 @@ export default function ProductGallery({ product }) {
               aria-current={i === selectedIndex ? "true" : undefined}
             >
               <Image
-                src={img.url}
+                src={optimizeCloudinaryUrl(img.url)}
                 alt=""
                 width={80}
                 height={80}

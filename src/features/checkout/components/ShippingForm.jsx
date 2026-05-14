@@ -4,6 +4,7 @@ import { useMemo, useCallback } from "react";
 import { ChevronRight, MapPin } from "lucide-react";
 import { useCheckout } from "../context/CheckoutContext";
 import { useCheckoutForm } from "../hooks/useCheckoutForm";
+import { limitNotes } from "@/lib/utils/input-formatters";
 import MagicFillButton from "./MagicFillButton";
 import styles from "../styles/ShippingForm.module.css";
 
@@ -43,6 +44,8 @@ const SHIPPING_RULES = {
   zip: { required: true },
 };
 
+const MAX_NOTES_LENGTH = 500;
+
 export default function ShippingForm() {
   const { shipping, setShippingField, autoFillShipping, goNext } =
     useCheckout();
@@ -54,15 +57,19 @@ export default function ShippingForm() {
   const handleChange = useCallback(
     (e) => {
       const { name, value } = e.target;
-      setShippingField(name, value);
+      let formatted = value;
+      if (name === "notes") formatted = limitNotes(value);
+      setShippingField(name, formatted);
       clearError(name);
     },
-    [setShippingField, clearError],
+    [setShippingField, clearError]
   );
 
   const handleContinue = useCallback(() => {
     if (validate()) goNext();
   }, [validate, goNext]);
+
+  const notesCount = shipping.notes?.length || 0;
 
   return (
     <div className={styles.form}>
@@ -78,12 +85,15 @@ export default function ShippingForm() {
         <div
           className={`${styles.group} ${errors.fullName ? styles.groupError : ""}`}
         >
-          <label>Nombre completo</label>
+          <label>
+            Nombre completo <span className={styles.required}>*</span>
+          </label>
           <input
             name="fullName"
             value={shipping.fullName}
             onChange={handleChange}
             placeholder="Ej: Federico Giannoni"
+            autoComplete="name"
           />
           {errors.fullName && (
             <span className={styles.error}>{errors.fullName}</span>
@@ -95,13 +105,16 @@ export default function ShippingForm() {
         <div
           className={`${styles.group} ${errors.email ? styles.groupError : ""}`}
         >
-          <label>Email</label>
+          <label>
+            Email <span className={styles.required}>*</span>
+          </label>
           <input
             name="email"
             type="email"
             value={shipping.email}
             onChange={handleChange}
             placeholder="federico@mail.com"
+            autoComplete="email"
           />
           {errors.email && <span className={styles.error}>{errors.email}</span>}
         </div>
@@ -112,6 +125,7 @@ export default function ShippingForm() {
             value={shipping.phone}
             onChange={handleChange}
             placeholder="+54 11..."
+            autoComplete="tel"
           />
         </div>
       </div>
@@ -120,12 +134,15 @@ export default function ShippingForm() {
         <div
           className={`${styles.group} ${errors.address ? styles.groupError : ""}`}
         >
-          <label>Dirección</label>
+          <label>
+            Dirección <span className={styles.required}>*</span>
+          </label>
           <input
             name="address"
             value={shipping.address}
             onChange={handleChange}
             placeholder="Calle, número, piso, depto"
+            autoComplete="street-address"
           />
           {errors.address && (
             <span className={styles.error}>{errors.address}</span>
@@ -137,23 +154,29 @@ export default function ShippingForm() {
         <div
           className={`${styles.group} ${errors.city ? styles.groupError : ""}`}
         >
-          <label>Ciudad</label>
+          <label>
+            Ciudad <span className={styles.required}>*</span>
+          </label>
           <input
             name="city"
             value={shipping.city}
             onChange={handleChange}
             placeholder="Ciudad"
+            autoComplete="address-level2"
           />
           {errors.city && <span className={styles.error}>{errors.city}</span>}
         </div>
         <div
           className={`${styles.group} ${errors.department ? styles.groupError : ""}`}
         >
-          <label>Provincia</label>
+          <label>
+            Provincia <span className={styles.required}>*</span>
+          </label>
           <select
             name="department"
             value={shipping.department}
             onChange={handleChange}
+            autoComplete="address-level1"
           >
             <option value="">Seleccionar</option>
             {DEPARTMENTS.map((d) => (
@@ -169,12 +192,15 @@ export default function ShippingForm() {
         <div
           className={`${styles.group} ${errors.zip ? styles.groupError : ""}`}
         >
-          <label>Código Postal</label>
+          <label>
+            Código Postal <span className={styles.required}>*</span>
+          </label>
           <input
             name="zip"
             value={shipping.zip}
             onChange={handleChange}
             placeholder="CP"
+            autoComplete="postal-code"
           />
           {errors.zip && <span className={styles.error}>{errors.zip}</span>}
         </div>
@@ -190,6 +216,9 @@ export default function ShippingForm() {
             placeholder="Indicaciones para la entrega..."
             rows={3}
           />
+          <span className={`${styles.charCount} ${notesCount >= MAX_NOTES_LENGTH ? styles.charCountLimit : ""}`}>
+            {notesCount}/{MAX_NOTES_LENGTH}
+          </span>
         </div>
       </div>
 

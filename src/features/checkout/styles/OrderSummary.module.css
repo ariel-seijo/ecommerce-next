@@ -11,7 +11,7 @@
 .summary h3 {
   margin: 0 0 1.2rem 0;
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: rgb(200, 200, 200);
@@ -55,7 +55,7 @@
   background: #24abf3;
   color: #111;
   font-size: 0.65rem;
-  font-weight: 900;
+  font-weight: 600;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -68,7 +68,7 @@
 
 .itemTitle {
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(190, 190, 190);
   display: -webkit-box;
   -webkit-line-clamp: 2;
@@ -79,7 +79,7 @@
 
 .itemPrice {
   font-size: 0.88rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(210, 210, 210);
   flex-shrink: 0;
 }
@@ -101,19 +101,19 @@
 
 .freeShipping {
   color: #22c55e;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .hint {
   margin: -0.2rem 0 0.5rem 0;
   font-size: 0.68rem;
   color: rgb(100, 100, 100);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .total {
   font-size: 1.15rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(220, 220, 220);
 }
 

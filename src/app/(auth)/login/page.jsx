@@ -23,7 +23,7 @@ export default function LoginPage() {
       const user = await login(email, password);
       toast(`¡Bienvenido de nuevo, ${user.name || user.email}!`, "success");
       window.location.href =
-        redirect || (user.role === "ADMIN" ? "/dashboard" : "/");
+        redirect || (user.role === "ADMIN" ? "/admin" : "/");
     } catch {
       // Error handled in store
     }

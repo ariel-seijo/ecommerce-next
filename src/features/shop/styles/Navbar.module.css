@@ -47,7 +47,9 @@
   cursor: pointer;
   padding: 6px;
   border-radius: 6px;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
   min-width: 44px;
   min-height: 44px;
   align-items: center;
@@ -96,13 +98,15 @@
   transition: border-color 0.2s ease;
 }
 
-.search:focus {
+.search:focus,
+.search:focus-visible {
   border-color: #24abf3;
+  outline: none;
 }
 
 .search::placeholder {
   color: rgb(72, 72, 72);
-  font-weight: 900;
+  font-weight: 600;
 }
 
 .searchDropdown {
@@ -149,7 +153,7 @@
 
 .searchTitle {
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #e8e8e8;
   white-space: nowrap;
   overflow: hidden;
@@ -158,7 +162,7 @@
 
 .searchPrice {
   font-size: 0.8rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #24abf3;
 }
 
@@ -178,8 +182,13 @@
 }
 
 @keyframes pulse {
-  0%, 100% { opacity: 0.4; }
-  50% { opacity: 1; }
+  0%,
+  100% {
+    opacity: 0.4;
+  }
+  50% {
+    opacity: 1;
+  }
 }
 
 /* =========================
@@ -205,7 +214,9 @@
   align-items: center;
   padding: 4px;
   border-radius: 6px;
-  transition: color 0.15s ease, background 0.15s ease;
+  transition:
+    color 0.15s ease,
+    background 0.15s ease;
 }
 
 .icon-btn:hover {
@@ -248,7 +259,9 @@
   width: 250px;
   background: rgb(20, 20, 20);
   border: 1px solid rgb(38, 38, 38);
-  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.55), 0 0 0 1px rgba(255, 255, 255, 0.03) inset;
+  box-shadow:
+    0 12px 30px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.03) inset;
   border-radius: 12px;
   z-index: 3000;
   overflow: hidden;
@@ -293,7 +306,7 @@
 .adminLabel {
   display: block;
   font-size: 0.65rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #ef4444;
   letter-spacing: 1.2px;
   margin-bottom: 2px;
@@ -302,7 +315,7 @@
 .customerLabel {
   display: block;
   font-size: 0.65rem;
-  font-weight: 800;
+  font-weight: 600;
   color: rgb(140, 140, 140);
   text-transform: uppercase;
   letter-spacing: 1.2px;
@@ -314,7 +327,7 @@
   letter-spacing: 0;
   color: #e6e6e6;
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .userDropdownEmail {
@@ -336,7 +349,9 @@
   font-weight: 600;
   color: rgb(200, 200, 200);
   text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
   border-left: 2px solid transparent;
 }
 
@@ -348,7 +363,7 @@
 
 .userDropdownAccent {
   color: #24abf3;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .userDropdownAccent:hover {
@@ -375,7 +390,9 @@
   border: none;
   border-left: 2px solid transparent;
   cursor: pointer;
-  transition: background 0.15s ease, border-color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease;
 }
 
 .userDropdownBtn:hover {
@@ -391,7 +408,7 @@
   background: linear-gradient(135deg, #dc2626, #ef4444);
   color: #fff;
   font-size: 0.52rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.5px;
   padding: 1px 5px;
   border-radius: 3px;
@@ -412,8 +429,12 @@
 }
 
 @keyframes electric {
-  0% { background-position: 0%; }
-  100% { background-position: 200%; }
+  0% {
+    background-position: 0%;
+  }
+  100% {
+    background-position: 200%;
+  }
 }
 
 /* =========================
@@ -441,9 +462,9 @@
 }
 
 .navbarLinkText {
-  font-family: "Inter", sans-serif;
+  font-family: var(--font-inter), sans-serif;
   font-size: 0.9rem;
-  font-weight: 900;
+  font-weight: 600;
   position: relative;
   display: inline-block;
   color: rgb(163, 163, 163);
@@ -492,7 +513,9 @@
   z-index: 4000;
   opacity: 0;
   visibility: hidden;
-  transition: opacity 0.3s ease, visibility 0.3s ease;
+  transition:
+    opacity 0.3s ease,
+    visibility 0.3s ease;
 }
 
 .drawerBackdrop.backdropOpen {
@@ -549,7 +572,9 @@
   justify-content: center;
   min-width: 44px;
   min-height: 44px;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
 }
 
 .drawerCloseBtn:hover {
@@ -569,10 +594,12 @@
   gap: 0.75rem;
   padding: 0.9rem 1.5rem;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(180, 180, 180);
   text-decoration: none;
-  transition: background 0.15s ease, color 0.15s ease;
+  transition:
+    background 0.15s ease,
+    color 0.15s ease;
   border-left: 3px solid transparent;
 }
 
@@ -608,7 +635,7 @@
 .drawerUserName {
   display: block;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 600;
   color: #e8e8e8;
 }
 
@@ -617,7 +644,7 @@
   margin-left: 0.5rem;
   padding: 1px 5px;
   font-size: 0.55rem;
-  font-weight: 900;
+  font-weight: 600;
   background: #ef4444;
   color: #fff;
   border-radius: 3px;
@@ -663,7 +690,7 @@
   width: 100%;
   padding: 0.8rem;
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 600;
   text-align: center;
   text-decoration: none;
   color: #fff;
@@ -749,13 +776,15 @@
   border-radius: 6px;
 }
 
-.mobileSearchInput:focus {
+.mobileSearchInput:focus,
+.mobileSearchInput:focus-visible {
   border-color: #24abf3;
+  outline: none;
 }
 
 .mobileSearchInput::placeholder {
   color: rgb(80, 80, 80);
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .mobileSearchResults {

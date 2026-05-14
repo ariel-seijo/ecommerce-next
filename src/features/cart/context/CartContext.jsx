@@ -274,7 +274,7 @@ export function CartProvider({ children }) {
     if (cartQty >= product.stock) {
       if (isClient()) {
         useToastStore.getState().toast(
-          `Ya tienes el m\u00e1ximo disponible de "${product.title}" (${product.stock} unidades)`,
+          `Ya tienes el máximo disponible de "${product.title}" (${product.stock} unidades)`,
           "error"
         );
       }

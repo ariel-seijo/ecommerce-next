@@ -12,12 +12,18 @@ enum Role {
   ADMIN
 }
 
+enum AccountStatus {
+  ACTIVE
+  BANNED
+}
+
 model User {
   id                String    @id @default(cuid())
   name              String?   @db.VarChar(100)
   email             String    @unique @db.VarChar(255)
   password          String    @db.VarChar(255)
   role              Role      @default(CUSTOMER)
+  status            AccountStatus @default(ACTIVE)
   createdAt         DateTime  @default(now())
   resetToken        String?   @unique
   resetTokenExpires DateTime?
@@ -33,6 +39,7 @@ enum OrderStatus {
   PAID
   SHIPPED
   CANCELLED
+  DELIVERED
 }
 
 model CartItem {
@@ -90,6 +97,7 @@ model Product {
 
   cartItems   CartItem[]
   orderItems  OrderItem[]
+  imagesRel   ProductImage[]
 
   @@index([categoryId])
   @@index([price])
@@ -97,6 +105,22 @@ model Product {
   @@index([featured])
   @@index([createdAt])
   @@index([title])
+}
+
+model ProductImage {
+  id          String   @id @default(cuid())
+  url         String   @db.VarChar(500)
+  publicId    String   @unique @db.VarChar(200)
+  width       Int
+  height      Int
+  format      String   @db.VarChar(10)
+  blurDataURL String   @db.Text
+  sortOrder   Int      @default(0)
+  productId   Int
+
+  product     Product  @relation(fields: [productId], references: [id], onDelete: Cascade)
+
+  @@index([productId])
 }
 
 model Order {
@@ -135,4 +159,10 @@ model OrderItem {
   product      Product @relation(fields: [productId], references: [id])
 
   @@index([orderId])
+}
+
+model SiteSettings {
+  id       String   @id @default("site_settings")
+  usdToArs Float    @default(1400)
+  updatedAt DateTime @updatedAt
 }

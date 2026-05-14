@@ -20,7 +20,7 @@
   align-items: center;
   gap: 0.35rem;
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(120, 120, 120);
   margin-bottom: 2rem;
 }
@@ -153,7 +153,7 @@
   align-items: center;
   gap: 0.3rem;
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   padding: 0.35rem 0.65rem;
@@ -192,7 +192,7 @@
 .pp-title {
   font-size: 2rem;
   line-height: 1.1;
-  font-weight: 900;
+  font-weight: 600;
   margin: 0;
   color: rgb(230, 230, 230);
 }
@@ -215,7 +215,7 @@
 }
 
 .pp-rating-value {
-  font-weight: 800;
+  font-weight: 600;
   color: #24abf3;
 }
 
@@ -246,7 +246,7 @@
 
 .pp-price {
   font-size: 2.2rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #24abf3;
 }
 
@@ -258,7 +258,7 @@
 
 .pp-discount {
   font-size: 0.75rem;
-  font-weight: 900;
+  font-weight: 600;
   padding: 0.3rem 0.6rem;
   background: rgba(239, 68, 68, 0.12);
   border: 1px solid rgba(239, 68, 68, 0.3);
@@ -270,7 +270,7 @@
   margin: 0;
   font-size: 0.8rem;
   color: #22c55e;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 /* =========================
@@ -311,7 +311,7 @@
 .pp-meta-label {
   display: block;
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   color: rgb(130, 130, 130);
   letter-spacing: 0.5px;
@@ -320,7 +320,7 @@
 
 .pp-meta-value {
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(210, 210, 210);
 }
 
@@ -368,7 +368,7 @@
   width: 40px;
   text-align: center;
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(210, 210, 210);
 }
 
@@ -383,7 +383,7 @@
   background: linear-gradient(135deg, #007fff, #00cfff);
   color: #111;
   font-size: 0.9rem;
-  font-weight: 900;
+  font-weight: 600;
   font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -465,7 +465,7 @@
 
 .pp-related-title {
   font-size: 1.3rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(210, 210, 210);
   margin: 0;
 }
@@ -475,7 +475,7 @@
   align-items: center;
   gap: 0.3rem;
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #24abf3;
   text-decoration: none;
   text-transform: uppercase;

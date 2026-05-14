@@ -10,6 +10,7 @@ import { useToastStore } from "@/features/toast";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { formatPrice } from "@/lib/utils/currency";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ShoppingCartIcon,
@@ -19,6 +20,9 @@ import {
   LayoutDashboard,
   User,
   Package,
+  Users,
+  ClipboardList,
+  Settings,
   Search,
   Menu,
   X,
@@ -40,7 +44,9 @@ export default function Navbar() {
   const router = useRouter();
 
   const { cart, toggleCart } = useCart();
-  const { user, logout, initialized } = useAuthStore();
+  const user = useAuthStore((s) => s.user);
+  const logout = useAuthStore((s) => s.logout);
+  const initialized = useAuthStore((s) => s.initialized);
   const toast = useToastStore((s) => s.toast);
 
   const menuRef = useRef(null);
@@ -206,9 +212,11 @@ export default function Navbar() {
                         onClick={handleResultClick}
                         role="option"
                       >
-                        <img
+                        <Image
                           src={product.thumbnail}
                           alt={product.title}
+                          width={48}
+                          height={48}
                           className={styles.searchThumb}
                         />
                         <div className={styles.searchInfo}>
@@ -276,20 +284,49 @@ export default function Navbar() {
                         {isAdmin ? (
                           <>
                             <Link
-                              href="/dashboard"
+                              href="/admin"
                               className={`${styles.userDropdownLink} ${styles.userDropdownAccent}`}
                               onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
                             >
                               <LayoutDashboard size={15} />
                               Dashboard
                             </Link>
                             <Link
-                              href="/admin"
+                              href="/admin/products"
                               className={styles.userDropdownLink}
                               onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
                             >
-                              <Shield size={15} />
-                              Panel admin
+                              <Package size={15} />
+                              Productos
+                            </Link>
+                            <Link
+                              href="/admin/users"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
+                            >
+                              <Users size={15} />
+                              Usuarios
+                            </Link>
+                            <Link
+                              href="/admin/orders"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
+                            >
+                              <ClipboardList size={15} />
+                              Pedidos
+                            </Link>
+                            <Link
+                              href="/admin/settings"
+                              className={styles.userDropdownLink}
+                              onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
+                            >
+                              <Settings size={15} />
+                              Ajustes
                             </Link>
                           </>
                         ) : (
@@ -445,15 +482,33 @@ export default function Navbar() {
                 {isAdmin ? (
                   <>
                     <li>
-                      <Link href="/dashboard" className={styles.drawerLink} onClick={closeMobileMenu}>
+                      <Link href="/admin" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
                         <LayoutDashboard size={15} />
                         Dashboard
                       </Link>
                     </li>
                     <li>
-                      <Link href="/admin" className={styles.drawerLink} onClick={closeMobileMenu}>
-                        <Shield size={15} />
-                        Panel admin
+                      <Link href="/admin/products" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
+                        <Package size={15} />
+                        Productos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/admin/users" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
+                        <Users size={15} />
+                        Usuarios
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/admin/orders" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
+                        <ClipboardList size={15} />
+                        Pedidos
+                      </Link>
+                    </li>
+                    <li>
+                      <Link href="/admin/settings" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
+                        <Settings size={15} />
+                        Ajustes
                       </Link>
                     </li>
                   </>
@@ -542,9 +597,11 @@ export default function Navbar() {
                       setMobileSearchOpen(false);
                     }}
                   >
-                    <img
+                    <Image
                       src={product.thumbnail}
                       alt={product.title}
+                      width={48}
+                      height={48}
                       className={styles.searchThumb}
                     />
                     <div className={styles.searchInfo}>

@@ -1,9 +1,11 @@
 import { NextResponse } from "next/server";
 import { getIronSession } from "iron-session";
 import { sessionOptions } from "@/lib/session";
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { generateOrderNumber } from "@/features/orders/lib/orderNumber";
 import { usdToArs } from "@/lib/utils/currency";
+import { checkoutSchema, formatZodError } from "@/lib/validations";
 
 function calculateShipping(subtotal) {
   return usdToArs(subtotal) >= 50000 ? 0 : 1500;
@@ -19,21 +21,14 @@ export async function POST(request) {
     }
 
     const body = await request.json();
-    const { items, shipping, paymentMethod, cardDetails, notes } = body;
-
-    if (!items || !Array.isArray(items) || items.length === 0) {
+    const parsed = checkoutSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "El carrito está vacío" },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
-
-    if (!shipping || !shipping.fullName || !shipping.email || !shipping.address) {
-      return NextResponse.json(
-        { error: "Faltan datos de envío" },
-        { status: 400 }
-      );
-    }
+    const { items, shipping, paymentMethod, cardDetails, notes } = parsed.data;
 
     const subtotal = items.reduce(
       (sum, item) => sum + item.price * item.quantity,
@@ -132,6 +127,8 @@ export async function POST(request) {
 
       return createdOrder;
     });
+
+    revalidateTag("admin-dashboard", "max");
 
     return NextResponse.json({ order }, { status: 201 });
   } catch (error) {

@@ -7,7 +7,7 @@
 
 .container {
   width: 100%;
-  max-width: 900px;
+  max-width: 768px;
 }
 
 .header {
@@ -20,7 +20,7 @@
 .header h1 {
   margin: 0;
   font-size: 1.4rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: rgb(214, 214, 214);
@@ -31,7 +31,7 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(150, 150, 150);
   text-decoration: none;
   text-transform: uppercase;
@@ -58,7 +58,7 @@
 .empty h2 {
   margin: 0 0 0.5rem 0;
   font-size: 1.1rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: rgb(180, 180, 180);
@@ -78,7 +78,7 @@
   background: #24abf3;
   color: #111;
   font-size: 0.9rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   text-decoration: none;
@@ -123,7 +123,7 @@
   border: 1px solid rgba(239, 68, 68, 0.3);
   color: #f87171;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   margin-bottom: 1.5rem;
 }
 
@@ -158,7 +158,7 @@
 
 .orderNumber {
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #24abf3;
   letter-spacing: 0.5px;
 }
@@ -183,7 +183,7 @@
 
 .orderTotal {
   font-size: 1.05rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(214, 214, 214);
 }
 
@@ -191,7 +191,7 @@
   display: inline-block;
   padding: 0.3rem 0.8rem;
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -212,6 +212,12 @@
   background: rgba(36, 171, 243, 0.12);
   color: #24abf3;
   border: 1px solid rgba(36, 171, 243, 0.25);
+}
+
+.statusDelivered {
+  background: rgba(16, 185, 129, 0.12);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.25);
 }
 
 .statusCancelled {

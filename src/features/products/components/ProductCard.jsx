@@ -6,8 +6,9 @@ import Image from "next/image";
 import { ShoppingCart, Star, Check, Flame } from "lucide-react";
 import { useCart } from "@/features/cart";
 import { formatPrice } from "@/lib/utils/currency";
+import { optimizeCloudinaryUrl } from "@/lib/utils/cloudinary-url";
 
-export default function ProductCard({ product, view = "grid" }) {
+export default function ProductCard({ product, view = "grid", priority = false }) {
   const { addToCart, cart } = useCart();
   const isOutOfStock = product.stock <= 0;
   const cartQty = cart.find((item) => item.id === product.id)?.quantity ?? 0;
@@ -40,11 +41,11 @@ export default function ProductCard({ product, view = "grid" }) {
       >
         <div className={styles["img-container"]}>
           <Image
-            src={product.thumbnail}
+            src={optimizeCloudinaryUrl(product.thumbnail)}
             alt={`${product.title} - ${product.brand}`}
             fill
             sizes="(max-width: 480px) 90vw, (max-width: 1024px) 50vw, 33vw"
-            priority={product.id <= 2}
+            priority={priority}
           />
 
           {discountPercent > 0 && (

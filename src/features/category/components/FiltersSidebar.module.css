@@ -16,7 +16,7 @@
   border: 1px solid rgb(34, 34, 34);
   color: rgb(200, 200, 200);
   font-size: 0.9rem;
-  font-weight: 800;
+  font-weight: 600;
   font-family: inherit;
   cursor: pointer;
   margin-bottom: 1rem;
@@ -92,7 +92,7 @@
 
 .drawerTitle {
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(220, 220, 220);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -147,7 +147,7 @@
   color: #111;
   border: none;
   font-size: 0.9rem;
-  font-weight: 800;
+  font-weight: 600;
   font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -185,7 +185,7 @@
 
 .filterTitle {
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: rgb(140, 140, 140);
@@ -204,7 +204,7 @@
   border: 1px solid rgba(36, 171, 243, 0.3);
   color: #24abf3;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 0.35rem 0.65rem;
   text-decoration: none;
   transition: all 0.2s ease;
@@ -233,7 +233,7 @@
   color: rgb(180, 180, 180);
   padding: 0.65rem 0.75rem;
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 600;
   border: 1px solid transparent;
   transition: all 0.2s ease;
 }
@@ -277,7 +277,7 @@
 
 .priceInputTag {
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: rgb(140, 140, 140);
@@ -290,7 +290,7 @@
   border: 1px solid rgb(44, 44, 44);
   color: rgb(200, 200, 200);
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   font-family: inherit;
   -moz-appearance: textfield;
   transition: border-color 0.2s ease;
@@ -317,7 +317,7 @@
 
 .priceInputSep {
   color: rgb(100, 100, 100);
-  font-weight: 700;
+  font-weight: 600;
   padding-bottom: 0.6rem;
 }
 
@@ -327,7 +327,7 @@
   color: #111;
   padding: 0.7rem;
   cursor: pointer;
-  font-weight: 800;
+  font-weight: 600;
   font-family: inherit;
   font-size: 0.8rem;
   text-transform: uppercase;

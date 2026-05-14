@@ -7,10 +7,14 @@ export async function middleware(request: NextRequest) {
 
   const pathname = request.nextUrl.pathname;
   const isAdminRoute = pathname.startsWith("/admin");
-  const isAuthPage = pathname === "/login" || pathname === "/register";
+  const isAuthPage =
+    pathname === "/login" ||
+    pathname === "/register" ||
+    pathname === "/forgot-password" ||
+    pathname === "/reset-password";
 
   if (isAuthPage && session.userId) {
-    const destination = session.role === "ADMIN" ? "/dashboard" : "/";
+    const destination = session.role === "ADMIN" ? "/admin" : "/";
     return NextResponse.redirect(new URL(destination, request.url));
   }
 
@@ -41,5 +45,16 @@ export async function middleware(request: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/login", "/register", "/checkout/:path*", "/account/:path*", "/profile", "/orders/:path*", "/admin/:path*", "/dashboard"],
+  matcher: [
+    "/login",
+    "/register",
+    "/forgot-password",
+    "/reset-password",
+    "/checkout/:path*",
+    "/account/:path*",
+    "/profile",
+    "/orders/:path*",
+    "/admin/:path*",
+    "/dashboard",
+  ],
 };

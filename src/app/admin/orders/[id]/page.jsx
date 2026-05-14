@@ -1,54 +1,49 @@
-"use client";
-
-import { useState, useEffect } from "react";
-import { useParams } from "next/navigation";
+import { Suspense } from "react";
 import Link from "next/link";
 import {
   ArrowLeft,
-  Loader2,
   PackageOpen,
   MapPin,
   CreditCard,
-  Download,
   AlertCircle,
+  ShoppingCart,
 } from "lucide-react";
-import dynamic from "next/dynamic";
-import { formatPrice, formatArs, usdToArs } from "@/lib/utils/currency";
+import { getOrderDetailAction } from "@/features/orders/actions/orderActions";
+import { formatPrice, formatArs } from "@/lib/utils/currency";
+import OrderStatusTimeline from "@/features/orders/components/OrderStatusTimeline";
+import PrintButton from "@/features/orders/components/PrintButton";
+import DetailSkeleton from "@/features/orders/components/DetailSkeleton";
+import ReceiptDownloadWrapper from "@/features/orders/components/ReceiptDownloadWrapper";
 
-const ReceiptDownload = dynamic(
-  () => import("@/features/orders/components/ReceiptDownload"),
-  { ssr: false }
-);
+export const metadata = {
+  title: "Detalle del Pedido | Panel de Administración",
+  description: "Detalle del pedido — ElectroShop Admin",
+};
 
 const STATUS_LABELS = {
   PENDING: "Pendiente",
   PAID: "Pagado",
   SHIPPED: "Enviado",
   CANCELLED: "Cancelado",
+  DELIVERED: "Entregado",
 };
-
-const STATUS_TRANSITIONS = {
-  PENDING: ["PAID", "CANCELLED"],
-  PAID: ["SHIPPED", "CANCELLED"],
-  SHIPPED: [],
-  CANCELLED: [],
-};
-
-function getStatusBadgeClass(status) {
-  switch (status) {
-    case "PENDING": return "table-badge table-badge-warning";
-    case "PAID": return "table-badge table-badge-success";
-    case "SHIPPED": return "table-badge table-badge-info";
-    case "CANCELLED": return "table-badge table-badge-danger";
-    default: return "table-badge";
-  }
-}
 
 const PAYMENT_LABELS = {
   card: "Tarjeta de Crédito/Débito",
   transfer: "Transferencia Bancaria",
   cash: "Efectivo (al retirar)",
 };
+
+function getStatusBadgeClass(status) {
+  switch (status) {
+    case "PENDING": return "badge-warning";
+    case "PAID": return "badge-info";
+    case "SHIPPED": return "badge-blue";
+    case "DELIVERED": return "badge-success";
+    case "CANCELLED": return "badge-danger";
+    default: return "badge-neutral";
+  }
+}
 
 function formatDate(dateStr) {
   return new Date(dateStr).toLocaleDateString("es-AR", {
@@ -60,216 +55,175 @@ function formatDate(dateStr) {
   });
 }
 
-export default function AdminOrderDetailPage() {
-  const params = useParams();
-  const [order, setOrder] = useState(null);
-  const [loading, setLoading] = useState(true);
-  const [updating, setUpdating] = useState(false);
-  const [error, setError] = useState("");
+async function OrderDetailContent({ id }) {
+  const result = await getOrderDetailAction(id);
 
-  useEffect(() => {
-    async function fetchOrder() {
-      try {
-        const res = await fetch(`/api/admin/orders/${params.id}`);
-        if (!res.ok) {
-          if (res.status === 404) throw new Error("Pedido no encontrado");
-          throw new Error("Error al cargar el pedido");
-        }
-        const data = await res.json();
-        setOrder(data.order);
-      } catch (err) {
-        setError(err.message);
-      } finally {
-        setLoading(false);
-      }
-    }
-    if (params.id) fetchOrder();
-  }, [params.id]);
-
-  const handleStatusChange = async (newStatus) => {
-    if (updating) return;
-    setUpdating(true);
-    try {
-      const res = await fetch(`/api/admin/orders/${params.id}`, {
-        method: "PATCH",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ status: newStatus }),
-      });
-      if (!res.ok) throw new Error("Error al actualizar estado");
-      const data = await res.json();
-      setOrder(data.order);
-    } catch (err) {
-      setError(err.message);
-    } finally {
-      setUpdating(false);
-    }
-  };
-
-  if (loading) {
-    return (
-      <div className="loading-spinner" role="status" aria-label="Cargando pedido">
-        <span className="visually-hidden">Cargando pedido...</span>
-      </div>
-    );
-  }
-
-  if (error) {
+  if (result.error) {
     return (
       <div className="error-message" role="alert">
-        <span aria-hidden="true">&#9888;</span> {error}
+        <AlertCircle size={18} aria-hidden="true" />
+        {result.error}
       </div>
     );
   }
 
-  if (!order) return null;
-
+  const order = result.order;
   const shipping = order.shippingAddress || {};
-  const availableTransitions = STATUS_TRANSITIONS[order.status] || [];
+  const totalItems = order.items.reduce((acc, item) => acc + item.quantity, 0);
 
   return (
-    <div>
-      <div style={{ display: "flex", alignItems: "center", justifyContent: "space-between", marginBottom: "1.5rem", flexWrap: "wrap", gap: "0.75rem" }}>
-        <div style={{ display: "flex", alignItems: "center", gap: "1rem" }}>
+    <div className="print-root">
+      {/* ---- Header ---- */}
+      <div className="order-detail-header">
+        <div className="order-detail-header-left">
           <Link
             href="/admin/orders"
-            className="btn btn-secondary"
-            style={{ fontSize: "0.75rem", padding: "0.35rem 0.75rem", display: "inline-flex", alignItems: "center", gap: "4px" }}
+            className="btn btn-secondary btn-sm order-detail-back"
           >
             <ArrowLeft size={14} />
             Volver
           </Link>
-          <h2 className="visually-hidden" style={{ display: "none" }}>Detalle del pedido</h2>
+          <h2 className="visually-hidden">Detalle del pedido {order.orderNumber}</h2>
         </div>
-        <span className={getStatusBadgeClass(order.status)} style={{ fontSize: "0.8rem", padding: "0.4rem 1rem" }}>
-          {STATUS_LABELS[order.status] || order.status}
-        </span>
+
+        <div className="order-detail-header-right">
+          <span className={`badge ${getStatusBadgeClass(order.status)} print-badge`}>
+            {STATUS_LABELS[order.status] || order.status}
+          </span>
+          <PrintButton />
+        </div>
       </div>
 
-      <div className="admin-card" style={{ marginBottom: "1.5rem" }}>
-        <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", flexWrap: "wrap", gap: "1rem" }}>
+      {/* ---- Order Info Card ---- */}
+      <div className="admin-card admin-card-spacing">
+        <div className="order-info-card-inner">
           <div>
-            <h3 className="admin-card-title" style={{ marginBottom: "0.3rem" }}>
+            <h3 className="admin-card-title order-detail-number">
               {order.orderNumber}
             </h3>
-            <p style={{ color: "var(--admin-muted)", fontSize: "0.8rem", margin: 0 }}>
+            <p className="order-detail-date print-mono">
               {formatDate(order.createdAt)}
             </p>
           </div>
-          <div style={{ display: "flex", alignItems: "center", gap: "0.75rem", flexWrap: "wrap" }}>
-            {availableTransitions.map((status) => (
-              <button
-                key={status}
-                onClick={() => handleStatusChange(status)}
-                disabled={updating}
-                className={`btn ${status === "CANCELLED" ? "btn-danger" : "btn-primary"}`}
-                style={{ fontSize: "0.75rem", padding: "0.4rem 1rem", display: "inline-flex", alignItems: "center", gap: "4px" }}
-              >
-                {updating ? (
-                  <Loader2 size={14} style={{ animation: "spin 0.7s linear infinite" }} />
-                ) : null}
-                {status === "PAID" && "Marcar como Pagado"}
-                {status === "SHIPPED" && "Marcar como Enviado"}
-                {status === "CANCELLED" && "Cancelar Pedido"}
-              </button>
-            ))}
-            <ReceiptDownload order={order} />
-          </div>
+          <ReceiptDownloadWrapper order={order} />
         </div>
       </div>
 
-      <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "1.5rem", marginBottom: "1.5rem" }}>
+      {/* ---- Status Timeline ---- */}
+      <OrderStatusTimeline order={order} />
+
+      {/* ---- Two-Column Grid ---- */}
+      <div className="order-detail-grid print-shipping-grid">
+        {/* ---- Left: Shipping Address ---- */}
         <div className="admin-card">
-          <h3 className="admin-card-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <MapPin size={16} color="#24abf3" />
+          <h3 className="admin-card-title admin-card-title-with-icon">
+            <MapPin size={16} className="order-detail-section-icon" />
             Dirección de envío
           </h3>
-          <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: "0.75rem", marginTop: "1rem" }}>
-            <div>
-              <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--admin-muted)", textTransform: "uppercase", letterSpacing: "0.8px" }}>Nombre</span>
-              <p style={{ margin: "0.2rem 0 0 0", fontSize: "0.88rem", color: "var(--admin-text)", fontWeight: 600 }}>
-                {shipping.fullName || "—"}
-              </p>
-            </div>
-            <div>
-              <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--admin-muted)", textTransform: "uppercase", letterSpacing: "0.8px" }}>Email</span>
-              <p style={{ margin: "0.2rem 0 0 0", fontSize: "0.88rem", color: "var(--admin-text)", fontWeight: 600 }}>
-                {shipping.email || "—"}
-              </p>
-            </div>
-            <div>
-              <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--admin-muted)", textTransform: "uppercase", letterSpacing: "0.8px" }}>Teléfono</span>
-              <p style={{ margin: "0.2rem 0 0 0", fontSize: "0.88rem", color: "var(--admin-text)", fontWeight: 600 }}>
-                {shipping.phone || "—"}
-              </p>
-            </div>
-            <div>
-              <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--admin-muted)", textTransform: "uppercase", letterSpacing: "0.8px" }}>Dirección</span>
-              <p style={{ margin: "0.2rem 0 0 0", fontSize: "0.88rem", color: "var(--admin-text)", fontWeight: 600 }}>
-                {shipping.address || "—"}
-              </p>
-            </div>
-            <div>
-              <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--admin-muted)", textTransform: "uppercase", letterSpacing: "0.8px" }}>Ciudad</span>
-              <p style={{ margin: "0.2rem 0 0 0", fontSize: "0.88rem", color: "var(--admin-text)", fontWeight: 600 }}>
-                {shipping.city || "—"}
-              </p>
-            </div>
-            <div>
-              <span style={{ fontSize: "0.7rem", fontWeight: 700, color: "var(--admin-muted)", textTransform: "uppercase", letterSpacing: "0.8px" }}>CP</span>
-              <p style={{ margin: "0.2rem 0 0 0", fontSize: "0.88rem", color: "var(--admin-text)", fontWeight: 600 }}>
-                {shipping.zip || "—"}
-              </p>
-            </div>
-          </div>
-          {shipping.notes && (
-            <p style={{ marginTop: "1rem", padding: "0.75rem", background: "rgba(36, 171, 243, 0.05)", borderLeft: "3px solid var(#24abf3)", fontSize: "0.8rem", color: "var(--admin-muted)", fontStyle: "italic" }}>
-              Nota: {shipping.notes}
+
+          {!shipping.address ? (
+            <p className="order-no-shipping">
+              Sin dirección de envío registrada
             </p>
+          ) : (
+            <>
+              <div className="order-detail-shipping-grid">
+                <div>
+                  <span className="order-detail-label print-shipping-label">Nombre</span>
+                  <p className="order-detail-value print-shipping-value">
+                    {shipping.fullName || "—"}
+                  </p>
+                </div>
+                <div>
+                  <span className="order-detail-label print-shipping-label">Email</span>
+                  <p className="order-detail-value print-shipping-value">
+                    {shipping.email || "—"}
+                  </p>
+                </div>
+                <div>
+                  <span className="order-detail-label print-shipping-label">Teléfono</span>
+                  <p className="order-detail-value print-shipping-value">
+                    {shipping.phone || "—"}
+                  </p>
+                </div>
+                <div>
+                  <span className="order-detail-label print-shipping-label">Dirección</span>
+                  <p className="order-detail-value print-shipping-value">
+                    {shipping.address || "—"}
+                  </p>
+                </div>
+                <div>
+                  <span className="order-detail-label print-shipping-label">Ciudad</span>
+                  <p className="order-detail-value print-shipping-value">
+                    {shipping.city || "—"}
+                  </p>
+                </div>
+                <div>
+                  <span className="order-detail-label print-shipping-label">CP</span>
+                  <p className="order-detail-value print-shipping-value">
+                    {shipping.zip || "—"}
+                  </p>
+                </div>
+              </div>
+              {shipping.notes && (
+                <p className="order-detail-notes">
+                  Nota: {shipping.notes}
+                </p>
+              )}
+            </>
           )}
         </div>
 
+        {/* ---- Right: Order Summary ---- */}
         <div className="admin-card">
-          <h3 className="admin-card-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-            <CreditCard size={16} color="var(#24abf3)" />
+          <h3 className="admin-card-title admin-card-title-with-icon">
+            <CreditCard size={16} className="order-detail-section-icon" />
             Resumen del pedido
           </h3>
-          <div style={{ marginTop: "1rem" }}>
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem", color: "var(--admin-text)" }}>
+          <div className="order-summary-body">
+            <div className="order-detail-row print-total-row">
               <span>Cliente</span>
-              <span style={{ fontWeight: 600 }}>{order.user?.name || order.user?.email || "—"}</span>
+              <span style={{ fontWeight: 600 }}>
+                {order.user?.name || order.user?.email || "—"}
+              </span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem", color: "var(--admin-text)" }}>
+            <div className="order-detail-row print-total-row">
               <span>Subtotal</span>
-              <span>{formatPrice(order.subtotal)}</span>
+              <span className="order-detail-mono print-mono">{formatPrice(order.subtotal)}</span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem", color: "var(--admin-text)" }}>
+            <div className="order-detail-row print-total-row">
               <span>Envío</span>
-              <span>{order.shippingCost === 0 ? "Gratis" : formatArs(order.shippingCost)}</span>
+              <span className="order-detail-mono print-mono">
+                {order.shippingCost === 0 ? "Gratis" : formatArs(order.shippingCost)}
+              </span>
             </div>
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.85rem", color: "var(--admin-text)" }}>
+            <div className="order-detail-row print-total-row">
               <span>Método</span>
               <span>{PAYMENT_LABELS[order.paymentMethod] || order.paymentMethod}</span>
             </div>
             {order.cardDetails?.last4 && (
-              <div style={{ display: "flex", justifyContent: "space-between", padding: "0.4rem 0", fontSize: "0.8rem", color: "var(--admin-muted)" }}>
+              <div className="order-detail-row print-total-row">
                 <span>Tarjeta</span>
-                <span>**** {order.cardDetails.last4}</span>
+                <span className="order-detail-mono print-mono">**** {order.cardDetails.last4}</span>
               </div>
             )}
-            <div style={{ display: "flex", justifyContent: "space-between", padding: "0.6rem 0", fontSize: "1rem", fontWeight: 900, color: "var(--admin-text)", borderTop: "1px solid var(--admin-border)", marginTop: "0.4rem" }}>
+            <div className="order-detail-row order-detail-row-divider print-total-row print-total-divider">
               <span>TOTAL</span>
-              <span style={{ color: "var(#24abf3)" }}>{formatArs(usdToArs(order.subtotal) + (order.shippingCost ?? 0))}</span>
+              <span className="order-detail-total print-mono">
+                {formatPrice(order.total)}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
+      {/* ---- Products Table ---- */}
       <div className="admin-card">
-        <h3 className="admin-card-title" style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-          <PackageOpen size={16} color="var(#24abf3)" />
-          Productos ({order.items.reduce((acc, item) => acc + item.quantity, 0)})
+        <h3 className="admin-card-title admin-card-title-with-icon">
+          <PackageOpen size={16} className="order-detail-section-icon" />
+          Productos ({totalItems})
         </h3>
-        <div className="admin-table-wrapper" style={{ marginTop: "1rem" }}>
+        <div className="table-container order-table-section">
           <table className="admin-table">
             <thead>
               <tr>
@@ -284,27 +238,50 @@ export default function AdminOrderDetailPage() {
               {order.items.map((item) => (
                 <tr key={item.id}>
                   <td>
-                    <div style={{ display: "flex", alignItems: "center", gap: "0.5rem" }}>
-                      {item.productImage && (
+                    <div className="order-detail-product-cell">
+                      {item.productImage ? (
                         <img
                           src={item.productImage}
                           alt={item.productTitle}
-                          style={{ width: 36, height: 36, objectFit: "contain", background: "rgb(18,18,18)", borderRadius: 2 }}
+                          className="order-detail-product-img"
                         />
+                      ) : (
+                        <div className="order-detail-product-placeholder">
+                          <ShoppingCart size={16} />
+                        </div>
                       )}
-                      <span style={{ fontWeight: 600, fontSize: "0.85rem" }}>{item.productTitle}</span>
+                      <span className="order-detail-product-name">
+                        {item.productTitle}
+                      </span>
                     </div>
                   </td>
-                  <td style={{ fontSize: "0.75rem", color: "var(--admin-muted)" }}>{item.productSku}</td>
+                  <td className="order-detail-mono print-mono">{item.productSku}</td>
                   <td style={{ textAlign: "center" }}>{item.quantity}</td>
-                  <td style={{ textAlign: "right" }}>{formatPrice(item.unitPrice)}</td>
-                  <td style={{ textAlign: "right", fontWeight: 700 }}>{formatPrice(item.totalPrice)}</td>
+                  <td className="order-detail-mono print-mono" style={{ textAlign: "right" }}>
+                    {formatPrice(item.unitPrice)}
+                  </td>
+                  <td className="order-detail-mono print-mono" style={{ textAlign: "right", fontWeight: 700 }}>
+                    {formatPrice(item.totalPrice)}
+                  </td>
                 </tr>
               ))}
             </tbody>
           </table>
         </div>
       </div>
+    </div>
+  );
+}
+
+export default async function AdminOrderDetailPage({ params }) {
+  const { id } = await params;
+
+  return (
+    <div>
+      <h2 className="visually-hidden">Detalle del pedido</h2>
+      <Suspense fallback={<DetailSkeleton />}>
+        <OrderDetailContent id={id} />
+      </Suspense>
     </div>
   );
 }

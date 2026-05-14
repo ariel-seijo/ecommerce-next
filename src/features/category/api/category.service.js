@@ -7,7 +7,12 @@ export async function getCategoryProducts({
     brand,
     min,
     max,
+    page = 1,
+    limit = 9,
 }) {
+    const pageNum = Math.max(1, Number(page));
+    const skip = (pageNum - 1) * limit;
+
     const where = {
         category: {
             name: categoryName,
@@ -51,14 +56,18 @@ export async function getCategoryProducts({
         orderBy = { price: "desc" };
     }
 
-    const products =
-        await prisma.product.findMany({
+    const [products, total] = await Promise.all([
+        prisma.product.findMany({
             where,
             include: {
                 category: true,
             },
             orderBy,
-        });
+            skip,
+            take: limit,
+        }),
+        prisma.product.count({ where }),
+    ]);
 
     const brands =
         await prisma.product.groupBy({
@@ -106,5 +115,8 @@ export async function getCategoryProducts({
         maxPrice: Math.ceil(
             usdToArs(priceData._max.price || 0)
         ),
+        page: pageNum,
+        totalPages: Math.ceil(total / limit),
+        total,
     };
 }

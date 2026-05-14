@@ -2,7 +2,7 @@ import "./category.css";
 
 import { cookies } from "next/headers";
 
-import { Products } from "@/features/products";
+import { Products, Pagination } from "@/features/products";
 import {
   getCategoryProducts,
   FiltersSidebar,
@@ -39,12 +39,15 @@ export default async function CategoryPage({ params, searchParams }) {
 
   const max = query.max || "";
 
-  const { products, brands, minPrice, maxPrice } = await getCategoryProducts({
+  const page = query.page || "1";
+
+  const { products, brands, minPrice, maxPrice, page: currentPage, totalPages } = await getCategoryProducts({
     categoryName,
     sort,
     brand,
     min,
     max,
+    page,
   });
 
   const cookieStore = await cookies();
@@ -86,7 +89,19 @@ export default async function CategoryPage({ params, searchParams }) {
             </div>
 
             {products.length > 0 ? (
-              <Products products={products} view={view} />
+              <>
+                <Products products={products} view={view} />
+                <Pagination
+                  name={name}
+                  page={currentPage}
+                  totalPages={totalPages}
+                  sort={sort}
+                  brand={brand}
+                  min={min}
+                  max={max}
+                  view={view}
+                />
+              </>
             ) : (
               <EmptyProducts name={name} />
             )}

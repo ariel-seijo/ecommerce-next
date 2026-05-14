@@ -16,7 +16,7 @@
 
 .title {
   font-size: 0.9rem;
-  font-weight: 900;
+  font-weight: 600;
   color: var(--admin-text);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -98,13 +98,13 @@
   color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .footerValue {
   font-family: var(--admin-font-mono);
   font-size: 1.1rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-primary-glow);
 }
 

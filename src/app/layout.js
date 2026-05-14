@@ -1,11 +1,19 @@
 import "./globals.css";
 
 import localFont from "next/font/local";
+import { Inter } from "next/font/google";
 
 const fuenteGamer = localFont({
   src: "./fonts/cosmic-lager-regular.otf",
   variable: "--font-cosmic",
   display: "swap",
+});
+
+const inter = Inter({
+  subsets: ["latin"],
+  variable: "--font-inter",
+  display: "swap",
+  weight: ["100", "200", "300", "400", "500", "600", "700", "800", "900"],
 });
 
 import { AuthProvider } from "@/features/auth";
@@ -21,7 +29,7 @@ export const metadata = {
 export default function RootLayout({ children }) {
   return (
     <html lang="es" data-scroll-behavior="smooth">
-      <body className={fuenteGamer.variable}>
+      <body className={`${fuenteGamer.variable} ${inter.variable}`}>
         <AuthProvider>
           <CartProvider>
             {children}

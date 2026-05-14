@@ -46,7 +46,7 @@
 .errorBlock p {
   margin: 1rem 0;
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .header {
@@ -70,7 +70,7 @@
   align-items: center;
   gap: 0.4rem;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(150, 150, 150);
   text-decoration: none;
   text-transform: uppercase;
@@ -90,7 +90,7 @@
 
 .orderNumber {
   font-size: 1.15rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #24abf3;
   letter-spacing: 0.5px;
 }
@@ -135,7 +135,7 @@
 .sectionHeader h3 {
   margin: 0;
   font-size: 0.95rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: rgb(214, 214, 214);
@@ -166,7 +166,7 @@
 
 .itemTitle {
   font-size: 0.9rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(200, 200, 200);
 }
 
@@ -184,7 +184,7 @@
 
 .itemTotal {
   font-size: 0.95rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(214, 214, 214);
   white-space: nowrap;
 }
@@ -203,7 +203,7 @@
 
 .infoLabel {
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: rgb(120, 120, 120);
@@ -251,7 +251,7 @@
   display: flex;
   justify-content: space-between;
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(214, 214, 214);
 }
 
@@ -290,7 +290,7 @@
   color: #111;
   border: none;
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   cursor: pointer;
@@ -316,7 +316,7 @@
   display: inline-block;
   padding: 0.3rem 0.8rem;
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
 }

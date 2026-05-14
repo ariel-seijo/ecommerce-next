@@ -24,7 +24,7 @@
 .sectionHeader h3 {
   margin: 0;
   font-size: 1.15rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: rgb(214, 214, 214);
@@ -45,7 +45,7 @@
 .block h4 {
   margin: 0 0 0.6rem 0;
   font-size: 0.8rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: rgb(140, 140, 140);
@@ -85,7 +85,7 @@
 
 .reviewItemTitle {
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(200, 200, 200);
 }
 
@@ -96,7 +96,7 @@
 
 .reviewItemTotal {
   font-size: 0.95rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(214, 214, 214);
 }
 
@@ -122,7 +122,7 @@
   gap: 0.5rem;
   padding: 0.85rem 1.8rem;
   font-size: 0.92rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   border: none;
@@ -205,7 +205,7 @@
 .processingText {
   color: rgb(200, 200, 200);
   font-size: 1rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
 }
@@ -246,7 +246,7 @@
 .errorText {
   color: #f87171;
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   flex: 1;
 }
 
@@ -256,7 +256,7 @@
   color: #f87171;
   border: 1px solid rgba(239, 68, 68, 0.3);
   font-size: 0.8rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   cursor: pointer;

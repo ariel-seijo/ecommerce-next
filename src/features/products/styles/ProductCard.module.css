@@ -110,7 +110,7 @@
   background: linear-gradient(135deg, #ef4444, #dc2626);
   color: white;
   font-size: 0.6rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.5px;
   border-radius: 999px;
   z-index: 4;
@@ -123,7 +123,7 @@
   right: 0.25rem;
   padding: 0.08rem 0.3rem;
   font-size: 0.52rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   border-radius: 999px;
@@ -151,7 +151,7 @@
   border: 1px solid rgba(36, 171, 243, 0.2);
   color: #24abf3;
   font-size: 0.5rem;
-  font-weight: 800;
+  font-weight: 600;
   letter-spacing: 0.8px;
   text-transform: uppercase;
   display: flex;
@@ -201,7 +201,7 @@
 .category,
 .brand {
   font-size: 0.62rem;
-  font-weight: 800;
+  font-weight: 600;
   color: rgb(140, 140, 140);
   text-transform: uppercase;
   letter-spacing: 0.4px;
@@ -213,7 +213,7 @@
 
 .title {
   font-size: 0.78rem;
-  font-weight: 800;
+  font-weight: 600;
   color: rgb(215, 215, 215);
   line-height: 1.35;
 
@@ -275,7 +275,7 @@
 
 .price {
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #24abf3;
   text-shadow: 0 0 12px rgba(36, 171, 243, 0.2);
   overflow-wrap: break-word;
@@ -294,7 +294,7 @@
   border-radius: 5px;
   background: linear-gradient(135deg, #007fff, #00cfff);
   color: rgb(17, 17, 17);
-  font-weight: 800;
+  font-weight: 600;
   font-family: inherit;
   font-size: 0.66rem;
   text-transform: uppercase;

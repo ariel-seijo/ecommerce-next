@@ -45,7 +45,7 @@
   --admin-shadow-lg: 0 16px 48px rgba(0, 0, 0, 0.55);
 
   /* ---- Typography ---- */
-  --admin-font: 'Inter', system-ui, -apple-system, sans-serif;
+  --admin-font: var(--font-inter), system-ui, -apple-system, sans-serif;
   --admin-font-mono: 'JetBrains Mono', 'Fira Code', monospace;
 
   /* ---- Motion ---- */

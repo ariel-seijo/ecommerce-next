@@ -70,7 +70,7 @@
   border: none;
   color: var(--admin-primary-glow);
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   font-family: var(--admin-font);
   transition: background var(--admin-transition);
@@ -161,7 +161,7 @@
   border-radius: var(--admin-radius-sm);
   color: var(--admin-primary-glow);
   font-size: 0.73rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   font-family: var(--admin-font);
   transition: all var(--admin-transition);
@@ -184,7 +184,7 @@
   border-radius: var(--admin-radius-sm);
   color: #f87171;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   font-family: var(--admin-font);
   transition: all var(--admin-transition);
@@ -211,7 +211,7 @@
 }
 
 .activeLabel {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-muted);
   margin-right: 2px;
 }

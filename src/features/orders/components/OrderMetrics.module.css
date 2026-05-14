@@ -54,7 +54,7 @@
 
 .label {
   font-size: 0.7rem;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -62,7 +62,7 @@
 
 .value {
   font-size: 1.65rem;
-  font-weight: 900;
+  font-weight: 600;
   margin: 0;
   line-height: 1.1;
   letter-spacing: -0.5px;

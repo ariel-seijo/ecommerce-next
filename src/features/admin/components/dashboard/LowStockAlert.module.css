@@ -21,7 +21,7 @@
 
 .title {
   font-size: 0.85rem;
-  font-weight: 800;
+  font-weight: 600;
   color: #fbbf24;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -71,7 +71,7 @@
 .stockBadge {
   font-family: var(--admin-font-mono);
   font-size: 0.65rem;
-  font-weight: 700;
+  font-weight: 600;
   padding: 2px 6px;
   border-radius: 3px;
   background: rgba(239, 68, 68, 0.15);
@@ -97,7 +97,7 @@
   align-items: center;
   gap: 6px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-warning);
   text-decoration: none;
   text-transform: uppercase;

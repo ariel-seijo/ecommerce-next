@@ -28,6 +28,7 @@ const cardDetailsSchema = z
   .object({
     cardNumber: z.string().max(19, "El número de tarjeta es demasiado largo").optional(),
     cardExpiry: z.string().max(5, "La fecha de expiración es inválida").optional(),
+    cardCvc: z.string().max(4, "El CVC es inválido").optional(),
     cardHolder: z.string().max(100, "El nombre del titular es demasiado largo").optional(),
   })
   .nullable()

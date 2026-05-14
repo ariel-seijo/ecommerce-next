@@ -50,7 +50,7 @@
 
 .admin-sidebar-logo h1 {
   font-size: 1.1rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 1.5px;
   color: var(--admin-primary-glow);
   margin: 0 0 2px 0;
@@ -61,7 +61,7 @@
   font-size: 0.65rem;
   color: var(--admin-muted);
   display: block;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
 }
@@ -86,7 +86,7 @@
   border-radius: var(--admin-radius-sm);
   transition: all var(--admin-transition);
   font-size: 0.85rem;
-  font-weight: 700;
+  font-weight: 600;
   position: relative;
   min-height: 44px;
 }
@@ -171,7 +171,7 @@
 
 .admin-card-title {
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 600;
   letter-spacing: 0.5px;
   margin: 0;
   text-transform: uppercase;
@@ -215,7 +215,7 @@
 .order-detail-label {
   display: block;
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   color: var(--admin-muted);
@@ -264,7 +264,7 @@
   margin-top: 4px;
   border-top: 1px solid var(--admin-border-thin);
   border-bottom: none !important;
-  font-weight: 800;
+  font-weight: 600;
   font-size: 0.9rem;
   color: var(--admin-text);
 }
@@ -272,7 +272,7 @@
 .order-detail-total {
   font-family: var(--admin-font-mono);
   font-size: 1.15rem;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--admin-primary-glow);
 }
 
@@ -317,7 +317,7 @@
 }
 
 .order-detail-product-name {
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-text);
   white-space: nowrap;
   overflow: hidden;
@@ -398,7 +398,7 @@
   border: none;
   border-radius: var(--admin-radius-sm);
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
   transition: all var(--admin-transition);
   text-decoration: none;
@@ -468,7 +468,7 @@
   padding: 3px 12px;
   border-radius: 20px;
   font-size: 0.65rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.6px;
   line-height: 1.6;
@@ -646,7 +646,7 @@
 
 .modal-title {
   font-size: 1rem;
-  font-weight: 900;
+  font-weight: 600;
   color: var(--admin-text);
   letter-spacing: 0.5px;
   margin: 0;

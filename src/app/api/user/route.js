@@ -28,7 +28,7 @@ export async function DELETE(request) {
       },
     });
 
-    revalidateTag("admin-dashboard");
+    revalidateTag("admin-dashboard", "max");
 
     const response = NextResponse.json({ success: true }, { status: 200 });
     response.cookies.delete(sessionOptions.cookieName);

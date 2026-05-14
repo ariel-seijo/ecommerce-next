@@ -58,11 +58,11 @@ export async function createProductAction(data) {
     await requireAdmin();
     const product = await productService.createProduct(data);
     revalidatePath("/admin/products");
-    revalidateTag("admin-dashboard");
-    revalidateTag("category-products");
-    revalidateTag(`product-${product.slug}`);
+    revalidateTag("admin-dashboard", "max");
+    revalidateTag("category-products", "max");
+    revalidateTag(`product-${product.slug}`, "max");
     if (product.featured) {
-      revalidateTag("home-featured");
+      revalidateTag("home-featured", "max");
     }
     return { success: true, product };
   } catch (error) {
@@ -86,11 +86,11 @@ export async function updateProductAction(id, data) {
     await requireAdmin();
     const product = await productService.updateProduct(id, data);
     revalidatePath("/admin/products");
-    revalidateTag("admin-dashboard");
-    revalidateTag("category-products");
-    revalidateTag(`product-${product.slug}`);
+    revalidateTag("admin-dashboard", "max");
+    revalidateTag("category-products", "max");
+    revalidateTag(`product-${product.slug}`, "max");
     if (product.featured || data.featured !== undefined) {
-      revalidateTag("home-featured");
+      revalidateTag("home-featured", "max");
     }
     return { success: true, product };
   } catch (error) {
@@ -116,11 +116,11 @@ export async function deleteProductAction(id) {
     await requireAdmin();
     const product = await productService.deleteProduct(id);
     revalidatePath("/admin/products");
-    revalidateTag("admin-dashboard");
-    revalidateTag("category-products");
-    revalidateTag(`product-${product.slug}`);
+    revalidateTag("admin-dashboard", "max");
+    revalidateTag("category-products", "max");
+    revalidateTag(`product-${product.slug}`, "max");
     if (product.featured) {
-      revalidateTag("home-featured");
+      revalidateTag("home-featured", "max");
     }
     return { success: true };
   } catch (error) {
@@ -147,11 +147,11 @@ export async function toggleProductActiveAction(id, active) {
     await requireAdmin();
     const product = await productService.toggleProductStatus(id, active);
     revalidatePath("/admin/products");
-    revalidateTag("admin-dashboard");
-    revalidateTag("category-products");
-    revalidateTag(`product-${product.slug}`);
+    revalidateTag("admin-dashboard", "max");
+    revalidateTag("category-products", "max");
+    revalidateTag(`product-${product.slug}`, "max");
     if (product.featured) {
-      revalidateTag("home-featured");
+      revalidateTag("home-featured", "max");
     }
     return { success: true, product };
   } catch (error) {
@@ -178,10 +178,10 @@ export async function toggleProductFeaturedAction(id, featured) {
     await requireAdmin();
     const product = await productService.toggleProductFeatured(id, featured);
     revalidatePath("/admin/products");
-    revalidateTag("admin-dashboard");
-    revalidateTag("home-featured");
-    revalidateTag("category-products");
-    revalidateTag(`product-${product.slug}`);
+    revalidateTag("admin-dashboard", "max");
+    revalidateTag("home-featured", "max");
+    revalidateTag("category-products", "max");
+    revalidateTag(`product-${product.slug}`, "max");
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -209,11 +209,11 @@ export async function updateProductStockAction(id, stock) {
     const existing = await productService.getProductById(id);
     const product = await productService.updateProductStock(id, stock);
     revalidatePath("/admin/products");
-    revalidateTag("admin-dashboard");
-    revalidateTag("category-products");
-    revalidateTag(`product-${existing.slug}`);
+    revalidateTag("admin-dashboard", "max");
+    revalidateTag("category-products", "max");
+    revalidateTag(`product-${existing.slug}`, "max");
     if (existing.featured) {
-      revalidateTag("home-featured");
+      revalidateTag("home-featured", "max");
     }
     return { success: true, product };
   } catch (error) {

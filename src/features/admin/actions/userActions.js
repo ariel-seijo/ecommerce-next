@@ -59,7 +59,7 @@ export async function deleteUserAction(id) {
     await requireAdmin();
     const user = await userService.softDeleteUser(id);
     revalidatePath("/admin/users");
-    revalidateTag("admin-dashboard");
+    revalidateTag("admin-dashboard", "max");
     return { success: true, user };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -87,7 +87,7 @@ export async function toggleUserStatusAction(id) {
     await requireAdmin();
     const user = await userService.toggleUserStatus(id);
     revalidatePath("/admin/users");
-    revalidateTag("admin-dashboard");
+    revalidateTag("admin-dashboard", "max");
     return { success: true, user };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -116,7 +116,7 @@ export async function updateUserRoleAction(id, role) {
     await requireAdmin();
     const userData = await userService.updateUserRole(id, role);
     revalidatePath("/admin/users");
-    revalidateTag("admin-dashboard");
+    revalidateTag("admin-dashboard", "max");
     return { success: true, user: userData };
   } catch (error) {
     if (error.message === "Unauthorized") {

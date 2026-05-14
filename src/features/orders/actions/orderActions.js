@@ -60,7 +60,7 @@ export async function updateOrderStatusAction(id, status) {
     await requireAdmin();
     const order = await orderService.updateOrderStatus(id, status);
     revalidatePath("/admin/orders");
-    revalidateTag("admin-dashboard");
+    revalidateTag("admin-dashboard", "max");
     return { success: true, order };
   } catch (error) {
     if (error.message === "Unauthorized") {

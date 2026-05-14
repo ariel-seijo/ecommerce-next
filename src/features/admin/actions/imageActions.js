@@ -105,9 +105,9 @@ export async function saveProductImagesAction(productId, images) {
       )
     );
 
-    revalidateTag(`product-${product.slug}`);
+    revalidateTag(`product-${product.slug}`, "max");
     if (product.featured) {
-      revalidateTag("home-featured");
+      revalidateTag("home-featured", "max");
     }
 
     return { images: imageRecords };
@@ -162,9 +162,9 @@ export async function deleteProductImageAction(imageId) {
       select: { slug: true, featured: true },
     });
     if (product) {
-      revalidateTag(`product-${product.slug}`);
+      revalidateTag(`product-${product.slug}`, "max");
       if (product.featured) {
-        revalidateTag("home-featured");
+        revalidateTag("home-featured", "max");
       }
     }
 
@@ -208,9 +208,9 @@ export async function reorderProductImagesAction(productId, imageIds) {
       select: { slug: true, featured: true },
     });
     if (product) {
-      revalidateTag(`product-${product.slug}`);
+      revalidateTag(`product-${product.slug}`, "max");
       if (product.featured) {
-        revalidateTag("home-featured");
+        revalidateTag("home-featured", "max");
       }
     }
 

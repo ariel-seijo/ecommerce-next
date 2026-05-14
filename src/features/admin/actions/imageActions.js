@@ -1,25 +1,13 @@
 "use server";
 
-import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { sessionOptions } from "@/lib/session";
+import { requireAdmin } from "@/lib/auth-guards";
 import {
   generateSignature,
   generateBlurDataURL,
   deleteAsset,
 } from "@/lib/cloudinary";
-
-async function requireAdmin() {
-  const cookieStore = await cookies();
-  const session = await getIronSession(cookieStore, sessionOptions);
-
-  if (!session.userId || session.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
-  return session;
-}
+import { saveProductImagesSchema, formatZodError } from "@/lib/validations";
 
 /**
  * Generates a signed upload signature for the Cloudinary Upload Widget.
@@ -67,6 +55,11 @@ export async function saveProductImagesAction(productId, images) {
 
     if (images.length > 10) {
       return { error: "Máximo 10 imágenes por producto" };
+    }
+
+    const parsed = saveProductImagesSchema.safeParse({ productId, images });
+    if (!parsed.success) {
+      return { error: formatZodError(parsed.error) };
     }
 
     const product = await prisma.product.findUnique({

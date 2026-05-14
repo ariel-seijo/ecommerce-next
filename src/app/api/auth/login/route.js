@@ -3,19 +3,29 @@ import { verify } from "@node-rs/bcrypt";
 import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { sessionOptions } from "@/lib/session";
+import { loginSchema, formatZodError } from "@/lib/validations";
+import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 
 export async function POST(request) {
   try {
-    const body = await request.json();
-    const email = body?.email?.trim().toLowerCase();
-    const password = body?.password;
-
-    if (!email || !password) {
+    const ip = getClientIP(request);
+    const rateCheck = checkRateLimit(ip, "login");
+    if (!rateCheck.allowed) {
       return NextResponse.json(
-        { error: "Email y contraseña son obligatorios" },
+        { error: "Demasiados intentos. Por favor intentá de nuevo más tarde." },
+        { status: 429 }
+      );
+    }
+
+    const body = await request.json();
+    const parsed = loginSchema.safeParse(body);
+    if (!parsed.success) {
+      return NextResponse.json(
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
+    const { email, password } = parsed.data;
 
     const user = await prisma.user.findUnique({
       where: { email },

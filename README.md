@@ -305,9 +305,9 @@ SESSION_SECRET="..."
 SMTP_HOST="smtp.gmail.com"
 SMTP_PORT="587"
 SMTP_SECURE="false"
-SMTP_USER="electroshop.support@gmail.com"
-SMTP_PASS="..."
-SMTP_FROM="electroshop.support@gmail.com"
+SMTP_USER="[email creado para enviar los correos]"
+SMTP_PASS="[contraseña de aplicacion de gmail]"
+SMTP_FROM="[email creado para enviar los correos]"
 
 # Cloudinary
 CLOUDINARY_CLOUD_NAME="..."
@@ -318,7 +318,7 @@ CLOUDINARY_API_SECRET="..."
 NEXT_PUBLIC_APP_URL="http://localhost:3000"
 
 # Seed
-SEED_ADMIN_PASSWORD="admin111"
+SEED_ADMIN_PASSWORD="[clave para admin]"
 ```
 
 ### Base de datos y seed
@@ -332,8 +332,8 @@ npm run prisma.seed
 ```
 
 **Credenciales de seed:**
-- Admin: `admin@electroshop.com` / `admin111`
-- Cliente test: `user@test.com` / `admin111`
+- Admin: `admin@electroshop.com` / `[clave para admin]`
+- Cliente test: `user@test.com` / `[clave para user]`
 
 ### Desarrollo y build
 
@@ -369,4 +369,4 @@ Este proyecto nacio como practica personal para dominar React y experimentar con
 
 ---
 
-**Desarrollado por Ariel Seijo** · [electroshop-store.vercel.app](https://electroshop-store.vercel.app)
+**Desarrollado por Ariel Seijo** · [Linkedin](https://www.linkedin.com/in/arielseijo/)

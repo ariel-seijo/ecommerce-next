@@ -3,9 +3,19 @@ import crypto from "crypto";
 import { prisma } from "@/lib/prisma";
 import { sendResetEmail } from "@/lib/email";
 import { forgotPasswordSchema } from "@/lib/validations";
+import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 
 export async function POST(request) {
   try {
+    const ip = getClientIP(request);
+    const rateCheck = checkRateLimit(ip, "forgot-password");
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { message: "Si el email existe, recibirás instrucciones para restablecer tu contraseña" },
+        { status: 200 }
+      );
+    }
+
     const body = await request.json();
     const parsed = forgotPasswordSchema.safeParse(body);
     if (!parsed.success) {

@@ -4,9 +4,19 @@ import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { sessionOptions } from "@/lib/session";
 import { loginSchema, formatZodError } from "@/lib/validations";
+import { checkRateLimit, getClientIP } from "@/lib/rate-limit";
 
 export async function POST(request) {
   try {
+    const ip = getClientIP(request);
+    const rateCheck = checkRateLimit(ip, "login");
+    if (!rateCheck.allowed) {
+      return NextResponse.json(
+        { error: "Demasiados intentos. Por favor intentá de nuevo más tarde." },
+        { status: 429 }
+      );
+    }
+
     const body = await request.json();
     const parsed = loginSchema.safeParse(body);
     if (!parsed.success) {

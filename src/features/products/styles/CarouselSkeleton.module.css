@@ -1,0 +1,48 @@
+.skeleton {
+  position: relative;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto 1.5rem;
+  padding: 0 1rem;
+  overflow: hidden;
+  border-radius: 8px;
+  background: #111;
+}
+
+.skeletonTrack {
+  width: 100%;
+  aspect-ratio: 16 / 9;
+  background: linear-gradient(
+    90deg,
+    #111 0%,
+    #1a1a1a 40%,
+    #2a2a2a 50%,
+    #1a1a1a 60%,
+    #111 100%
+  );
+  background-size: 200% 100%;
+  animation: shimmer 1.6s infinite linear;
+  border-radius: 6px;
+}
+
+@keyframes shimmer {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+@media (max-width: 659px) {
+  .skeletonTrack {
+    aspect-ratio: 4 / 3;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .skeletonTrack {
+    animation: none;
+    background: #161616;
+  }
+}

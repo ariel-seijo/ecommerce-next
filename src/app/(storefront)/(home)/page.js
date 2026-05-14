@@ -1,5 +1,5 @@
 import { prisma } from "@/lib/prisma";
-import { FeaturedCarousel } from "@/features/products";
+import FeaturedCarouselDynamic from "@/features/products/components/FeaturedCarouselDynamic";
 import Slider from "@/components/Slider";
 import SectionTitle from "@/components/SectionTitle";
 import Brands from "@/components/Brands";
@@ -26,7 +26,7 @@ export default async function Home() {
       <Slider />
       <section className="featured">
         <SectionTitle>PRODUCTOS DESTACADOS</SectionTitle>
-        <FeaturedCarousel products={serializeProductsForClient(products)} />
+        <FeaturedCarouselDynamic products={serializeProductsForClient(products)} />
       </section>
       <PromoBanner />
       <section className="brands">

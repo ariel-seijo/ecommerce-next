@@ -15,26 +15,6 @@
   border: 0;
 }
 
-/* skip link */
-.skip-link {
-  position: absolute;
-  top: -100%;
-  left: 16px;
-  z-index: 9999;
-  padding: 12px 20px;
-  background: var(--admin-primary-glow);
-  color: #fff;
-  font-weight: 900;
-  font-size: 14px;
-  text-decoration: none;
-  border-radius: 0 0 8px 8px;
-  transition: top 0.2s ease;
-}
-
-.skip-link:focus {
-  top: 0;
-}
-
 /* =========================
    SIDEBAR (global classes used by AdminSidebar.jsx)
    ========================= */

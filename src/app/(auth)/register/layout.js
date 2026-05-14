@@ -9,9 +9,6 @@ export const metadata = {
 export default function RegisterLayout({ children }) {
   return (
     <>
-      <a href="#main-content" className="skip-link">
-        Saltar al contenido principal
-      </a>
       <Navbar />
       <main id="main-content" tabIndex={-1}>
         <Suspense fallback={<div className="auth-page"><div className="auth-card" /></div>}>

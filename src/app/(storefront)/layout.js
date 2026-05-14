@@ -6,10 +6,6 @@ import Footer from "@/components/Footer";
 export default function StorefrontLayout({ children }) {
   return (
     <>
-      <a href="#main-content" className="skip-link">
-        Saltar al contenido principal
-      </a>
-
       <Navbar />
       <main id="main-content" tabIndex={-1}>
         <Suspense fallback={null}>

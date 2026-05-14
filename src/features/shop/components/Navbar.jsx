@@ -10,6 +10,7 @@ import { useToastStore } from "@/features/toast";
 import { useDebounce } from "@/lib/hooks/useDebounce";
 import { formatPrice } from "@/lib/utils/currency";
 import Link from "next/link";
+import Image from "next/image";
 import { usePathname, useRouter } from "next/navigation";
 import {
   ShoppingCartIcon,
@@ -211,9 +212,11 @@ export default function Navbar() {
                         onClick={handleResultClick}
                         role="option"
                       >
-                        <img
+                        <Image
                           src={product.thumbnail}
                           alt={product.title}
+                          width={48}
+                          height={48}
                           className={styles.searchThumb}
                         />
                         <div className={styles.searchInfo}>
@@ -284,6 +287,7 @@ export default function Navbar() {
                               href="/admin"
                               className={`${styles.userDropdownLink} ${styles.userDropdownAccent}`}
                               onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
                             >
                               <LayoutDashboard size={15} />
                               Dashboard
@@ -292,6 +296,7 @@ export default function Navbar() {
                               href="/admin/products"
                               className={styles.userDropdownLink}
                               onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
                             >
                               <Package size={15} />
                               Productos
@@ -300,6 +305,7 @@ export default function Navbar() {
                               href="/admin/users"
                               className={styles.userDropdownLink}
                               onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
                             >
                               <Users size={15} />
                               Usuarios
@@ -308,6 +314,7 @@ export default function Navbar() {
                               href="/admin/orders"
                               className={styles.userDropdownLink}
                               onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
                             >
                               <ClipboardList size={15} />
                               Pedidos
@@ -316,6 +323,7 @@ export default function Navbar() {
                               href="/admin/settings"
                               className={styles.userDropdownLink}
                               onClick={() => setShowUserMenu(false)}
+                              prefetch={false}
                             >
                               <Settings size={15} />
                               Ajustes
@@ -474,31 +482,31 @@ export default function Navbar() {
                 {isAdmin ? (
                   <>
                     <li>
-                      <Link href="/admin" className={styles.drawerLink} onClick={closeMobileMenu}>
+                      <Link href="/admin" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
                         <LayoutDashboard size={15} />
                         Dashboard
                       </Link>
                     </li>
                     <li>
-                      <Link href="/admin/products" className={styles.drawerLink} onClick={closeMobileMenu}>
+                      <Link href="/admin/products" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
                         <Package size={15} />
                         Productos
                       </Link>
                     </li>
                     <li>
-                      <Link href="/admin/users" className={styles.drawerLink} onClick={closeMobileMenu}>
+                      <Link href="/admin/users" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
                         <Users size={15} />
                         Usuarios
                       </Link>
                     </li>
                     <li>
-                      <Link href="/admin/orders" className={styles.drawerLink} onClick={closeMobileMenu}>
+                      <Link href="/admin/orders" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
                         <ClipboardList size={15} />
                         Pedidos
                       </Link>
                     </li>
                     <li>
-                      <Link href="/admin/settings" className={styles.drawerLink} onClick={closeMobileMenu}>
+                      <Link href="/admin/settings" className={styles.drawerLink} onClick={closeMobileMenu} prefetch={false}>
                         <Settings size={15} />
                         Ajustes
                       </Link>
@@ -589,9 +597,11 @@ export default function Navbar() {
                       setMobileSearchOpen(false);
                     }}
                   >
-                    <img
+                    <Image
                       src={product.thumbnail}
                       alt={product.title}
+                      width={48}
+                      height={48}
                       className={styles.searchThumb}
                     />
                     <div className={styles.searchInfo}>

@@ -50,9 +50,11 @@
   color: rgb(220, 220, 220);
 }
 
-.pageBtn:disabled {
+.pageBtn:disabled,
+.pageBtnDisabled {
   opacity: 0.3;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .pageBtnActive {

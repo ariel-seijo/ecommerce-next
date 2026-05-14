@@ -1,6 +1,7 @@
 import { prisma } from "@/lib/prisma";
 import { generateSku as generateSkuLib } from "@/lib/sku";
 import { deleteAsset } from "@/lib/cloudinary";
+import { createProductSchema, updateProductSchema, formatZodError } from "@/lib/validations";
 
 const VALID_SORT_FIELDS = ["price", "stock", "sold", "createdAt"];
 
@@ -122,6 +123,11 @@ export async function getProductById(id) {
  * @returns {Promise<object>}
  */
 export async function createProduct(data) {
+  const parsed = createProductSchema.safeParse(data);
+  if (!parsed.success) {
+    throw new Error(formatZodError(parsed.error));
+  }
+
   const {
     title,
     slug,
@@ -138,19 +144,7 @@ export async function createProduct(data) {
     featured,
     active,
     sku,
-  } = data;
-
-  if (!title || !slug || price === undefined || stock === undefined || !categoryId || !thumbnail) {
-    throw new Error("Missing required fields");
-  }
-
-  if (parseFloat(price) <= 0) {
-    throw new Error("Price must be greater than 0");
-  }
-
-  if (parseInt(stock) < 0) {
-    throw new Error("Stock must be at least 0");
-  }
+  } = parsed.data;
 
   const category = await prisma.category.findUnique({
     where: { id: parseInt(categoryId) },
@@ -187,19 +181,19 @@ export async function createProduct(data) {
       data: {
         title,
         slug,
-        description: description || "",
-        price: parseFloat(price),
-        oldPrice: oldPrice != null ? parseFloat(oldPrice) : null,
-        stock: parseInt(stock),
+        description,
+        price,
+        oldPrice: oldPrice != null ? oldPrice : null,
+        stock,
         brand: brand || "Generic",
         sku: generatedSku,
-        categoryId: parseInt(categoryId),
+        categoryId,
         thumbnail,
-        images: images || [],
-        rating: parseFloat(rating) || 0,
-        sold: parseInt(sold) || 0,
-        featured: featured === true || featured === "true",
-        active: active !== false && active !== "false",
+        images,
+        rating,
+        sold,
+        featured,
+        active,
       },
     });
   });
@@ -215,51 +209,50 @@ export async function createProduct(data) {
  * @returns {Promise<object>}
  */
 export async function updateProduct(id, data) {
+  const parsed = updateProductSchema.safeParse(data);
+  if (!parsed.success) {
+    throw new Error(formatZodError(parsed.error));
+  }
+
+  const cleanData = parsed.data;
+
   const existing = await prisma.product.findUnique({ where: { id } });
 
   if (!existing) {
     throw new Error("Product not found");
   }
 
-  if (data.slug && data.slug !== existing.slug) {
-    const slugExists = await prisma.product.findUnique({ where: { slug: data.slug } });
+  if (cleanData.slug && cleanData.slug !== existing.slug) {
+    const slugExists = await prisma.product.findUnique({ where: { slug: cleanData.slug } });
     if (slugExists) {
       throw new Error("Slug already exists");
     }
   }
 
-  if (data.price !== undefined && parseFloat(data.price) <= 0) {
-    throw new Error("Price must be greater than 0");
-  }
-
-  if (data.stock !== undefined && parseInt(data.stock) < 0) {
-    throw new Error("Stock must be at least 0");
-  }
-
   const updateData = {};
 
-  if (data.title !== undefined) updateData.title = data.title;
-  if (data.slug !== undefined) updateData.slug = data.slug;
-  if (data.description !== undefined) updateData.description = data.description;
-  if (data.price !== undefined) updateData.price = parseFloat(data.price);
-  if (data.oldPrice !== undefined) updateData.oldPrice = data.oldPrice != null ? parseFloat(data.oldPrice) : null;
-  if (data.stock !== undefined) updateData.stock = parseInt(data.stock);
-  if (data.brand !== undefined) updateData.brand = data.brand;
-  if (data.categoryId !== undefined) updateData.categoryId = parseInt(data.categoryId);
-  if (data.thumbnail !== undefined) updateData.thumbnail = data.thumbnail;
-  if (data.images !== undefined) updateData.images = data.images;
-  if (data.rating !== undefined) updateData.rating = parseFloat(data.rating);
-  if (data.sold !== undefined) updateData.sold = parseInt(data.sold);
-  if (data.featured !== undefined) updateData.featured = data.featured === true || data.featured === "true";
-  if (data.active !== undefined) updateData.active = data.active === true || data.active === "true";
-  if (data.sku !== undefined) {
+  if (cleanData.title !== undefined) updateData.title = cleanData.title;
+  if (cleanData.slug !== undefined) updateData.slug = cleanData.slug;
+  if (cleanData.description !== undefined) updateData.description = cleanData.description;
+  if (cleanData.price !== undefined) updateData.price = cleanData.price;
+  if (cleanData.oldPrice !== undefined) updateData.oldPrice = cleanData.oldPrice;
+  if (cleanData.stock !== undefined) updateData.stock = cleanData.stock;
+  if (cleanData.brand !== undefined) updateData.brand = cleanData.brand;
+  if (cleanData.categoryId !== undefined) updateData.categoryId = cleanData.categoryId;
+  if (cleanData.thumbnail !== undefined) updateData.thumbnail = cleanData.thumbnail;
+  if (cleanData.images !== undefined) updateData.images = cleanData.images;
+  if (cleanData.rating !== undefined) updateData.rating = cleanData.rating;
+  if (cleanData.sold !== undefined) updateData.sold = cleanData.sold;
+  if (cleanData.featured !== undefined) updateData.featured = cleanData.featured;
+  if (cleanData.active !== undefined) updateData.active = cleanData.active;
+  if (cleanData.sku !== undefined) {
     const skuExists = await prisma.product.findFirst({
-      where: { sku: data.sku, id: { not: id } },
+      where: { sku: cleanData.sku, id: { not: id } },
     });
     if (skuExists) {
       throw new Error("SKU already exists");
     }
-    updateData.sku = data.sku;
+    updateData.sku = cleanData.sku;
   }
 
   const product = await prisma.product.update({

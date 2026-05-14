@@ -18,7 +18,7 @@ export async function saveCart(items) {
   const session = await getIronSession(cookieStore, sessionOptions);
 
   if (!session.userId) {
-    throw new Error("Not authenticated");
+    return { warnings: [] };
   }
 
   const userId = session.userId;

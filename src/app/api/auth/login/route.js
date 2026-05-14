@@ -3,19 +3,19 @@ import { verify } from "@node-rs/bcrypt";
 import { getIronSession } from "iron-session";
 import { prisma } from "@/lib/prisma";
 import { sessionOptions } from "@/lib/session";
+import { loginSchema, formatZodError } from "@/lib/validations";
 
 export async function POST(request) {
   try {
     const body = await request.json();
-    const email = body?.email?.trim().toLowerCase();
-    const password = body?.password;
-
-    if (!email || !password) {
+    const parsed = loginSchema.safeParse(body);
+    if (!parsed.success) {
       return NextResponse.json(
-        { error: "Email y contraseña son obligatorios" },
+        { error: formatZodError(parsed.error) },
         { status: 400 }
       );
     }
+    const { email, password } = parsed.data;
 
     const user = await prisma.user.findUnique({
       where: { email },

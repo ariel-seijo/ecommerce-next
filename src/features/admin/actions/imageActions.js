@@ -9,6 +9,7 @@ import {
   generateBlurDataURL,
   deleteAsset,
 } from "@/lib/cloudinary";
+import { saveProductImagesSchema, formatZodError } from "@/lib/validations";
 
 async function requireAdmin() {
   const cookieStore = await cookies();
@@ -67,6 +68,11 @@ export async function saveProductImagesAction(productId, images) {
 
     if (images.length > 10) {
       return { error: "Máximo 10 imágenes por producto" };
+    }
+
+    const parsed = saveProductImagesSchema.safeParse({ productId, images });
+    if (!parsed.success) {
+      return { error: formatZodError(parsed.error) };
     }
 
     const product = await prisma.product.findUnique({

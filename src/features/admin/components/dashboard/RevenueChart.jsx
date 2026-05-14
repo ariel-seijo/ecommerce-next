@@ -1,9 +1,9 @@
 "use client";
 
-import { formatPrice } from "@/lib/utils/currency";
+import { formatArs } from "@/lib/utils/currency";
 import styles from "./RevenueChart.module.css";
 
-export default function RevenueChart({ data, totalRevenue }) {
+export default function RevenueChart({ data, totalRevenue, exchangeRate = 1400 }) {
   if (!data || data.length === 0) {
     return (
       <div className={styles.wrapper}>
@@ -120,7 +120,7 @@ export default function RevenueChart({ data, totalRevenue }) {
                   textAnchor="end"
                   className={styles.axisLabel}
                 >
-                  {formatPrice(tick)}
+                  {formatArs(tick * exchangeRate)}
                 </text>
               </g>
             );
@@ -164,7 +164,7 @@ export default function RevenueChart({ data, totalRevenue }) {
           )}
 
           {dataPoints.map((p, i) => {
-            const formattedRevenue = formatPrice(p.value);
+            const formattedRevenue = formatArs(p.value * exchangeRate);
             const dateLabel = xLabels[i];
             return (
               <g key={`point-${i}`}>
@@ -187,7 +187,7 @@ export default function RevenueChart({ data, totalRevenue }) {
 
       <div className={styles.footer}>
         <span className={styles.footerLabel}>Total período</span>
-        <span className={styles.footerValue}>{formatPrice(totalRevenue || 0)}</span>
+        <span className={styles.footerValue}>{formatArs((totalRevenue || 0) * exchangeRate)}</span>
       </div>
     </div>
   );

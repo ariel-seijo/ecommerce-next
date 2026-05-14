@@ -1,7 +1,6 @@
 "use client";
 
 import { DollarSign, ShoppingCart, Users, AlertTriangle } from "lucide-react";
-import { formatPrice } from "@/lib/utils/currency";
 import styles from "./StatsCards.module.css";
 
 const STATS_CONFIG = [
@@ -10,8 +9,8 @@ const STATS_CONFIG = [
     label: "Ingresos Totales",
     icon: DollarSign,
     color: "#24abf3",
-    format: (v) => formatPrice(v),
     trendKey: "revenueGrowth",
+    isRevenue: true,
   },
   {
     key: "totalOrders",
@@ -40,7 +39,7 @@ const STATS_CONFIG = [
   },
 ];
 
-export default function StatsCards({ data }) {
+export default function StatsCards({ data, formattedRevenue }) {
   return (
     <div className={styles.grid}>
       {STATS_CONFIG.map((stat) => {
@@ -49,7 +48,7 @@ export default function StatsCards({ data }) {
         const trend = stat.trendKey ? data?.[stat.trendKey] : null;
         const isLowStock = stat.isLowStock && value > 0;
         const color = isLowStock ? "#ef4444" : stat.color;
-        const formattedValue = stat.format(value);
+        const formattedValue = stat.isRevenue ? formattedRevenue : stat.format(value);
 
         const isPositiveTrend = trend > 0;
         const isNegativeTrend = trend < 0;

@@ -1,7 +1,7 @@
 "use client";
 
 import { ShoppingCart, TrendingUp, ArrowRight } from "lucide-react";
-import { formatPrice } from "@/lib/utils/currency";
+import { formatArs } from "@/lib/utils/currency";
 import Link from "next/link";
 import styles from "./RecentActivity.module.css";
 
@@ -13,7 +13,7 @@ const STATUS_MAP = {
   CANCELLED: { class: "badge-danger", label: "Cancelado" },
 };
 
-export default function RecentActivity({ latestOrders, topProducts }) {
+export default function RecentActivity({ latestOrders, topProducts, exchangeRate = 1400 }) {
   return (
     <div className={styles.grid}>
       <div className={styles.column}>
@@ -53,7 +53,7 @@ export default function RecentActivity({ latestOrders, topProducts }) {
                       </span>
                     </td>
                     <td>
-                      <span className={styles.mono}>{formatPrice(order.total)}</span>
+                      <span className={styles.mono}>{formatArs(order.total * exchangeRate)}</span>
                     </td>
                   </tr>
                 ))

@@ -160,3 +160,9 @@ model OrderItem {
 
   @@index([orderId])
 }
+
+model SiteSettings {
+  id       String   @id @default("site_settings")
+  usdToArs Float    @default(1400)
+  updatedAt DateTime @updatedAt
+}

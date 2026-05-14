@@ -21,7 +21,7 @@
 
 .table caption {
   font-size: 0.85rem;
-  font-weight: 800;
+  font-weight: 600;
   color: rgb(180, 180, 180);
   text-align: left;
   padding: 12px 16px;
@@ -38,7 +38,7 @@
 .thead th {
   padding: 12px 14px;
   text-align: left;
-  font-weight: 900;
+  font-weight: 600;
   font-size: 0.68rem;
   color: rgb(160, 160, 160);
   text-transform: uppercase;
@@ -81,7 +81,7 @@
 .orderNumber {
   font-family: var(--admin-font-mono);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-primary-glow);
 }
 
@@ -116,7 +116,7 @@
 /* ---- total ---- */
 .totalValue {
   font-family: var(--admin-font-mono);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.82rem;
 }
 
@@ -134,7 +134,7 @@
   padding: 4px 12px;
   border-radius: 6px;
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(180, 180, 180);
   background: rgba(255, 255, 255, 0.04);
   border: 1px solid rgba(255, 255, 255, 0.08);
@@ -162,7 +162,7 @@
 
 .emptyText {
   font-size: 0.88rem;
-  font-weight: 700;
+  font-weight: 600;
   margin: 0;
 }
 
@@ -205,7 +205,7 @@
   color: rgb(180, 180, 180);
   border-radius: 6px;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
@@ -257,7 +257,7 @@
 .cardOrderNumber {
   font-family: var(--admin-font-mono);
   font-size: 0.85rem;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--admin-primary-glow);
 }
 
@@ -279,7 +279,7 @@
 
 .cardLabel {
   font-size: 0.7rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.5px;

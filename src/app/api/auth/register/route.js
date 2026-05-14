@@ -45,7 +45,7 @@ export async function POST(request) {
       select: { id: true, name: true, email: true, role: true },
     });
 
-    revalidateTag("admin-dashboard");
+    revalidateTag("admin-dashboard", "max");
 
     const res = new NextResponse(
       JSON.stringify({ user }),

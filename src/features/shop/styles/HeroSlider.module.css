@@ -64,7 +64,7 @@
 .slide-subtitle {
   margin: 0 0 1.8rem 0;
   font-size: 1.15rem;
-  font-weight: 700;
+  font-weight: 600;
   color: rgb(180, 180, 180);
   animation: slideFadeUp 0.8s ease-out 0.15s both;
 }
@@ -77,7 +77,7 @@
   background: linear-gradient(135deg, #007fff, #00cfff);
   color: #111;
   font-size: 0.9rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   text-decoration: none;
   letter-spacing: 1.5px;

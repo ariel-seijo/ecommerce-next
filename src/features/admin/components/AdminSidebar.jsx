@@ -69,6 +69,7 @@ export default function Sidebar({ className }) {
                     className={`admin-nav-link ${isActive ? 'active' : ''}`}
                     aria-current={isActive ? 'page' : undefined}
                     onClick={closeSidebar}
+                    prefetch={false}
                   >
                     <Icon aria-hidden="true" size={18} />
                     {item.label}

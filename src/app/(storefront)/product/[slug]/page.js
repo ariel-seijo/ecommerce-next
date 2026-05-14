@@ -3,6 +3,7 @@
 import { notFound } from "next/navigation";
 import { ProductPage, getProductBySlug, getRelatedProducts } from "@/features/products";
 import { prisma } from "@/lib/prisma";
+import { serializeProductForClient, serializeProductsForClient } from "@/lib/utils/serialize-product";
 
 export const dynamic = "force-dynamic";
 
@@ -44,8 +45,8 @@ export default async function Page({
 
     return (
         <ProductPage
-            product={product}
-            relatedProducts={relatedProducts}
+            product={serializeProductForClient(product)}
+            relatedProducts={serializeProductsForClient(relatedProducts)}
         />
     );
 }

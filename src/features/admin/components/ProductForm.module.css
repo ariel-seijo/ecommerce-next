@@ -47,7 +47,7 @@
 
 .sectionTitle {
   font-size: 0.72rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.2px;
   color: #24abf3;
@@ -84,7 +84,7 @@
 
 .label {
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-text-light);
   letter-spacing: 0.3px;
 }
@@ -92,7 +92,7 @@
 .labelRequired::after {
   content: " *";
   color: #ef4444;
-  font-weight: 900;
+  font-weight: 600;
 }
 
 /* ---- Inputs ---- */
@@ -221,7 +221,7 @@
   border-radius: 7px;
   color: #24abf3;
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 600;
   font-family: var(--admin-font);
   cursor: pointer;
   white-space: nowrap;
@@ -262,7 +262,7 @@
   border-radius: 8px;
   color: var(--admin-muted);
   font-size: 0.8rem;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--admin-font);
   cursor: pointer;
   transition: all 0.2s;
@@ -330,7 +330,7 @@
   border-radius: 8px;
   color: #fff;
   font-size: 0.82rem;
-  font-weight: 800;
+  font-weight: 600;
   font-family: var(--admin-font);
   cursor: pointer;
   letter-spacing: 0.3px;
@@ -364,7 +364,7 @@
   border-radius: 8px;
   color: var(--admin-text-light);
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--admin-font);
   cursor: pointer;
   text-decoration: none;
@@ -410,7 +410,7 @@
 
 .previewTitle {
   font-size: 0.7rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   color: #24abf3;

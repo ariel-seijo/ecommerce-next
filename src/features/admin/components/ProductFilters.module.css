@@ -20,7 +20,7 @@
 
 .label {
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: var(--admin-muted);
@@ -31,7 +31,7 @@
 
 .placeholder {
   font-size: 0.68rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: var(--admin-muted);
@@ -47,7 +47,7 @@
   border: 1px solid var(--admin-input-border);
   border-radius: var(--admin-radius-sm);
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--admin-font);
   color: var(--admin-text);
   background: var(--admin-input-bg);
@@ -88,7 +88,7 @@
   border-radius: var(--admin-radius-sm);
   color: var(--admin-muted);
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--admin-font);
   cursor: pointer;
   transition: all var(--admin-transition);

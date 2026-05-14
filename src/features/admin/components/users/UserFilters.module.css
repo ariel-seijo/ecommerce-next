@@ -59,7 +59,7 @@
   border: 1px solid var(--admin-input-border);
   border-radius: var(--admin-radius-sm);
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   font-family: var(--admin-font);
   color: var(--admin-text);
   background: var(--admin-input-bg);
@@ -89,7 +89,7 @@
 
 .resultCount {
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   white-space: nowrap;
   text-transform: uppercase;
   letter-spacing: 0.5px;

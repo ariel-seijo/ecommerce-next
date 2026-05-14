@@ -32,7 +32,7 @@
   background: #ef4444;
   color: #fff;
   font-size: 0.6rem;
-  font-weight: 900;
+  font-weight: 600;
   font-family: 'JetBrains Mono', monospace;
   border-radius: 8px;
   display: flex;
@@ -74,7 +74,7 @@
   justify-content: space-between;
   padding: 12px 14px;
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.8px;
   color: var(--admin-primary-glow);
@@ -129,7 +129,7 @@
 .itemLink {
   color: var(--admin-primary-glow);
   text-decoration: none;
-  font-weight: 700;
+  font-weight: 600;
 }
 
 .itemLink:hover {

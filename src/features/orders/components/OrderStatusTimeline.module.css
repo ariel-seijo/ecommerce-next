@@ -13,7 +13,7 @@
 
 .title {
   font-size: 0.8rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(160, 160, 160);
   text-transform: uppercase;
   letter-spacing: 1px;
@@ -94,7 +94,7 @@
 /* ---- labels ---- */
 .label {
   font-size: 0.68rem;
-  font-weight: 700;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
 }
@@ -142,7 +142,7 @@
   border-radius: 8px;
   color: #24abf3;
   font-size: 0.8rem;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
   font-family: inherit;
   letter-spacing: 0.4px;
@@ -171,7 +171,7 @@
   border-radius: 8px;
   color: #ff3366;
   font-size: 0.8rem;
-  font-weight: 800;
+  font-weight: 600;
   cursor: pointer;
   font-family: inherit;
   letter-spacing: 0.4px;

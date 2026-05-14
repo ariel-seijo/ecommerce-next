@@ -128,7 +128,7 @@ export async function POST(request) {
       return createdOrder;
     });
 
-    revalidateTag("admin-dashboard");
+    revalidateTag("admin-dashboard", "max");
 
     return NextResponse.json({ order }, { status: 201 });
   } catch (error) {

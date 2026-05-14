@@ -30,7 +30,7 @@
 .sectionHeaderLeft h3 {
   margin: 0;
   font-size: 1.15rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: rgb(214, 214, 214);
@@ -64,7 +64,7 @@
 
 .group label {
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: rgb(140, 140, 140);
@@ -111,7 +111,23 @@
 
 .error {
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
+  color: #ef4444;
+}
+
+.required {
+  color: #ef4444;
+  margin-left: 0.15rem;
+}
+
+.charCount {
+  font-size: 0.72rem;
+  font-weight: 600;
+  color: rgb(100, 100, 100);
+  text-align: right;
+}
+
+.charCountLimit {
   color: #ef4444;
 }
 
@@ -137,7 +153,7 @@
   gap: 0.5rem;
   padding: 0.85rem 1.8rem;
   font-size: 0.92rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1px;
   border: none;

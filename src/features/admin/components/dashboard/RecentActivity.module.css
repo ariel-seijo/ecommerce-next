@@ -25,7 +25,7 @@
 
 .columnTitle {
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 600;
   color: var(--admin-text);
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -47,7 +47,7 @@
   text-align: left;
   padding: 8px 10px;
   font-size: 0.65rem;
-  font-weight: 800;
+  font-weight: 600;
   color: var(--admin-muted);
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -109,7 +109,7 @@
   margin-top: 16px;
   padding-top: 12px;
   font-size: 0.75rem;
-  font-weight: 700;
+  font-weight: 600;
   color: var(--admin-primary-glow);
   text-decoration: none;
   text-transform: uppercase;
@@ -152,7 +152,7 @@
   border: 1px solid rgba(36, 171, 243, 0.2);
   border-radius: 4px;
   font-size: 0.65rem;
-  font-weight: 900;
+  font-weight: 600;
   color: var(--admin-primary-glow);
   flex-shrink: 0;
 }

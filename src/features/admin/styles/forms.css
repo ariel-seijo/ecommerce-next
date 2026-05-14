@@ -9,7 +9,7 @@
 .form-label {
   display: block;
   font-size: 0.75rem;
-  font-weight: 800;
+  font-weight: 600;
   color: rgb(140, 140, 140);
   text-transform: uppercase;
   letter-spacing: 0.8px;
@@ -167,7 +167,7 @@
 
 .form-section-title {
   font-size: 0.82rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #24abf3;
   margin: 0 0 14px 0;
   letter-spacing: 0.5px;
@@ -203,7 +203,7 @@
   cursor: pointer;
   margin-right: 12px;
   font-family: var(--admin-font);
-  font-weight: 700;
+  font-weight: 600;
   font-size: 0.78rem;
 }
 
@@ -369,7 +369,7 @@
     font-size: 0.75rem;
     color: var(--admin-muted);
     text-transform: uppercase;
-    font-weight: 800;
+    font-weight: 600;
     letter-spacing: 1px;
   }
 }
@@ -433,7 +433,7 @@
 .preview-category,
 .preview-brand {
   font-size: 0.65rem;
-  font-weight: 800;
+  font-weight: 600;
   text-transform: uppercase;
   color: rgb(130, 130, 130);
   letter-spacing: 0.5px;
@@ -441,7 +441,7 @@
 
 .preview-title {
   font-size: 0.88rem;
-  font-weight: 900;
+  font-weight: 600;
   color: rgb(210, 210, 210);
   margin: 0;
   display: -webkit-box;
@@ -476,7 +476,7 @@
 
 .preview-current {
   font-size: 1.05rem;
-  font-weight: 900;
+  font-weight: 600;
   color: #24abf3;
 }
 
@@ -486,7 +486,7 @@
   border: none;
   background: rgb(20, 20, 20);
   color: rgb(130, 130, 130);
-  font-weight: 800;
+  font-weight: 600;
   font-family: inherit;
   cursor: default;
   display: flex;

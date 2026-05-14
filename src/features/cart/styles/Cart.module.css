@@ -68,7 +68,7 @@
 .emptyCart p {
   color: rgb(140, 140, 140);
   font-size: 0.95rem;
-  font-weight: 700;
+  font-weight: 600;
   margin: 0;
 }
 
@@ -84,7 +84,7 @@
 .cart-header h4 {
   margin: 0;
   font-size: 0.85rem;
-  font-weight: 900;
+  font-weight: 600;
   text-transform: uppercase;
   letter-spacing: 1.5px;
   color: rgb(180, 180, 180);
@@ -92,7 +92,7 @@
 
 .cart-header span {
   font-size: 0.72rem;
-  font-weight: 800;
+  font-weight: 600;
   color: rgb(120, 120, 120);
 }
 
@@ -165,7 +165,7 @@
 
 .productPrice {
   color: #24abf3;
-  font-weight: 800;
+  font-weight: 600;
 }
 
 .cartInfo {
@@ -189,7 +189,7 @@
 
 .cart small {
   color: rgb(200, 200, 200);
-  font-weight: 800;
+  font-weight: 600;
   font-size: 0.85rem;
 }
 
@@ -212,7 +212,7 @@
   color: rgb(200, 200, 200);
   cursor: pointer;
   font-size: 0.85rem;
-  font-weight: 800;
+  font-weight: 600;
   transition: all 0.2s ease;
 }
 
@@ -242,7 +242,7 @@
   color: rgb(140, 140, 140);
   cursor: pointer;
   font-size: 0.78rem;
-  font-weight: 700;
+  font-weight: 600;
   transition: color 0.2s ease;
 }
 
@@ -263,7 +263,7 @@
   align-items: center;
   margin: 0 0 0.8rem 0;
   font-size: 0.95rem;
-  font-weight: 800;
+  font-weight: 600;
   color: rgb(180, 180, 180);
 }
 
@@ -279,7 +279,7 @@
   border: none;
   background: linear-gradient(135deg, #007fff, #00cfff);
   color: #111;
-  font-weight: 900;
+  font-weight: 600;
   font-family: inherit;
   text-transform: uppercase;
   letter-spacing: 1.5px;
@@ -300,7 +300,7 @@
   border: none;
   color: rgb(100, 100, 100);
   font-size: 0.72rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   transition: color 0.2s ease;
 }

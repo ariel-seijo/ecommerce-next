@@ -9,8 +9,8 @@ export default function Products({ products, view = "grid" }) {
   return (
     <main className={`${styles.products} ${isList ? styles.list : ""}`}>
       <ul>
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} view={view} />
+        {products.map((product, index) => (
+          <ProductCard key={product.id} product={product} view={view} priority={index < 2} />
         ))}
       </ul>
     </main>

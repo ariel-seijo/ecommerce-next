@@ -37,7 +37,7 @@
   color: rgb(180, 180, 180);
   border-radius: 4px;
   font-size: 0.82rem;
-  font-weight: 700;
+  font-weight: 600;
   cursor: pointer;
   transition: all 0.15s ease;
   font-family: inherit;
@@ -50,9 +50,11 @@
   color: rgb(220, 220, 220);
 }
 
-.pageBtn:disabled {
+.pageBtn:disabled,
+.pageBtnDisabled {
   opacity: 0.3;
   cursor: not-allowed;
+  pointer-events: none;
 }
 
 .pageBtnActive {

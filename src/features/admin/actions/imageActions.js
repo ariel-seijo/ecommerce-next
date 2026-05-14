@@ -1,26 +1,13 @@
 "use server";
 
-import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
 import { prisma } from "@/lib/prisma";
-import { sessionOptions } from "@/lib/session";
+import { requireAdmin } from "@/lib/auth-guards";
 import {
   generateSignature,
   generateBlurDataURL,
   deleteAsset,
 } from "@/lib/cloudinary";
 import { saveProductImagesSchema, formatZodError } from "@/lib/validations";
-
-async function requireAdmin() {
-  const cookieStore = await cookies();
-  const session = await getIronSession(cookieStore, sessionOptions);
-
-  if (!session.userId || session.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
-  return session;
-}
 
 /**
  * Generates a signed upload signature for the Cloudinary Upload Widget.

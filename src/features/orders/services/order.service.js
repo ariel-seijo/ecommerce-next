@@ -1,15 +1,7 @@
 import { prisma } from "@/lib/prisma";
+import { VALID_STATUSES, canTransitionOrderStatus } from "@/lib/order-state";
 
-const VALID_STATUSES = ["PENDING", "PAID", "SHIPPED", "CANCELLED", "DELIVERED"];
 const VALID_SORT_FIELDS = ["createdAt", "total", "status"];
-
-const STATUS_TRANSITIONS = {
-  PENDING: ["PAID", "CANCELLED"],
-  PAID: ["SHIPPED", "CANCELLED"],
-  SHIPPED: ["DELIVERED", "CANCELLED"],
-  DELIVERED: [],
-  CANCELLED: [],
-};
 
 const ORDER_LIST_SELECT = {
   id: true,
@@ -162,8 +154,7 @@ export async function updateOrderStatus(id, newStatus) {
       throw new Error("El pedido ya tiene este estado");
     }
 
-    const allowed = STATUS_TRANSITIONS[existing.status] || [];
-    if (!allowed.includes(newStatus)) {
+    if (!canTransitionOrderStatus(existing.status, newStatus)) {
       throw new Error(
         `Transición inválida: no se puede cambiar de ${existing.status} a ${newStatus}`
       );

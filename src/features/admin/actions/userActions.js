@@ -1,21 +1,8 @@
 "use server";
 
-import { getIronSession } from "iron-session";
-import { cookies } from "next/headers";
 import { revalidatePath, revalidateTag } from "next/cache";
-import { sessionOptions } from "@/lib/session";
+import { requireAdmin } from "@/lib/auth-guards";
 import * as userService from "@/features/admin/services/user.service";
-
-async function requireAdmin() {
-  const cookieStore = await cookies();
-  const session = await getIronSession(cookieStore, sessionOptions);
-
-  if (!session.userId || session.role !== "ADMIN") {
-    throw new Error("Unauthorized");
-  }
-
-  return session;
-}
 
 /**
  * Fetches a paginated, filtered, and searchable list of users

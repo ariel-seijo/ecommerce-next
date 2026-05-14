@@ -59,6 +59,11 @@ export async function createProductAction(data) {
     const product = await productService.createProduct(data);
     revalidatePath("/admin/products");
     revalidateTag("admin-dashboard");
+    revalidateTag("category-products");
+    revalidateTag(`product-${product.slug}`);
+    if (product.featured) {
+      revalidateTag("home-featured");
+    }
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -82,6 +87,11 @@ export async function updateProductAction(id, data) {
     const product = await productService.updateProduct(id, data);
     revalidatePath("/admin/products");
     revalidateTag("admin-dashboard");
+    revalidateTag("category-products");
+    revalidateTag(`product-${product.slug}`);
+    if (product.featured || data.featured !== undefined) {
+      revalidateTag("home-featured");
+    }
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -104,9 +114,14 @@ export async function updateProductAction(id, data) {
 export async function deleteProductAction(id) {
   try {
     await requireAdmin();
-    await productService.deleteProduct(id);
+    const product = await productService.deleteProduct(id);
     revalidatePath("/admin/products");
     revalidateTag("admin-dashboard");
+    revalidateTag("category-products");
+    revalidateTag(`product-${product.slug}`);
+    if (product.featured) {
+      revalidateTag("home-featured");
+    }
     return { success: true };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -133,6 +148,11 @@ export async function toggleProductActiveAction(id, active) {
     const product = await productService.toggleProductStatus(id, active);
     revalidatePath("/admin/products");
     revalidateTag("admin-dashboard");
+    revalidateTag("category-products");
+    revalidateTag(`product-${product.slug}`);
+    if (product.featured) {
+      revalidateTag("home-featured");
+    }
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -159,6 +179,9 @@ export async function toggleProductFeaturedAction(id, featured) {
     const product = await productService.toggleProductFeatured(id, featured);
     revalidatePath("/admin/products");
     revalidateTag("admin-dashboard");
+    revalidateTag("home-featured");
+    revalidateTag("category-products");
+    revalidateTag(`product-${product.slug}`);
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -183,9 +206,15 @@ export async function toggleProductFeaturedAction(id, featured) {
 export async function updateProductStockAction(id, stock) {
   try {
     await requireAdmin();
+    const existing = await productService.getProductById(id);
     const product = await productService.updateProductStock(id, stock);
     revalidatePath("/admin/products");
     revalidateTag("admin-dashboard");
+    revalidateTag("category-products");
+    revalidateTag(`product-${existing.slug}`);
+    if (existing.featured) {
+      revalidateTag("home-featured");
+    }
     return { success: true, product };
   } catch (error) {
     if (error.message === "Unauthorized") {

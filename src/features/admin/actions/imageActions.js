@@ -1,5 +1,6 @@
 "use server";
 
+import { revalidateTag } from "next/cache";
 import { prisma } from "@/lib/prisma";
 import { requireAdmin } from "@/lib/auth-guards";
 import {
@@ -64,7 +65,7 @@ export async function saveProductImagesAction(productId, images) {
 
     const product = await prisma.product.findUnique({
       where: { id: productId },
-      select: { id: true },
+      select: { id: true, slug: true, featured: true },
     });
 
     if (!product) {
@@ -104,6 +105,11 @@ export async function saveProductImagesAction(productId, images) {
       )
     );
 
+    revalidateTag(`product-${product.slug}`);
+    if (product.featured) {
+      revalidateTag("home-featured");
+    }
+
     return { images: imageRecords };
   } catch (error) {
     if (error.message === "Unauthorized") {
@@ -128,7 +134,7 @@ export async function deleteProductImageAction(imageId) {
 
     const image = await prisma.productImage.findUnique({
       where: { id: imageId },
-      select: { id: true, publicId: true },
+      select: { id: true, publicId: true, productId: true },
     });
 
     if (!image) {
@@ -150,6 +156,17 @@ export async function deleteProductImageAction(imageId) {
     await prisma.productImage.delete({
       where: { id: imageId },
     });
+
+    const product = await prisma.product.findUnique({
+      where: { id: image.productId },
+      select: { slug: true, featured: true },
+    });
+    if (product) {
+      revalidateTag(`product-${product.slug}`);
+      if (product.featured) {
+        revalidateTag("home-featured");
+      }
+    }
 
     return { success: true };
   } catch (error) {
@@ -185,6 +202,17 @@ export async function reorderProductImagesAction(productId, imageIds) {
         })
       )
     );
+
+    const product = await prisma.product.findUnique({
+      where: { id: productId },
+      select: { slug: true, featured: true },
+    });
+    if (product) {
+      revalidateTag(`product-${product.slug}`);
+      if (product.featured) {
+        revalidateTag("home-featured");
+      }
+    }
 
     return { success: true };
   } catch (error) {
